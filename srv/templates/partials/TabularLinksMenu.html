@@ -1,0 +1,12 @@
+<table>
+    <% for (const link of links ) { %>
+    <tr>
+        <td style="width: 6rem">
+            <button onclick="window.location.assign('<% link.href %>')" style="min-width: 4rem"> <% link.caption%></button>
+        </td>
+        <td style="vertical-align: middle">
+            <h3 style="margin-bottom: 0"> <% link.description %></h3>
+        </td>
+    </tr>
+    <%}%>
+</table>

@@ -1,0 +1,98 @@
+<% extends("/master/TengineMaster.html") %>
+
+    <section >
+        <details id="external">
+            <summary>
+                <h4>Reference resources</h4>
+            </summary>
+
+            <ul>
+                <li>
+                    <a href="https://github.com" target="_blank">Github</a> Code repository
+                </li>
+                <li>
+                    <a href="https://deno.land/manual" target="_blank">Deno</a> JS/TS Runtime
+                </li>
+                <li>
+                    <a href="https://deno.com/deploy" target="_blank">Deno deploy</a> Edge server
+                </li>
+                <li>
+                    <a href="https://www.mongodb.com/atlas/database" target="_blank">Mongo DB Atlas</a> Cloud Database
+                </li>
+                <li>
+                    <a href="https://drash.land/drash/v2.x/getting-started/introduction" target="_blank">Drash</a>
+                    Deno WebServer
+                </li>
+                <li>
+                    <a href="https://drash.land/drash/v2.x/tutorials/services/drash-approved-services/tengine"
+                        target="_blank">Tengine</a> HTML Server Side renderer for Drash
+                </li>
+                <li>
+                    <a href="https://www.w3schools.com/html/default.asp" target="_blank">W3schools HTML</a> Reference
+                </li>
+                <li>
+                    <a href="https://www.w3schools.com/css/default.asp" target="_blank">W3schools CSS</a> Reference
+                </li>
+                <li>
+                    <a href="https://picocss.com/" target="_blank">Pico CSS</a> Stylesheet
+                </li>
+                
+            </ul>
+        </details>
+
+
+        <details id="dev_env">
+            <summary>
+                <h4>Common Deno commands</h4>
+            </summary>
+
+            <p>
+                Get current version:
+                <code>deno --version</code>
+            </p>
+
+            <p>
+                Update to last version:
+                <code>deno upgrade</code>
+            </p>
+
+            <p>
+                Common tasks (look at deno.json):<br>
+                - run microservice: <code>deno task run</code> <br>
+                - update local cache: <code>deno task cache</code> <br>
+                - run the test suite (if available): <code>deno task test</code> <br>
+            </p>
+
+            <p>
+                Current memory usage (values in MegaBytes):
+            <pre>
+                <code><% JSON.stringify(memoryUsageMb,undefined,2) %></code>
+            </pre>
+            </p>
+
+        </details>
+
+        <details id="tech_debt">
+            <summary>
+                <h4>Technical debt management</h4>
+            </summary>
+            <p>When some portions of the code are identified as problematic use the following prefixes for the comments:</p>
+            <ul>
+                <li>TODO: Activity to be completed</li>
+                <li>FIXME: Diagnosed error to fix</li>
+                <li>DEBUG: Potential error to diagnose</li>
+                <li>UGLY: Bad or smelly or poorly written code</li>
+                <li>HACK: Non orthodox 'trick' or an Undefined Behaviour that needs to be removed</li>
+                <li>REVIEW: Needs review</li>
+                <li>OPTIMIZE: Slow code that needs optimization</li>
+                <li>NOTE: Generic annotation</li>
+                <li>IDEA: Possible implementation of new features or algorithms</li>
+            </ul>
+            <p>Add another line with a double hyphen '--', the author's acronym and the date in the universal format.</p>
+            <p>For instance:</p>
+            <code>
+            // FIXME Extract the following block as reusable method <br />
+            // -- APG 20220902
+        </code>
+        </details>
+    </section>

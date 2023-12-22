@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans&family=Ubuntu:wght@300&display=swap");
+
+* {
+    font-family: "PT Sans";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "PT Sans";
+}
+
+pre {
+    font-family: "Lucida console", "Consolas", "Courier new", "monospace";
+    font-weight: lighter;
+    font-size: 0.75em;
+}
+
+summary {
+    background-color: rgb(244, 251, 255);
+    padding: 0.2rem;
+    margin-bottom: 0px;
+}
+
+summary > h2 {
+    color: rgb(8, 100, 160) !important;
+    margin-bottom: 0 !important;
+    line-height: 35px !important;
+}
+
+summary > h3 {
+    color: rgb(8, 100, 160) !important;
+    margin-bottom: 0 !important;
+    line-height: 35px !important;
+}
+
+summary > h4 {
+    color: rgb(8, 100, 160) !important;
+    margin-bottom: 0 !important;
+    line-height: 35px !important;
+}
+
+summary::after {
+    display: inline !important;
+}
+
