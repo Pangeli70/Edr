@@ -6,9 +6,16 @@
  * ----------------------------------------------------------------------------
  */
 
-import { Edr, Tng, BrdEdrMicroservice } from "./srv/deps.ts";
+import { Edr, Tng, Uts } from "./srv/deps.ts";
 import { BrdEdrResources, BrdEdrServices } from "./srv/mod.ts";
 
+
+const BrdEdrMicroservice: Uts.BrdUts_IMicroservice = {
+    name: "Brd/Edr",
+    description: "Enhanced Drash resources",
+    devServerIP: "localhost",
+    devServerPort: 12052
+};
 
 // Setup Edr
 Edr.BrdEdrService.ClientCacheMaxAge = 1 * 60; // One minute 
@@ -18,7 +25,7 @@ Tng.BrdTngService.Init("./srv/templates", false, 100);
 
 const server = new Edr.Drash.Server({
     hostname: BrdEdrMicroservice.devServerIP,
-    port: BrdEdrMicroservice.localPort,
+    port: BrdEdrMicroservice.devServerPort,
     protocol: "http",
     resources: BrdEdrResources,
     services: BrdEdrServices,

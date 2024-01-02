@@ -5,7 +5,7 @@
  * ----------------------------------------------------------------------------
  */
 
-import { Dir } from "../deps.ts";
+import { Uts } from "../deps.ts";
 
 export class BrdEdrService {
 
@@ -26,7 +26,7 @@ export class BrdEdrService {
         return Deno.env.get("DENO_DEPLOYMENT_ID") !== undefined;
     }
 
-    static ServerStartupResume(amicroservice: Dir.IBrdDirDirectory, aaddress:string) {
+    static ServerStartupResume(amicroservice: Uts.BrdUts_IMicroservice, aaddress:string) {
         const start = new Date();
         console.log(`********************************************************************`)
         console.log('');

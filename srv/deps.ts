@@ -6,13 +6,10 @@
  * ----------------------------------------------------------------------------
  */
 
-import { Dir } from "../../Dir/mod.ts";
-export const BrdEdrMicroservice = Dir.BrdDirData[Dir.eBrdDirEntries.Edr];
-
 export * as Edr from "../lib/mod.ts";
 
 // Local monorepo
 export * from "../../Uts/mod.ts";
 export * from "../../Tng/mod.ts";
 export * from "../../Uts/mod.ts";
-export * from "../../Cmn/mod.ts";
+//export * from "../../Cmn/mod.ts";
