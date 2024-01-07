@@ -12,6 +12,9 @@ import {
   BrdEdr_IRestPathParamHelp
 } from "./BrdEdr_IRestPathParamHelp.ts";
 import {
+  BrdEdr_IRestPayloadHelp
+} from "./BrdEdr_IRestPayloadHelp.ts";
+import {
   BrdEdr_IRestPostRouteHelp
 } from "./BrdEdr_IRestPostRouteHelp.ts";
 
@@ -25,6 +28,8 @@ export interface BrdEdr_IRestRouteHelp {
   description: string | string[];
 
   pathParams?: BrdEdr_IRestPathParamHelp[];
+
+  payload: BrdEdr_IRestPayloadHelp;
 
   GET?: BrdEdr_IRestGetRouteHelp;
 

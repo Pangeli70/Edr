@@ -8,5 +8,5 @@
 export interface BrdEdr_IRestBodyParamHelp {
   name: string;
   type: string;
-  description: string | string[];
+  description: string[];
 }

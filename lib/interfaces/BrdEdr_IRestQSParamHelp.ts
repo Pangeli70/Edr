@@ -8,5 +8,5 @@
 
 export interface BrdEdr_IRestQSParamHelp {
   name: string;
-  values: string | string[];
+  values: string[];
 }

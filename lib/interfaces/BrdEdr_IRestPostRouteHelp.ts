@@ -17,5 +17,5 @@ import {
 
 export interface BrdEdr_IRestPostRouteHelp {
   bodyParams: BrdEdr_IRestBodyParamHelp[];
-  payload: BrdEdr_IRestPayloadHelp;
+  payload?: BrdEdr_IRestPayloadHelp;
 }

@@ -23,7 +23,10 @@ import {
  */
 export class BrdEdr_Base_RestResource extends Drash.Resource {
 
-    static readonly MODE_QSP = 'Mode';
+    static readonly GET_QSP_MODE = 'Mode';
+    static readonly GET_QSP_TEST_NAME = 'TestName';
+    static readonly POST_BP_PARAMS = 'params';
+
 
 
     protected begin(amicroservice: string, request: Drash.Request) {
@@ -47,12 +50,55 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
 
 
 
-    protected Get_mode(
+    protected routeHelp() {
+
+        const r: BrdEdr_IRestRouteHelp = {
+            route: "",
+            description: "Undefined route. Overwrite the RouteHelp method. ",
+            payload: {
+                type: "",
+                description: []
+            },
+            GET: {
+                qsParams: [
+                    {
+                        name: BrdEdr_Base_RestResource.GET_QSP_MODE,
+                        values: [
+                            `${BrdEdr_eRestRouteGetMode.HELP}`,
+                            `${BrdEdr_eRestRouteGetMode.PARAMS}`,
+                            `${BrdEdr_eRestRouteGetMode.RESULT}`
+                        ]
+                    },
+                    {
+                        name: BrdEdr_Base_RestResource.GET_QSP_TEST_NAME,
+                        values: [
+                            "Url encoded name of one of the tests.",
+                            "Use the value [?] or any other invalid value to get the list ot the names of the possible tests"
+                        ]
+                    }
+                ],
+            },
+            POST: {
+                bodyParams: [
+                    {
+                        name: BrdEdr_Base_RestResource.POST_BP_PARAMS,
+                        type: "",
+                        description: []
+                    }
+                ],
+            }
+        }
+
+        return r;
+    }
+
+
+    protected GET_mode(
         request: Drash.Request
     ) {
         let r = BrdEdr_eRestRouteGetMode.RESULT;
 
-        const rawMode = request.queryParam(BrdEdr_Base_RestResource.MODE_QSP);
+        const rawMode = request.queryParam(BrdEdr_Base_RestResource.GET_QSP_MODE);
 
         if (
             rawMode == BrdEdr_eRestRouteGetMode.PARAMS ||
@@ -68,7 +114,6 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
 
     protected GET_isHelpMode(
         mode: BrdEdr_eRestRouteGetMode,
-        arouteHelp: BrdEdr_IRestRouteHelp,
         aresult: Uts.BrdUts_RestResult,
         response: Drash.Response
     ) {
@@ -76,7 +121,7 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
         if (mode == BrdEdr_eRestRouteGetMode.HELP) {
             aresult.ok = false;
             aresult.message = 'The payload contains hints about how to use this route.';
-            aresult.payload = arouteHelp;
+            aresult.payload = this.routeHelp();
             this.end(aresult, response);
             r = true;
         }
@@ -87,7 +132,6 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
 
     protected GET_testNameIsMissing(
         atestName: string | undefined,
-        arouteHelp: BrdEdr_IRestRouteHelp,
         aresult: Uts.BrdUts_RestResult,
         response: Drash.Response
     ) {
@@ -95,12 +139,13 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
         if (!atestName) {
             aresult.ok = false;
             aresult.message = 'The payload contains hints about how to use this route.';
-            aresult.payload = arouteHelp;
+            aresult.payload = this.routeHelp();
             this.end(aresult, response);
             r = true;
         }
         return r;
     }
+
 
 
     protected GET_testWasNotFound(
@@ -124,6 +169,7 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
         }
         return r;
     }
+
 
 
     protected GET_isParamsMode(

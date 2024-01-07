@@ -7,7 +7,7 @@
 
 export interface BrdEdr_IRestPayloadHelp {
     type: string;
-    description: string | string[];
+    description: string[];
 }
 
 

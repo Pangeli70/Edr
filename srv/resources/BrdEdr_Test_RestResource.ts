@@ -5,12 +5,11 @@
  * ----------------------------------------------------------------------------
  */
 
-
-
 import {
-    Edr,
     BrdEdr_Microservice,
+    Edr,
 } from "../deps.ts";
+
 
 interface BrdEdr_ITest {
     name: string,
@@ -23,53 +22,6 @@ const BrdEdr_Tests: BrdEdr_ITest[] = [
     { name: 'Second', param: 2 }
 ];
 
-const TEST_NAME_QSP = 'TestName';
-
-const PARAMS_BP = 'params';
-
-
-const RouteHelp: Edr.BrdEdr_IRestRouteHelp = {
-    route: "/Brd/Edr/Test",
-    description: [
-        'Route to test the base class Edr.BrdEdr_Base_RestResource'
-    ],
-    GET: {
-        qsParams: [
-            {
-                name: Edr.BrdEdr_Base_RestResource.MODE_QSP,
-                values: [
-                    `${Edr.BrdEdr_eRestRouteGetMode.HELP}`,
-                    `${Edr.BrdEdr_eRestRouteGetMode.PARAMS}`,
-                    `${Edr.BrdEdr_eRestRouteGetMode.RESULT}`
-                ]
-            },
-            {
-                name: TEST_NAME_QSP,
-                values: [
-                    "Url encoded name of one of the tests in the [BrdEdr_Tests] list.",
-                    "Use the value [?] or any other invalid value to get the list ot the names of the possible tests"
-                ]
-            }
-        ],
-        payload: {
-            type: "string",
-            description: "A simple message from the test"
-        }
-    },
-    POST: {
-        bodyParams: [
-            {
-                name: PARAMS_BP,
-                type: "BrdEdr_ITest",
-                description: "A simple data structure to be used for the test"
-            }
-        ],
-        payload: {
-            type: "string",
-            description: "A simple message from the test"
-        }
-    }
-}
 
 
 /**
@@ -78,12 +30,10 @@ const RouteHelp: Edr.BrdEdr_IRestRouteHelp = {
 export class BrdEdr_Test_RestResource extends Edr.BrdEdr_Base_RestResource {
 
 
-    public paths = [RouteHelp.route];
+    static readonly ROUTE: "/Brd/Edr/Test";
 
+    public paths = [BrdEdr_Test_RestResource.ROUTE];
 
-    #test(aparams: BrdEdr_ITest) {
-        return `Result: ${aparams.param.toString()}`
-    }
 
     public GET(
         request: Edr.Drash.Request,
@@ -92,28 +42,32 @@ export class BrdEdr_Test_RestResource extends Edr.BrdEdr_Base_RestResource {
 
         const r = this.begin(BrdEdr_Microservice.name, request);
 
-        const mode = this.Get_mode(request);
-        if (this.GET_isHelpMode(mode, RouteHelp, r, response))
+        const mode = this.GET_mode(request);
+
+        if (this.GET_isHelpMode(mode,  r, response))
             return;
 
-        const rawTestName = request.queryParam(TEST_NAME_QSP);
-        if (this.GET_testNameIsMissing(rawTestName, RouteHelp, r, response))
+        const rawTestName = request.queryParam(BrdEdr_Test_RestResource.GET_QSP_TEST_NAME);
+
+        if (this.GET_testNameIsMissing(rawTestName,  r, response))
             return;
 
-        const testName = rawTestName!;
-        const testIndex = BrdEdr_Tests.findIndex((v) => v.name == testName);
         const names: string[] = [];
         for (const test of BrdEdr_Tests) {
             names.push(encodeURIComponent(test.name));
         }
+        const testName = rawTestName!;
+        const testIndex = BrdEdr_Tests.findIndex((v) => v.name == testName);
+
         if (this.GET_testWasNotFound(testIndex, testName, names, r, response))
             return;
 
         const params = BrdEdr_Tests[testIndex];
+
         if (this.GET_isParamsMode(mode, testName, params, r, response))
             return;
 
-        r.payload = this.#test(params);
+        r.payload = this.#processRequest(params);
         this.end(r, response);
     }
 
@@ -125,19 +79,51 @@ export class BrdEdr_Test_RestResource extends Edr.BrdEdr_Base_RestResource {
         response: Edr.Drash.Response
     ) {
 
-
         const r = this.begin(BrdEdr_Microservice.name, request);
 
-        const rawParams = request.bodyParam(PARAMS_BP);
+        const rawParams = request.bodyParam(BrdEdr_Test_RestResource.POST_BP_PARAMS);
 
-        if (this.POST_paramsAreMissing(rawParams, PARAMS_BP, 'BrdEdr_ITest', r, response))
+        if (this.POST_paramsAreMissing(rawParams, BrdEdr_Test_RestResource.POST_BP_PARAMS, 'BrdEdr_ITest', r, response))
             return;
 
         const params = rawParams as BrdEdr_ITest;
 
-        r.payload = this.#test(params);
+        r.payload = this.#processRequest(params);
 
         this.end(r, response);
+    }
+
+
+
+
+    #processRequest(aparams: BrdEdr_ITest) {
+        return `Result: ${aparams.param.toString()}`
+    }
+
+
+
+    routeHelp() {
+        const r = super.routeHelp();
+
+        r.route = BrdEdr_Test_RestResource.ROUTE;
+        r.description = [
+            "Route to test the base class Edr.BrdEdr_Base_RestResource"
+        ]
+        r.payload.type = "string";
+        r.payload.description.push(
+            "A simple message from the test"
+        )
+        
+        r.GET!.qsParams[1].values.push(
+            "Refer to the [BrdEdr_Tests] list."
+        )
+
+        r.POST!.bodyParams[0].type = "BrdEdr_ITest";
+        r.POST!.bodyParams[0].description.push(
+            "A simple data structure to be used for the test"
+        )
+
+        return r;
     }
 
 

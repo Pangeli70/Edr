@@ -15,5 +15,5 @@ import {
 
 export interface BrdEdr_IRestGetRouteHelp {
   qsParams: BrdEdr_IRestQSParamHelp[];
-  payload: BrdEdr_IRestPayloadHelp;
+  payload?: BrdEdr_IRestPayloadHelp;
 }
