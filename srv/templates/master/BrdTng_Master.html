@@ -16,7 +16,6 @@
             {
                 "imports": {
                     "three": "https://unpkg.com/three@0.138.0/build/three.module.js",
-                    "OrbitControls": "https://unpkg.com/three@0.138.0/examples/jsm/controls/OrbitControls.js",
                     "GLTFLoader": "https://unpkg.com/three@0.138.0/examples/jsm/loaders/GLTFLoader.js"
                 }
             }
@@ -37,20 +36,24 @@
                                     border-style: hidden;
                                     border-color: black;
                                 "
-                                id="glcanvas"
+                                id="BrdLogo3D"
                             ></div>
                         </a>
                     </td>
                     <td>
                         <h1 style="margin: 0">
-                            <% pageTitle %> 
+                             <% siteName %>: <% siteTitle %> 
                         </h1>
                     </td>
                 </tr>
             </table>
         </header>
 
-        <main style="padding-top: 0; padding-bottom: 0"><% yield %></main>
+        <main style="padding-top: 0; padding-bottom: 0">
+            <h2><% pageTitle %></h2>
+            
+            <% yield %>
+        </main>
 
         <footer style="padding-top: 1em; padding-bottom: 1em">
             <p>
@@ -71,6 +74,6 @@
                 >
             </p>
         </footer>
-        <script type="module" src="/assets/js/BrdLogo3D.js"></script>
+        <script type="module" src="/assets/staticJs/BrdLogo3D.js"></script>
     </body>
 </html>

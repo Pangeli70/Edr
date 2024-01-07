@@ -1,13 +1,14 @@
 /** ---------------------------------------------------------------------------
  * @module [BrdEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.2 APG 20230416 Moved to its own microservice
+ * @version 0.1 APG 202401056
  * ----------------------------------------------------------------------------
  */
 
-export { Drash } from "./imports/drash.ts"
+export interface BrdEdr_IRestPayloadHelp {
+    type: string;
+    description: string | string[];
+}
 
 
-// Local monorepo
-export * from "../../Tng/mod.ts";
-export * from "../../Uts/mod.ts";
+

@@ -1,12 +1,12 @@
 /** ---------------------------------------------------------------------------
- * @module Brd/Edr
- * @author APG
+ * @module [BrdEdr]
+ * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
  * ----------------------------------------------------------------------------
  */
 import { Drash } from "../deps.ts";
-import { BrdEdrService } from "../classes/BrdEdrService.ts";
+import { BrdEdr_Service } from "../classes/BrdEdr_Service.ts";
 
 
 export class BrdEdrAnyImageResource extends Drash.Resource {
@@ -28,7 +28,7 @@ export class BrdEdrAnyImageResource extends Drash.Resource {
     try {
       const _fileStat = await Deno.stat(src);
     } catch (_error) {
-      src = BrdEdrService.MissingImage;
+      src = BrdEdr_Service.MissingImage;
     }
 
     if (!mode) {

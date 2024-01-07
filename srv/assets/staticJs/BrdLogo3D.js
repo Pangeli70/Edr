@@ -1,12 +1,12 @@
 import * as THREE from "three";
 import { GLTFLoader } from "GLTFLoader";
 
-const objects = [];
+const logo = new THREE.Object3D();
 
 // useful mathematic constants
 // const PI = Math.PI;
 
-const glcanvas = document.getElementById("glcanvas");
+const glcanvas = document.getElementById("BrdLogo3D");
 // console.dir(glcanvas);
 const glcanvasBox = glcanvas.getBoundingClientRect();
 // console.dir(glcanvasBox);
@@ -22,7 +22,7 @@ const RENDERER = new THREE.WebGLRenderer({
 
 RENDERER.shadowMapEnabled = false;
 RENDERER.setSize(WIDTH, HEIGHT);
-document.querySelector("#glcanvas").appendChild(RENDERER.domElement);
+glcanvas.appendChild(RENDERER.domElement);
 
 const FIELDVIEW = 20;
 const NEAR = 1;
@@ -53,9 +53,10 @@ GLTF_LOADER.load(url, function (gltf) {
     logoGltf.position.x = 0.25;
     logoGltf.position.y = -7.5;
     logoGltf.position.z = 0;
-    const logo = new THREE.Object3D();
+
     logo.add(logoGltf);
-    objects.push(logo);
+    logo.userData = { ok: true }
+
     SCENE.add(logo);
 });
 
@@ -86,30 +87,37 @@ const apmlSecX = (wpsX * waveAmplX) / 1000; // radians per millisecond
 
 let flipX = false;
 
+const requestframe =
+    self.requestAnimationFrame ||
+    self.webkitRequestAnimationFrame ||
+    self.msRequestAnimationFrame ||
+    self.oRequestAnimationFrame;
+
+
 function render() {
 
     const newTime = performance.now();
     const deltaTime = newTime - lastTime;
     lastTime = newTime;
 
-    if (objects[0]) {
+    if (logo.userData && logo.userData.ok) {
 
         const deltaY = (radSecY * deltaTime); // radians Y per delta time
-        objects[0].rotation.y += deltaY;
+        logo.rotation.y += deltaY;
 
         const deltaX = (apmlSecX * deltaTime); // radians X per delta time
         if (!flipX) {
-            if (objects[0].rotation.x > -waveAmplX) {
-                objects[0].rotation.x -= deltaX;
+            if (logo.rotation.x > -waveAmplX) {
+                logo.rotation.x -= deltaX;
             } else {
-                objects[0].rotation.x = -waveAmplX;
+                logo.rotation.x = -waveAmplX;
                 flipX = true;
             }
         } else {
-            if (objects[0].rotation.x <= waveAmplX) {
-                objects[0].rotation.x += deltaX;
+            if (logo.rotation.x <= waveAmplX) {
+                logo.rotation.x += deltaX;
             } else {
-                objects[0].rotation.x = waveAmplX;
+                logo.rotation.x = waveAmplX;
                 flipX = false;
             }
         }
@@ -117,12 +125,6 @@ function render() {
 
     RENDERER.render(SCENE, CAMERA);
 }
-
-const requestframe =
-    self.requestAnimationFrame ||
-    self.webkitRequestAnimationFrame ||
-    self.msRequestAnimationFrame ||
-    self.oRequestAnimationFrame;
 
 function loop() {
     render();

@@ -1,36 +1,31 @@
 /** ---------------------------------------------------------------------------
- * @module Brd/Edr
- * @author APG
+ * @module [BrdEdr]
+ * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
+ * @version 0.3 APG 20240106 Revamped
  * ----------------------------------------------------------------------------
  */
 
-import { Edr, Tng, Uts } from "./srv/deps.ts";
-import { BrdEdrResources, BrdEdrServices } from "./srv/mod.ts";
+import { Edr, Tng, BrdEdr_Microservice } from "./srv/deps.ts";
+import { BrdEdr_Resources, BrdEdr_Services } from "./srv/mod.ts";
 
 
-const BrdEdrMicroservice: Uts.BrdUts_IMicroservice = {
-    name: "Brd/Edr",
-    description: "Enhanced Drash resources",
-    devServerIP: "localhost",
-    devServerPort: 12052
-};
 
 // Setup Edr
-Edr.BrdEdrService.ClientCacheMaxAge = 1 * 60; // One minute 
+Edr.BrdEdr_Service.ClientCacheMaxAge = 1 * 60; // One minute 
 
 // Overwrite default Tengine settings
 Tng.BrdTngService.Init("./srv/templates", false, 100);
 
 const server = new Edr.Drash.Server({
-    hostname: BrdEdrMicroservice.devServerIP,
-    port: BrdEdrMicroservice.devServerPort,
+    hostname: BrdEdr_Microservice.devServerIP,
+    port: BrdEdr_Microservice.devServerPort,
     protocol: "http",
-    resources: BrdEdrResources,
-    services: BrdEdrServices,
+    resources: BrdEdr_Resources,
+    services: BrdEdr_Services,
 });
 
 server.run();
 
-Edr.BrdEdrService.ServerStartupResume(BrdEdrMicroservice, server.address);
+Edr.BrdEdr_Service.ServerStartupResume(BrdEdr_Microservice, server.address);

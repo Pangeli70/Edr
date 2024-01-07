@@ -1,15 +1,18 @@
 /** ---------------------------------------------------------------------------
- * @module Brd/Edr
- * @author APG
+ * @module [BrdEdr]
+ * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
  * ----------------------------------------------------------------------------
  */
 import { Drash, Uts } from "../deps.ts";
-import { BrdEdrService } from "../classes/BrdEdrService.ts";
+import { BrdEdr_Service } from "../classes/BrdEdr_Service.ts";
 
-
-export class BrdEdrAnyAssetResource extends Drash.Resource {
+/**
+ * Risorsa del server Drash per servire qualsiasi file contenuto della cartella
+ * assets
+ */
+export class BrdEdr_AnyAsset_FileResource extends Drash.Resource {
 
     // paths = ["/assets/.*\.(jpg|png|svg|css|js|gltf|glb|stl|Brd3Dv|ico)"];
     paths = ["/assets/.*"];
@@ -31,12 +34,12 @@ export class BrdEdrAnyAssetResource extends Drash.Resource {
             ext === ".stl" ||
             ext === ".Brd3Dv"
         ) {
-            if (BrdEdrService.ClientCacheMaxAge > 0) {
-                const cacheControlValue = "max-age=" +  BrdEdrService.ClientCacheMaxAge.toString();
+            if (BrdEdr_Service.ClientCacheMaxAge > 0) {
+                const cacheControlValue = "max-age=" +  BrdEdr_Service.ClientCacheMaxAge.toString();
                 response.headers.append("Cache-Control", cacheControlValue);
             }
         }
 
-        return response.file(`${BrdEdrService.AssetsPath}${realFile}`);
+        return response.file(`${BrdEdr_Service.AssetsPath}${realFile}`);
     }
 }
