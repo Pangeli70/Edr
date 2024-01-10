@@ -40,6 +40,7 @@ export class BrdEdr_AnyAsset_FileResource extends Drash.Resource {
             }
         }
 
-        return response.file(`${BrdEdr_Service.AssetsPath}${realFile}`);
+        const file = `${BrdEdr_Service.AssetsPath}${realFile}`
+        return response.file(file);
     }
 }

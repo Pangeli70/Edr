@@ -20,30 +20,11 @@ pre {
 }
 
 summary {
-    background-color: rgb(244, 251, 255);
-    padding: 0.2rem;
-    margin-bottom: 0px;
+    background-color: rgb(204, 225, 231);
+    padding: 0.5rem;
+    margin: 0;
+    font-size: 1.25rem;
+    border-radius: 0.2rem;
 }
 
-summary > h2 {
-    color: rgb(8, 100, 160) !important;
-    margin-bottom: 0 !important;
-    line-height: 35px !important;
-}
-
-summary > h3 {
-    color: rgb(8, 100, 160) !important;
-    margin-bottom: 0 !important;
-    line-height: 35px !important;
-}
-
-summary > h4 {
-    color: rgb(8, 100, 160) !important;
-    margin-bottom: 0 !important;
-    line-height: 35px !important;
-}
-
-summary::after {
-    display: inline !important;
-}
 
