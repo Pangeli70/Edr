@@ -6,20 +6,20 @@
  * @version 0.3 APG 20240106 Revamped
  * ----------------------------------------------------------------------------
  */
-
-import { Uts } from "../../Uts/mod.ts";
-
-export const BrdEdr_Microservice: Uts.BrdUts_IMicroservice = {
-    name: "BrdEdr",
-    description: "Breda Enhanced Drash Resources",
-    devServerIP: "localhost",
-    devServerPort: 12052
-};
-
+import * as Dotenv from "https://deno.land/std@0.211.0/dotenv/mod.ts";
+const _env = await Dotenv.load();
+console.dir(_env)
 
 export * as Edr from "../lib/mod.ts";
 
+
+export * from "./services/BrdEdr_Microservice.ts"
+
+// Github repo
+export * from "https://raw.githubusercontent.com/Bredasys/Uts/master/mod.ts";
+export * from "https://raw.githubusercontent.com/Bredasys/Tng/master/mod.ts";
+
 // Local monorepo
-export * from "../../Tng/mod.ts";
-export * from "../../Uts/mod.ts";
+//export * from "../../Tng/mod.ts";
+//export * from "../../Uts/mod.ts";
 
