@@ -8,7 +8,6 @@
  */
 import * as Dotenv from "https://deno.land/std@0.211.0/dotenv/mod.ts";
 const _env = await Dotenv.load();
-console.dir(_env)
 
 export * as Edr from "../lib/mod.ts";
 
