@@ -42,8 +42,7 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
         r: Uts.BrdUts_RestResult,
         response: Drash.Response
     ) {
-        const totalTime = ((performance.now() - r.startTime) / 1000).toFixed(4);
-        r.totalTime = totalTime;
+        r.updateTotalTime()
 
         response.json(r);
     }
