@@ -15,10 +15,10 @@ export * as Edr from "../lib/mod.ts";
 export * from "./services/BrdEdr_Microservice.ts"
 
 // Github repo
-export * from "https://raw.githubusercontent.com/Bredasys/Uts/master/mod.ts";
-export * from "https://raw.githubusercontent.com/Bredasys/Tng/master/mod.ts";
+//export * from "https://raw.githubusercontent.com/Bredasys/Uts/master/mod.ts";
+//export * from "https://raw.githubusercontent.com/Bredasys/Tng/master/mod.ts";
 
 // Local monorepo
-//export * from "../../Tng/mod.ts";
-//export * from "../../Uts/mod.ts";
+export * from "../../Tng/mod.ts";
+export * from "../../Uts/mod.ts";
 
