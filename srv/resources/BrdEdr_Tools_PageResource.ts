@@ -23,7 +23,7 @@ export class BrdEdr_Tools_PageResource extends Edr.Drash.Resource {
             memoryUsageMb: Uts.BrdUts.GetMemoryUsageMb()
         }
 
-        const html = await Tng.BrdTngService.Render(
+        const html = await Tng.BrdTng_Service.Render(
             "/BrdEdr_Tools_Page.html",
             tengineData
         ) as string;

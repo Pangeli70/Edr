@@ -16,7 +16,7 @@ import { BrdEdr_Resources, BrdEdr_Services } from "./srv/mod.ts";
 Edr.BrdEdr_Service.ClientCacheMaxAge = 1 * 60; // One minute 
 
 // Overwrite default Tengine settings
-Tng.BrdTngService.Init("./srv/templates", false, 100);
+Tng.BrdTng_Service.Init("./srv/templates", false, 100);
 
 const server = new Edr.Drash.Server({
     hostname: BrdEdr_Microservice.devServerIP,

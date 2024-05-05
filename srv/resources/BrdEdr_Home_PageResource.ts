@@ -26,7 +26,7 @@ export class BrdEdr_Home_PageResource extends Edr.Drash.Resource {
             links: BrdEdr_MainMenu
         }
 
-        const html = await Tng.BrdTngService.Render(
+        const html = await Tng.BrdTng_Service.Render(
             "/BrdEdr_Home_Page.html",
             tengineData
         ) as string;
