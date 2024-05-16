@@ -7,10 +7,5 @@
 
 export { Drash } from "./imports/drash.ts"
 
+export * from "./monorepo.ts";
 
-// export * from "https://raw.githubusercontent.com/Bredasys/Uts/master/mod.ts";
-// export * from "https://raw.githubusercontent.com/Bredasys/Tng/master/mod.ts";
-
-// Local monorepo
-export * from "../../Tng/mod.ts";
-export * from "../../Uts/mod.ts";
