@@ -120,7 +120,10 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
         if (mode == BrdEdr_eRestRouteGetMode.HELP) {
             aresult.ok = false;
             aresult.message = 'The payload contains hints about how to use this route.';
-            aresult.payload = this.routeHelp();
+            aresult.payload = {
+                signature: "BrdEdr_IRestRouteHelp",
+                data: this.routeHelp()
+            }
             this.end(aresult, response);
             r = true;
         }
@@ -138,7 +141,10 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
         if (!atestName) {
             aresult.ok = false;
             aresult.message = 'The payload contains hints about how to use this route.';
-            aresult.payload = this.routeHelp();
+            aresult.payload = {
+                signature: "BrdEdr_IRestRouteHelp",
+                data: this.routeHelp()
+            }
             this.end(aresult, response);
             r = true;
         }
@@ -162,7 +168,10 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
                 `The requested test [${aname}] was not found or is not valid.`,
                 `The names of the available tests are listed in the payload.`
             ];
-            aresult.payload = anames;
+            aresult.payload = {
+                signature: "string[]",
+                data: anames
+            };
             this.end(aresult, response);
             r = true;
         }
@@ -181,7 +190,10 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
         let r = false;
         if (amode == BrdEdr_eRestRouteGetMode.PARAMS) {
             aresult.message = `The payload contains the parameters associated to the requested test [${atestName}] `;
-            aresult.payload = aparams;
+            aresult.payload = {
+                signature: "unknown",
+                data: aparams
+            };
             this.end(aresult, response);
             r = true;
         }

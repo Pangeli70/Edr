@@ -8,14 +8,14 @@
 
 // Brd local monorepo
 
-/* Local >>
+// Local >>>
 export * from "../../Uts/mod.ts";
 export * from "../../Tng/mod.ts";
-Local << */
+// Local <<<
 
 // Brd Github private repos
 
-// Github >>>
+/* Github >>
 export * from "https://raw.githubusercontent.com/Bredasys/Uts/master/mod.ts";
 export * from "https://raw.githubusercontent.com/Bredasys/Tng/master/mod.ts";
-// Github <<<
+Github << */
