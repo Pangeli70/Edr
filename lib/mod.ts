@@ -10,13 +10,14 @@
 
 export { Drash } from "./imports/drash.ts"
 
-export * from "./classes/BrdEdr_Auth_Service.ts"
-export * from "./classes/BrdEdr_Log_Service.ts"
-export * from "./classes/BrdEdr_Mail_Service.ts"
-export * from "./classes/BrdEdr_Service.ts"
+export * from "./services/BrdEdr_Auth_Service.ts"
+export * from "./services/BrdEdr_Log_Service.ts"
+export * from "./services/BrdEdr_Mail_Service.ts"
+export * from "./services/BrdEdr_Service.ts"
 
 export * from "./enums/BrdEdr_Auth_eCookie.ts"
 export * from "./enums/BrdEdr_Auth_eRole.ts"
+export * from "./enums/BrdEdr_Env_eEntry.ts"
 export * from "./enums/BrdEdr_RestRoute_eGetMode.ts"
 
 export * from "./interfaces/BrdEdr_Auth_IJwtPayload.ts"
@@ -34,14 +35,14 @@ export * from "./interfaces/BrdEdr_RestHelpRoute_IPost.ts"
 
 export * from "./types/BrdEdr_Auth_Types.ts"
 
-export * from "./resources/BrdEdr_Base_RestResource.ts"
+export * from "./resources/BrdEdr_RestResource_Base.ts"
 export * from "./resources/BrdEdr_FileResource_AnyAsset.ts"
 export * from "./resources/BrdEdr_FileResource_AnyTemplate.ts"
 
 
-export * from "./services/BrdEdr_Middleware_Any.ts"
-export * from "./services/BrdEdr_Middleware_Auth.ts"
-export * from "./services/BrdEdr_Middleware_Log.ts"
+export * from "./middlewares/BrdEdr_Middleware_Any.ts"
+export * from "./middlewares/BrdEdr_Middleware_Auth.ts"
+export * from "./middlewares/BrdEdr_Middleware_Log.ts"
 
 export * from "../srv/resources/BrdEdr_HtmlPageResource_Error.ts"
 export * from "../srv/resources/BrdEdr_HtmlPageResource_Login.ts"

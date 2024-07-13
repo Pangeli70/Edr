@@ -31,7 +31,7 @@ const BrdEdr_Tests: BrdEdr_ITest[] = [
 /**
  * Route per testare la classe base Edr.BrdEdr_Base_RestResource
  */
-export class BrdEdr_RestApiResource_Test extends Edr.BrdEdr_Base_RestResource {
+export class BrdEdr_RestApiResource_Test extends Edr.BrdEdr_RestResource_Base {
 
 
     public paths = [BrdEdr_eRoutes.API_TEST];

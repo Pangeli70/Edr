@@ -15,6 +15,9 @@ import {
     BrdEdr_Auth_eRole
 } from "../enums/BrdEdr_Auth_eRole.ts";
 import {
+    BrdEdr_Env_eEntry
+} from "../enums/BrdEdr_Env_eEntry.ts";
+import {
     BrdEdr_Auth_IJwtPayload
 } from "../interfaces/BrdEdr_Auth_IJwtPayload.ts";
 import {
@@ -40,9 +43,6 @@ export class BrdEdr_Auth_Service {
     static readonly MAX_JWT_TIME_SPAN = 5 * 60 * 60;  // 5 hours in seconds
     static readonly MAX_COOKIE_AGE = 5 * 60 * 60;  // 5 hours in seconds
 
-    // TODO move to env
-    // -- APG 20240707
-    static CRYPTO_KEY = 'SDRG%&(-($3321';
     static readonly CRYPTO_ALGORITHM = 'HS256';
 
     static readonly JWT_PAYLOAD_SIGNATURE = "JWT_Payload";
@@ -243,10 +243,16 @@ export class BrdEdr_Auth_Service {
 
     static async #ensureCurrentCryptoKey() {
 
+        const CRYPTO_KEY = Deno.env.get(BrdEdr_Env_eEntry.JWT_CRYPTO);
+
+        if (CRYPTO_KEY == undefined) {
+            throw new Error("No CRYPTO_KEY provided in environment");
+        }
+
         if (this.currentKey == null) {
 
             const encoder = new TextEncoder();
-            const keyBuf = encoder.encode(this.CRYPTO_KEY);
+            const keyBuf = encoder.encode(CRYPTO_KEY);
 
             this.currentKey = await crypto.subtle.importKey(
                 "raw",

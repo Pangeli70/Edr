@@ -9,13 +9,13 @@
 
 import {
     BrdEdr_Auth_Service
-} from "../classes/BrdEdr_Auth_Service.ts";
+} from "../services/BrdEdr_Auth_Service.ts";
 import {
     BrdEdr_Log_Service
-} from "../classes/BrdEdr_Log_Service.ts";
+} from "../services/BrdEdr_Log_Service.ts";
 import {
     BrdEdr_Service
-} from "../classes/BrdEdr_Service.ts";
+} from "../services/BrdEdr_Service.ts";
 import {
     Drash,
     Uts

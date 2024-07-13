@@ -19,9 +19,9 @@ import {
 
 
 /**
- * Route generica per una REST API
+ * Risorsa generica per una REST API
  */
-export class BrdEdr_Base_RestResource extends Drash.Resource {
+export class BrdEdr_RestResource_Base extends Drash.Resource {
 
     static readonly GET_QSP_MODE = 'Mode';
     static readonly GET_QSP_TEST_NAME = 'TestName';
@@ -57,7 +57,7 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
             GET: {
                 qsParams: [
                     {
-                        name: BrdEdr_Base_RestResource.GET_QSP_MODE,
+                        name: BrdEdr_RestResource_Base.GET_QSP_MODE,
                         values: [
                             `${BrdEdr_RestRoute_eGetMode.HELP}`,
                             `${BrdEdr_RestRoute_eGetMode.PARAMS}`,
@@ -66,7 +66,7 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
                         description: []
                     },
                     {
-                        name: BrdEdr_Base_RestResource.GET_QSP_TEST_NAME,
+                        name: BrdEdr_RestResource_Base.GET_QSP_TEST_NAME,
                         values: [
                             "Url encoded name of one of the tests.",
                             "Use the value [?] or any other invalid value to get the list ot the names of the possible tests"
@@ -82,7 +82,7 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
             POST: {
                 bodyParams: [
                     {
-                        name: BrdEdr_Base_RestResource.POST_BP_PARAMS,
+                        name: BrdEdr_RestResource_Base.POST_BP_PARAMS,
                         type: "",
                         description: []
                     }
@@ -99,7 +99,7 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
     ) {
         let r = BrdEdr_RestRoute_eGetMode.RESULT;
 
-        const rawMode = request.queryParam(BrdEdr_Base_RestResource.GET_QSP_MODE);
+        const rawMode = request.queryParam(BrdEdr_RestResource_Base.GET_QSP_MODE);
 
         if (
             rawMode == BrdEdr_RestRoute_eGetMode.PARAMS ||

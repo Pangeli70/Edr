@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  */
 import { Drash, Uts } from "../deps.ts";
-import { BrdEdr_Service } from "../classes/BrdEdr_Service.ts";
+import { BrdEdr_Service } from "../services/BrdEdr_Service.ts";
 
 /**
  * Risorsa del server Drash per servire qualsiasi template utilizzato dal BrdTng

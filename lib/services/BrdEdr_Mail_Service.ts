@@ -4,7 +4,12 @@
  * @version 0.1 APG 20240701
  * ----------------------------------------------------------------------------
  */
-import { Uts } from "../deps.ts";
+import {
+    Uts
+} from "../deps.ts";
+import {
+    BrdEdr_Env_eEntry
+} from "../enums/BrdEdr_Env_eEntry.ts";
 
 
 
@@ -13,9 +18,6 @@ import { Uts } from "../deps.ts";
  */
 export class BrdEdr_Mail_Service {
 
-    // TODO This must come from env and so we must check it
-    // -- APG 20240707 
-    static RESEND_API_KEY = "re_cTnot1B3_EhVbzJ96uKWQx6fHM6RBgCcQ";
 
     static async SendEmail(
         asender: string,
@@ -24,11 +26,18 @@ export class BrdEdr_Mail_Service {
         ahtml: string,
         accn?: string
     ) {
+
+
+        const RESEND_API_KEY = Deno.env.get(BrdEdr_Env_eEntry.EMAIL_API);
+        if (!RESEND_API_KEY) { 
+            throw new Error("No Email Api Key provided in environment");
+        };
+
         const res = await fetch('https://api.resend.com/emails', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.RESEND_API_KEY}`
+                'Authorization': `Bearer ${RESEND_API_KEY}`
             },
             body: JSON.stringify({
                 from: asender,      //'Acme <onboarding@resend.dev>',

@@ -4,10 +4,25 @@
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
  * @version 0.3 APG 20240106 Revamped
+ * @version 0.4 APG 20240710 New Middlewares
+ * @version 0.5 APG 20240713 Private packages
  * ----------------------------------------------------------------------------
  */
 
-import { Edr, Tng, BrdEdr_Microservice } from "./srv/deps.ts";
+import { loadSync } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
+loadSync({ export: true });
+
+import { Edr } from "./mod.ts";
+
+const GHPAC = Deno.env.get(Edr.BrdEdr_Env_eEntry.GITHUB_PKG);
+if (!GHPAC) {
+    throw new Error("Missing github package key in environment");
+}
+Deno.env.set('DENO_AUTH_TOKENS', GHPAC + "@raw.githubusercontent.com");
+
+
+
+import { Tng, BrdEdr_Microservice } from "./srv/deps.ts";
 import { BrdEdr_Resources, BrdEdr_Middlewares } from "./srv/mod.ts";
 
 
