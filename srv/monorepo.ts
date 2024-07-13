@@ -8,11 +8,11 @@
 
 // Brd local monorepo
 
-export * from "../mod.ts";
 
 /* Local >>
 export * from "../../Uts/mod.ts";
 export * from "../../Tng/mod.ts";
+export * from "../mod.ts";
 Local << */
 
 // Brd Github private repos
@@ -20,4 +20,5 @@ Local << */
 // Github >>>
 export * from "https://raw.githubusercontent.com/Pangeli70/apg-brd-uts/master/mod.ts";
 export * from "https://raw.githubusercontent.com/Pangeli70/apg-brd-tng/master/mod.ts";
+export * from "https://raw.githubusercontent.com/Pangeli70/apg-brd-edr/master/mod.ts";
 // Github <<<
