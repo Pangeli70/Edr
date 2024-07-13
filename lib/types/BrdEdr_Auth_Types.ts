@@ -8,7 +8,9 @@
 import {
     BrdEdr_Auth_eRole
 } from "../enums/BrdEdr_Auth_eRole.ts";
-import { BrdEdr_Auth_IProfile } from "../interfaces/BrdEdr_Auth_IProfile.ts";
+import {
+    BrdEdr_Auth_IProfile
+} from "../interfaces/BrdEdr_Auth_IProfile.ts";
 import {
     BrdEdr_Auth_IUser
 } from "../interfaces/BrdEdr_Auth_IUser.ts";

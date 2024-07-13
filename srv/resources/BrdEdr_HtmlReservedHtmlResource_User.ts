@@ -7,6 +7,7 @@
  * @version 1.0 APG 20240701 Cleanup and alignment to BrdCdn
  * ----------------------------------------------------------------------------
  */
+
 import {
     BrdEdr_Microservice,
     Edr, Tng
@@ -16,10 +17,11 @@ import {
 } from "../enums/BrdEdr_eRoute.ts";
 
 
+
 export class BrdEdr_HtmlReservedPageResource_User extends Edr.Drash.Resource {
 
     override paths = [BrdEdr_eRoutes.RESERVED_PAGE_USER];
-    
+
     readonly EDR_ROLE = Edr.BrdEdr_Auth_eRole.USER;
 
     async GET(

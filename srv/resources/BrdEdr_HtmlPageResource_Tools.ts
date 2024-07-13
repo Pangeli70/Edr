@@ -7,9 +7,10 @@
  * @version 1.0 APG 20240701 Cleanup and alignment to BrdCdn
  * ----------------------------------------------------------------------------
  */
+
 import {
     BrdEdr_Microservice,
-    Edr, Tng, Uts
+    Edr, Tng
 } from "../deps.ts";
 import {
     BrdEdr_eRoutes
@@ -39,7 +40,7 @@ export class BrdEdr_HtmlPageResource_Tools extends Edr.Drash.Resource {
             user: {
                 role: Edr.BrdEdr_Auth_eRole.GUEST
             }
-            
+
         }
 
         await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, true);

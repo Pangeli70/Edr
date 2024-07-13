@@ -5,8 +5,6 @@
  * ----------------------------------------------------------------------------
  */
 
-
-
 import {
     BrdEdr_Microservice,
     Edr, Tng
@@ -14,6 +12,7 @@ import {
 import {
     BrdEdr_eRoutes
 } from "../enums/BrdEdr_eRoute.ts";
+
 
 
 export class BrdEdr_HtmlReservedPageResource_Log extends Edr.Drash.Resource {
@@ -28,7 +27,7 @@ export class BrdEdr_HtmlReservedPageResource_Log extends Edr.Drash.Resource {
     ) {
 
         const edr = Edr.BrdEdr_Service.GetEdrRequest(request);
-        if (!Edr.BrdEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)){ 
+        if (!Edr.BrdEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
             this.redirect(BrdEdr_eRoutes.PAGE_LOGIN, response);
             return;
         }

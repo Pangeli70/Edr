@@ -5,8 +5,6 @@
  * ----------------------------------------------------------------------------
  */
 
-
-
 import {
     BrdEdr_Microservice,
     Edr, Tng
@@ -14,6 +12,7 @@ import {
 import {
     BrdEdr_eRoutes
 } from "../enums/BrdEdr_eRoute.ts";
+
 
 
 export class BrdEdr_HtmlReservedPageResource_LogEntry extends Edr.Drash.Resource {

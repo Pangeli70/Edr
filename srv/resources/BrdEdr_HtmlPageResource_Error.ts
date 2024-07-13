@@ -16,7 +16,6 @@ import {
 
 
 
-
 export class BrdEdr_HtmlPageResource_Error extends Edr.Drash.Resource {
 
     override paths = [BrdEdr_eRoutes.PAGE_ERROR];
@@ -41,13 +40,13 @@ export class BrdEdr_HtmlPageResource_Error extends Edr.Drash.Resource {
             page: {
                 template: "/pages/BrdEdr_HtmlPageTemplate_Error.html",
                 title: 'Error',
-                rendered:new Date().toLocaleString(),
+                rendered: new Date().toLocaleString(),
                 data: {
                     error: loggedError?.message || "Unknown error",
                     link: BrdEdr_eRoutes.PAGE_HOME
                 }
             },
-            
+
             user: {
                 role: Edr.BrdEdr_Auth_eRole.GUEST
             }

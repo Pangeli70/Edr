@@ -71,7 +71,7 @@ export class BrdEdr_HtmlPageResource_Otp extends Edr.Drash.Resource {
                         redirect: '/'
                     }
                 },
-                
+
                 user: {
                     role: Edr.BrdEdr_Auth_eRole.GUEST
                 }

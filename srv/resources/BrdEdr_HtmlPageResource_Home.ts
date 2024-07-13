@@ -7,6 +7,7 @@
  * @version 1.0 APG 20240701 Cleanup and alignment to BrdCdn
  * ----------------------------------------------------------------------------
  */
+
 import {
     BrdEdr_MainMenu
 } from "../data/BrdEdr_MainMenu.ts";
@@ -17,6 +18,7 @@ import {
 import {
     BrdEdr_eRoutes
 } from "../enums/BrdEdr_eRoute.ts";
+
 
 
 export class BrdEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
@@ -48,7 +50,7 @@ export class BrdEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
                     lang: "EN"
                 },
             },
-            
+
             user: {
                 email: edr.auth?.email || "",
                 role: edr.auth?.role || Edr.BrdEdr_Auth_eRole.GUEST

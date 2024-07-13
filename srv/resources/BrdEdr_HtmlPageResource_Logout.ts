@@ -7,13 +7,11 @@
 
 import {
     BrdEdr_Microservice,
-    Edr,
-    Tng
+    Edr, Tng
 } from "../deps.ts";
 import {
     BrdEdr_eRoutes
 } from "../enums/BrdEdr_eRoute.ts";
-
 
 
 
@@ -39,7 +37,7 @@ export class BrdEdr_HtmlPageResource_Logout extends Edr.Drash.Resource {
                 title: 'Log out page',
                 rendered: new Date().toLocaleString(),
             },
-            
+
             user: {
                 role: Edr.BrdEdr_Auth_eRole.GUEST
             }
