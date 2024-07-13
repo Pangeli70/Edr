@@ -9,9 +9,9 @@ import { Uts } from "../deps.ts";
 
 
 export const BrdEdr_Microservice: Uts.BrdUts_IMicroservice = {
-  name: "BrdEdr",
-  description: "Breda Enhanced Drash Resources",
-  devServerIP: "localhost",
-  devServerPort: 12058
+    name: "BrdEdr",
+    description: "Enhanced Drash Resources for Breda by APG",
+    devServerIP: "localhost",
+    devServerPort: 12058
 };
 

@@ -1,0 +1,42 @@
+<% extends("https://apg-01.b-cdn.net/assets/html/templates/master/BrdCdn_MasterPage_Application_V01.html") %>
+
+<section>
+
+    <table style="display: block; overflow-x: auto; overflow-y: auto; white-space: nowrap; max-height: 20rem;">
+        <tr>
+            <th style="min-width: 4rem">Counter</th>
+            <th style="min-width: 4rem">Received</th>
+            <th style="min-width: 10rem">Host</th>
+            <th style="min-width: 4rem">Method</th>
+            <th style="min-width: 30rem">Url</th>
+            <th style="min-width: 5rem">ms</th>
+            <th style="min-width: 5rem">MB</th>
+
+        </tr>
+        <% for (const request of page.data) { %>
+        <tr>
+            <td>
+                <a
+                  href="/Brd/Edr/Rsvd/Log/Entry/<% request.counter %>"
+                  role="button"
+                  style="padding: 0.1rem; line-height: 1rem;"
+                >
+                    <% const counter = request.counter.toString().padStart(6,"0") %>
+                    <% counter %>
+                </a>
+                <a id="counter_<% counter %>"></a>
+            </td>
+            <td><% request.received %></td>
+            <td><% request.remoteAddr.hostname %></td>
+            <td><% request.method %></td>
+            <td><% request.route %></td>
+            <td>
+                <% const totalTime = request.totalTime.toFixed(2) %>
+                <% totalTime %>
+            </td>
+            <td><% request.endMemory %></td>
+        </tr>
+        <% } %>
+    </table>
+
+</section>

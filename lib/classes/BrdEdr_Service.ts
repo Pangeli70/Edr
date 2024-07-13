@@ -7,7 +7,25 @@
  * ----------------------------------------------------------------------------
  */
 
-import { Uts } from "../deps.ts";
+import {
+    Drash, Tng,
+    Uts
+} from "../deps.ts";
+import {
+    BrdEdr_Auth_eRole
+} from "../enums/BrdEdr_Auth_eRole.ts";
+import {
+    BrdEdr_IRequest
+} from "../interfaces/BrdEdr_IRequest.ts";
+import {
+    BrdEdr_IRequestError
+} from "../interfaces/BrdEdr_IRequestError.ts";
+import {
+    BrdEdr_Auth_TAuthorization
+} from "../types/BrdEdr_Auth_Types.ts";
+import {
+    BrdEdr_Log_Service
+} from "./BrdEdr_Log_Service.ts";
 
 
 /**
@@ -15,21 +33,113 @@ import { Uts } from "../deps.ts";
  */
 export class BrdEdr_Service {
 
-    /** In seconds */
+    /**Cache of the errors occurred during the management of the requests.
+     * It is used to render the error page
+     */
+    static Errors: BrdEdr_IRequestError[] = [];
+
+    /** Html response header for client's cache persistency of served assets
+     * In seconds */
     static ClientCacheMaxAge = 0;
 
-    /** Local relative path to */
+    /** Local path to assets served by an Edr server*/
     static AssetsPath = "./srv";
 
-    private static _missingImage = "/assets/img/missing.png";
+    /** Local path to templates used by the template engine */
+    static LocalTemplatesPath = "./srv/templates";
 
-    /** Default missing image placeholder*/
-    static get MissingImage() {
-        return this.AssetsPath + this._missingImage;
-    }
+    /** Remote path to templates used by the template engine */
+    static RemoteTemplatesPath = "https://BrdEdr.deno.dev/templates";
+
+    /** The module is self hosted so not consider the remote templates path.
+     * The default is false because usually the server is not self hosted due to
+     * the fact that we import it in other microservices
+    */
+    static isSelfHosted = false;
+
+
+
+    static Authorizations: BrdEdr_Auth_TAuthorization = {};
+
 
     static get IsDenoDeploy() {
         return Deno.env.get("DENO_DEPLOYMENT_ID") !== undefined;
+    }
+
+
+    /**
+     * Get the edr data injected in the Drash request
+     * by the middlewares
+     */
+    static GetEdrRequest(request: Drash.Request) {
+
+        if ((request as any).edr) {
+            const edr = (request as any).edr as BrdEdr_IRequest;
+            return edr;
+        }
+        else {
+            throw new Error('The [.edr] was not injected in the request. Call the BrdEdr_Middleware_Any.beforeResource first');
+        }
+    }
+
+
+    /**
+     * Renderizza una pagina html usando il BrdTng template engine
+     * Il file del template deve essere specificato nel campo 
+     * [apageData.page.template].
+     * 
+     * Il percorso del file del template può essere locale relativo al percorso
+     * definito nel campo [LocalTemplatesPath], oppure può essere remoto e
+     * relativo al campo [RemoteTemplatesPath]. Per forzare l'uso del template
+     * remoto quando non si tratta del server self hosted utilizzare il flag 
+     * [auseRemoteTemplateWhenNotSelfHosted]
+     * 
+     * @param request Drash request
+     * @param response Drash response
+     * @param apageData dati per l'interpolazione del template
+     * @param auseRemoteTemplateWhenNotSelfHosted default false
+     */
+    static async RenderPageUsingBrdTng(
+        request: Drash.Request,
+        response: Drash.Response,
+        apageData: Tng.BrdTng_IPageData,
+        auseRemoteTemplateWhenNotSelfHosted = false
+    ) {
+        const edr = this.GetEdrRequest(request);
+
+        const events: Uts.BrdUts_ILogEvent[] = [];
+
+        if (!this.isSelfHosted && auseRemoteTemplateWhenNotSelfHosted) {
+            apageData.page.template = `${this.RemoteTemplatesPath}${apageData.page.template}`
+        }
+
+        const html = await Tng.BrdTng_Service.Render(
+            apageData,
+            events
+        );
+
+        response.html(html);
+
+        BrdEdr_Log_Service.LogEvents(edr, events);
+    }
+
+
+
+    static VerifyProtectedPage(
+        edr: BrdEdr_IRequest,
+        arole: BrdEdr_Auth_eRole
+    ) {
+
+
+        let r = false;
+        if (edr.auth) {
+            if ((edr.auth.role === BrdEdr_Auth_eRole.ADMIN) ||
+                (edr.auth.role === arole)) {
+                r = true;
+            }
+        }
+
+        return r;
     }
 
 
@@ -39,6 +149,8 @@ export class BrdEdr_Service {
         aaddress: string
     ) {
         const start = new Date();
+        console.log('');
+        console.log('');
         console.log(`********************************************************************`)
         console.log('');
         console.log(amicroservice.name);
@@ -48,5 +160,7 @@ export class BrdEdr_Service {
         console.log(`Running at ${aaddress}.`);
         console.log('');
         console.log(`********************************************************************`)
+        console.log('');
+        console.log('');
     }
 }

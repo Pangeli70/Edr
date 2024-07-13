@@ -11,6 +11,7 @@
 // Local >>>
 export * from "../../Uts/mod.ts";
 export * from "../../Tng/mod.ts";
+export * from "../mod.ts";
 // Local <<<
 
 // Brd Github private repos
@@ -18,4 +19,5 @@ export * from "../../Tng/mod.ts";
 /* Github >>
 export * from "https://raw.githubusercontent.com/Bredasys/Uts/master/mod.ts";
 export * from "https://raw.githubusercontent.com/Bredasys/Tng/master/mod.ts";
+export * from "https://raw.githubusercontent.com/Bredasys/Edr/master/mod.ts";
 Github << */

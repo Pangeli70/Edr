@@ -9,11 +9,11 @@ import {
     Drash, Uts
 } from "../deps.ts";
 import {
-    BrdEdr_eRestRouteGetMode
-} from "../enums/BrdEdr_eRestRouteGetMode.ts";
+    BrdEdr_RestRoute_eGetMode
+} from "../enums/BrdEdr_RestRoute_eGetMode.ts";
 import {
-    BrdEdr_IRestRouteHelp
-} from "../interfaces/BrdEdr_IRestRouteHelp.ts";
+    BrdEdr_RestHelpRoute_I
+} from "../interfaces/BrdEdr_RestHelpRoute_I.ts";
 
 
 
@@ -51,31 +51,33 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
 
     protected routeHelp() {
 
-        const r: BrdEdr_IRestRouteHelp = {
+        const r: BrdEdr_RestHelpRoute_I = {
             route: "",
-            description: "Undefined route. Overwrite the RouteHelp method. ",
-            payload: {
-                type: "",
-                description: []
-            },
+            description: ["Undefined route. Overwrite the RouteHelp method."],
             GET: {
                 qsParams: [
                     {
                         name: BrdEdr_Base_RestResource.GET_QSP_MODE,
                         values: [
-                            `${BrdEdr_eRestRouteGetMode.HELP}`,
-                            `${BrdEdr_eRestRouteGetMode.PARAMS}`,
-                            `${BrdEdr_eRestRouteGetMode.RESULT}`
-                        ]
+                            `${BrdEdr_RestRoute_eGetMode.HELP}`,
+                            `${BrdEdr_RestRoute_eGetMode.PARAMS}`,
+                            `${BrdEdr_RestRoute_eGetMode.RESULT}`
+                        ],
+                        description: []
                     },
                     {
                         name: BrdEdr_Base_RestResource.GET_QSP_TEST_NAME,
                         values: [
                             "Url encoded name of one of the tests.",
                             "Use the value [?] or any other invalid value to get the list ot the names of the possible tests"
-                        ]
+                        ],
+                        description: []
                     }
                 ],
+                payload: {
+                    type: "",
+                    description: []
+                }
             },
             POST: {
                 bodyParams: [
@@ -95,13 +97,13 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
     protected GET_mode(
         request: Drash.Request
     ) {
-        let r = BrdEdr_eRestRouteGetMode.RESULT;
+        let r = BrdEdr_RestRoute_eGetMode.RESULT;
 
         const rawMode = request.queryParam(BrdEdr_Base_RestResource.GET_QSP_MODE);
 
         if (
-            rawMode == BrdEdr_eRestRouteGetMode.PARAMS ||
-            rawMode == BrdEdr_eRestRouteGetMode.HELP
+            rawMode == BrdEdr_RestRoute_eGetMode.PARAMS ||
+            rawMode == BrdEdr_RestRoute_eGetMode.HELP
         ) {
             r = rawMode;
         }
@@ -112,12 +114,12 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
 
 
     protected GET_isHelpMode(
-        mode: BrdEdr_eRestRouteGetMode,
+        mode: BrdEdr_RestRoute_eGetMode,
         aresult: Uts.BrdUts_RestResult,
         response: Drash.Response
     ) {
         let r = false;
-        if (mode == BrdEdr_eRestRouteGetMode.HELP) {
+        if (mode == BrdEdr_RestRoute_eGetMode.HELP) {
             aresult.ok = false;
             aresult.message = 'The payload contains hints about how to use this route.';
             aresult.payload = {
@@ -164,10 +166,10 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
         if (aindex == -1) {
 
             aresult.ok = false;
-            aresult.message = [
-                `The requested test [${aname}] was not found or is not valid.`,
+            aresult.message = 
+                `The requested test [${aname}] was not found or is not valid.` +
                 `The names of the available tests are listed in the payload.`
-            ];
+            ;
             aresult.payload = {
                 signature: "string[]",
                 data: anames
@@ -181,14 +183,14 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
 
 
     protected GET_isParamsMode(
-        amode: BrdEdr_eRestRouteGetMode,
+        amode: BrdEdr_RestRoute_eGetMode,
         atestName: string,
         aparams: unknown,
         aresult: Uts.BrdUts_RestResult,
         response: Drash.Response
     ) {
         let r = false;
-        if (amode == BrdEdr_eRestRouteGetMode.PARAMS) {
+        if (amode == BrdEdr_RestRoute_eGetMode.PARAMS) {
             aresult.message = `The payload contains the parameters associated to the requested test [${atestName}] `;
             aresult.payload = {
                 signature: "unknown",
@@ -212,11 +214,10 @@ export class BrdEdr_Base_RestResource extends Drash.Resource {
         let r = false;
         if (!aparams) {
             aresult.ok = false;
-            aresult.message = [
+            aresult.message =
                 `Parameters are missing in the [body] of the [POST] request. ` +
-                `Add to the body an object named [${aname}].`,
-                `This object must fulfill the interface [${asignature}].`
-            ];
+                `Add to the body an object named [${aname}].` +
+                `This object must fulfill the interface [${asignature}].`;
             this.end(aresult, response);
             r = true;
         }
