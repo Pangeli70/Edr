@@ -18,5 +18,5 @@ export enum BrdEdr_Env_eEntry {
     JWT_CRYPTO = "BRD_EDR_AUTH_CRYPTO_KEY",
 
     /** Github private packages key*/
-    GITHUB_PKG = "BRD_EDR_GITHUB_PAKAGES_KEY"
+    GITHUB_PK = "BRD_EDR_GITHUB_PRIVATE_KEY"
 }

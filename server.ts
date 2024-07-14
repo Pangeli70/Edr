@@ -18,8 +18,7 @@ const env = Deno.env.toObject();
 for (const k in env) {
     console.log(`${k}=${env[k]}`);
 }
-const GHPAC = Deno.env.get(Edr.BrdEdr_Env_eEntry.GITHUB_PKG);
-
+const GHPAC = Deno.env.get(Edr.BrdEdr_Env_eEntry.GITHUB_PK);
 
 if (!GHPAC) {
     throw new Error("Missing github package key in environment");

@@ -49,7 +49,7 @@ export class BrdEdr_Service {
     static LocalTemplatesPath = "./srv/templates";
 
     /** Remote path to templates used by the template engine */
-    static RemoteTemplatesPath = "https://BrdEdr.deno.dev/templates";
+    static RemoteTemplatesPath = "https://apg-brd-edr.deno.dev/templates";
 
     /** The module is self hosted so not consider the remote templates path.
      * The default is false because usually the server is not self hosted due to
