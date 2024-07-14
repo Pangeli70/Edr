@@ -43,6 +43,6 @@ export class BrdEdr_HtmlPageResource_Tools extends Edr.Drash.Resource {
 
         }
 
-        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, true);
+        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, false);
     }
 }
