@@ -34,4 +34,6 @@ export enum BrdEdr_eRoutes {
 
     TEMPLATE_TEST = "/templates/pages/BrdEdr_HtmlPageTemplate_Tools.html",
 
+    RESERVED_PAGE_TNG_MENU = "/Brd/Edr/Rsvd/Tng"
+
 }

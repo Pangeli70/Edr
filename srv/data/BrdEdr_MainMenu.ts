@@ -106,4 +106,15 @@ export const BrdEdr_MainMenu: Tng.BrdTng_IHyperlink[] = [
             EN: "List of the calls received from the service restart"
         }
     },
+    {
+        url: BrdEdr_eRoutes.RESERVED_PAGE_TNG_MENU,
+        label: {
+            IT: "Template engine",
+            EN: "Template engine"
+        },
+        title: {
+            IT: "Statistiche di funzionamento del template engine",
+            EN: "Template engine statistics"
+        }
+    },
 ];
