@@ -18,8 +18,7 @@ for (const k in env) {
     console.log(`${k}=${env[k]}`);
 }
 
-import { Edr } from "./mod.ts";
-const GHPAC = Deno.env.get(Edr.BrdEdr_Env_eEntry.GITHUB_PK);
+const GHPAC = Deno.env.get("BRD_EDR_GITHUB_PRIVATE_KEY");
 
 if (!GHPAC) {
     throw new Error("Missing github package key in environment");
@@ -28,7 +27,7 @@ Deno.env.set('DENO_AUTH_TOKENS', GHPAC + "@raw.githubusercontent.com");
 
 
 
-import { Tng, BrdEdr_Microservice } from "./srv/deps.ts";
+import { Edr, Tng, BrdEdr_Microservice } from "./srv/deps.ts";
 import { BrdEdr_Resources, BrdEdr_Middlewares } from "./srv/mod.ts";
 
 
