@@ -21,7 +21,7 @@ import {
 
 export class BrdEdr_HtmlPageResource_Otp extends Edr.Drash.Resource {
 
-    override paths = [BrdEdr_eRoutes.PAGE_OTP];
+    override paths = [Edr.BrdEdr_Route_eShared.PAGE_OTP];
 
 
     async POST(
@@ -77,7 +77,9 @@ export class BrdEdr_HtmlPageResource_Otp extends Edr.Drash.Resource {
                 }
             }
 
-            await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData);
+            await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, {
+                isEdrSharedResource: true
+            });
         }
         else {
             this.redirect(BrdEdr_eRoutes.PAGE_HOME, response);

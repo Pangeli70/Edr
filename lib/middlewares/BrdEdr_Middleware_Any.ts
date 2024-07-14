@@ -3,15 +3,10 @@
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
+ * @version 0.3 APG 20230710 New implementation
  * ----------------------------------------------------------------------------
  */
 
-import {
-    BrdEdr_Log_Service
-} from "../services/BrdEdr_Log_Service.ts";
-import {
-    BrdEdr_Service
-} from "../services/BrdEdr_Service.ts";
 import {
     Drash,
     Uts
@@ -19,6 +14,12 @@ import {
 import {
     BrdEdr_IRequest
 } from "../interfaces/BrdEdr_IRequest.ts";
+import {
+    BrdEdr_Log_Service
+} from "../services/BrdEdr_Log_Service.ts";
+import {
+    BrdEdr_Service
+} from "../services/BrdEdr_Service.ts";
 
 
 /**
@@ -53,7 +54,7 @@ export class BrdEdr_Middleware_Any extends Drash.Service {
 
         BrdEdr_Log_Service.LogDebug(edr, import.meta.url, this.runBeforeResource, 'Called');
 
-        const message = `Injected edr into the Drash request`;
+        const message = `Injected edr into the Drash request for route: ${edr.method}:${edr.route}`;
 
         BrdEdr_Log_Service.Log(edr, Uts.BrdUts_eLogType.CALL, import.meta.url, this.runBeforeResource, message);
     }

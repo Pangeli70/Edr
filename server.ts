@@ -12,12 +12,13 @@
 import { loadSync } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 loadSync({ export: true });
 
-import { Edr } from "./mod.ts";
 
 const env = Deno.env.toObject();
 for (const k in env) {
     console.log(`${k}=${env[k]}`);
 }
+
+import { Edr } from "./mod.ts";
 const GHPAC = Deno.env.get(Edr.BrdEdr_Env_eEntry.GITHUB_PK);
 
 if (!GHPAC) {
@@ -35,11 +36,10 @@ import { BrdEdr_Resources, BrdEdr_Middlewares } from "./srv/mod.ts";
 Edr.BrdEdr_Service.ClientCacheMaxAge = 1 * 60; // One minute
 Edr.BrdEdr_Service.Authorizations = {
     'pangeli70@gmail.com': Edr.BrdEdr_Auth_eRole.ADMIN,
-    'paolo.angeli@bredasys.com': Edr.BrdEdr_Auth_eRole.ADMIN
 }
 
-Edr.BrdEdr_Service.isSelfHosted = false;
-Edr.BrdEdr_Service.RemoteTemplatesPath = "http://localhost:12058/templates";
+// This is the Edr server so we can't use remote templates
+Edr.BrdEdr_Service.IsSelfHosted = true;
 
 
 // Overwrite default Tengine settings

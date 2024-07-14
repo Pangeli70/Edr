@@ -16,9 +16,9 @@ import {
 
 
 
-export class BrdEdr_HtmlReservedPageResource_Log extends Edr.Drash.Resource {
+export class BrdEdr_HtmlReservedPageResource_Errors extends Edr.Drash.Resource {
 
-    override paths = [Edr.BrdEdr_Route_eShared.RESERVED_PAGE_LOG];
+    override paths = [Edr.BrdEdr_Route_eShared.RESERVED_PAGE_ERRORS];
 
     readonly EDR_ROLE = Edr.BrdEdr_Auth_eRole.ADMIN;
 
@@ -33,18 +33,37 @@ export class BrdEdr_HtmlReservedPageResource_Log extends Edr.Drash.Resource {
             return;
         }
 
+        const data: {
+            counter: number;
+            method: string;
+            url: string;
+            message: string;
+        }[] = []
+
+        for (const error of Edr.BrdEdr_Service.Errors) {
+
+            const request = Edr.BrdEdr_Service.Requests.find(r => r.counter == error.counter)!;
+
+            data.push({
+                counter: error.counter,
+                method: request.method,
+                url: request.route,
+                message: error.message
+            })
+        }
+
         const pageData: Tng.BrdTng_IPageData = {
 
             microservice: {
                 name: BrdEdr_Microservice.name,
                 title: BrdEdr_Microservice.description,
-            },
+            }, 
 
             page: {
-                template: "/pages/BrdEdr_HtmlReservedPageTemplate_Log.html",
-                title: 'Log',
+                template: "/pages/BrdEdr_HtmlReservedPageTemplate_Errors.html",
+                title: 'Errors',
                 rendered: new Date().toLocaleString(),
-                data: Edr.BrdEdr_Service.Requests
+                data
             },
 
             user: {

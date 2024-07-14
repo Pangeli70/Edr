@@ -31,11 +31,17 @@ import {
     BrdEdr_HtmlReservedPageResource_Admin
 } from "./resources/BrdEdr_HtmlReservedHtmlResource_Admin.ts";
 import {
+    BrdEdr_HtmlReservedPageResource_Errors
+} from "./resources/BrdEdr_HtmlReservedHtmlResource_Errors.ts";
+import {
     BrdEdr_HtmlReservedPageResource_Log
 } from "./resources/BrdEdr_HtmlReservedHtmlResource_Log.ts";
 import {
     BrdEdr_HtmlReservedPageResource_LogEntry
 } from "./resources/BrdEdr_HtmlReservedHtmlResource_LogEntry.ts";
+import {
+    BrdEdr_HtmlReservedPageResource_Tng_Templates
+} from "./resources/BrdEdr_HtmlReservedHtmlResource_Tng_Templates.ts";
 import {
     BrdEdr_HtmlReservedPageResource_User
 } from "./resources/BrdEdr_HtmlReservedHtmlResource_User.ts";
@@ -72,6 +78,9 @@ export const BrdEdr_Resources: typeof Edr.Drash.Resource[] = [
     BrdEdr_HtmlReservedPageResource_Admin,
     BrdEdr_HtmlReservedPageResource_Log,
     BrdEdr_HtmlReservedPageResource_LogEntry,
+    BrdEdr_HtmlReservedPageResource_Errors,
+
+    BrdEdr_HtmlReservedPageResource_Tng_Templates,
     
     BrdEdr_RestApiResource_Test
 

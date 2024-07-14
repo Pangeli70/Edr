@@ -10,30 +10,15 @@
  */
 export enum BrdEdr_eRoutes {
 
-    PAGE_HOME = "/Brd/Edr/Home",
-
-    PAGE_ERROR = "/Brd/Edr/Error/:id",
-
-    PAGE_LOGIN = "/Brd/Edr/Auth/Login",
-
-    PAGE_LOGOUT = "/Brd/Edr/Auth/Logout",
-    
-    PAGE_OTP = "/Brd/Edr/Auth/Otp",
-
-    PAGE_TOOLS = "/Brd/Edr/Tools",
-
-    RESERVED_PAGE_ADMIN = "/Brd/Edr/Rsvd/Admin",
-    
-    RESERVED_PAGE_USER = "/Brd/Edr/Rsvd/User",
-
-    RESERVED_PAGE_LOG = "/Brd/Edr/Rsvd/Log",
-
-    RESERVED_PAGE_LOG_ENTRY = "/Brd/Edr/Rsvd/Log/Entry/:id",
+    PAGE_HOME = "/",
 
     API_TEST = "/Brd/Edr/Api/V01/Test",
 
+    RESERVED_PAGE_USER_TEST = "/Brd/Edr/Rsvd/User",
+
+    RESERVED_PAGE_ADMIN_TEST = "/Brd/Edr/Rsvd/Admin",
+
     TEMPLATE_TEST = "/templates/pages/BrdEdr_HtmlPageTemplate_Tools.html",
 
-    RESERVED_PAGE_TNG_MENU = "/Brd/Edr/Rsvd/Tng"
 
 }

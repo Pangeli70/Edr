@@ -19,6 +19,7 @@ export * from "./enums/BrdEdr_Auth_eCookie.ts"
 export * from "./enums/BrdEdr_Auth_eRole.ts"
 export * from "./enums/BrdEdr_Env_eEntry.ts"
 export * from "./enums/BrdEdr_RestRoute_eGetMode.ts"
+export * from "./enums/BrdEdr_Route_eShared.ts"
 
 export * from "./interfaces/BrdEdr_Auth_IJwtPayload.ts"
 export * from "./interfaces/BrdEdr_Auth_IProfile.ts"

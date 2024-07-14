@@ -18,7 +18,7 @@ import {
 
 export class BrdEdr_HtmlPageResource_Error extends Edr.Drash.Resource {
 
-    override paths = [BrdEdr_eRoutes.PAGE_ERROR];
+    override paths = [Edr.BrdEdr_Route_eShared.PAGE_ERROR];
     readonly ERROR_COUNTER_PARAM_ID = 'id';
 
     async GET(
@@ -27,7 +27,19 @@ export class BrdEdr_HtmlPageResource_Error extends Edr.Drash.Resource {
     ) {
 
         const rawId = request.pathParam(this.ERROR_COUNTER_PARAM_ID);
-        const counter = parseInt(rawId!);
+        let counter = parseInt(rawId!);
+
+
+
+        if (!counter) {
+            const edr = Edr.BrdEdr_Service.GetEdrRequest(request);
+            counter = edr.counter;
+            Edr.BrdEdr_Service.Errors.push({
+                counter,
+                message: "No error id specified"
+            })
+        }
+
         const loggedError = Edr.BrdEdr_Service.Errors.find(r => r.counter == counter);
 
         const pageData: Tng.BrdTng_IPageData = {
@@ -53,8 +65,9 @@ export class BrdEdr_HtmlPageResource_Error extends Edr.Drash.Resource {
         }
 
 
-
-        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData);
+        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, {
+            isEdrSharedResource: true
+        });
 
     }
 

@@ -6,7 +6,7 @@
  */
 
 import {
-    Tng
+    Tng, Edr
 } from "../deps.ts";
 import {
     BrdEdr_eRoutes
@@ -19,7 +19,7 @@ import {
  */
 export const BrdEdr_MainMenu: Tng.BrdTng_IHyperlink[] = [
     {
-        url: BrdEdr_eRoutes.PAGE_TOOLS,
+        url: Edr.BrdEdr_Route_eShared.PAGE_TOOLS,
         label: {
             IT: "Strumenti",
             EN: "Tools"
@@ -52,7 +52,7 @@ export const BrdEdr_MainMenu: Tng.BrdTng_IHyperlink[] = [
         }
     },
     {
-        url: BrdEdr_eRoutes.PAGE_LOGIN,
+        url: Edr.BrdEdr_Route_eShared.PAGE_LOGIN,
         label: {
             IT: "Accedi",
             EN: "Log in"
@@ -63,7 +63,7 @@ export const BrdEdr_MainMenu: Tng.BrdTng_IHyperlink[] = [
         }
     },
     {
-        url: BrdEdr_eRoutes.PAGE_LOGOUT,
+        url: Edr.BrdEdr_Route_eShared.PAGE_LOGOUT,
         label: {
             IT: "Esci",
             EN: "Log out"
@@ -74,7 +74,7 @@ export const BrdEdr_MainMenu: Tng.BrdTng_IHyperlink[] = [
         }
     },
     {
-        url: BrdEdr_eRoutes.RESERVED_PAGE_USER,
+        url: BrdEdr_eRoutes.RESERVED_PAGE_USER_TEST,
         label: {
             IT: "Pagina utente",
             EN: "User page"
@@ -85,7 +85,7 @@ export const BrdEdr_MainMenu: Tng.BrdTng_IHyperlink[] = [
         }
     },
     {
-        url: BrdEdr_eRoutes.RESERVED_PAGE_ADMIN,
+        url: BrdEdr_eRoutes.RESERVED_PAGE_ADMIN_TEST,
         label: {
             IT: "Pagina amminst.",
             EN: "Admin page"
@@ -96,7 +96,18 @@ export const BrdEdr_MainMenu: Tng.BrdTng_IHyperlink[] = [
         }
     },
     {
-        url: BrdEdr_eRoutes.RESERVED_PAGE_LOG,
+        url: Edr.BrdEdr_Route_eShared.RESERVED_PAGE_ERRORS,
+        label: {
+            IT: "Registro Errori",
+            EN: "Errors log"
+        },
+        title: {
+            IT: "Elenco degli errori riscontrati dal riavvio del servizio",
+            EN: "List of the errors encountered from the service restart"
+        }
+    },
+    {
+        url: Edr.BrdEdr_Route_eShared.RESERVED_PAGE_LOG,
         label: {
             IT: "Registro chiamate",
             EN: "Requests' log"
@@ -107,14 +118,25 @@ export const BrdEdr_MainMenu: Tng.BrdTng_IHyperlink[] = [
         }
     },
     {
-        url: BrdEdr_eRoutes.RESERVED_PAGE_TNG_MENU,
+        url: Edr.BrdEdr_Route_eShared.RESERVED_PAGE_TNG_TEMPLATES,
         label: {
-            IT: "Template engine",
-            EN: "Template engine"
+            IT: "Tng Templates",
+            EN: "Tng Templates"
         },
         title: {
-            IT: "Statistiche di funzionamento del template engine",
-            EN: "Template engine statistics"
+            IT: "Modelli di pagine disponibili per il template engine",
+            EN: "Available page templates for the template engine"
+        }
+    },
+    {
+        url: Edr.BrdEdr_Route_eShared.RESERVED_PAGE_TNG_CACHE,
+        label: {
+            IT: "Tng Caches",
+            EN: "Tng Caches"
+        },
+        title: {
+            IT: "Dettagli della cache utilizzata dal template engine",
+            EN: "Details of the cache used by the template engine"
         }
     },
 ];

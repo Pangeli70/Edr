@@ -9,15 +9,13 @@ import {
     BrdEdr_Microservice,
     Edr, Tng
 } from "../deps.ts";
-import {
-    BrdEdr_eRoutes
-} from "../enums/BrdEdr_eRoute.ts";
+
 
 
 
 export class BrdEdr_HtmlReservedPageResource_LogEntry extends Edr.Drash.Resource {
 
-    override paths = [BrdEdr_eRoutes.RESERVED_PAGE_LOG_ENTRY];
+    override paths = [Edr.BrdEdr_Route_eShared.RESERVED_PAGE_LOG_ENTRY];
 
     readonly EDR_ROLE = Edr.BrdEdr_Auth_eRole.ADMIN;
     readonly PATH_PARAM_ID = 'id';
@@ -29,22 +27,18 @@ export class BrdEdr_HtmlReservedPageResource_LogEntry extends Edr.Drash.Resource
 
         const edr = Edr.BrdEdr_Service.GetEdrRequest(request);
         if (!Edr.BrdEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
-            this.redirect(BrdEdr_eRoutes.PAGE_LOGIN, response);
+            this.redirect(Edr.BrdEdr_Route_eShared.PAGE_LOGIN, response);
             return;
         }
 
         const rawId = request.pathParam(this.PATH_PARAM_ID);
         const counter = parseInt(rawId!);
-        const loggedRequest = Edr.BrdEdr_Log_Service.Requests.find(r => r.counter == counter);
+        const loggedRequest = Edr.BrdEdr_Service.Requests.find(r => r.counter == counter);
 
-        if (!loggedRequest) { 
+        if (!loggedRequest) {
             const message = "Request with id " + rawId + " not found";
-            Edr.BrdEdr_Service.Errors.push({
-                counter: edr.counter,
-                message
-            })
-            const url = BrdEdr_eRoutes.PAGE_ERROR.replace(":" +this.PATH_PARAM_ID, edr.counter.toString());
-            this.redirect(url, response)
+            const url = Edr.BrdEdr_Route_eShared.PAGE_ERROR.replace(":" + this.PATH_PARAM_ID, edr.counter.toString());
+            Edr.BrdEdr_Service.Error(this, response, edr, message, url);
             return;
         }
 
@@ -68,10 +62,10 @@ export class BrdEdr_HtmlReservedPageResource_LogEntry extends Edr.Drash.Resource
             }
         }
 
-        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData);
+        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, {
+            isEdrSharedResource: true
+        });
     }
-
-
 
 
 

@@ -20,11 +20,6 @@ import {
  */
 export class BrdEdr_Log_Service {
 
-    private static _requests: BrdEdr_IRequest[] = [];
-    static get Requests(): BrdEdr_IRequest[] {
-        return this._requests;
-    }
-    
 
     /** Log the debug events */
     static IsDebug = false;
@@ -38,7 +33,7 @@ export class BrdEdr_Log_Service {
 
     /** Registra un evento nella richiesta corrente */
     static Log(
-        arequest: BrdEdr_IRequest,
+        aedr: BrdEdr_IRequest,
         atype: Uts.BrdUts_eLogType,
         aurl: string,
         afunction: Function,
@@ -55,10 +50,10 @@ export class BrdEdr_Log_Service {
             function: afunction,
             message: amessage
         }
-        arequest.events.push(event);
+        aedr.events.push(event);
 
         if (this.DoEventsEcho) {
-            BrdEdr_Log_Service.#Echo(arequest, event );
+            BrdEdr_Log_Service.#Echo(aedr, event );
         }
 
     }
@@ -138,8 +133,6 @@ export class BrdEdr_Log_Service {
     }
 
 
-    static Store(arequest: BrdEdr_IRequest) {
-        this._requests.push(arequest);
-    }
+
 
 }

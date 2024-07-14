@@ -7,6 +7,7 @@
  * ----------------------------------------------------------------------------
  */
 
+
 import {
     Drash, Tng,
     Uts
@@ -38,6 +39,11 @@ export class BrdEdr_Service {
      */
     static Errors: BrdEdr_IRequestError[] = [];
 
+
+    static Requests: BrdEdr_IRequest[] = [];
+
+
+
     /** Html response header for client's cache persistency of served assets
      * In seconds */
     static ClientCacheMaxAge = 0;
@@ -48,12 +54,14 @@ export class BrdEdr_Service {
     /** Local path to templates used by the template engine */
     static LocalTemplatesPath = "./srv/templates";
 
+    /** Remote path to templates of BrdEdr shared resourses  */
+    static SelfRemoteTemplatesPath: "https://apg-brd-edr.deno.dev/templates"
 
-    /** The module is self hosted so not consider the remote templates path.
-     * The default is false because usually the server is not self hosted due to
+    /** The BrdEdr module is self hosted so not consider the remote templates path.
+     * The default is false because usually the microservice is not self hosted due to
      * the fact that we import it in other microservices
     */
-    static isSelfHosted = false;
+    static IsSelfHosted = false;
 
 
 
@@ -101,20 +109,16 @@ export class BrdEdr_Service {
         request: Drash.Request,
         response: Drash.Response,
         apageData: Tng.BrdTng_IPageData,
-        aoptions: {
-            auseRemoteTemplateWhenNotSelfHosted?: boolean;
-            remoteHost: string
-        } = {
-                auseRemoteTemplateWhenNotSelfHosted: false,
-                remoteHost: "https://apg-brd-edr.deno.dev/templates"
-            }
+        aoptions = {
+            isEdrSharedResource: false,
+        }
     ) {
         const edr = this.GetEdrRequest(request);
 
         const events: Uts.BrdUts_ILogEvent[] = [];
 
-        if (!this.isSelfHosted && aoptions.auseRemoteTemplateWhenNotSelfHosted) {
-            apageData.page.template = `${aoptions.remoteHost}${apageData.page.template}`
+        if (!this.IsSelfHosted && aoptions.isEdrSharedResource) {
+            apageData.page.template = `${this.SelfRemoteTemplatesPath}${apageData.page.template}`
         }
 
         const html = await Tng.BrdTng_Service.Render(
@@ -144,6 +148,46 @@ export class BrdEdr_Service {
         }
 
         return r;
+    }
+
+
+
+    static Store(arequest: BrdEdr_IRequest) {
+        
+        BrdEdr_Log_Service.LogInfo(
+            arequest,
+            import.meta.url,
+            this.Store,
+            'Total stored calls: ' + this.Requests.length
+        );
+        
+        this.Requests.push(arequest);
+
+    }
+
+
+
+    static Error(
+        resource: Drash.Resource,
+        response: Drash.Response,
+        aedr: BrdEdr_IRequest,
+        amessage: string,
+        aredirectUrl: string
+    ) {
+        
+        this.Errors.push({
+            counter: aedr.counter,
+            message: amessage
+        });
+
+        BrdEdr_Log_Service.LogError(
+            aedr,
+            import.meta.url,
+            this.Error,
+            amessage
+        );
+
+        resource.redirect(aredirectUrl, response);
     }
 
 

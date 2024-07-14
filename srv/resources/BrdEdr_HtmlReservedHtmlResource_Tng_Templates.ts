@@ -16,9 +16,9 @@ import {
 
 
 
-export class BrdEdr_HtmlReservedPageResource_Log extends Edr.Drash.Resource {
+export class BrdEdr_HtmlReservedPageResource_Tng_Templates extends Edr.Drash.Resource {
 
-    override paths = [Edr.BrdEdr_Route_eShared.RESERVED_PAGE_LOG];
+    override paths = [Edr.BrdEdr_Route_eShared.RESERVED_PAGE_TNG_TEMPLATES];
 
     readonly EDR_ROLE = Edr.BrdEdr_Auth_eRole.ADMIN;
 
@@ -33,6 +33,24 @@ export class BrdEdr_HtmlReservedPageResource_Log extends Edr.Drash.Resource {
             return;
         }
 
+        const data: {
+            url: string;
+        }[] = []
+
+        const pagesDir = Edr.BrdEdr_Service.LocalTemplatesPath + '/pages';
+
+        for await (const dirEntry of Deno.readDir(pagesDir)) {
+
+            const ext = dirEntry.name.split('.').pop();
+            if (ext == 'html') {
+
+                data.push({
+                    url: `/templates/pages/${dirEntry.name}`,
+                })
+
+            }
+        }
+
         const pageData: Tng.BrdTng_IPageData = {
 
             microservice: {
@@ -41,10 +59,10 @@ export class BrdEdr_HtmlReservedPageResource_Log extends Edr.Drash.Resource {
             },
 
             page: {
-                template: "/pages/BrdEdr_HtmlReservedPageTemplate_Log.html",
-                title: 'Log',
+                template: "/pages/BrdEdr_HtmlReservedPageTemplate_Tng_Templates.html",
+                title: 'Tng templates',
                 rendered: new Date().toLocaleString(),
-                data: Edr.BrdEdr_Service.Requests
+                data
             },
 
             user: {

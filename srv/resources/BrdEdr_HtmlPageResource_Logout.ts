@@ -9,15 +9,13 @@ import {
     BrdEdr_Microservice,
     Edr, Tng
 } from "../deps.ts";
-import {
-    BrdEdr_eRoutes
-} from "../enums/BrdEdr_eRoute.ts";
+
 
 
 
 export class BrdEdr_HtmlPageResource_Logout extends Edr.Drash.Resource {
 
-    override paths = [BrdEdr_eRoutes.PAGE_LOGOUT];
+    override paths = [Edr.BrdEdr_Route_eShared.PAGE_LOGOUT];
 
 
     async GET(
@@ -47,7 +45,9 @@ export class BrdEdr_HtmlPageResource_Logout extends Edr.Drash.Resource {
         const cookie = Edr.BrdEdr_Auth_Service.DeleteJwtCookie();
         response.setCookie(cookie);
 
-        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData);
+        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, {
+            isEdrSharedResource: true
+        });
 
     }
 

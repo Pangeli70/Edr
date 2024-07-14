@@ -1,0 +1,25 @@
+<% extends("https://apg-01.b-cdn.net/assets/html/templates/master/BrdCdn_MasterPage_Application_V01.html") %>
+
+<section>
+
+    <table style="display: block; overflow-x: auto; overflow-y: auto; white-space: nowrap; max-height: 20rem;">
+        <tr>
+            <th style="min-width: 4rem">Template</th>
+        </tr>
+        <% for (const template of page.data) { %>
+
+        <tr>
+            <td>
+                <a
+                  href="<% template.url %>"
+                  role="button"
+                  style="padding: 0.1rem; line-height: 1rem;"
+                >
+                    <% template.url %>
+                </a>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+
+</section>

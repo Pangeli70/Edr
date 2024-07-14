@@ -12,15 +12,13 @@ import {
     BrdEdr_Microservice,
     Edr, Tng
 } from "../deps.ts";
-import {
-    BrdEdr_eRoutes
-} from "../enums/BrdEdr_eRoute.ts";
+
 
 
 
 export class BrdEdr_HtmlPageResource_Tools extends Edr.Drash.Resource {
 
-    override paths = [BrdEdr_eRoutes.PAGE_TOOLS];
+    override paths = [Edr.BrdEdr_Route_eShared.PAGE_TOOLS];
 
     async GET(
         request: Edr.Drash.Request,
@@ -43,6 +41,8 @@ export class BrdEdr_HtmlPageResource_Tools extends Edr.Drash.Resource {
 
         }
 
-        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData);
+        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, {
+            isEdrSharedResource: true
+        });
     }
 }

@@ -20,7 +20,7 @@ import {
 
 export class BrdEdr_HtmlReservedPageResource_Admin extends Edr.Drash.Resource {
 
-    override paths = [BrdEdr_eRoutes.RESERVED_PAGE_ADMIN];
+    override paths = [BrdEdr_eRoutes.RESERVED_PAGE_ADMIN_TEST];
 
     readonly EDR_ROLE = Edr.BrdEdr_Auth_eRole.ADMIN;
 
@@ -31,7 +31,7 @@ export class BrdEdr_HtmlReservedPageResource_Admin extends Edr.Drash.Resource {
 
         const edr = Edr.BrdEdr_Service.GetEdrRequest(request);
         if (!Edr.BrdEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
-            this.redirect(BrdEdr_eRoutes.PAGE_LOGIN, response);
+            this.redirect(Edr.BrdEdr_Route_eShared.PAGE_LOGIN, response);
             return;
         }
 

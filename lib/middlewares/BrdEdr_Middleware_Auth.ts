@@ -3,10 +3,21 @@
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
+ * @version 0.3 APG 20230710 New implementation
  * ----------------------------------------------------------------------------
  */
 
 
+import {
+    Drash,
+    Uts
+} from "../deps.ts";
+import {
+    BrdEdr_Auth_eCookie
+} from "../enums/BrdEdr_Auth_eCookie.ts";
+import {
+    BrdEdr_Auth_IJwtPayload
+} from "../interfaces/BrdEdr_Auth_IJwtPayload.ts";
 import {
     BrdEdr_Auth_Service
 } from "../services/BrdEdr_Auth_Service.ts";
@@ -16,14 +27,6 @@ import {
 import {
     BrdEdr_Service
 } from "../services/BrdEdr_Service.ts";
-import {
-    Drash,
-    Uts
-} from "../deps.ts";
-import {
-    BrdEdr_Auth_eCookie
-} from "../enums/BrdEdr_Auth_eCookie.ts";
-import { BrdEdr_Auth_IJwtPayload } from "../interfaces/BrdEdr_Auth_IJwtPayload.ts";
 
 
 
