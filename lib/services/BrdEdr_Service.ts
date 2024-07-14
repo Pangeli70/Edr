@@ -48,8 +48,6 @@ export class BrdEdr_Service {
     /** Local path to templates used by the template engine */
     static LocalTemplatesPath = "./srv/templates";
 
-    /** Remote path to templates used by the template engine */
-    static RemoteTemplatesPath = "https://apg-brd-edr.deno.dev/templates";
 
     /** The module is self hosted so not consider the remote templates path.
      * The default is false because usually the server is not self hosted due to
@@ -97,20 +95,26 @@ export class BrdEdr_Service {
      * @param request Drash request
      * @param response Drash response
      * @param apageData dati per l'interpolazione del template
-     * @param auseRemoteTemplateWhenNotSelfHosted default false
+     * @param aoptions opzioni per l'utilizzo di un host remoto
      */
     static async RenderPageUsingBrdTng(
         request: Drash.Request,
         response: Drash.Response,
         apageData: Tng.BrdTng_IPageData,
-        auseRemoteTemplateWhenNotSelfHosted = false
+        aoptions: {
+            auseRemoteTemplateWhenNotSelfHosted?: boolean;
+            remoteHost: string
+        } = {
+                auseRemoteTemplateWhenNotSelfHosted: false,
+                remoteHost: "https://apg-brd-edr.deno.dev/templates"
+            }
     ) {
         const edr = this.GetEdrRequest(request);
 
         const events: Uts.BrdUts_ILogEvent[] = [];
 
-        if (!this.isSelfHosted && auseRemoteTemplateWhenNotSelfHosted) {
-            apageData.page.template = `${this.RemoteTemplatesPath}${apageData.page.template}`
+        if (!this.isSelfHosted && aoptions.auseRemoteTemplateWhenNotSelfHosted) {
+            apageData.page.template = `${aoptions.remoteHost}${apageData.page.template}`
         }
 
         const html = await Tng.BrdTng_Service.Render(

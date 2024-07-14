@@ -77,7 +77,7 @@ export class BrdEdr_HtmlPageResource_Otp extends Edr.Drash.Resource {
                 }
             }
 
-            await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, true);
+            await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData);
         }
         else {
             this.redirect(BrdEdr_eRoutes.PAGE_HOME, response);

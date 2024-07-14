@@ -47,7 +47,7 @@ export class BrdEdr_HtmlPageResource_Logout extends Edr.Drash.Resource {
         const cookie = Edr.BrdEdr_Auth_Service.DeleteJwtCookie();
         response.setCookie(cookie);
 
-        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, true);
+        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData);
 
     }
 

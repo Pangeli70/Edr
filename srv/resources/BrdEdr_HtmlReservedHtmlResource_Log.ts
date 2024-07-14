@@ -52,7 +52,7 @@ export class BrdEdr_HtmlReservedPageResource_Log extends Edr.Drash.Resource {
             }
         }
 
-        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData, true);
+        await Edr.BrdEdr_Service.RenderPageUsingBrdTng(request, response, pageData);
     }
 
 
