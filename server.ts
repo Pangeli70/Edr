@@ -14,7 +14,13 @@ loadSync({ export: true });
 
 import { Edr } from "./mod.ts";
 
+const env = Deno.env.toObject();
+for (const k in env) {
+    console.log(`${k}=${env[k]}`);
+}
 const GHPAC = Deno.env.get(Edr.BrdEdr_Env_eEntry.GITHUB_PKG);
+
+
 if (!GHPAC) {
     throw new Error("Missing github package key in environment");
 }
