@@ -1,7 +1,7 @@
-# ApgBrdEdr
+# ApgEdr
 
 
-## Enhanced Drash Resources for Breda by APG
+## Enhanced Drash Resources
 
 
 Estensione di un server [Drash](https://drash.land/drash-v2.x/getting-started/introduction) per realizzare microservizi compatibili con [Deno Deploy](https://deno.com/deploy).

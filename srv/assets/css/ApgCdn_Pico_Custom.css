@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans&family=Ubuntu:wght@300&display=swap");
+
+* {
+    font-family: "PT Sans";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "PT Sans";
+}
+
+pre {
+    font-family: "Lucida console", "Consolas", "Courier new", "monospace";
+    font-weight: lighter;
+    font-size: 0.75em;
+}
+
+summary {
+    background-color: rgb(204, 225, 231);
+    padding: 0.5rem;
+    margin: 0;
+    font-size: 1.25rem;
+    border-radius: 0.2rem;
+}
+
+

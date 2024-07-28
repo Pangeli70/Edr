@@ -1,0 +1,168 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+  *   [ApgCdn/srv]
+  * @description 
+  *   Master Page for pages with 3D logo based on the Bunny.net CDN that use Pico.css. 
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @version
+      0.1.0 APG 20240630
+      0.1.1 APG 20240713 Custom Logo
+      0.1.2 APG 20240728 Stripped brd references
+  * ---------------------------------------------------------------------------- 
+-->
+
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <meta
+      name="author"
+      content="APG Angeli Paolo Giusto"
+    />
+    <meta
+      name="generator"
+      content="Deno+Drash"
+    />
+    <meta
+      name="keywords"
+      content="Deno, Drash, APG, Angeli Paolo Giusto, Paolo Angeli"
+    />
+
+    <title><% microservice.name %></title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="<% page.assetsHost %>/assets/css/ApgCdn_Pico_Custom.css"
+    />
+
+    <link
+      rel="icon"
+      href="<% page.assetsHost %>/assets/ico/ApgCdn_Favicon_<% page.favicon %>.ico"
+    />
+
+    <script
+      async
+      src="https://ga.jspm.io/npm:es-module-shims@1.5.8/dist/es-module-shims.js"
+    ></script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.162.0/build/three.module.js",
+                "GLTFLoader": "https://unpkg.com/three@0.162.0/examples/jsm/loaders/GLTFLoader.js"
+            }
+        }
+    </script>
+
+    <script
+      type="module"
+      src="<% page.assetsHost %>/assets/js/ApgCdn_Logo3D_<% page.logoJs %>.js"
+      defer
+    ></script>
+
+  </head>
+
+  <body>
+    <header>
+      <table>
+        <tr>
+          <td style="width: 4.5rem">
+            <a href="/">
+              <div
+                style="
+                      height: 4rem;
+                      width: 4rem;
+                      border: 1px;
+                      border-style: hidden;
+                      border-color: black;"
+                id="ApgCdn_3DLogo_Placeholder_Div"
+              >
+                <input
+                  type="hidden"
+                  id="ApgCdn_3DLogo_AssetsHost_Hidden"
+                  value="<% page.assetsHost %>"
+                >
+              </div>
+            </a>
+          </td>
+          <td>
+            <h6 style="margin: 0; font-size: small; text-align: right;">
+              <% microservice.name %>: <% microservice.title %>
+            </h6>
+            <h3><% page.title %></h3>
+            <h6 style="margin: 0; font-size: small; text-align: right;">
+              <% user.email %> <% user.role %>
+            </h6>
+          </td>
+        </tr>
+      </table>
+    </header>
+
+    <main>
+
+      <% yield %>
+
+    </main>
+
+    <footer>
+      <hr>
+      <h6 style="font-size: small; text-align: center;">
+        <small>
+          <em>© 2017-2024
+            <a
+              href="https://github.com/Pangeli70"
+              target="_blank"
+            >APG</a>: Angeli Paolo Giusto
+
+            <br>
+
+            Made with <span style="color: red;">&#10084;</span> using
+            <a
+              href="https://docs.deno.com/runtime/manual"
+              target="_blank"
+            >Deno</a>,
+            <a
+              href="https://docs.deno.com/deploy/manual"
+              target="_blank"
+            >Deno deploy</a>,
+            <a
+              href="https://drash.land/drash/v2.x/getting-started/introduction"
+              target="_blank"
+            >Drash</a>
+            <a
+              href="https://bunny.net/"
+              target="_blank"
+            >Bunny.net Cdn</a>
+            and semantic classless Css
+            <a
+              href="https://picocss.com/docs"
+              target="_blank"
+            >Pico</a>
+
+            <br>
+            <span>
+              <% microservice.name %>:<% microservice.title %> [<% page.title %>] rendered
+              <% page.rendered %> <<PROC_TIME>>
+            </span>
+          </em>
+        </small>
+      </h6>
+    </footer>
+
+  </body>
+
+</html>

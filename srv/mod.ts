@@ -1,5 +1,5 @@
 /** ---------------------------------------------------------------------------
- * @module [BrdEdr]
+ * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
@@ -10,79 +10,91 @@
 
 import * as Edr from "../lib/mod.ts";
 import {
-    BrdEdr_HtmlPageResource_Error
-} from "./resources/BrdEdr_HtmlPageResource_Error.ts";
+    ApgEdr_HtmlPageResource_Error
+} from "./resources/ApgEdr_HtmlPageResource_Error.ts";
 import {
-    BrdEdr_HtmlPageResource_Home
-} from "./resources/BrdEdr_HtmlPageResource_Home.ts";
+    ApgEdr_HtmlPageResource_Home
+} from "./resources/ApgEdr_HtmlPageResource_Home.ts";
 import {
-    BrdEdr_HtmlPageResource_Login
-} from "./resources/BrdEdr_HtmlPageResource_Login.ts";
+    ApgEdr_HtmlPageResource_Login
+} from "./resources/ApgEdr_HtmlPageResource_Login.ts";
 import {
-    BrdEdr_HtmlPageResource_Logout
-} from "./resources/BrdEdr_HtmlPageResource_Logout.ts";
+    ApgEdr_HtmlPageResource_Logout
+} from "./resources/ApgEdr_HtmlPageResource_Logout.ts";
 import {
-    BrdEdr_HtmlPageResource_Otp
-} from "./resources/BrdEdr_HtmlPageResource_Otp.ts";
+    ApgEdr_HtmlPageResource_Otp
+} from "./resources/ApgEdr_HtmlPageResource_Otp.ts";
 import {
-    BrdEdr_HtmlPageResource_Tools
-} from "./resources/BrdEdr_HtmlPageResource_Tools.ts";
+    ApgEdr_HtmlPageResource_Tools
+} from "./resources/ApgEdr_HtmlPageResource_Tools.ts";
 import {
-    BrdEdr_HtmlReservedPageResource_Admin
-} from "./resources/BrdEdr_HtmlReservedHtmlResource_Admin.ts";
+    ApgEdr_ReservedHtmlPageResource_Admin
+} from "./resources/ApgEdr_ReservedHtmlPageResource_Admin.ts";
 import {
-    BrdEdr_HtmlReservedPageResource_Errors
-} from "./resources/BrdEdr_HtmlReservedHtmlResource_Errors.ts";
+    ApgEdr_ReservedHtmlPageResource_Errors
+} from "./resources/ApgEdr_ReservedHtmlPageResource_Errors.ts";
 import {
-    BrdEdr_HtmlReservedPageResource_Log
-} from "./resources/BrdEdr_HtmlReservedHtmlResource_Log.ts";
+    ApgEdr_ReservedHtmlPageResource_Log
+} from "./resources/ApgEdr_ReservedHtmlPageResource_Log.ts";
 import {
-    BrdEdr_HtmlReservedPageResource_LogEntry
-} from "./resources/BrdEdr_HtmlReservedHtmlResource_LogEntry.ts";
+    ApgEdr_ReservedHtmlPageResource_LogEntry
+} from "./resources/ApgEdr_ReservedHtmlPageResource_LogEntry.ts";
 import {
-    BrdEdr_HtmlReservedPageResource_Tng_Templates
-} from "./resources/BrdEdr_HtmlReservedHtmlResource_Tng_Templates.ts";
+    ApgEdr_ReservedHtmlPageResource_Tng_Caches
+} from "./resources/ApgEdr_ReservedHtmlPageResource_Tng_Caches.ts";
 import {
-    BrdEdr_HtmlReservedPageResource_User
-} from "./resources/BrdEdr_HtmlReservedHtmlResource_User.ts";
+    ApgEdr_ReservedHtmlPageResource_Tng_File
+} from "./resources/ApgEdr_ReservedHtmlPageResource_Tng_File.ts";
 import {
-    BrdEdr_RestApiResource_Test
-} from "./resources/BrdEdr_RestApiResource_Test.ts";
+    ApgEdr_ReservedHtmlPageResource_Tng_Function
+} from "./resources/ApgEdr_ReservedHtmlPageResource_Tng_Function.ts";
+import {
+    ApgEdr_ReservedHtmlPageResource_Tng_Templates
+} from "./resources/ApgEdr_ReservedHtmlPageResource_Tng_Templates.ts";
+import {
+    ApgEdr_ReservedHtmlPageResource_User
+} from "./resources/ApgEdr_ReservedHtmlPageResource_User.ts";
+import {
+    ApgEdr_RestApiResource_Test
+} from "./resources/ApgEdr_RestApiResource_Test.ts";
 
 
 
-export const BrdEdr_Middlewares: Edr.Drash.Service[] = [
+export const ApgEdr_Middlewares: Edr.Drash.Service[] = [
 
-    new Edr.BrdEdr_Middleware_Any(),
-    new Edr.BrdEdr_Middleware_Auth(),
-    new Edr.BrdEdr_Middleware_Log(),
+    new Edr.ApgEdr_Middleware_Any(),
+    new Edr.ApgEdr_Middleware_Auth(),
+    new Edr.ApgEdr_Middleware_Log(Edr.ApgEdr_Service.Requests),
 
 ]
 
 
 
-export const BrdEdr_Resources: typeof Edr.Drash.Resource[] = [
+export const ApgEdr_Resources: typeof Edr.Drash.Resource[] = [
 
-    Edr.BrdEdr_FileResource_AnyAsset,
-    Edr.BrdEdr_FileResource_AnyTemplate,
+    Edr.ApgEdr_FileResource_AnyAsset,
+    Edr.ApgEdr_FileResource_AnyTemplate,
 
-    BrdEdr_HtmlPageResource_Error,
+    ApgEdr_HtmlPageResource_Error,
 
-    BrdEdr_HtmlPageResource_Home,
-    BrdEdr_HtmlPageResource_Otp,
-    BrdEdr_HtmlPageResource_Tools,
+    ApgEdr_HtmlPageResource_Home,
+    ApgEdr_HtmlPageResource_Otp,
+    ApgEdr_HtmlPageResource_Tools,
 
-    BrdEdr_HtmlPageResource_Login,
-    BrdEdr_HtmlPageResource_Logout,
-    BrdEdr_HtmlReservedPageResource_User,
-    BrdEdr_HtmlReservedPageResource_Admin,
-    BrdEdr_HtmlReservedPageResource_Log,
-    BrdEdr_HtmlReservedPageResource_LogEntry,
-    BrdEdr_HtmlReservedPageResource_Errors,
+    ApgEdr_HtmlPageResource_Login,
+    ApgEdr_HtmlPageResource_Logout,
+    ApgEdr_ReservedHtmlPageResource_User,
+    ApgEdr_ReservedHtmlPageResource_Admin,
+    ApgEdr_ReservedHtmlPageResource_Log,
+    ApgEdr_ReservedHtmlPageResource_LogEntry,
+    ApgEdr_ReservedHtmlPageResource_Errors,
 
-    BrdEdr_HtmlReservedPageResource_Tng_Templates,
+    ApgEdr_ReservedHtmlPageResource_Tng_Caches,
+    ApgEdr_ReservedHtmlPageResource_Tng_File,
+    ApgEdr_ReservedHtmlPageResource_Tng_Function,
+    ApgEdr_ReservedHtmlPageResource_Tng_Templates,
     
-    BrdEdr_RestApiResource_Test
+    ApgEdr_RestApiResource_Test
 
 ];
 

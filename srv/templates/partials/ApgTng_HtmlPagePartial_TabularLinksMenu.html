@@ -1,0 +1,27 @@
+<!-- 
+    Tabular links menu partial
+
+    @Author: [APG] Angeli Paolo Giusto
+    @version 1.0 20240701
+
+    @param page.data.links: {Tng.ApgTng_IHyperlink[]}
+    @param page.data.lang: string
+
+  -->
+<table>
+    <% for (const link of page.data.links ) { %>
+    <tr>
+        <td style="width: 10rem">
+            <button
+              onclick="window.location.assign('<% link.url %>')"
+              style="min-width: 8rem"
+            >
+                <% link.label[page.data.lang] %>
+            </button>
+        </td>
+        <td style="vertical-align: middle">
+            <h4 style="margin-bottom: 0"> <% link.title[page.data.lang] %></h4>
+        </td>
+    </tr>
+    <% } %>
+</table>
