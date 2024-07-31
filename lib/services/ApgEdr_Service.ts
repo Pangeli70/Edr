@@ -16,19 +16,15 @@ import {
 import {
     ApgEdr_Auth_eRole
 } from "../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_eCookie } from "../enums/ApgEdr_eCookie.ts";
+import {
+    ApgEdr_eCookie
+} from "../enums/ApgEdr_eCookie.ts";
 import {
     ApgEdr_IRequest
 } from "../interfaces/ApgEdr_IRequest.ts";
 import {
     ApgEdr_IRequestError
 } from "../interfaces/ApgEdr_IRequestError.ts";
-import {
-    ApgEdr_Auth_TAuthentication
-} from "../mod.ts";
-import {
-    ApgEdr_Auth_TAuthorization
-} from "../types/ApgEdr_Auth_Types.ts";
 import {
     ApgEdr_Log_Service
 } from "./ApgEdr_Log_Service.ts";
@@ -51,20 +47,6 @@ export class ApgEdr_Service {
      * It is used for the logging and telemetry
      */
     static Requests: ApgEdr_IRequest[] = [];
-
-
-    /**
-     * Cache of the authorization roles given to the users
-     * It is used to grant access to the resources
-     */
-    static Authorizations: ApgEdr_Auth_TAuthorization = {};
-
-
-    /**
-     * Cache of the authentication data associated to the users
-     * It is used to grant access to the resources
-     */
-    static Authenrtications: ApgEdr_Auth_TAuthentication = {};
 
 
     /** 
@@ -91,10 +73,32 @@ export class ApgEdr_Service {
      */
     static LocalTemplatesPath = "./srv";
 
+
+    /**
+     * Default Master
+     */
+    static DefaultMaster = "/master/ApgCdn_MasterPage_Application_V01.html";
+
+    /**
+     * Default favicon 
+     */
+    static DefaultFavicon = "Apg_2024_V01";
+
+    /**
+     * Default Logo Js 
+     */
+    static DefaultLogoJs = "Apg_2024_V01";
+
     /**
      * Remote path to templates of ApgEdr shared resources
      */
     static SelfRemoteTemplatesPath: "https://apg-Apg-edr.deno.dev/templates"
+
+
+    /**
+     * Microservice definition
+     */
+    static Microservice: Uts.ApgUts_IMicroservice; 
 
 
     /**
@@ -149,11 +153,6 @@ export class ApgEdr_Service {
 
         let r = "EN"
 
-        const cookie = request.getCookie(ApgEdr_eCookie.LANGUAGE);
-        if (cookie) {
-            r = cookie;
-        }
-
         const headers = request.headers;
         if (headers.has("Accept-Language")) {
             const clientLang = headers.get("Accept-Language")
@@ -161,6 +160,12 @@ export class ApgEdr_Service {
                 r = clientLang.split(",")[1].toUpperCase()
             }
         }
+
+        const cookie = request.getCookie(ApgEdr_eCookie.LANGUAGE);
+        if (cookie) {
+            r = cookie;
+        }
+
 
         const qs = request.queryParam('Lang')
         if (qs) {
@@ -173,6 +178,42 @@ export class ApgEdr_Service {
 
         return r;
     }
+
+
+
+    /**
+     * Get the template data used by the Tng module
+     */
+    static GetTemplateData(
+        edr: ApgEdr_IRequest,
+        atitle: string,
+        atemplate: string,
+    ): Tng.ApgTng_IPageData {
+
+        return {
+
+            microservice: {
+                name: this.Microservice.name,
+                title: this.Microservice.description,
+            },
+
+            page: {
+                assetsHost: this.GetAssetsHost(),
+                master: this.DefaultMaster,
+                favicon: this.DefaultFavicon,
+                logoJs: this.DefaultLogoJs,
+                template: atemplate,
+                title: atitle,
+                lang: edr.language,
+                rendered: new Date().toLocaleString(),
+                data: {},
+                translations: {}
+            },
+
+            user: this.GetUserData(edr)
+        };
+    }
+
 
 
 

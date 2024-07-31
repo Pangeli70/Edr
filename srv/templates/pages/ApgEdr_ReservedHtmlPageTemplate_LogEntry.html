@@ -9,7 +9,7 @@
                 Counter
             </td>
             <td style="min-width: 30rem">
-                <% const counter = page.data.counter.toString().padStart(6,"0") %>
+                <% const counter = page.data.request.counter.toString().padStart(6,"0") %>
                 <% counter %>
             </td>
         </tr>
@@ -18,7 +18,7 @@
                 Received
             </td>
             <td>
-                <% page.data.received %>
+                <% page.data.request.received %>
             </td>
         </tr>
         <tr>
@@ -26,7 +26,7 @@
                 Host
             </td>
             <td>
-                <% page.data.remoteAddr.hostname %>: <% page.data.remoteAddr.port %>
+                <% page.data.request.remoteAddr.hostname %>: <% page.data.request.remoteAddr.port %>
             </td>
         </tr>
         <tr>
@@ -34,7 +34,7 @@
                 Method
             </td>
             <td>
-                <% page.data.method %>
+                <% page.data.request.method %>
             </td>
         </tr>
         <tr>
@@ -42,7 +42,7 @@
                 Route
             </td>
             <td>
-                <% page.data.route %>
+                <% page.data.request.route %>
             </td>
         </tr>
     </table>
@@ -60,7 +60,7 @@
             <th style="min-width: 30rem">Message</th>
 
         </tr>
-        <% for (const event of page.data.events) { %>
+        <% for (const event of page.data.request.events) { %>
         <tr>
             <td><% event.type %></td>
             <td>
@@ -77,7 +77,7 @@
     <br>
     <p style="text-align: right;">
         <a
-          href="/Apg/Edr/Rsvd/Log#counter_<% counter %>"
+          href="<% page.data.logRoute %>#counter_<% counter %>"
           role="button"
         >Back to list</a>
     </p>

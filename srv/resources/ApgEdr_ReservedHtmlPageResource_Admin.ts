@@ -9,7 +9,6 @@
  */
 
 import {
-    ApgEdr_Microservice,
     Edr, Tng
 } from "../deps.ts";
 import {
@@ -38,8 +37,8 @@ export class ApgEdr_ReservedHtmlPageResource_Admin extends Edr.Drash.Resource {
         const pageData: Tng.ApgTng_IPageData = {
 
             microservice: {
-                name: ApgEdr_Microservice.name,
-                title: ApgEdr_Microservice.description,
+                name: Edr.ApgEdr_Service.Microservice.name,
+                title: Edr.ApgEdr_Service.Microservice.description,
             },
 
             page: {

@@ -78,7 +78,7 @@ export interface ApgEdr_IRequest {
     /**
      * Language used by the user for the current request
      */
-    language: string; // @0.2
+    language: Uts.ApgUts_TLanguage; // @0.2
 }
 
 

@@ -36,7 +36,7 @@ import {
 export class ApgEdr_Middleware_Auth extends Drash.Service {
 
 
-    public async runBeforeResource(
+    override async runBeforeResource(
         request: Drash.Request,
         response: Drash.Response,
     ) {
@@ -77,7 +77,7 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
 
 
 
-    public runAfterResource(
+    override runAfterResource(
         request: Drash.Request,
         _response: Drash.Response
     ): void {

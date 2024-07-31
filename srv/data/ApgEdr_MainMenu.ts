@@ -52,6 +52,17 @@ export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
         }
     },
     {
+        url: Edr.ApgEdr_Route_eShared.PAGE_LANGUAGE,
+        label: {
+            IT: "Lingua",
+            EN: "Language"
+        },
+        title: {
+            IT: "Imposta il cookie per la lingua di utilizzo del microservizio",
+            EN: "Set the cookie for the language of use of the microservice"
+        }
+    },
+    {
         url: Edr.ApgEdr_Route_eShared.PAGE_LOGIN,
         label: {
             IT: "Accedi",

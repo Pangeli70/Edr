@@ -19,6 +19,8 @@ export enum ApgEdr_Route_eShared {
 
     PAGE_ERROR = "/Edr/Error",
 
+    PAGE_LANGUAGE = "/Edr/Language",
+
     PAGE_LOGIN = "/Edr/Auth/Login",
 
     PAGE_LOGOUT = "/Edr/Auth/Logout",

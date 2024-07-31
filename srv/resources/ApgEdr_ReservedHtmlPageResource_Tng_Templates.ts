@@ -8,7 +8,6 @@
 /** This import must remain here until we change the singleton pattern */
 
 import {
-    ApgEdr_Microservice,
     Edr,
     Tng
 } from "../deps.ts";
@@ -54,8 +53,8 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Templates extends Edr.Drash.Res
         const pageData: Tng.ApgTng_IPageData = {
 
             microservice: {
-                name: ApgEdr_Microservice.name,
-                title: ApgEdr_Microservice.description,
+                name: Edr.ApgEdr_Service.Microservice.name,
+                title: Edr.ApgEdr_Service.Microservice.description,
             },
 
             page: {

@@ -5,12 +5,12 @@
  * @version 0.2 APG 20230416 Moved to its own microservice
  * @version 0.3 APG 20240106 Revamped
  * @version 1.0 APG 20240701 Cleanup and alignment to ApgCdn
+ * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * ----------------------------------------------------------------------------
  */
 
 import {
-    ApgEdr_Microservice,
-    Edr, Tng, Uts
+    Edr, Uts
 } from "../deps.ts";
 import {
     ApgEdr_eRoutes
@@ -33,16 +33,16 @@ export class ApgEdr_HtmlPageResource_Otp extends Edr.Drash.Resource {
     ) {
 
         const edr = Edr.ApgEdr_Service.GetEdrRequest(request);
-        
+
         const rawEmail = await request.bodyParam(this.BODY_PARAM_EMAIL) as string;
-        
+
         const rawOtp = await request.bodyParam(this.BODY_PARAM_OTP) as string;
         const otp = parseInt(rawOtp);
-        
+
         const currentDateTime = Date.now();
 
         let r = Edr.ApgEdr_Auth_Service.VerifyOtp(rawEmail, otp, currentDateTime);
-        
+
         let message = "";
         if (!r.ok) {
             message = "Error while generating JWT cookie: " + r.message;
@@ -63,33 +63,20 @@ export class ApgEdr_HtmlPageResource_Otp extends Edr.Drash.Resource {
             const cookie = Edr.ApgEdr_Auth_Service.DeleteJwtCookie();
             response.setCookie(cookie);
 
-            const pageData: Tng.ApgTng_IPageData = {
-                microservice: {
-                    name: ApgEdr_Microservice.name,
-                    title: ApgEdr_Microservice.description,
-                },
+            // TODO: Create a function to redirect to error page -- AGP 20240731
 
-                page: {
-                    assetsHost: Edr.ApgEdr_Service.GetAssetsHost(),
-                    master: "/master/ApgCdn_MasterPage_Application_V01.html",
-                    template: "/pages/ApgEdr_HtmlPageTemplate_Error.html",
-                    favicon: "Apg_2024_V01",
-                    logoJs: "Apg_2024_V01",
-                    title: 'Login error',
-                    rendered: new Date().toLocaleString(),
-                    data: {
-                        lang: edr.language,
-                        error: message,
-                        redirect: '/'
-                    }
-                },
+            const templateData = Edr.ApgEdr_Service.GetTemplateData(
+                edr,
+                'Login error',
+                "/pages/ApgEdr_HtmlPageTemplate_Error.html",
+            )
 
-                user: {
-                    role: Edr.ApgEdr_Auth_eRole.GUEST
-                }
+            templateData.page.data = {
+                error: message,
+                okLink: '/'
             }
 
-            await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, pageData, {
+            await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData, {
                 isEdrSharedResource: true
             });
         }

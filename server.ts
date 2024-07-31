@@ -27,26 +27,38 @@ Deno.env.set('DENO_AUTH_TOKENS', GHPAC + "@raw.githubusercontent.com");
 
 
 
-import { Edr, Tng, ApgEdr_Microservice } from "./srv/deps.ts";
-import { ApgEdr_Resources, ApgEdr_Middlewares } from "./srv/mod.ts";
+import { Edr, Tng } from "./srv/deps.ts";
+import {
+    ApgEdr_Auth_Authentications,
+    ApgEdr_Auth_Authorizations,
+    ApgEdr_Auth_Profilations,
+    ApgEdr_Microservice,
+    ApgEdr_Middlewares,
+    ApgEdr_Resources
+} from "./srv/mod.ts";
 
 
-// Setup Edr
+Edr.ApgEdr_Service.Microservice = ApgEdr_Microservice;
+
 Edr.ApgEdr_Service.ClientCacheMaxAge = 10 * 60; // 10 minutes
-Edr.ApgEdr_Service.Authorizations = {
-    'pangeli70@gmail.com': Edr.ApgEdr_Auth_eRole.ADMIN,
-}
 
 // This is the Edr server so we can't use remote templates
 Edr.ApgEdr_Service.IsSelfHosted = true;
 
 
-// Overwrite default Tengine settings
+// Setup Edr Auth
+Edr.ApgEdr_Auth_Service.Authentications = ApgEdr_Auth_Authentications;
+Edr.ApgEdr_Auth_Service.Authorizations = ApgEdr_Auth_Authorizations;
+Edr.ApgEdr_Auth_Service.Profilations = ApgEdr_Auth_Profilations;
+
+
+// Setup Tng
 Tng.ApgTng_Service.Init("./srv/templates", false, 100);
 
+
 const server = new Edr.Drash.Server({
-    hostname: ApgEdr_Microservice.devServerIP,
-    port: ApgEdr_Microservice.devServerPort,
+    hostname: Edr.ApgEdr_Service.Microservice.devServerIP,
+    port: Edr.ApgEdr_Service.Microservice.devServerPort,
     protocol: "http",
     resources: ApgEdr_Resources,
     services: ApgEdr_Middlewares,
@@ -54,4 +66,4 @@ const server = new Edr.Drash.Server({
 
 server.run();
 
-Edr.ApgEdr_Service.StartupResume(ApgEdr_Microservice, server.address);
+Edr.ApgEdr_Service.StartupResume(Edr.ApgEdr_Service.Microservice, server.address);

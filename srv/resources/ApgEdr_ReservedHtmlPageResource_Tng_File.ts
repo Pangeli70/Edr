@@ -7,7 +7,6 @@
 
 
 import {
-    ApgEdr_Microservice,
     Edr,
     Tng,
     Uts
@@ -45,8 +44,8 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_File extends Edr.Drash.Resource
         const pageData: Tng.ApgTng_IPageData = {
 
             microservice: {
-                name: ApgEdr_Microservice.name,
-                title: ApgEdr_Microservice.description,
+                name: Edr.ApgEdr_Service.Microservice.name,
+                title: Edr.ApgEdr_Service.Microservice.description,
             },
 
             page: {

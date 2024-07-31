@@ -10,10 +10,5 @@ import {
 } from "../deps.ts";
 
 
-export const ApgEdr_Microservice: Uts.ApgUts_IMicroservice = {
-    name: "ApgEdr",
-    description: "Enhanced Drash Resources",
-    devServerIP: "localhost",
-    devServerPort: 12058
-};
+
 

@@ -3,9 +3,10 @@
 
     @Author: [APG] Angeli Paolo Giusto
     @version 1.0 20240701
+    @version 1.1 20240731
 
     @param page.data.links: {Tng.ApgTng_IHyperlink[]}
-    @param page.data.lang: string
+    @param page.lang: string
 
   -->
 <table>
@@ -14,13 +15,13 @@
         <td style="width: 10rem">
             <button
               onclick="window.location.assign('<% link.url %>')"
-              style="min-width: 8rem"
+              style="min-width: 12rem"
             >
-                <% link.label[page.data.lang] %>
+                <% link.label[page.lang] %>
             </button>
         </td>
         <td style="vertical-align: middle">
-            <h4 style="margin-bottom: 0"> <% link.title[page.data.lang] %></h4>
+            <p style="margin-bottom: 0"> <% link.title[page.lang] %></p>
         </td>
     </tr>
     <% } %>

@@ -14,7 +14,7 @@ export enum ApgEdr_eCookie {
     /**
      * Preferred language
      */
-    LANGUAGE = "APG_EDR_LANGUAGE_COOKIE",
+    LANGUAGE = "APG_EDR_COOKIE_LANGUAGE",
 
 
 

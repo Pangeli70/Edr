@@ -2,13 +2,12 @@
  * @module [ApgEdr/srv]
  * @author [APG] Angeli Paolo Giusto
  * @version 1.0 APG 20240708
+ * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * ----------------------------------------------------------------------------
  */
 
 import {
-    ApgEdr_Microservice,
-    Edr,
-    Tng
+    Edr
 } from "../deps.ts";
 import {
     ApgEdr_eRoutes
@@ -44,32 +43,18 @@ export class ApgEdr_HtmlPageResource_Error extends Edr.Drash.Resource {
 
         const loggedError = Edr.ApgEdr_Service.Errors.find(r => r.counter == counter);
 
-        const pageData: Tng.ApgTng_IPageData = {
+        const templateData = Edr.ApgEdr_Service.GetTemplateData(
+            edr,
+            'Error',
+            "/pages/ApgEdr_HtmlPageTemplate_Error.html",
+        );
 
-            microservice: {
-                name: ApgEdr_Microservice.name,
-                title: ApgEdr_Microservice.description,
-            },
-
-            page: {
-                assetsHost: Edr.ApgEdr_Service.GetAssetsHost(),
-                master: "/master/ApgCdn_MasterPage_Application_V01.html",
-                template: "/pages/ApgEdr_HtmlPageTemplate_Error.html",
-                favicon: "Apg_2024_V01",
-                logoJs: "Apg_2024_V01",
-                title: 'Error',
-                rendered: new Date().toLocaleString(),
-                data: {
-                    error: loggedError?.message || "Unknown error",
-                    link: ApgEdr_eRoutes.PAGE_HOME
-                }
-            },
-
-            user: Edr.ApgEdr_Service.GetUserData(edr)
+        templateData.page.data = {
+            error: loggedError?.message || "Unknown error",
+            okLink: ApgEdr_eRoutes.PAGE_HOME
         }
 
-
-        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, pageData, {
+        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData, {
             isEdrSharedResource: true
         });
 

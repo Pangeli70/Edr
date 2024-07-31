@@ -8,7 +8,6 @@
 /** This import must remain here until we change the singleton pattern */
 
 import {
-    ApgEdr_Microservice,
     Edr,
     Tng
 } from "../deps.ts";
@@ -36,8 +35,8 @@ export class ApgEdr_ReservedHtmlPageResource_Log extends Edr.Drash.Resource {
         const pageData: Tng.ApgTng_IPageData = {
 
             microservice: {
-                name: ApgEdr_Microservice.name,
-                title: ApgEdr_Microservice.description,
+                name: Edr.ApgEdr_Service.Microservice.name,
+                title: Edr.ApgEdr_Service.Microservice.description,
             },
 
             page: {
@@ -49,7 +48,7 @@ export class ApgEdr_ReservedHtmlPageResource_Log extends Edr.Drash.Resource {
                 title: 'Log',
                 rendered: new Date().toLocaleString(),
                 data: {
-                    route: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_LOG_ENTRY,
+                    entryRoute: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_LOG_ENTRY,
                     requests: Edr.ApgEdr_Service.Requests
                 }
             },

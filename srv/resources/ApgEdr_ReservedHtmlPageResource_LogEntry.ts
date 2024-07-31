@@ -6,7 +6,6 @@
  */
 
 import {
-    ApgEdr_Microservice,
     Edr, Tng
 } from "../deps.ts";
 
@@ -40,16 +39,16 @@ export class ApgEdr_ReservedHtmlPageResource_LogEntry extends Edr.Drash.Resource
 
         if (!loggedRequest) {
             const message = "Request with id " + rawId + " not found";
-            const url = Edr.ApgEdr_Route_eShared.PAGE_ERROR.replace(":" + this.PATH_PARAM_ID, edr.counter.toString());
-            Edr.ApgEdr_Service.Error(this, response, edr, message, url);
+            const errorPage = Edr.ApgEdr_Route_eShared.PAGE_ERROR + "/" +  edr.counter.toString();
+            Edr.ApgEdr_Service.Error(this, response, edr, message, errorPage);
             return;
         }
 
         const pageData: Tng.ApgTng_IPageData = {
 
             microservice: {
-                name: ApgEdr_Microservice.name,
-                title: ApgEdr_Microservice.description,
+                name: Edr.ApgEdr_Service.Microservice.name,
+                title: Edr.ApgEdr_Service.Microservice.description,
             },
 
             page: {
@@ -60,7 +59,10 @@ export class ApgEdr_ReservedHtmlPageResource_LogEntry extends Edr.Drash.Resource
                 logoJs: "Apg_2024_V01",
                 title: 'Logged request',
                 rendered: new Date().toLocaleString(),
-                data: loggedRequest
+                data: {
+                    logRoute: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_LOG,
+                    request: loggedRequest
+                }
             },
 
             user: Edr.ApgEdr_Service.GetUserData(edr)

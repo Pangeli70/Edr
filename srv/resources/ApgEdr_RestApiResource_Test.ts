@@ -7,7 +7,6 @@
  */
 
 import {
-    ApgEdr_Microservice,
     Edr,
 } from "../deps.ts";
 import {
@@ -43,7 +42,7 @@ export class ApgEdr_RestApiResource_Test extends Edr.ApgEdr_RestResource_Base {
     ) {
 
 
-        const r = this.begin(ApgEdr_Microservice.name, request);
+        const r = this.begin(Edr.ApgEdr_Service.Microservice.name, request);
 
         const mode = this.GET_mode(request);
 
@@ -86,7 +85,7 @@ export class ApgEdr_RestApiResource_Test extends Edr.ApgEdr_RestResource_Base {
     ) {
 
 
-        const r = this.begin(ApgEdr_Microservice.name, request);
+        const r = this.begin(Edr.ApgEdr_Service.Microservice.name, request);
 
         const rawParams = request.bodyParam(ApgEdr_RestApiResource_Test.POST_BP_PARAMS);
 

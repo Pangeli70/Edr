@@ -8,9 +8,6 @@
 
 
 
-export * from "./services/ApgEdr_Microservice.ts"
-
-
 export * from "./monorepo.ts";
 
 
