@@ -12,7 +12,7 @@
  */
 export enum ApgEdr_Auth_eRole {
 
-    /** Adrministrator */
+    /** Administrator */
     ADMIN = "Admin",
 
     /** Registerd user */

@@ -41,13 +41,11 @@ export class ApgEdr_Service {
      */
     static Errors: ApgEdr_IRequestError[] = [];
 
-
     /** 
      * Cache of the requests made by the clients 
      * It is used for the logging and telemetry
      */
     static Requests: ApgEdr_IRequest[] = [];
-
 
     /** 
      * Html response header for client's cache persistency of served assets
@@ -55,24 +53,20 @@ export class ApgEdr_Service {
      */
     static ClientCacheMaxAge = 0;
 
-
     /**
-     * Local path to assets served by this CDN server
+     * Local path to assets served by this microservice
      */
     static LocalAssetsPath = "./srv";
-
-
-    /**
-     * Remote path to assets served by CDN server
-     */
-    static CDNAssetsHost = "https://apg-01.b-cdn.net";
-
 
     /**
      * Local path to templates used by the template engine
      */
-    static LocalTemplatesPath = "./srv";
+    static LocalTemplatesPath = "./srv/templates";
 
+    /**
+     * Remote path to assets served by CDN server
+     */
+    static CdnAssetsHost = "https://apg-01.b-cdn.net";
 
     /**
      * Default Master
@@ -80,33 +74,39 @@ export class ApgEdr_Service {
     static DefaultMaster = "/master/ApgCdn_MasterPage_Application_V01.html";
 
     /**
+     * Default custom Css 
+     */
+    static DefaultCustomCss = "ApgCdn_Pico_Custom_V01";
+
+    /**
      * Default favicon 
      */
-    static DefaultFavicon = "Apg_2024_V01";
+    static DefaultFavicon = "ApgCdn_Favicon_Apg_2024_V01";
 
     /**
      * Default Logo Js 
      */
-    static DefaultLogoJs = "Apg_2024_V01";
+    static DefaultLogoJs = "ApgCdn_Logo3D_Apg_2024_V01";
 
     /**
-     * Remote path to templates of ApgEdr shared resources
+     * Remote CDN path to templates of ApgEdr shared resources
      */
-    static SelfRemoteTemplatesPath: "https://apg-Apg-edr.deno.dev/templates"
+    static CdnRemoteTemplatesPath = "/assets/html/templates";
 
 
     /**
      * Microservice definition
      */
-    static Microservice: Uts.ApgUts_IMicroservice; 
+    static Microservice: Uts.ApgUts_IMicroservice;
 
 
     /**
-     * if the flag is true the Edr module is self hosted so not consider the remote templates path.
-     * The default is false because usually the module is not self hosted due to
-     * the fact that we import it in other microservices
+     * if the flag is false the Edr module is self hosted so not consider the remote templates path.
+     * The default is true because usually the module is not self hosted due to
+     * the fact that we import it in other microservices and we want to use remote
+     * assets and templates served by a CDN
     */
-    static IsSelfHosted = false;
+    static UseCdn = true;
 
 
 
@@ -116,7 +116,7 @@ export class ApgEdr_Service {
 
 
     static GetAssetsHost() {
-        return this.IsSelfHosted ? "" : this.CDNAssetsHost;
+        return this.UseCdn ? this.CdnAssetsHost : "";
     }
 
 
@@ -200,6 +200,7 @@ export class ApgEdr_Service {
             page: {
                 assetsHost: this.GetAssetsHost(),
                 master: this.DefaultMaster,
+                customCss: this.DefaultCustomCss,
                 favicon: this.DefaultFavicon,
                 logoJs: this.DefaultLogoJs,
                 template: atemplate,
@@ -239,15 +240,19 @@ export class ApgEdr_Service {
         response: Drash.Response,
         apageData: Tng.ApgTng_IPageData,
         aoptions = {
-            isEdrSharedResource: false,
+            isCdnResource: false,
         }
     ) {
         const edr = this.GetEdrRequest(request);
 
         const events: Uts.ApgUts_ILogEvent[] = [];
 
-        if (!this.IsSelfHosted && aoptions.isEdrSharedResource) {
-            apageData.page.template = `${this.SelfRemoteTemplatesPath}${apageData.page.template}`
+        if (this.UseCdn) {
+            const cdnPath = `${this.CdnAssetsHost}${this.CdnRemoteTemplatesPath}`
+            apageData.page.master = `${cdnPath}${apageData.page.master}`
+            if (aoptions.isCdnResource) {
+                apageData.page.template = `${cdnPath}${apageData.page.template}`
+            }
         }
 
         const html = await Tng.ApgTng_Service.Render(

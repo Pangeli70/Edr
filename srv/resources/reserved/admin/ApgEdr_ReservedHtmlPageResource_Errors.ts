@@ -2,15 +2,15 @@
  * @module [ApgEdr/srv]
  * @author [APG] Angeli Paolo Giusto
  * @version 1.0 APG 20240708
+ * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * ----------------------------------------------------------------------------
  */
 
 /** This import must remain here until we change the singleton pattern */
 
 import {
-    Edr,
-    Tng
-} from "../deps.ts";
+    Edr
+} from "../../../deps.ts";
 
 
 
@@ -51,29 +51,18 @@ export class ApgEdr_ReservedHtmlPageResource_Errors extends Edr.Drash.Resource {
             })
         }
 
-        const pageData: Tng.ApgTng_IPageData = {
 
-            microservice: {
-                name: Edr.ApgEdr_Service.Microservice.name,
-                title: Edr.ApgEdr_Service.Microservice.description,
-            }, 
+        const templateData = Edr.ApgEdr_Service.GetTemplateData(
+            edr,
+            'Errors',
+            "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Errors.html",
+        )
 
-            page: {
-                assetsHost: Edr.ApgEdr_Service.GetAssetsHost(),
-                master: "/master/ApgCdn_MasterPage_Application_V01.html",
-                template: "/pages/ApgEdr_ReservedHtmlPageTemplate_Errors.html",
-                favicon: "Apg_2024_V01",
-                logoJs: "Apg_2024_V01",
-                title: 'Errors',
-                rendered: new Date().toLocaleString(),
-                data
-            },
+        templateData.page.data = data;
 
-            user: Edr.ApgEdr_Service.GetUserData(edr)
-        }
 
-        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, pageData, {
-            isEdrSharedResource: true
+        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData, {
+            isCdnResource: true
         });
     }
 

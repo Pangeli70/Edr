@@ -2,6 +2,7 @@
  * @module [ApgEdr/srv]
  * @author [APG] Angeli Paolo Giusto
  * @version 1.0 APG 20240708
+ * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * ----------------------------------------------------------------------------
  */
 
@@ -10,7 +11,7 @@
 import {
     Edr,
     Tng
-} from "../deps.ts";
+} from "../../../deps.ts";
 
 
 
@@ -34,29 +35,16 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Caches extends Edr.Drash.Resour
 
         const data = Tng.ApgTng_Service.GetCaches();
 
-        const pageData: Tng.ApgTng_IPageData = {
+        const templateData = Edr.ApgEdr_Service.GetTemplateData(
+            edr,
+            'Tng caches',
+            "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Tng_Caches.html",
+        )
 
-            microservice: {
-                name: Edr.ApgEdr_Service.Microservice.name,
-                title: Edr.ApgEdr_Service.Microservice.description,
-            },
+        templateData.page.data = data;
 
-            page: {
-                assetsHost: Edr.ApgEdr_Service.GetAssetsHost(),
-                master: "/master/ApgCdn_MasterPage_Application_V01.html",
-                template: "/pages/ApgEdr_ReservedHtmlPageTemplate_Tng_Caches.html",
-                title: 'Tng caches',
-                favicon: "Apg_2024_V01",
-                logoJs: "Apg_2024_V01",
-                rendered: new Date().toLocaleString(),
-                data
-            },
-
-            user: Edr.ApgEdr_Service.GetUserData(edr)
-        }
-
-        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, pageData, {
-            isEdrSharedResource: true
+        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData, {
+            isCdnResource: true
         });
     }
 

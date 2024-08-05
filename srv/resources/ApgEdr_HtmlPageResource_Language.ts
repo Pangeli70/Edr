@@ -73,7 +73,7 @@ export class ApgEdr_HtmlPageResource_Language extends Edr.Drash.Resource {
         )
 
         templateData.page.data = {
-            action: "/"
+            okLink: "/"
         }
         templateData.page.translations = this.#postPageTranslations();
 

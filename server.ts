@@ -42,8 +42,7 @@ Edr.ApgEdr_Service.Microservice = ApgEdr_Microservice;
 
 Edr.ApgEdr_Service.ClientCacheMaxAge = 10 * 60; // 10 minutes
 
-// This is the Edr server so we can't use remote templates
-Edr.ApgEdr_Service.IsSelfHosted = true;
+Edr.ApgEdr_Service.UseCdn = true;
 
 
 // Setup Edr Auth
@@ -52,8 +51,13 @@ Edr.ApgEdr_Auth_Service.Authorizations = ApgEdr_Auth_Authorizations;
 Edr.ApgEdr_Auth_Service.Profilations = ApgEdr_Auth_Profilations;
 
 
+// Setup env customization
+Edr.ApgEdr_Service.DefaultFavicon = "ApgCdn_Favicon_Breda_2024_V01";
+Edr.ApgEdr_Service.DefaultLogoJs = "ApgCdn_Logo3D_Breda_2024_V01";
+
+
 // Setup Tng
-Tng.ApgTng_Service.Init("./srv/templates", false, 100);
+Tng.ApgTng_Service.Init("./srv/templates", true, 100);
 
 
 const server = new Edr.Drash.Server({

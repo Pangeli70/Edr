@@ -6,15 +6,20 @@
  * ----------------------------------------------------------------------------
  */
 
+/** This import must remain here until we change the singleton pattern */
+
 import {
     Edr
-} from "../deps.ts";
+} from "../../../deps.ts";
 
 
-export class ApgEdr_HtmlPageResource_Logout extends Edr.Drash.Resource {
 
-    override paths = [Edr.ApgEdr_Route_eShared.PAGE_LOGOUT];
 
+export class ApgEdr_ReservedHtmlPageResource_Log extends Edr.Drash.Resource {
+
+    override paths = [Edr.ApgEdr_Route_eShared.RESERVED_PAGE_LOG];
+
+    readonly EDR_ROLE = Edr.ApgEdr_Auth_eRole.ADMIN;
 
     async GET(
         request: Edr.Drash.Request,
@@ -22,26 +27,29 @@ export class ApgEdr_HtmlPageResource_Logout extends Edr.Drash.Resource {
     ) {
 
         const edr = Edr.ApgEdr_Service.GetEdrRequest(request);
+        if (!Edr.ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
+            this.redirect(Edr.ApgEdr_Route_eShared.PAGE_LOGIN, response);
+            return;
+        }
 
         const templateData = Edr.ApgEdr_Service.GetTemplateData(
             edr,
-            'Log out',
-            "/pages/ApgEdr_HtmlPageTemplate_Logout.html",
+            'Log',
+            "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Log.html",
         )
 
-        templateData.page.data= {
-            okLink: "/"
+        templateData.page.data = {
+            entryRoute: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_LOG_ENTRY,
+            requests: Edr.ApgEdr_Service.Requests
         }
-
-        response.headers.delete('Set-Cookie');
-        const cookie = Edr.ApgEdr_Auth_Service.DeleteJwtCookie();
-        response.setCookie(cookie);
 
         await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData, {
             isCdnResource: true
         });
-
     }
+
+
+
 
 
 }

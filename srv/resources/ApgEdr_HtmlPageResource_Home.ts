@@ -37,11 +37,6 @@ export class ApgEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
 
         const edr = Edr.ApgEdr_Service.GetEdrRequest(request);
 
-        // INFO: The following is only for testing purposes of the master page
-        const rawEnv = request.queryParam('env')
-        const favicon = rawEnv == "Brd" ? "Breda_2024_V01" : "Apg_2024_V01";
-        const logoJs = rawEnv == "Brd" ? "Breda_2024_V01" : "Apg_2024_V01";
-
 
         const templateData = Edr.ApgEdr_Service.GetTemplateData(
             edr,
@@ -49,8 +44,11 @@ export class ApgEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
             "/pages/ApgEdr_HtmlPageTemplate_Home.html"
         );
 
+
+        const isLoggedIn = templateData.user.role != Edr.ApgEdr_Auth_eRole.GUEST;
+
         templateData.page.data = {
-            links: ApgEdr_MainMenu,
+            links: ApgEdr_MainMenu.filter(a => (a.reserved == false) || (a.reserved == isLoggedIn)),
         };
 
         templateData.page.translations = {
@@ -62,40 +60,6 @@ export class ApgEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
 
         await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData);
     }
-
-
-
-    private GetTemplateData(
-        edr: Edr.ApgEdr_IRequest,
-        atitle: string,
-        atemplate: string,
-        alang: Uts.ApgUts_TLanguage = 'EN'
-    ): Tng.ApgTng_IPageData {
-
-        return {
-
-            microservice: {
-                name: Edr.ApgEdr_Service.Microservice.name,
-                title: Edr.ApgEdr_Service.Microservice.description,
-            },
-
-            page: {
-                assetsHost: Edr.ApgEdr_Service.GetAssetsHost(),
-                master: Edr.ApgEdr_Service.DefaultMaster,
-                favicon: Edr.ApgEdr_Service.DefaultFavicon,
-                logoJs: Edr.ApgEdr_Service.DefaultLogoJs,
-                template: atemplate,
-                title: atitle,
-                lang: alang,
-                rendered: new Date().toLocaleString(),
-                data: {},
-                translations: {}
-            },
-
-            user: Edr.ApgEdr_Service.GetUserData(edr)
-        };
-    }
-
 
 
 

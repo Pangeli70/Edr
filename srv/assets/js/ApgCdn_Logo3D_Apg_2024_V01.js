@@ -3,16 +3,19 @@
  * @author [APG] Angeli Paolo Giusto 
  * @version 0.1 APG 20240109
  * @version 1.0 APG 20240701
- * @version 2.0 APG 20240713 Splitted in two parts extracting the customizable parts
+ * @version 1.1 APG 20240713 Splitted in two parts extracting the customizable parts
+ * @version 1.2 APG 20240804 Importmap refinement
  * ----------------------------------------------------------------------------
  */
 
+
+
 // From importmap inside Html.head
 import * as THREE from "three";
+import { ApgCdn_Logo3D } from "ApgLogo3D";
 
-import { ApgCdn_Logo3D } from "/assets/js/ApgCdn_Logo3D_V01.js"; // localhost
+// import { ApgCdn_Logo3D } from "/assets/js/ApgCdn_Logo3D_V01.js"; // localhost
 // import { ApgCdn_Logo3D } from "https://apg-01.b-cdn.net/assets/js/ApgCdn_Logo3D_V01.js"; // CDN
-
 
 class ApgCdn_Logo3D_Apg_2024 extends ApgCdn_Logo3D {
 
@@ -28,7 +31,6 @@ class ApgCdn_Logo3D_Apg_2024 extends ApgCdn_Logo3D {
         super(awindow, adocument);
 
         this.gltfUrl = "/assets/gltf/ApgCdn_Logo3D_APG_2024_V01.glb";
-        // this.gltfUrl = "https://apg-01.b-cdn.net/assets/gltf/ApgCdn_Logo3D_APG_2024_V01.glb";
 
         this.accumulator = 0;
 

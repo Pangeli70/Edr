@@ -55,7 +55,7 @@ export class ApgEdr_HtmlPageResource_Error extends Edr.Drash.Resource {
         }
 
         await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData, {
-            isEdrSharedResource: true
+            isCdnResource: true
         });
 
     }

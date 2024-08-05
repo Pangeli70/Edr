@@ -2,12 +2,13 @@
  * @module [ApgEdr/srv]
  * @author [APG] Angeli Paolo Giusto
  * @version 1.0 APG 20240708
+ * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * ----------------------------------------------------------------------------
  */
 
 import {
-    Edr, Tng
-} from "../deps.ts";
+    Edr
+} from "../../../deps.ts";
 
 
 
@@ -44,32 +45,20 @@ export class ApgEdr_ReservedHtmlPageResource_LogEntry extends Edr.Drash.Resource
             return;
         }
 
-        const pageData: Tng.ApgTng_IPageData = {
+        const templateData = Edr.ApgEdr_Service.GetTemplateData(
+            edr,
+            'Logged request',
+            "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_LogEntry.html",
+        )
 
-            microservice: {
-                name: Edr.ApgEdr_Service.Microservice.name,
-                title: Edr.ApgEdr_Service.Microservice.description,
-            },
-
-            page: {
-                assetsHost: Edr.ApgEdr_Service.GetAssetsHost(),
-                master: "/master/ApgCdn_MasterPage_Application_V01.html",
-                template: "/pages/ApgEdr_ReservedHtmlPageTemplate_LogEntry.html",
-                favicon: "Apg_2024_V01",
-                logoJs: "Apg_2024_V01",
-                title: 'Logged request',
-                rendered: new Date().toLocaleString(),
-                data: {
-                    logRoute: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_LOG,
-                    request: loggedRequest
-                }
-            },
-
-            user: Edr.ApgEdr_Service.GetUserData(edr)
+        templateData.page.data = {
+            logRoute: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_LOG,
+            request: loggedRequest
         }
 
-        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, pageData, {
-            isEdrSharedResource: true
+
+        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData, {
+            isCdnResource: true
         });
     }
 

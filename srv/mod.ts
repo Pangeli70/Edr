@@ -32,31 +32,34 @@ import {
 } from "./resources/ApgEdr_HtmlPageResource_Tools.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_Admin
-} from "./resources/ApgEdr_ReservedHtmlPageResource_Admin.ts";
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Admin.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_Errors
-} from "./resources/ApgEdr_ReservedHtmlPageResource_Errors.ts";
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Errors.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_Log
-} from "./resources/ApgEdr_ReservedHtmlPageResource_Log.ts";
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Log.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_LogEntry
-} from "./resources/ApgEdr_ReservedHtmlPageResource_LogEntry.ts";
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_LogEntry.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_Tng_Caches
-} from "./resources/ApgEdr_ReservedHtmlPageResource_Tng_Caches.ts";
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Tng_Caches.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_Tng_File
-} from "./resources/ApgEdr_ReservedHtmlPageResource_Tng_File.ts";
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Tng_File.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_Tng_Function
-} from "./resources/ApgEdr_ReservedHtmlPageResource_Tng_Function.ts";
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Tng_Function.ts";
+import {
+    ApgEdr_ReservedHtmlPageResource_Tng_Chunk
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Tng_Chunk.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_Tng_Templates
-} from "./resources/ApgEdr_ReservedHtmlPageResource_Tng_Templates.ts";
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Tng_Templates.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_User
-} from "./resources/ApgEdr_ReservedHtmlPageResource_User.ts";
+} from "./resources/reserved/user/ApgEdr_ReservedHtmlPageResource_User.ts";
 import {
     ApgEdr_RestApiResource_Test
 } from "./resources/ApgEdr_RestApiResource_Test.ts";
@@ -108,6 +111,7 @@ export const ApgEdr_Resources: typeof Edr.Drash.Resource[] = [
     ApgEdr_ReservedHtmlPageResource_Tng_Caches,
     ApgEdr_ReservedHtmlPageResource_Tng_File,
     ApgEdr_ReservedHtmlPageResource_Tng_Function,
+    ApgEdr_ReservedHtmlPageResource_Tng_Chunk,
     ApgEdr_ReservedHtmlPageResource_Tng_Templates,
 
     ApgEdr_RestApiResource_Test

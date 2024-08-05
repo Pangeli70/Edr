@@ -51,7 +51,7 @@ export * from "../srv/resources/ApgEdr_HtmlPageResource_Login.ts"
 export * from "../srv/resources/ApgEdr_HtmlPageResource_Logout.ts"
 export * from "../srv/resources/ApgEdr_HtmlPageResource_Otp.ts"
 export * from "../srv/resources/ApgEdr_HtmlPageResource_Tools.ts"
-export * from "../srv/resources/ApgEdr_ReservedHtmlPageResource_Log.ts"
-export * from "../srv/resources/ApgEdr_ReservedHtmlPageResource_LogEntry.ts"
+export * from "../srv/resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Log.ts"
+export * from "../srv/resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_LogEntry.ts"
 
 

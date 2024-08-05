@@ -46,12 +46,12 @@
 
     <link
       rel="stylesheet"
-      href="<% page.assetsHost %>/assets/css/ApgCdn_Pico_Custom.css"
+      href="<% page.assetsHost %>/assets/css/<% page.customCss %>.css"
     />
 
     <link
       rel="icon"
-      href="<% page.assetsHost %>/assets/ico/ApgCdn_Favicon_<% page.favicon %>.ico"
+      href="<% page.assetsHost %>/assets/ico/<% page.favicon %>.ico"
     />
 
     <script
@@ -63,14 +63,15 @@
         {
             "imports": {
                 "three": "https://unpkg.com/three@0.162.0/build/three.module.js",
-                "GLTFLoader": "https://unpkg.com/three@0.162.0/examples/jsm/loaders/GLTFLoader.js"
+                "GLTFLoader": "https://unpkg.com/three@0.162.0/examples/jsm/loaders/GLTFLoader.js",
+                "ApgLogo3D": "<% page.assetsHost %>/assets/js/ApgCdn_Logo3D_V01.js"
             }
         }
     </script>
 
     <script
       type="module"
-      src="<% page.assetsHost %>/assets/js/ApgCdn_Logo3D_<% page.logoJs %>.js"
+      src="<% page.assetsHost %>/assets/js/<% page.logoJs %>.js"
       defer
     ></script>
 

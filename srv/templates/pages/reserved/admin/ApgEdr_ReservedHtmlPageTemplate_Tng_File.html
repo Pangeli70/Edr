@@ -1,6 +1,9 @@
 <section>
 
-    <details id="File">
+    <details
+      id="File"
+      open
+    >
         <summary>
             <% page.data.id %>
         </summary>
@@ -12,5 +15,13 @@
         </pre>
 
     </details>
+
+    <br>
+    <p style="text-align: right;">
+        <a
+          href="<% page.data.backLink %>"
+          role="button"
+        >Back</a>
+    </p>
 
 </section>
