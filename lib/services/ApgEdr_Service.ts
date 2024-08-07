@@ -56,7 +56,7 @@ export class ApgEdr_Service {
     /**
      * Local path to assets served by this microservice
      */
-    static LocalAssetsPath = "./srv";
+    static LocalAssetsPath = "./srv/assets";
 
     /**
      * Local path to templates used by the template engine

@@ -25,11 +25,13 @@ export class ApgEdr_FileResource_AnyTemplate extends Drash.Resource {
 
 
     override paths = [ApgEdr_Route_eShared.FILE_ANY_TEMPLATE];
-    
+
 
     public GET(request: Drash.Request, response: Drash.Response) {
 
-        const realFile = new URL(request.url).pathname;
+        const root = ApgEdr_Route_eShared.FILE_ANY_TEMPLATE.replace("/*", "")
+        const rawFile = new URL(request.url).pathname;
+        const realFile = rawFile.replace(root, "");
 
         const ext = Uts.Std.Path.extname(realFile);
 

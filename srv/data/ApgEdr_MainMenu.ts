@@ -162,4 +162,16 @@ export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
         },
         reserved: true
     },
+    {
+        url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_ENVIRONMENT,
+        label: {
+            IT: "Ambiente",
+            EN: "Environment"
+        },
+        title: {
+            IT: "Impostazioni dell'ambiente",
+            EN: "Environment settings"
+        },
+        reserved: true
+    },
 ];

@@ -32,7 +32,7 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Templates extends Edr.Drash.Res
 
         const pagesDir = Edr.ApgEdr_Service.LocalTemplatesPath;
 
-        const data = await this.#getFilesRecusively(pagesDir);
+        const data = await this.#getFilesRecursively(pagesDir);
 
         const templateData = Edr.ApgEdr_Service.GetTemplateData(
             edr,
@@ -49,24 +49,36 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Templates extends Edr.Drash.Res
 
 
 
-    async #getFilesRecusively(afolder: string) {
+    async #getFilesRecursively(
+        afolder: string,
+        aroot = ""
+    ) {
 
         const data: {
             url: string;
         }[] = [];
 
+        const rootRoute = Edr.ApgEdr_Route_eShared.FILE_ANY_TEMPLATE.replace("/*", "");
+        let rootDir = aroot
+        if (rootDir == "") { 
+            rootDir = afolder
+        }
+
         for await (const dirEntry of Deno.readDir(afolder)) {
 
             if (dirEntry.isDirectory) { 
-                data.push(...await this.#getFilesRecusively(`${afolder}/${dirEntry.name}`));
+                const subfolder = `${afolder}/${dirEntry.name}`
+                data.push(...await this.#getFilesRecursively(subfolder, rootDir));
             }
 
             else {
                 const ext = dirEntry.name.split('.').pop();
                 if (ext == 'html') {
     
+                    const rawPath = `${afolder}/${dirEntry.name}`;
+                    const filePath = rawPath.replace(rootDir, "")
                     data.push({
-                        url: Edr.ApgEdr_Route_eShared.FILE_ANY_TEMPLATE.replace("*", "") + `${afolder}/${dirEntry.name}`,
+                        url: rootRoute + filePath,
                     });
     
                 }

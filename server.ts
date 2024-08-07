@@ -42,7 +42,7 @@ Edr.ApgEdr_Service.Microservice = ApgEdr_Microservice;
 
 Edr.ApgEdr_Service.ClientCacheMaxAge = 10 * 60; // 10 minutes
 
-Edr.ApgEdr_Service.UseCdn = true;
+Edr.ApgEdr_Service.UseCdn = false;
 
 
 // Setup Edr Auth
@@ -52,8 +52,8 @@ Edr.ApgEdr_Auth_Service.Profilations = ApgEdr_Auth_Profilations;
 
 
 // Setup env customization
-Edr.ApgEdr_Service.DefaultFavicon = "ApgCdn_Favicon_Breda_2024_V01";
-Edr.ApgEdr_Service.DefaultLogoJs = "ApgCdn_Logo3D_Breda_2024_V01";
+// Edr.ApgEdr_Service.DefaultFavicon = "ApgCdn_Favicon_Breda_2024_V01";
+// Edr.ApgEdr_Service.DefaultLogoJs = "ApgCdn_Logo3D_Breda_2024_V01";
 
 
 // Setup Tng

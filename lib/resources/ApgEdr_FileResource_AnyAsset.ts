@@ -29,7 +29,9 @@ export class ApgEdr_FileResource_AnyAsset extends Drash.Resource {
 
     public GET(request: Drash.Request, response: Drash.Response) {
 
-        const realFile = new URL(request.url).pathname;
+        const root = ApgEdr_Route_eShared.FILE_ANY_ASSET.replace("/*", "")
+        const rawFile = new URL(request.url).pathname;
+        const realFile = rawFile.replace(root, "");
 
         const ext = Uts.Std.Path.extname(realFile);
 

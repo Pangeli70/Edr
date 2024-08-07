@@ -1,0 +1,43 @@
+<section>
+
+  <form
+    action="<% page.data.action %>"
+    method="post"
+  >
+
+    <p>
+      <label for="env">Environment</label>
+      <% page.components.selectEnv %>
+    </p>
+
+    <p>
+      <label for="useCdn">Use CDN</label>
+      <input
+        type="checkbox"
+        id="useCdn"
+        name="useCdn"
+        <% page.data.useCdn %>
+      >
+    </p>
+
+    <p>
+      <label for="useTngCache">Use Tng Cache</label>
+      <input
+        type="checkbox"
+        id="useTngCache"
+        name="useTngCache"
+        <% page.data.useTngCache %>
+      >
+    </p>
+
+    <p style="text-align: right;">
+      <input
+        type="submit"
+        value="Ok"
+      >
+    </p>
+
+  </form>
+
+
+</section>

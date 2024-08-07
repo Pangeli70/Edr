@@ -12,7 +12,7 @@
 export enum ApgEdr_Route_eShared {
 
 
-    FILE_ANY_ASSET = "/assets/.*",
+    FILE_ANY_ASSET = "/assets/*",
 
     FILE_ANY_TEMPLATE = "/templates/*",
 
@@ -45,6 +45,8 @@ export enum ApgEdr_Route_eShared {
     RESERVED_PAGE_TNG_FUNCTION = "/Edr/Rsvd/Tng/Function",
 
     RESERVED_PAGE_TNG_CHUNK = "/Edr/Rsvd/Tng/Chunk",
+
+    RESERVED_PAGE_ENVIRONMENT = "/Edr/Rsvd/Environment",
 
 
 }

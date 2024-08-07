@@ -55,6 +55,9 @@ import {
     ApgEdr_ReservedHtmlPageResource_Tng_Chunk
 } from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Tng_Chunk.ts";
 import {
+    ApgEdr_ReservedHtmlPageResource_Environment
+} from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Environment.ts";
+import {
     ApgEdr_ReservedHtmlPageResource_Tng_Templates
 } from "./resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Tng_Templates.ts";
 import {
@@ -107,6 +110,7 @@ export const ApgEdr_Resources: typeof Edr.Drash.Resource[] = [
     ApgEdr_ReservedHtmlPageResource_Log,
     ApgEdr_ReservedHtmlPageResource_LogEntry,
     ApgEdr_ReservedHtmlPageResource_Errors,
+    ApgEdr_ReservedHtmlPageResource_Environment,
 
     ApgEdr_ReservedHtmlPageResource_Tng_Caches,
     ApgEdr_ReservedHtmlPageResource_Tng_File,
