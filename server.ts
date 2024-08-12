@@ -10,8 +10,8 @@
  * ----------------------------------------------------------------------------
  */
 
-// import { loadSync } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
-// loadSync({ export: true });
+import { loadSync } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
+loadSync({ export: true });
 
 console.log('------------------------------------------------------------------------\n');
 console.log('Starting Deno server...\n');
