@@ -9,16 +9,16 @@
 // Apg local monorepo
 
 
-// Local >>>
+/* Local >>
 export * from "../../Uts/mod.ts";
 export * from "../../Tng/mod.ts";
 export * from "../mod.ts";
-// Local <<<
+Local << */
 
 // Apg Github private repos
 
-/* Github >>
-export * from "https://raw.githubusercontent.com/Pangeli70/apg-Apg-uts/master/mod.ts";
-export * from "https://raw.githubusercontent.com/Pangeli70/apg-Apg-tng/master/mod.ts";
-export * from "https://raw.githubusercontent.com/Pangeli70/apg-Apg-edr/master/mod.ts";
-Github << */
+// Github >>>
+export * from "https://raw.githubusercontent.com/Pangeli70/Uts/master/mod.ts";
+export * from "https://raw.githubusercontent.com/Pangeli70/Tng/master/mod.ts";
+export * from "https://raw.githubusercontent.com/Pangeli70/Edr/master/mod.ts";
+// Github <<<
