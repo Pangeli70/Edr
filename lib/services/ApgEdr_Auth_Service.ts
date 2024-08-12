@@ -164,6 +164,7 @@ export class ApgEdr_Auth_Service {
 
     static async GetJwtCookie(
         aemail: string,
+        asession: string
     ) {
         const r = new Uts.ApgUts_RestResult('ApgEdr');
 
@@ -181,7 +182,7 @@ export class ApgEdr_Auth_Service {
             return r;
         }
 
-        const jwt = await this.GenerateJwt(user.email, role);
+        const jwt = await this.GenerateJwt(user.email, role, asession);
 
         const cookie: Uts.Std.Cookie = {
             name: ApgEdr_Auth_eCookie.JWT,
@@ -216,7 +217,8 @@ export class ApgEdr_Auth_Service {
 
     static async GenerateJwt(
         aemail: string,
-        arole: ApgEdr_Auth_eRole
+        arole: ApgEdr_Auth_eRole,
+        asession: string
     ) {
 
         const header: Djwt.Header = {
@@ -228,7 +230,8 @@ export class ApgEdr_Auth_Service {
             iss: this.ISSUER,
             exp: Djwt.getNumericDate(this.MAX_JWT_TIME_SPAN),
             email: aemail,
-            role: arole
+            role: arole,
+            session: asession
         };
 
 
@@ -301,6 +304,7 @@ export class ApgEdr_Auth_Service {
 
 
 
+    // deno-lint-ignore no-explicit-any
     static IsJwtPayload(apayload: any): apayload is ApgEdr_Auth_IJwtPayload {
         return (
             apayload &&

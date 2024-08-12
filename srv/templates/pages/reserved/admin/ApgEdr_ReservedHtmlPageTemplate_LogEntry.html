@@ -1,4 +1,3 @@
-
 <section>
 
     <h3>Details</h3>
@@ -45,6 +44,19 @@
                 <% page.data.request.route %>
             </td>
         </tr>
+
+        <% if (page.data.request.auth) { %>
+        <% const auth = page.data.request.auth; %>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Auth
+            </td>
+            <td>
+                Session: <% auth.session %> | User: <% auth.email %> | Role:
+                <% auth.role %>
+            </td>
+        </tr>
+        <% } %>
     </table>
 
     <br>

@@ -29,6 +29,11 @@ export interface ApgEdr_Auth_IJwtPayload extends Djwt.Payload {
      * Authorization role of the user. for the interaction with the microservice. 
      */
     role: ApgEdr_Auth_eRole;
+
+    /**
+     * Session identifier 
+     */
+    session: string;
 }
 
 

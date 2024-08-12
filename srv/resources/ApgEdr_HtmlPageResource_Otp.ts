@@ -48,7 +48,9 @@ export class ApgEdr_HtmlPageResource_Otp extends Edr.Drash.Resource {
             message = "Error while generating JWT cookie: " + r.message;
         }
         else {
-            r = await Edr.ApgEdr_Auth_Service.GetJwtCookie(rawEmail);
+            const sessionId = Edr.ApgEdr_Service.GetSessionId(edr);
+
+            r = await Edr.ApgEdr_Auth_Service.GetJwtCookie(rawEmail, sessionId);
             if (!r.ok) {
                 message = "Error while generating JWT cookie: " + r.message;
             } else {

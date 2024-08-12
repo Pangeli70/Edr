@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
@@ -176,9 +177,20 @@ export class ApgEdr_Service {
             r = "EN"
         }
 
-        return r;
+        return <Uts.ApgUts_TLanguage>r;
     }
 
+
+
+    /**
+     * Get the session id for the passed request
+     */
+    static GetSessionId(arequest: ApgEdr_IRequest) {
+
+        const dts = new Uts.ApgUts_DateTimeStamp(new Date());
+
+        return arequest.remoteAddr.hostname + "_" + dts.Stamp;
+    }
 
 
     /**

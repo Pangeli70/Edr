@@ -51,6 +51,8 @@ export class ApgEdr_ReservedHtmlPageResource_LogEntry extends Edr.Drash.Resource
             "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_LogEntry.html",
         )
 
+        // templateData.page.noCache = true;
+
         templateData.page.data = {
             logRoute: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_LOG,
             request: loggedRequest

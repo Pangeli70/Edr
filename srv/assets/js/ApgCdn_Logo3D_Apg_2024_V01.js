@@ -30,7 +30,7 @@ class ApgCdn_Logo3D_Apg_2024 extends ApgCdn_Logo3D {
 
         super(awindow, adocument);
 
-        this.gltfUrl = "/assets/gltf/ApgCdn_Logo3D_APG_2024_V01.glb";
+        this.gltfUrl = "/assets/gltf/ApgCdn_Logo3D_Apg_2024_V01.glb";
 
         this.accumulator = 0;
 

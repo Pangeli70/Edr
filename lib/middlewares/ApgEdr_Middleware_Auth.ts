@@ -41,7 +41,7 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
         response: Drash.Response,
     ) {
 
-        
+
         const edr = ApgEdr_Service.GetEdrRequest(request);
 
         ApgEdr_Log_Service.LogDebug(edr, import.meta.url, this.runBeforeResource, 'Called');
@@ -55,12 +55,12 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
 
                 edr.auth = r.payload!.data as ApgEdr_Auth_IJwtPayload;
 
-                r = await ApgEdr_Auth_Service.GetJwtCookie(edr.auth.email);
-                if (!r.ok) { 
+                r = await ApgEdr_Auth_Service.GetJwtCookie(edr.auth.email, edr.auth.session);
+                if (!r.ok) {
                     throw new Error(r.message);
                 }
                 response.setCookie(r.payload!.data as Uts.Std.Cookie);
-                
+
                 const message = `Authenticated: ${edr.auth.email} and cookie renewed`;
                 ApgEdr_Log_Service.Log(edr, Uts.ApgUts_eLogType.AUTH, import.meta.url, this.runBeforeResource, message);
 
@@ -70,7 +70,7 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
             }
         }
 
-        
+
 
     }
 

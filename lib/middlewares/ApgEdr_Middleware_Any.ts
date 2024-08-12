@@ -52,6 +52,7 @@ export class ApgEdr_Middleware_Any extends Drash.Service {
             language: ApgEdr_Service.GetLanguage(request)
         };
 
+        // deno-lint-ignore no-explicit-any
         (request as any).edr = edr;
 
         ApgEdr_Log_Service.LogDebug(edr, import.meta.url, this.runBeforeResource, 'Called');

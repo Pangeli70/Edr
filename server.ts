@@ -6,24 +6,29 @@
  * @version 0.3 APG 20240106 Revamped
  * @version 0.4 APG 20240710 New Middlewares
  * @version 0.5 APG 20240713 Private packages
+ * @version 0.6 APG 20240808 Auto load env using --env command line param
  * ----------------------------------------------------------------------------
  */
 
-import { loadSync } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
-loadSync({ export: true });
+// import { loadSync } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
+// loadSync({ export: true });
 
+console.log('------------------------------------------------------------------------\n');
+console.log('Starting Deno server...\n');
+console.log('Printing env vars ...\n');
 
 const env = Deno.env.toObject();
 for (const k in env) {
-    console.log(`${k}=${env[k]}`);
+    if (k.startsWith("APG_")) {
+        console.log(`  ${k}=${env[k]}`);
+    }
 }
 
-const GHPAC = Deno.env.get("APG_EDR_GITHUB_PRIVATE_KEY");
-
-if (!GHPAC) {
-    throw new Error("Missing github package key in environment");
+const key = Deno.env.get("APG_EDR_GITHUB_PRIVATE_KEY");
+if (!key) {
+    throw new Error("Missing github private package key in environment");
 }
-Deno.env.set('DENO_AUTH_TOKENS', GHPAC + "@raw.githubusercontent.com");
+Deno.env.set('DENO_AUTH_TOKENS', key + "@raw.githubusercontent.com");
 
 
 
@@ -38,10 +43,9 @@ import {
 } from "./srv/mod.ts";
 
 
+// Setup edr
 Edr.ApgEdr_Service.Microservice = ApgEdr_Microservice;
-
 Edr.ApgEdr_Service.ClientCacheMaxAge = 10 * 60; // 10 minutes
-
 Edr.ApgEdr_Service.UseCdn = false;
 
 
@@ -57,7 +61,9 @@ Edr.ApgEdr_Auth_Service.Profilations = ApgEdr_Auth_Profilations;
 
 
 // Setup Tng
-Tng.ApgTng_Service.Init("./srv/templates", true, 100);
+Tng.ApgTng_Service.TemplatesPath = "./srv/templates";
+Tng.ApgTng_Service.UseCache = true;
+Tng.ApgTng_Service.ChunkSize = 100;
 
 
 const server = new Edr.Drash.Server({

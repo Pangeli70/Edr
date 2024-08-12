@@ -4,8 +4,8 @@
     "strict": true
   },
   "tasks": {
-    "run": "deno run -A --unstable --watch server.ts",
-    "cache": "deno cache --reload --unstable --lock-write ./srv/deps.ts",
+    "run": "deno run -A --unstable --env --watch server.ts",
+    "cacheSrv": "deno cache --reload --unstable --lock-write ./srv/deps.ts",
     "cacheLib": "deno cache --reload --unstable --lock-write ./lib/deps.ts"
   }
 }
