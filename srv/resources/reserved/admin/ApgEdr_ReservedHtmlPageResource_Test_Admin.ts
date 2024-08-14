@@ -10,7 +10,7 @@
  */
 
 import {
-    Edr
+    Edr,
 } from "../../../deps.ts";
 import {
     ApgEdr_eRoutes
@@ -18,11 +18,11 @@ import {
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_User extends Edr.Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_Admin extends Edr.Drash.Resource {
 
-    override paths = [ApgEdr_eRoutes.RESERVED_PAGE_USER_TEST];
+    override paths = [ApgEdr_eRoutes.RESERVED_PAGE_ADMIN_TEST];
 
-    readonly EDR_ROLE = Edr.ApgEdr_Auth_eRole.USER;
+    readonly EDR_ROLE = Edr.ApgEdr_Auth_eRole.ADMIN;
 
     async GET(
         request: Edr.Drash.Request,
@@ -30,7 +30,6 @@ export class ApgEdr_ReservedHtmlPageResource_User extends Edr.Drash.Resource {
     ) {
 
         const edr = Edr.ApgEdr_Service.GetEdrRequest(request);
-        
         if (!Edr.ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
             this.redirect(Edr.ApgEdr_Route_eShared.PAGE_LOGIN, response);
             return;
@@ -38,12 +37,14 @@ export class ApgEdr_ReservedHtmlPageResource_User extends Edr.Drash.Resource {
 
         const templateData = Edr.ApgEdr_Service.GetTemplateData(
             edr,
-            'User page',
-            "/pages/reserved/user/ApgEdr_ReservedHtmlPageTemplate_User.html",
+            'Admin page',
+            "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Test_Admin.html",
         )
 
         await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData);
     }
+
+
 
 
 

@@ -1,28 +1,37 @@
 <!-- 
-    Tabular links menu partial
-
-    @Author: [APG] Angeli Paolo Giusto
-    @version 1.0 20240701
-    @version 1.1 20240731
-
-    @param page.data.links: {Tng.ApgTng_IHyperlink[]}
-    @param page.lang: string
-
-  -->
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/partials]
+  * @file
+      [ApgTng_HtmlPagePartial_TabularLinksMenu]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      Tabular links menu partial
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @params
+      page.data.links: {Tng.ApgTng_IHyperlink[]}
+  * @version
+      1.0 20240701
+      1.1 20240731
+      1.2 20240814 Styles
+  * ---------------------------------------------------------------------------- 
+-->
 <table>
-    <% for (const link of page.data.links ) { %>
-    <tr>
-        <td style="width: 10rem">
-            <button
-              onclick="window.location.assign('<% link.url %>')"
-              style="min-width: 12rem"
-            >
-                <% link.label[page.lang] %>
-            </button>
-        </td>
-        <td style="vertical-align: middle">
-            <p style="margin-bottom: 0"> <% link.title[page.lang] %></p>
-        </td>
-    </tr>
-    <% } %>
+  <% for (const link of page.data.links ) { %>
+  <tr>
+    <td style="width: 9rem; padding: 0.5rem;">
+      <button
+        onclick="window.location.assign('<% link.url %>')"
+        style="min-width: 8rem"
+      >
+        <% link.label[page.lang] %>
+      </button>
+    </td>
+    <td style="vertical-align: middle; font-size:0.8rem ; padding: 0.5rem;">
+      <% link.title[page.lang] %>
+    </td>
+  </tr>
+  <% } %>
 </table>

@@ -11,14 +11,18 @@
 
 import {
     Edr
-} from "../deps.ts";
+} from "../../../deps.ts";
+import {
+    ApgEdr_eRoutes
+} from "../../../enums/ApgEdr_eRoute.ts";
 
 
 
+export class ApgEdr_ReservedHtmlPageResource_User extends Edr.Drash.Resource {
 
-export class ApgEdr_HtmlPageResource_Tools extends Edr.Drash.Resource {
+    override paths = [ApgEdr_eRoutes.RESERVED_PAGE_USER_TEST];
 
-    override paths = [Edr.ApgEdr_Route_eShared.PAGE_TOOLS];
+    readonly EDR_ROLE = Edr.ApgEdr_Auth_eRole.USER;
 
     async GET(
         request: Edr.Drash.Request,
@@ -26,15 +30,21 @@ export class ApgEdr_HtmlPageResource_Tools extends Edr.Drash.Resource {
     ) {
 
         const edr = Edr.ApgEdr_Service.GetEdrRequest(request);
+        
+        if (!Edr.ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
+            this.redirect(Edr.ApgEdr_Route_eShared.PAGE_LOGIN, response);
+            return;
+        }
 
         const templateData = Edr.ApgEdr_Service.GetTemplateData(
             edr,
-            'Development tools',
-            "/pages/ApgEdr_HtmlPageTemplate_Tools_01.html",
+            'User page',
+            "/pages/reserved/user/ApgEdr_ReservedHtmlPageTemplate_Test_User.html",
         )
 
-        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData, {
-            isCdnResource: true
-        });
+        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData);
     }
+
+
+
 }

@@ -14,7 +14,8 @@
       0.1.0 APG 20240630
       0.1.1 APG 20240713 Custom Logo
       0.1.2 APG 20240728 Stripped external references
-      1.0.0 APG 20240813
+      1.0.0 APG 20240813 Custom head + custom styles
+      1.0.1 APG 20240814 Version + isDeploy + styles
   * ---------------------------------------------------------------------------- 
 -->
 
@@ -92,9 +93,9 @@
 
   <body>
     <header>
-      <table>
+      <table style="margin: 0">
         <tr>
-          <td style="width: 4.5rem">
+          <td style="width: 4.5rem; padding: 0.5rem">
             <a href="/">
               <div
                 style="
@@ -113,13 +114,16 @@
               </div>
             </a>
           </td>
-          <td>
-            <h6 style="margin: 0; font-size: small; text-align: right;">
-              <% microservice.name %>: <% microservice.title %>
+          <td style="padding: 0.5rem">
+            <h6 style="margin: 0; font-size: 0.6rem; text-align: right;">
+              <% const env = (microservice.isDeploy)? "Prod": "Dev" ; %>
+              <% microservice.name %> <% microservice.version %> (<% env %>)
             </h6>
-            <h3><% page.title %></h3>
-            <h6 style="margin: 0; font-size: small; text-align: right;">
-              <% user.email %> <% user.role %>
+            <h4 style="margin-top: auto; margin-bottom: auto">
+              <% page.title %>
+            </h4>
+            <h6 style="margin: 0; font-size: 0.6rem; text-align: right;">
+              <% user.email %>
             </h6>
           </td>
         </tr>
@@ -168,10 +172,11 @@
             >Pico</a>
 
             <br>
-            <span>
-              <% microservice.name %>:<% microservice.title %> [<% page.title %>] rendered
-              <% page.rendered %> <<PROC_TIME>>
-            </span>
+            <% microservice.name %>: <% microservice.title %> ver.<% microservice.version %>
+
+            <br>
+            [<% page.title %>] rendered <% page.rendered %> in <<PROC_TIME>>
+
           </em>
         </small>
       </h6>

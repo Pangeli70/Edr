@@ -2,6 +2,7 @@
  * @module [ApgEdr/srv]
  * @author [APG] Angeli Paolo Giusto
  * @version 1.0 APG 20240701 Cleanup
+ * @version 1.1 APG 20240814 Resort the menu and improved texts
  * ----------------------------------------------------------------------------
  */
 
@@ -18,6 +19,18 @@ import {
  * Menu principale del microservizio ApgEdr
  */
 export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
+    {
+        url: Edr.ApgEdr_Route_eShared.PAGE_LANGUAGE,
+        label: {
+            IT: "Lingua",
+            EN: "Language"
+        },
+        title: {
+            IT: "Imposta il cookie per la lingua di utilizzo del microservizio",
+            EN: "Set the cookie for the language of use of the microservice"
+        },
+        isReserved: false
+    },
     {
         url: Edr.ApgEdr_Route_eShared.PAGE_TOOLS,
         label: {
@@ -45,7 +58,7 @@ export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
     {
         url: ApgEdr_eRoutes.TEMPLATE_TEST,
         label: {
-            IT: "Template test",
+            IT: "Test modello",
             EN: "Template test"
         },
         title: {
@@ -55,17 +68,30 @@ export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
         isReserved: false
     },
     {
-        url: Edr.ApgEdr_Route_eShared.PAGE_LANGUAGE,
+        url: ApgEdr_eRoutes.RESERVED_PAGE_USER_TEST,
         label: {
-            IT: "Lingua",
-            EN: "Language"
+            IT: "Test utente",
+            EN: "Test user"
         },
         title: {
-            IT: "Imposta il cookie per la lingua di utilizzo del microservizio",
-            EN: "Set the cookie for the language of use of the microservice"
+            IT: "Esempio di pagina riservata per gli utenti",
+            EN: "Example of reserved page for users"
         },
-        isReserved: false
+        isReserved: true
     },
+    {
+        url: ApgEdr_eRoutes.RESERVED_PAGE_ADMIN_TEST,
+        label: {
+            IT: "Test ammin.",
+            EN: "Test admin"
+        },
+        title: {
+            IT: "Esempio di pagina riservata per gli amministratori",
+            EN: "Example of reserved page for administrators"
+        },
+        isReserved: true
+    },
+
     {
         url: Edr.ApgEdr_Route_eShared.PAGE_REQ_OTP,
         label: {
@@ -91,35 +117,12 @@ export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
         },
         isReserved: true
     },
-    {
-        url: ApgEdr_eRoutes.RESERVED_PAGE_USER_TEST,
-        label: {
-            IT: "Pagina utente",
-            EN: "User page"
-        },
-        title: {
-            IT: "Esempio di pagina riservata per gli utenti",
-            EN: "Example of reserved page for users"
-        },
-        isReserved: true
-    },
-    {
-        url: ApgEdr_eRoutes.RESERVED_PAGE_ADMIN_TEST,
-        label: {
-            IT: "Pagina amminst.",
-            EN: "Admin page"
-        },
-        title: {
-            IT: "Esempio di pagina riservata per gli amministratori",
-            EN: "Example of reserved page for administrators"
-        },
-        isReserved: true
-    },
+
     {
         url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_USERS,
         label: {
-            IT: "Elenco utenti",
-            EN: "Users list"
+            IT: "Utenti",
+            EN: "Users"
         },
         title: {
             IT: "Lista degli utenti registrati per l'uso del servizion",
@@ -130,8 +133,8 @@ export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
     {
         url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_ERRORS,
         label: {
-            IT: "Registro Errori",
-            EN: "Errors log"
+            IT: "Errori",
+            EN: "Errors"
         },
         title: {
             IT: "Elenco degli errori riscontrati dal riavvio del servizio",
@@ -142,8 +145,8 @@ export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
     {
         url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_LOG,
         label: {
-            IT: "Registro chiamate",
-            EN: "Requests' log"
+            IT: "Chiamate",
+            EN: "Log"
         },
         title: {
             IT: "Elenco delle chiamate ricevute dal riavvio del servizio",
@@ -154,8 +157,8 @@ export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
     {
         url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_TNG_TEMPLATES,
         label: {
-            IT: "Tng Templates",
-            EN: "Tng Templates"
+            IT: "Modelli",
+            EN: "Templates"
         },
         title: {
             IT: "Modelli di pagine disponibili per il template engine",
@@ -166,8 +169,8 @@ export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
     {
         url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_TNG_CACHES,
         label: {
-            IT: "Cache del tng",
-            EN: "Tng Caches"
+            IT: "Cache",
+            EN: "Cache"
         },
         title: {
             IT: "Dettagli della cache utilizzata dal template engine",

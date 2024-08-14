@@ -22,10 +22,10 @@ import {
 } from "../resources/ApgEdr_RestApiResource_Test.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_Admin
-} from "../resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Admin.ts";
+} from "../resources/reserved/admin/ApgEdr_ReservedHtmlPageResource_Test_Admin.ts";
 import {
     ApgEdr_ReservedHtmlPageResource_User
-} from "../resources/reserved/user/ApgEdr_ReservedHtmlPageResource_User.ts";
+} from "../resources/reserved/user/ApgEdr_ReservedHtmlPageResource_Test_User.ts";
 
 
 

@@ -109,11 +109,6 @@ export class ApgEdr_Service {
 
 
 
-    static get IsDenoDeploy() {
-        return Deno.env.get("DENO_DEPLOYMENT_ID") !== undefined;
-    }
-
-
     static GetAssetsHost() {
         return this.UseCdn ? this.CdnAssetsHost : "";
     }
@@ -204,10 +199,7 @@ export class ApgEdr_Service {
 
         return {
 
-            microservice: {
-                name: this.Microservice.name,
-                title: this.Microservice.description,
-            },
+            microservice: this.Microservice,
 
             page: {
                 assetsHost: this.GetAssetsHost(),
@@ -263,12 +255,10 @@ export class ApgEdr_Service {
 
         const events: Uts.ApgUts_ILogEvent[] = [];
 
-        if (this.UseCdn) {
+        if (aoptions.isCdnResource) {
             const cdnPath = `${this.CdnAssetsHost}${this.CdnRemoteTemplatesPath}`
             apageData.page.master = `${cdnPath}${apageData.page.master}`
-            if (aoptions.isCdnResource) {
-                apageData.page.template = `${cdnPath}${apageData.page.template}`
-            }
+            apageData.page.template = `${cdnPath}${apageData.page.template}`
         }
 
         const html = await Tng.ApgTng_Service.Render(
@@ -339,7 +329,7 @@ export class ApgEdr_Service {
             amessage
         );
 
-        
+
     }
 
 
@@ -354,7 +344,7 @@ export class ApgEdr_Service {
         console.log(`********************************************************************`)
         console.log('');
         console.log(amicroservice.name);
-        console.log(amicroservice.description);
+        console.log(amicroservice.title);
         console.log('');
         console.log(`Server started at ${start.toLocaleString()}`);
         console.log(`Running at ${aaddress}.`);

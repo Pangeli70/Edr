@@ -62,7 +62,7 @@ Edr.ApgEdr_Auth_Service.Profilations = ApgEdr_Auth_Profilations;
 
 // Setup Tng
 Tng.ApgTng_Service.TemplatesPath = "./srv/templates";
-Tng.ApgTng_Service.UseCache = true;
+Tng.ApgTng_Service.UseCache = false;
 Tng.ApgTng_Service.ChunkSize = 100;
 
 
