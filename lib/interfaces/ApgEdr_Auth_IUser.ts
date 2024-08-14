@@ -43,9 +43,15 @@ export interface ApgEdr_Auth_IUser {
     lockedReason?: string;
 
     /**
-     * User description
+     * The number of times the user has completed the login through the authentication process
      */
-    description: string[];
+    authentications: number;
+
+    /**
+     * The date when the user last logged in
+     */
+    lastLogin?: string;
+
 }
 
 

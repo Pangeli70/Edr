@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
@@ -11,8 +10,7 @@
 
 
 import {
-    Drash, Tng,
-    Uts
+    Drash, Tng, Uts
 } from "../deps.ts";
 import {
     ApgEdr_Auth_eRole
@@ -72,22 +70,22 @@ export class ApgEdr_Service {
     /**
      * Default Master
      */
-    static DefaultMaster = "/master/ApgCdn_MasterPage_Application_V01.html";
+    static DefaultMaster = "/master/ApgEdr_MasterPage_Application_V01.html";
 
     /**
      * Default custom Css 
      */
-    static DefaultCustomCss = "ApgCdn_Pico_Custom_V01";
+    static DefaultCustomCss = "ApgEdr_Pico_Custom_V01";
 
     /**
      * Default favicon 
      */
-    static DefaultFavicon = "ApgCdn_Favicon_Apg_2024_V01";
+    static DefaultFavicon = "ApgEdr_Favicon_Apg_2024_V01";
 
     /**
      * Default Logo Js 
      */
-    static DefaultLogoJs = "ApgCdn_Logo3D_Apg_2024_V01";
+    static DefaultLogoJs = "ApgEdr_Logo3D_Apg_2024_V01";
 
     /**
      * Remote CDN path to templates of ApgEdr shared resources
@@ -136,7 +134,9 @@ export class ApgEdr_Service {
      */
     static GetEdrRequest(request: Drash.Request) {
 
+        // deno-lint-ignore no-explicit-any
         if ((request as any).edr) {
+            // deno-lint-ignore no-explicit-any
             const edr = (request as any).edr as ApgEdr_IRequest;
             return edr;
         }
@@ -223,7 +223,11 @@ export class ApgEdr_Service {
                 translations: {}
             },
 
-            user: this.GetUserData(edr)
+            user: this.GetUserData(edr),
+
+            cache: {
+                useIt: true
+            }
         };
     }
 
@@ -314,26 +318,28 @@ export class ApgEdr_Service {
 
 
     static Error(
-        resource: Drash.Resource,
-        response: Drash.Response,
+        amodule: string,
+        // deno-lint-ignore ban-types
+        amethod: Function,
         aedr: ApgEdr_IRequest,
         amessage: string,
-        aredirectUrl: string
+        aredirectToUrl: string
     ) {
 
         this.Errors.push({
             counter: aedr.counter,
-            message: amessage
+            message: amessage,
+            redirectUrl: aredirectToUrl
         });
 
         ApgEdr_Log_Service.LogError(
             aedr,
-            import.meta.url,
-            this.Error,
+            amodule,
+            amethod,
             amessage
         );
 
-        resource.redirect(aredirectUrl, response);
+        
     }
 
 

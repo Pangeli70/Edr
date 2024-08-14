@@ -1,0 +1,52 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages]
+  * @file 
+      [ApgEdr_HtmlPageTemplate_Language_GET_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      Page to select the language
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @version
+      1.0.0 APG 20240813
+  * ---------------------------------------------------------------------------- 
+-->
+
+<section>
+
+    <form
+      action="<% page.data.action %>"
+      method="post"
+    >
+
+        <p>
+            <% page.translations.intro[page.lang] %>
+        </p>
+
+        <select
+          id="lang"
+          name="lang"
+          required
+        >
+            <option value="">...</option>
+            <option value="EN">English</option>
+            <option value="ES">Espanol</option>
+            <option value="DE">Deutsch</option>
+            <option value="FR">Francais</option>
+            <option value="IT">Italiano</option>
+
+        </select>
+
+        <p style="text-align: right;">
+            <input
+              type="submit"
+              value="Ok"
+            >
+        </p>
+    </form>
+
+
+</section>

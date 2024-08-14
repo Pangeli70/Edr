@@ -1,13 +1,10 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr/srv]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240701 Cleanup and alignment to ApgCdn
+ * @version 1.0 APG 20240701
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Edr
-} from "../deps.ts";
 
 /**
  * Routes del microservizio ApgEdr
@@ -22,7 +19,7 @@ export enum ApgEdr_eRoutes {
 
     RESERVED_PAGE_ADMIN_TEST = "/Edr/Test/Rsvd/Admin",
 
-    TEMPLATE_TEST = "/templates/pages/ApgEdr_HtmlPageTemplate_Tools.html",
+    TEMPLATE_TEST = "/templates/pages/ApgEdr_HtmlPageTemplate_Tools_01.html",
 
 
 }

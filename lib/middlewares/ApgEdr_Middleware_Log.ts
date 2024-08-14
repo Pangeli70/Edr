@@ -1,5 +1,5 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr]
+ * @module [ApgEdr/lib]
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
@@ -32,9 +32,9 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
     private _storage: ApgEdr_IRequest[];
 
 
-    constructor(astorage: ApgEdr_IRequest[]) {
+    constructor(arequests: ApgEdr_IRequest[]) {
         super();
-        this._storage = astorage;
+        this._storage = arequests;
     }
 
 

@@ -1,0 +1,30 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages]
+  * @file 
+      [ApgEdr_HtmlPageTemplate_Error_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      Error message template page
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @version
+      1.0.0 APG 20240813
+  * ---------------------------------------------------------------------------- 
+-->
+
+<section>
+
+    <p style="text-align: center; padding-top: 8rem; padding-bottom:8rem;">
+        <% page.data.error %>
+    </p>
+
+
+    <p style="text-align: right;">
+        <a href="<% page.data.okLink %>" role="button" style="width: 6rem;">Ok</a>
+    </p>
+
+
+</section>

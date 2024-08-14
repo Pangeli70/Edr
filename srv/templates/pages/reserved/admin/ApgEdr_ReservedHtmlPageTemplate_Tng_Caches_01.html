@@ -1,0 +1,105 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages/reserved/admin]
+  * @file 
+      [ApgEdr_ReservedHtmlPageTemplate_Tng_Caches_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      List content of the caches of the template engine
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @version
+      1.0.0 APG 20240813
+  * ---------------------------------------------------------------------------- 
+-->
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const anchor = document.location.hash.split("#")[1];
+
+        if (anchor) {
+            const element = document.getElementById(anchor);
+            if (element) {
+                if (element.parentElement.tagName === "DETAILS") {
+                    element.parentElement.open = true
+                }
+                element.scrollIntoView();
+                const p = element.nextElementSibling;
+                if (p) {
+                    if (p.tagName === "P") {
+                        p.style = "background-color: lightblue;"
+                    }
+                }
+            }
+        }
+    });
+
+</script>
+
+<section>
+    <details id="Functions">
+        <summary>
+            Functions
+        </summary>
+
+        <% for (const func of page.data.functions){ %>
+        <% const funcPathParm = encodeURIComponent(func.key) %>
+        <a id="Function_<% funcPathParm %>"></a>
+        <p>
+            <a href="/Edr/Rsvd/Tng/Function/<% funcPathParm %>">
+                <% func.label %>
+            </a>
+        </p>
+        <% } %>
+
+    </details>
+
+
+    <details id="Files">
+        <summary>
+            Files
+        </summary>
+
+        <% for (const file of page.data.files){ %>
+        <% const filePathParm = encodeURIComponent(file.key) %>
+        <a id="File_<% filePathParm %>"></a>
+        <p>
+            <a href="/Edr/Rsvd/Tng/File/<% filePathParm %>">
+                <% file.label %>
+            </a>
+        </p>
+        <% } %>
+
+    </details>
+
+    <details id="Chunks">
+        <summary>
+            Chunks
+        </summary>
+
+        <% for (const chunk of page.data.chunks){ %>
+        <% const chunkPathParm = chunk.key %>
+        <a id="Chunk_<% chunkPathParm %>"></a>
+        <p>
+            <a href="/Edr/Rsvd/Tng/Chunk/<% chunkPathParm %>">
+                <% chunk.label %>
+            </a>
+        </p>
+        <% } %>
+
+    </details>
+
+    <br>
+    <p style="text-align: right;">
+        <a
+          href="<% page.data.clearBtn %>"
+          role="button"
+        >Clear caches</a>
+    </p>
+
+
+</section>

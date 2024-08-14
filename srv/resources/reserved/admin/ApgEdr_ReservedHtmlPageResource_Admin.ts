@@ -4,7 +4,7 @@
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
  * @version 0.3 APG 20240106 Revamped
- * @version 1.0 APG 20240701 Cleanup and alignment to ApgCdn
+ * @version 1.0 APG 20240701 Cleanup
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * ----------------------------------------------------------------------------
  */

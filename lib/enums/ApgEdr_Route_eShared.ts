@@ -16,6 +16,7 @@ export enum ApgEdr_Route_eShared {
 
     FILE_ANY_TEMPLATE = "/templates/*",
 
+    PAGE_HOME = "/",
 
     PAGE_ERROR = "/Edr/Error",
 
@@ -25,7 +26,7 @@ export enum ApgEdr_Route_eShared {
 
     PAGE_LOGOUT = "/Edr/Auth/Logout",
     
-    PAGE_OTP = "/Edr/Auth/Otp",
+    PAGE_REQ_OTP = "/Edr/Auth/Otp",
 
     PAGE_TOOLS = "/Edr/Tools",
 
@@ -47,6 +48,12 @@ export enum ApgEdr_Route_eShared {
     RESERVED_PAGE_TNG_CHUNK = "/Edr/Rsvd/Tng/Chunk",
 
     RESERVED_PAGE_ENVIRONMENT = "/Edr/Rsvd/Environment",
+
+    RESERVED_PAGE_USERS = "/Edr/Rsvd/Users",
+    
+    RESERVED_PAGE_USER = "/Edr/Rsvd/User",
+
+    RESERVED_PAGE_USER_UNLOCK = "/Edr/Rsvd/User/Unlock",
 
 
 }

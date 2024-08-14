@@ -1,5 +1,5 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr]
+ * @module [ApgEdr/lib]
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20240702
  * @version 0.2 APG 20240726 English comments

@@ -38,7 +38,7 @@ export class ApgEdr_Auth_Service {
 
     static readonly ISSUER = 'ApgEdr_Auth_Service';
 
-    static readonly MAX_OTP_ATTEMPTS = 10;
+    static readonly MAX_OTP_ATTEMPTS = 5;
     static readonly MAX_OTP_TIME_SPAN = 10 * 60 * 1000;  // 10 minutes in milliseconds
 
     static readonly MAX_JWT_TIME_SPAN = 5 * 60 * 60;  // 5 hours in seconds
@@ -59,7 +59,7 @@ export class ApgEdr_Auth_Service {
             lastOtpDateTime: 0,
             otpAttempts: 0,
             isLocked: false,
-            description: []
+            authentications: 0
         }
     };
 
@@ -75,9 +75,9 @@ export class ApgEdr_Auth_Service {
             name: 'Paolo Giusto',
             surname: 'Angeli',
             companyId: '1234',
-            companyName: 'Breda Sistemi Industriali S.p.A.',
-            description: ['Disegnatore, progettista, sviluppatore'],
-            companyRole: 'Tecnico di supporto'
+            companyName: 'Apg Solutions Srl',
+            description: ['Sviluppatore'],
+            companyRole: 'Titolare'
         }
     }
 
@@ -112,8 +112,9 @@ export class ApgEdr_Auth_Service {
 
         if (user.lastOtp !== aotp) {
             r.ok = false;
-            r.message = 'Wrong OTP';
             user.otpAttempts++;
+            const remainingAttempts = (this.MAX_OTP_ATTEMPTS - user.otpAttempts).toString();
+            r.message = 'Wrong OTP. You have still ' + remainingAttempts + ' attempts';
 
             if (user.otpAttempts >= this.MAX_OTP_ATTEMPTS) {
                 user.isLocked = true;
@@ -134,12 +135,16 @@ export class ApgEdr_Auth_Service {
             return r;
         }
 
+        user.authentications++;
+        user.lastLogin = new Date().toISOString();
+        user.otpAttempts = 0;
+
         return r;
     }
 
 
 
-    static NewOtp(
+    static SetNewOtpForUser(
         aemail: string,
         aotp: number,
         aotpDateTime: number
@@ -198,6 +203,7 @@ export class ApgEdr_Auth_Service {
 
         return r;
     }
+
 
 
     static DeleteJwtCookie() {
@@ -314,5 +320,26 @@ export class ApgEdr_Auth_Service {
     }
 
 
-}
 
+    static UnlockUser(
+        aemail: string
+    ) {
+
+        const r = new Uts.ApgUts_RestResult('ApgEdr');
+
+        const user = ApgEdr_Auth_Service.Authentications[aemail];
+        if (!user) {
+            r.ok = false;
+            r.message = 'User not found';
+            return r;
+        }
+
+        user.isLocked = false;
+        user.otpAttempts = 0;
+        user.lockedReason = '';
+
+        return r;
+
+    }
+
+}

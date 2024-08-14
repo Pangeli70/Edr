@@ -1,0 +1,47 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages/reserved/admin]
+  * @file 
+      [ApgEdr_ReservedHtmlPageTemplate_Errors_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      List the errors occurred since the last microservice restart
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @version
+      1.0.0 APG 20240813
+  * ---------------------------------------------------------------------------- 
+-->
+
+<section>
+
+    <table style="display: block; overflow-x: auto; overflow-y: auto; white-space: nowrap; max-height: 20rem;">
+        <tr>
+            <th style="min-width: 4rem">Counter</th>
+            <th style="min-width: 4rem">Method</th>
+            <th style="min-width: 30rem">Url</th>
+            <th style="min-width: 30rem">Message</th>
+
+        </tr>
+        <% for (const error of page.data) { %>
+            <% const counter = error.counter.toString().padStart(6,"0") %>
+        <tr>
+            <td>
+                <a
+                  href="/Edr/Rsvd/Log/Entry/<% error.counter %>"
+                  role="button"
+                  style="padding: 0.1rem; line-height: 1rem;"
+                >
+                    <% counter %>
+                </a>
+            </td>
+            <td><% error.method %></td>
+            <td><% error.url %></td>
+            <td><% error.message %></td>
+        </tr>
+        <% } %>
+    </table>
+
+</section>

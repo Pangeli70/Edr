@@ -4,7 +4,7 @@
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
  * @version 0.3 APG 20240106 Revamped
- * @version 1.0 APG 20240701 Cleanup and alignment to ApgCdn
+ * @version 1.0 APG 20240701 Cleanup
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * ----------------------------------------------------------------------------
  */
@@ -14,14 +14,12 @@ import {
     ApgEdr_MainMenu
 } from "../data/ApgEdr_MainMenu.ts";
 import {
-    Edr, Tng
+    Edr
 } from "../deps.ts";
 import {
     ApgEdr_eRoutes
 } from "../enums/ApgEdr_eRoute.ts";
-import {
-    Uts
-} from "../monorepo.ts";
+
 
 
 
@@ -48,7 +46,19 @@ export class ApgEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
         const isLoggedIn = templateData.user.role != Edr.ApgEdr_Auth_eRole.GUEST;
 
         templateData.page.data = {
-            links: ApgEdr_MainMenu.filter(a => (a.reserved == false) || (a.reserved == isLoggedIn)),
+            links: ApgEdr_MainMenu.filter(a => {
+
+                let r = true;
+                if (a.isReserved) {
+                    r = isLoggedIn
+                }
+                else {
+                    if (a.isGuestOnly) {
+                        r = !isLoggedIn
+                    }
+                }
+                return r;
+            }),
         };
 
         templateData.page.translations = {

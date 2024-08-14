@@ -1,0 +1,44 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages/reserved/admin]
+  * @file 
+      [ApgEdr_ReservedHtmlPageTemplate_Tng_Content_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      Show the content of a cached item in the template engine
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @version
+      1.0.0 APG 20240813
+  * ---------------------------------------------------------------------------- 
+-->
+
+<section>
+
+    <details
+      id="File"
+      open
+    >
+        <summary>
+            <% page.data.id %>
+        </summary>
+
+        <pre>
+            <code>
+                <% page.data.content %>
+            </code>
+        </pre>
+
+    </details>
+
+    <br>
+    <p style="text-align: right;">
+        <a
+          href="<% page.data.backLink %>"
+          role="button"
+        >Back</a>
+    </p>
+
+</section>

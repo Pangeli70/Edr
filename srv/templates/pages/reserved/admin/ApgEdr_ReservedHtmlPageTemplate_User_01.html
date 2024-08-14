@@ -1,0 +1,118 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages/reserved/admin]
+  * @file 
+      [ApgEdr_ReservedHtmlPageTemplate_User_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      Show details of the user registered to use the microservice
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @version
+      1.0.0 APG 20240813
+  * ---------------------------------------------------------------------------- 
+-->
+
+<section>
+
+    <h3>Details</h3>
+
+    <table>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Email
+            </td>
+            <td style="min-width: 30rem">
+                <% page.data.user.email %>
+            </td>
+        </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Name
+            </td>
+            <td>
+                <% page.data.user.surname %> <% page.data.user.name %>
+            </td>
+        </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Company
+            </td>
+            <td>
+                <% page.data.user.companyName %> (<% page.data.user.companyId %>)
+            </td>
+        </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Role
+            </td>
+            <td>
+                <% page.data.user.companyRole %>
+            </td>
+        </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Description
+            </td>
+            <td>
+                <% page.data.user.description.join("<br>") %>
+            </td>
+        </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Role
+            </td>
+            <td>
+                <% page.data.role %>
+            </td>
+        </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Last login
+            </td>
+            <td>
+                <% page.data.auth.lastLogin || 'N/A' %>
+            </td>
+        </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Authentications
+            </td>
+            <td>
+                <% page.data.auth.authentications %>
+            </td>
+        </tr>
+        <% if(page.data.auth.isLocked) { %>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Locked
+            </td>
+            <td>
+                <% page.data.auth.lockedReason %>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+
+    <br>
+
+
+    <br>
+    <p style="text-align: right;">
+
+        <% if(page.data.auth.isLocked) { %>
+        <a
+          href="<% page.data.unlockRoute %>/<% page.data.user.email %>"
+          role="button"
+        >Unlock</a>
+        <% } %>
+
+        <a
+          href="<% page.data.usersRoute %>#email_<% page.data.user.email %>"
+          role="button"
+        >Back to list</a>
+    </p>
+
+</section>
