@@ -18,7 +18,7 @@ import {
 /**
  * Menu principale del microservizio ApgEdr
  */
-export const ApgEdr_MainMenu: Tng.ApgTng_IHyperlink[] = [
+export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
     {
         url: Edr.ApgEdr_Route_eShared.PAGE_LANGUAGE,
         label: {

@@ -1,19 +1,19 @@
 /** ---------------------------------------------------------------------------
- * @module [Apg/Edr/Lib]
+ * @module [ApgEdr/lib]
  * @description Librerie del monorepo
  * @author [APG] Angeli Paolo Giusto 
  * @version 0.1 APG 20240421
  * ----------------------------------------------------------------------------
  */
 
-// Apg local monorepo
+// Local monorepo
 
 /* Local >>
 export * from "../../Uts/mod.ts";
 export * from "../../Tng/mod.ts";
 Local << */
 
-// Apg Github repos
+// Github repos
 
 // Github >>>
 export * from "https://raw.githubusercontent.com/Pangeli70/Uts/master/mod.ts";

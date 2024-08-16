@@ -4,7 +4,8 @@
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
  * @version 0.3 APG 20240106 Revamped
- * @version 0.3 APG 20240728 English comments
+ * @version 0.4 APG 20240728 English comments
+ * @version 0.5 APG 20240814 Renaming and filterlinks
  * ----------------------------------------------------------------------------
  */
 
@@ -63,9 +64,9 @@ export class ApgEdr_Service {
     static LocalTemplatesPath = "./srv/templates";
 
     /**
-     * Remote path to assets served by CDN server
+     * CDN server for assets and templates
      */
-    static CdnAssetsHost = "https://apg-01.b-cdn.net";
+    static CdnHost = "https://apg-01.b-cdn.net";
 
     /**
      * Default Master
@@ -90,7 +91,7 @@ export class ApgEdr_Service {
     /**
      * Remote CDN path to templates of ApgEdr shared resources
      */
-    static CdnRemoteTemplatesPath = "/assets/html/templates";
+    static CdnTemplatesPath = "/assets/html/templates";
 
 
     /**
@@ -100,9 +101,11 @@ export class ApgEdr_Service {
 
 
     /**
-     * if the flag is false the Edr module is self hosted so not consider the remote templates path.
+     * Use the Cdn set in CdnHost property for assets and templates
+     * 
+     * If false the Edr module is self hosted so it will not consider the remote templates path.
      * The default is true because usually the module is not self hosted due to
-     * the fact that we import it in other microservices and we want to use remote
+     * the fact that we import Edr in other microservices and we want to use remote
      * assets and templates served by a CDN
     */
     static UseCdn = true;
@@ -110,7 +113,7 @@ export class ApgEdr_Service {
 
 
     static GetAssetsHost() {
-        return this.UseCdn ? this.CdnAssetsHost : "";
+        return this.UseCdn ? this.CdnHost : "";
     }
 
 
@@ -248,17 +251,19 @@ export class ApgEdr_Service {
         response: Drash.Response,
         apageData: Tng.ApgTng_IPageData,
         aoptions = {
-            isCdnResource: false,
+            isCdnTemplate: false,
         }
     ) {
         const edr = this.GetEdrRequest(request);
 
         const events: Uts.ApgUts_ILogEvent[] = [];
 
-        if (aoptions.isCdnResource) {
-            const cdnPath = `${this.CdnAssetsHost}${this.CdnRemoteTemplatesPath}`
+        if (this.UseCdn) { 
+            const cdnPath = `${this.CdnHost}${this.CdnTemplatesPath}`;
             apageData.page.master = `${cdnPath}${apageData.page.master}`
-            apageData.page.template = `${cdnPath}${apageData.page.template}`
+            if (aoptions.isCdnTemplate) {
+                apageData.page.template = `${cdnPath}${apageData.page.template}`
+            }
         }
 
         const html = await Tng.ApgTng_Service.Render(
@@ -288,6 +293,27 @@ export class ApgEdr_Service {
         }
 
         return r;
+    }
+
+
+
+    static FilterLinksByLogin(
+        alinks: Tng.ApgTng_IHyperlink[],
+        isLoggedIn: boolean
+    ) {
+        return alinks.filter(a => {
+
+            let r = true;
+            if (a.isReserved) {
+                r = isLoggedIn;
+            }
+            else {
+                if (a.isGuestOnly) {
+                    r = !isLoggedIn;
+                }
+            }
+            return r;
+        });
     }
 
 

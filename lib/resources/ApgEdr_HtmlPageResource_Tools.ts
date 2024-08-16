@@ -44,7 +44,7 @@ export class ApgEdr_HtmlPageResource_Tools extends Drash.Resource {
             response,
             templateData,
             {
-                isCdnResource: true
+                isCdnTemplate: true
             }
         );
     }

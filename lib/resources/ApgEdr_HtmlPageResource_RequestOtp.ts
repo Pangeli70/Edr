@@ -16,7 +16,9 @@ import {
 import {
     ApgEdr_Route_eShared
 } from "../enums/ApgEdr_Route_eShared.ts";
-import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
+import {
+    ApgEdr_IRequest
+} from "../interfaces/ApgEdr_IRequest.ts";
 import {
     ApgEdr_Auth_Service
 } from "../services/ApgEdr_Auth_Service.ts";
@@ -59,7 +61,7 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends Drash.Resource {
             response,
             templateData,
             {
-                isCdnResource: true
+                isCdnTemplate: true
             }
         );
     }
@@ -118,7 +120,7 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends Drash.Resource {
             response,
             templateData,
             {
-                isCdnResource: true
+                isCdnTemplate: true
             }
         );
     }

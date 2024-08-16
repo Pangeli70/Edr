@@ -72,7 +72,7 @@ export class ApgEdr_HtmlPageResource_Error extends Drash.Resource {
             response,
             templateData,
             {
-                isCdnResource: true
+                isCdnTemplate: true
             }
         );
 

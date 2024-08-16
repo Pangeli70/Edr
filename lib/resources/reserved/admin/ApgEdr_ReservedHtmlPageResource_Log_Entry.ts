@@ -77,7 +77,7 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry extends Drash.Resource {
             response,
             templateData,
             {
-                isCdnResource: true
+                isCdnTemplate: true
             }
         );
     }

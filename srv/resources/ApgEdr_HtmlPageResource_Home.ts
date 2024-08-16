@@ -6,13 +6,14 @@
  * @version 0.3 APG 20240106 Revamped
  * @version 1.0 APG 20240701 Cleanup
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
+ * @version 1.2 APG 20240814 ApgEdr_Service.FilterLinksByLogin + MainMenu_01 template
  * ----------------------------------------------------------------------------
  */
 
 
 import {
-    ApgEdr_MainMenu
-} from "../data/ApgEdr_MainMenu.ts";
+    ApgEdr_Menu_Main
+} from "../data/ApgEdr_Menu_Main.ts";
 import {
     Edr
 } from "../deps.ts";
@@ -39,27 +40,14 @@ export class ApgEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
         const templateData = Edr.ApgEdr_Service.GetTemplateData(
             edr,
             'Home page',
-            "/pages/ApgEdr_HtmlPageTemplate_Home.html"
+            "/pages/ApgEdr_HtmlPageTemplate_MainMenu_01.html"
         );
 
 
         const isLoggedIn = templateData.user.role != Edr.ApgEdr_Auth_eRole.GUEST;
 
-        templateData.page.data = {
-            links: ApgEdr_MainMenu.filter(a => {
-
-                let r = true;
-                if (a.isReserved) {
-                    r = isLoggedIn
-                }
-                else {
-                    if (a.isGuestOnly) {
-                        r = !isLoggedIn
-                    }
-                }
-                return r;
-            }),
-        };
+        const links = Edr.ApgEdr_Service.FilterLinksByLogin(ApgEdr_Menu_Main, isLoggedIn);
+        templateData.page.data = { links };
 
         templateData.page.translations = {
             intro: {

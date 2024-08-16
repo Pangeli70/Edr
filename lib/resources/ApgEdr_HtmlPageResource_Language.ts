@@ -53,7 +53,7 @@ export class ApgEdr_HtmlPageResource_Language extends Drash.Resource {
             response,
             templateData,
             {
-                isCdnResource: true
+                isCdnTemplate: true
             }
         );
     }
@@ -91,7 +91,13 @@ export class ApgEdr_HtmlPageResource_Language extends Drash.Resource {
         }
         templateData.page.translations = this.#postPageTranslations();
 
-        await ApgEdr_Service.RenderPageUsingTng(request, response, templateData);
+        await ApgEdr_Service.RenderPageUsingTng(
+            request,
+            response,
+            templateData,
+            {
+                isCdnTemplate: true
+            });
 
     }
 

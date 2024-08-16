@@ -58,7 +58,7 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Templates extends Drash.Resourc
             response,
             templateData,
             {
-                isCdnResource: true
+                isCdnTemplate: true
             }
         );
     }
