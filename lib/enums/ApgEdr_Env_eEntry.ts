@@ -25,5 +25,20 @@ export enum ApgEdr_Env_eEntry {
     /**
      * Github private packages auth key
      */
-    GITHUB_PK = "APG_EDR_GITHUB_PRIVATE_KEY"
+    GITHUB_PK = "APG_EDR_GITHUB_PRIVATE_KEY",
+
+    /**
+     * Mongo DB atlas host
+     */
+    ATLAS_HOST = "APG_MNG_ATLAS_HOST",
+
+    /**
+     * Mongo DB atlas user
+     */
+    ATLAS_USER = "APG_MNG_ATLAS_USER",
+
+    /**
+     * Mongo DB atlas password
+     */
+    ATLAS_PWD = "APG_MNG_ATLAS_PWD"
 }

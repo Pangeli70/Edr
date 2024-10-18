@@ -15,6 +15,8 @@ export enum ApgEdr_eRoutes {
 
     API_TEST = "/Edr/Test/Api",
 
+    RESERVED_PAGE_GUEST_TEST = "/Edr/Test/Rsvd/Guest",
+
     RESERVED_PAGE_USER_TEST = "/Edr/Test/Rsvd/User",
 
     RESERVED_PAGE_ADMIN_TEST = "/Edr/Test/Rsvd/Admin",

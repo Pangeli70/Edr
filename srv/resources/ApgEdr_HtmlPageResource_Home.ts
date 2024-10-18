@@ -44,7 +44,7 @@ export class ApgEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
         );
 
 
-        const isLoggedIn = templateData.user.role != Edr.ApgEdr_Auth_eRole.GUEST;
+        const isLoggedIn = templateData.user.role != Edr.ApgEdr_Auth_eRole.ANONYMOUS;
 
         const links = Edr.ApgEdr_Service.FilterLinksByLogin(ApgEdr_Menu_Main, isLoggedIn);
         templateData.page.data = { links };

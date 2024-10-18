@@ -29,12 +29,10 @@ import {
 export class ApgEdr_Middleware_Log extends Drash.Service {
 
 
-    private _storage: ApgEdr_IRequest[];
 
 
-    constructor(arequests: ApgEdr_IRequest[]) {
+    constructor() {
         super();
-        this._storage = arequests;
     }
 
 
@@ -45,7 +43,12 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
     ): void {
 
         const edr = ApgEdr_Service.GetEdrRequest(request);
-        ApgEdr_Log_Service.LogDebug(edr, import.meta.url, this.runBeforeResource, 'Called');
+        ApgEdr_Log_Service.LogDebug(
+            edr,
+            ApgEdr_Middleware_Log.name,
+            this.runBeforeResource,
+            'Called'
+        );
 
     }
 
@@ -59,15 +62,22 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
         const edr = ApgEdr_Service.GetEdrRequest(request);
 
         edr.totalTime = (performance.now() - edr.startTime);
-        edr.endMemory = (Uts.ApgUts.GetMemoryUsageMb() as any).rss;
+        edr.endMemory = Uts.ApgUts.GetMemoryUsageMb().rss;
 
         const totalTime = edr.totalTime.toFixed(2) + 'ms';
         const deltaMemory = (edr.endMemory - edr.startMemory).toFixed(2) + 'MB';
 
         const message = 'totalTime: ' + totalTime + ' deltaMemory: ' + deltaMemory;
-        ApgEdr_Log_Service.Log(edr, Uts.ApgUts_eLogType.ANSW, import.meta.url, this.runAfterResource, message);
+        ApgEdr_Log_Service.Log(
+            edr,
+            Uts.ApgUts_eEventType.ANSW,
+            ApgEdr_Middleware_Log.name,
+            this.runAfterResource,
+            message
+        );
 
-        this._storage.push(edr);
+        ApgEdr_Service.StoreEdr(edr)
+
     }
 }
 

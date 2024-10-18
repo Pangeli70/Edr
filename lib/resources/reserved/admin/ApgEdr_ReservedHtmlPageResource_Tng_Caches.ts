@@ -4,6 +4,7 @@
  * @version 1.0 APG 20240708
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * @version 1.2 APG 20240813 Moved to lib
+ * @version 1.3 APG 20240902 Better permissions management
  * ----------------------------------------------------------------------------
  */
 
@@ -20,17 +21,22 @@ import {
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_ReservedHtmlPageResource
+} from "../ApgEdr_ReservedHtmlPageResource.ts";
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_Tng_Caches extends Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_Tng_Caches
+    extends ApgEdr_ReservedHtmlPageResource {
 
     readonly QS_PARAM_CACHE = 'Cache';
     readonly QS_PARAM_CACHE_CLEAR = 'clear';
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_TNG_CACHES];
 
-    readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource.name;
 
     async GET(
         request: Drash.Request,
@@ -38,14 +44,11 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Caches extends Drash.Resource {
     ) {
 
         const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
-            this.redirect(ApgEdr_Route_eShared.PAGE_LOGIN, response);
-            return;
-        }
+        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
 
 
         const rawCache = request.queryParam(this.QS_PARAM_CACHE);
-        if(rawCache === this.QS_PARAM_CACHE_CLEAR) {
+        if (rawCache === this.QS_PARAM_CACHE_CLEAR) {
             Tng.ApgTng_Service.ClearCache();
         }
 

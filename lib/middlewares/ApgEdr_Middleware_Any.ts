@@ -12,6 +12,7 @@ import {
     Drash,
     Uts
 } from "../deps.ts";
+import { ApgEdr_eCookie } from "../enums/ApgEdr_eCookie.ts";
 import {
     ApgEdr_IRequest
 } from "../interfaces/ApgEdr_IRequest.ts";
@@ -28,6 +29,8 @@ import {
  */
 export class ApgEdr_Middleware_Any extends Drash.Service {
 
+
+    private static _deployment = Deno.env.get("DENO_DEPLOYMENT_ID") ?? "localhost";
     private static _counter = 0;
 
 
@@ -39,27 +42,39 @@ export class ApgEdr_Middleware_Any extends Drash.Service {
         ApgEdr_Middleware_Any._counter++;
 
         const edr: ApgEdr_IRequest = {
+            telemetryId: ApgEdr_Service.GetTelemetryId(request),
+            received: new Date().toUTCString(),
+            client: request.conn_info.remoteAddr as Deno.NetAddr,
+            method: request.method,
+            route: request.url,
+            language: ApgEdr_Service.GetLanguage(request),
+            deployment: ApgEdr_Middleware_Any._deployment,
             counter: ApgEdr_Middleware_Any._counter,
             startTime: performance.now(),
-            startMemory: (Uts.ApgUts.GetMemoryUsageMb() as any).rss,
-            received: new Date().toLocaleTimeString(),
-            route: request.url,
-            method: request.method,
-            remoteAddr: request.conn_info.remoteAddr as Deno.NetAddr,
-            events: [],
             totalTime: 0,
+            startMemory: Uts.ApgUts.GetMemoryUsageMb().rss,
             endMemory: 0,
-            language: ApgEdr_Service.GetLanguage(request)
+            events: [],
         };
 
         // deno-lint-ignore no-explicit-any
         (request as any).edr = edr;
 
-        ApgEdr_Log_Service.LogDebug(edr, import.meta.url, this.runBeforeResource, 'Called');
+        ApgEdr_Log_Service.LogDebug(
+            edr,
+            ApgEdr_Middleware_Any.name,
+            this.runBeforeResource,
+            'Called'
+        );
 
-        const message = `Injected edr into the Drash request for route: ${edr.method}:${edr.route}`;
-
-        ApgEdr_Log_Service.Log(edr, Uts.ApgUts_eLogType.CALL, import.meta.url, this.runBeforeResource, message);
+        const message = `Route: ${edr.method}:${edr.route}`;
+        ApgEdr_Log_Service.Log(
+            edr,
+            Uts.ApgUts_eEventType.CALL,
+            ApgEdr_Middleware_Any.name,
+            this.runBeforeResource,
+            message
+        );
     }
 
 
@@ -81,7 +96,22 @@ export class ApgEdr_Middleware_Any extends Drash.Service {
 
         }
 
-        ApgEdr_Log_Service.LogDebug(edr, import.meta.url, this.runAfterResource, 'Called');
+        const cookie: Uts.Std.Cookie = {
+            name: ApgEdr_eCookie.TELEMETRY_ID,
+            value: edr.telemetryId,
+            path: '/',
+            maxAge: ApgEdr_Service.MAX_TELEMETRY_TIME_SPAN,
+            httpOnly: true
+        };
+
+        response.setCookie(cookie);
+
+        ApgEdr_Log_Service.LogDebug(
+            edr,
+            ApgEdr_Middleware_Any.name,
+            this.runAfterResource,
+            'Called'
+        );
 
     }
 }

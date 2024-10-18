@@ -3,6 +3,7 @@
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20240704
  * @version 0.2 APG 20240726 English comments + language
+ * @version 0.3 APG 20241005 Messages + Telemetry session
  * ----------------------------------------------------------------------------
  */
 
@@ -12,6 +13,11 @@ import {
 import {
     ApgEdr_Auth_IJwtPayload
 } from "../mod.ts";
+import {
+    ApgEdr_IMessage
+} from "./ApgEdr_IMessage.ts";
+
+
 
 
 
@@ -20,25 +26,33 @@ import {
  */
 export interface ApgEdr_IRequest {
 
+    /**
+     * LocalHost | DENO_DEPLOYMENT_ID env variable.
+     */
+    deployment: string; // @03
+
     /** 
-     * Progressive counter identification of the received request
+     * Progressive counter identification of the received request of the current
+     * microservice after last restart.
      */
     counter: number;
 
     /**
-     * Milliseconds elapsed from last server restart
+     * Telemetry id for aggregations of logged events
+     * 
+     * UTC timestamp
      */
-    startTime: number;
+    telemetryId: string; // @03
 
     /**
-     * Date and time when the request was received
+     * UTC Timestamp when the request was received
      */
     received: string;
 
     /**
-     * Requested url/uri
+     * Client IP address
      */
-    route: string;
+    client: Deno.NetAddr;
 
     /** 
      * Request mode/method/verb
@@ -46,29 +60,31 @@ export interface ApgEdr_IRequest {
     method: string;
 
     /**
-     * Client IP address
+     * Requested url/uri
      */
-    remoteAddr: Deno.NetAddr;
+    route: string;
 
     /**
-     * Memory usage at request receive
+     * Language used by the user for the current request, comes from the cookie 
+     * or from the browser's language
      */
-    startMemory: number;
+    language: Uts.ApgUts_TLanguage; // @0.2
+
 
     /**
-     * Events that occurred during request processing
+     * Milliseconds elapsed from last microservice restart
      */
-    events: Uts.ApgUts_ILogEvent[];
+    startTime: number;
 
     /**
-     * The user is authenticated
-     */
-    auth?: ApgEdr_Auth_IJwtPayload
-
-    /**
-     * Total milliseconds elapsed for proicessing the request
+     * Total milliseconds elapsed for processing the request before sending the response
      */
     totalTime: number;
+
+    /**
+     * Memory usage when the microservice started to process the request
+     */
+    startMemory: number;
 
     /**
      * Memory usage after processing the request and before sending the response
@@ -76,9 +92,26 @@ export interface ApgEdr_IRequest {
     endMemory: number;
 
     /**
-     * Language used by the user for the current request
+     * Events that occurred during processing
      */
-    language: Uts.ApgUts_TLanguage; // @0.2
+    events: Uts.ApgUts_ILoggableEvent[];
+
+    /**
+     * The user is authenticated
+     */
+    auth?: ApgEdr_Auth_IJwtPayload
+
+
+    /**
+     * Redirected from a chain of other redirects maybe
+     */
+    redirectedFrom?: string[];
+
+    /**
+     * Message injected in the request during the processing that can be 
+     * displayed to the user. Usually is the error message
+     */
+    message?: ApgEdr_IMessage; // @0.3
 }
 
 

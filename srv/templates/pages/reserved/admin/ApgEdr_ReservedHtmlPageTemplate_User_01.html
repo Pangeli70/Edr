@@ -25,7 +25,7 @@
                 Email
             </td>
             <td style="min-width: 30rem">
-                <% page.data.user.email %>
+                <% page.data.profile.email %>
             </td>
         </tr>
         <tr>
@@ -33,7 +33,7 @@
                 Name
             </td>
             <td>
-                <% page.data.user.surname %> <% page.data.user.name %>
+                <% page.data.profile.surname %> <% page.data.profile.name %>
             </td>
         </tr>
         <tr>
@@ -41,7 +41,7 @@
                 Company
             </td>
             <td>
-                <% page.data.user.companyName %> (<% page.data.user.companyId %>)
+                <% page.data.profile.companyName %> (<% page.data.profile.companyId %>)
             </td>
         </tr>
         <tr>
@@ -49,7 +49,7 @@
                 Role
             </td>
             <td>
-                <% page.data.user.companyRole %>
+                <% page.data.profile.companyRole %>
             </td>
         </tr>
         <tr>
@@ -57,7 +57,7 @@
                 Description
             </td>
             <td>
-                <% page.data.user.description.join("<br>") %>
+                <% page.data.profile.description.join("<br>") %>
             </td>
         </tr>
         <tr>
@@ -73,7 +73,7 @@
                 Last login
             </td>
             <td>
-                <% page.data.auth.lastLogin || 'N/A' %>
+                <% page.data.user.lastOtp || 'N/A' %>
             </td>
         </tr>
         <tr>
@@ -81,28 +81,27 @@
                 Authentications
             </td>
             <td>
-                <% page.data.auth.authentications %>
+                <% page.data.user.authentications %>
             </td>
         </tr>
-        <% if(page.data.auth.isLocked) { %>
+        <% if(page.data.user.isLocked) { %>
         <tr>
             <td style="min-width: 6rem; font-style: italic;">
                 Locked
             </td>
             <td>
-                <% page.data.auth.lockedReason %>
+                <% page.data.user.lockedReason %>
             </td>
         </tr>
         <% } %>
     </table>
-
     <br>
 
 
     <br>
     <p style="text-align: right;">
 
-        <% if(page.data.auth.isLocked) { %>
+        <% if(page.data.user.isLocked) { %>
         <a
           href="<% page.data.unlockRoute %>/<% page.data.user.email %>"
           role="button"

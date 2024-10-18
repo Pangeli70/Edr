@@ -6,6 +6,8 @@
  * @version 0.3 APG 20240106 Revamped
  * @version 0.4 APG 20240728 English comments
  * @version 0.5 APG 20240814 Renaming and filterlinks
+ * @version 0.6 APG 20241008 Max Asset Size
+ * @version 0.7 APG 20241017 Extends ApgUts_Service
  * ----------------------------------------------------------------------------
  */
 
@@ -14,17 +16,20 @@ import {
     Drash, Tng, Uts
 } from "../deps.ts";
 import {
+    ApgEdr_Auth_eResult
+} from "../enums/ApgEdr_Auth_eResult.ts";
+import {
     ApgEdr_Auth_eRole
 } from "../enums/ApgEdr_Auth_eRole.ts";
 import {
     ApgEdr_eCookie
 } from "../enums/ApgEdr_eCookie.ts";
 import {
+    ApgEdr_Route_eShared
+} from "../enums/ApgEdr_Route_eShared.ts";
+import {
     ApgEdr_IRequest
 } from "../interfaces/ApgEdr_IRequest.ts";
-import {
-    ApgEdr_IRequestError
-} from "../interfaces/ApgEdr_IRequestError.ts";
 import {
     ApgEdr_Log_Service
 } from "./ApgEdr_Log_Service.ts";
@@ -33,13 +38,23 @@ import {
 /**
  * Service for the shared data and features of the Edr microservice
  */
-export class ApgEdr_Service {
+export class ApgEdr_Service extends Uts.ApgUts_Service {
+
+    protected static InitServiceName() {
+        return ApgEdr_Service.name;
+    }
+
+    /**
+     * Defines the expiration of the cookie that contains the telemetry id
+     * In seconds
+     */
+    static readonly MAX_TELEMETRY_TIME_SPAN = 60 * 60;  // 1 hours in seconds
 
     /** 
-     * Cache of the errors occurred during the management of the requests.
-     * It is used to render the error page
+     * Cache of the requests processed with errors.
+     * It is used to fast track the errors
      */
-    static Errors: ApgEdr_IRequestError[] = [];
+    static Errors: ApgEdr_IRequest[] = [];
 
     /** 
      * Cache of the requests made by the clients 
@@ -51,7 +66,14 @@ export class ApgEdr_Service {
      * Html response header for client's cache persistency of served assets
      * In seconds
      */
-    static ClientCacheMaxAge = 0;
+    static ClientCacheMaxAge = 0; 
+
+    /**
+     * The maximum size in MB of the assets served by this microservice
+     * If the size is exceeded the request could be rejected. 
+     * Meaning that that asset would be better served by a CDN.
+     */
+    static MaxAssetSize = 2; //@0.6
 
     /**
      * Local path to assets served by this microservice
@@ -69,7 +91,7 @@ export class ApgEdr_Service {
     static CdnHost = "https://apg-01.b-cdn.net";
 
     /**
-     * Default Master
+     * Default Tng Master
      */
     static DefaultMaster = "/master/ApgEdr_MasterPage_Application_V01.html";
 
@@ -117,10 +139,11 @@ export class ApgEdr_Service {
     }
 
 
+
     static GetUserData(aedr: ApgEdr_IRequest) {
         return {
             email: aedr.auth?.email || "",
-            role: aedr.auth?.role || ApgEdr_Auth_eRole.GUEST
+            role: aedr.auth?.role || ApgEdr_Auth_eRole.ANONYMOUS
         };
     }
 
@@ -139,14 +162,31 @@ export class ApgEdr_Service {
             return edr;
         }
         else {
-            throw new Error('The [.edr] was not injected in the request. Call the ApgEdr_Middleware_Any.beforeResource first');
+            throw new Error('The [.edr] property was not injected in the request. Call the ApgEdr_Middleware_Any.beforeResource first');
         }
     }
 
 
 
     /**
-     * Get the language for the page from the Drash request
+     * Get the telemetry id for the response from the cookie of the Drash request
+     * Or instead create a new one
+     */
+    static GetTelemetryId(request: Drash.Request) {
+
+        let r = request.getCookie(ApgEdr_eCookie.TELEMETRY_ID);
+
+        if (!r) {
+            r = new Uts.ApgUts_DateTimeStamp().Stamp;
+        }
+
+        return r;
+    }
+
+
+
+    /**
+     * Get the language for the response from the Drash request
      */
     static GetLanguage(request: Drash.Request) {
 
@@ -187,8 +227,9 @@ export class ApgEdr_Service {
 
         const dts = new Uts.ApgUts_DateTimeStamp(new Date());
 
-        return arequest.remoteAddr.hostname + "_" + dts.Stamp;
+        return arequest.client.hostname + "_" + dts.Stamp;
     }
+
 
 
     /**
@@ -256,9 +297,9 @@ export class ApgEdr_Service {
     ) {
         const edr = this.GetEdrRequest(request);
 
-        const events: Uts.ApgUts_ILogEvent[] = [];
+        const events: Uts.ApgUts_ILoggableEvent[] = [];
 
-        if (this.UseCdn) { 
+        if (this.UseCdn) {
             const cdnPath = `${this.CdnHost}${this.CdnTemplatesPath}`;
             apageData.page.master = `${cdnPath}${apageData.page.master}`
             if (aoptions.isCdnTemplate) {
@@ -279,16 +320,25 @@ export class ApgEdr_Service {
 
 
     static VerifyProtectedPage(
-        edr: ApgEdr_IRequest,
+        aedr: ApgEdr_IRequest,
         arole: ApgEdr_Auth_eRole
     ) {
 
+        let r = ApgEdr_Auth_eResult.UNKNOWN;
 
-        let r = false;
-        if (edr.auth) {
-            if ((edr.auth.role === ApgEdr_Auth_eRole.ADMIN) ||
-                (edr.auth.role === arole)) {
-                r = true;
+        if (aedr.auth) {
+            if (aedr.auth.role === arole) {
+                r = ApgEdr_Auth_eResult.OK;
+            } else if (aedr.auth.role === ApgEdr_Auth_eRole.ADMIN) {
+                r = ApgEdr_Auth_eResult.OK;
+            } else if (
+                (aedr.auth.role === ApgEdr_Auth_eRole.USER) &&
+                (arole === ApgEdr_Auth_eRole.GUEST)
+            ) {
+                r = ApgEdr_Auth_eResult.OK;
+            }
+            else {
+                r = ApgEdr_Auth_eResult.INSUFF;
             }
         }
 
@@ -308,7 +358,7 @@ export class ApgEdr_Service {
                 r = isLoggedIn;
             }
             else {
-                if (a.isGuestOnly) {
+                if (a.isAnonymousOnly) {
                     r = !isLoggedIn;
                 }
             }
@@ -318,41 +368,64 @@ export class ApgEdr_Service {
 
 
 
-    static Store(arequest: ApgEdr_IRequest) {
+    static StoreEdr(aedr: ApgEdr_IRequest) {
 
-        ApgEdr_Log_Service.LogInfo(
-            arequest,
-            import.meta.url,
-            this.Store,
-            'Total stored calls: ' + this.Requests.length
-        );
-
-        this.Requests.push(arequest);
+        this.Requests.push(aedr);
 
     }
 
+
+
+    static RetriveEdr(aindex: number) {
+
+        return this.Requests.find(aitem => aitem.counter == aindex);
+
+    }
+
+
+
+    static PrepareMessage(aedr: ApgEdr_IRequest) {
+        
+        if (!aedr.message) {
+            aedr.message = {
+                title: "Error",
+                text: "Unknown error or message",
+                next: ApgEdr_Route_eShared.PAGE_HOME
+            };
+        }
+
+        const title = (typeof (aedr.message.title) == "string") ?
+            aedr.message.title :
+            Uts.ApgUts_Translator.Translate(aedr.message.title, aedr.language, aedr.message.params);
+
+        const text = (typeof (aedr.message.text) == "string") ?
+            aedr.message.text :
+            Uts.ApgUts_Translator.Translate(aedr.message.text, aedr.language, aedr.message.params);
+
+        const next = aedr.message.next;
+
+        return { title, text, next };
+    }
 
 
     static Error(
         amodule: string,
         // deno-lint-ignore ban-types
         amethod: Function,
-        aedr: ApgEdr_IRequest,
-        amessage: string,
-        aredirectToUrl: string
+        aedr: ApgEdr_IRequest
     ) {
 
-        this.Errors.push({
-            counter: aedr.counter,
-            message: amessage,
-            redirectUrl: aredirectToUrl
-        });
+        this.Errors.push(aedr);
+
+        const { title, text } = this.PrepareMessage(aedr);
+
+        const message = `${title}: ${text}`;
 
         ApgEdr_Log_Service.LogError(
             aedr,
             amodule,
             amethod,
-            amessage
+            message
         );
 
 

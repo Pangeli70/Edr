@@ -30,10 +30,6 @@ export interface ApgEdr_Auth_IJwtPayload extends Djwt.Payload {
      */
     role: ApgEdr_Auth_eRole;
 
-    /**
-     * Session identifier 
-     */
-    session: string;
 }
 
 

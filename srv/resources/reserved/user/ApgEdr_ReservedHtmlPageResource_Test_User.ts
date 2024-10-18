@@ -18,11 +18,13 @@ import {
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_User extends Edr.Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_TestUser
+    extends Edr.ApgEdr_ReservedHtmlPageResource {
 
     override paths = [ApgEdr_eRoutes.RESERVED_PAGE_USER_TEST];
 
     readonly EDR_ROLE = Edr.ApgEdr_Auth_eRole.USER;
+    readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_TestUser.name;
 
     async GET(
         request: Edr.Drash.Request,
@@ -30,11 +32,7 @@ export class ApgEdr_ReservedHtmlPageResource_User extends Edr.Drash.Resource {
     ) {
 
         const edr = Edr.ApgEdr_Service.GetEdrRequest(request);
-        
-        if (!Edr.ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
-            this.redirect(Edr.ApgEdr_Route_eShared.PAGE_LOGIN, response);
-            return;
-        }
+        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
 
         const templateData = Edr.ApgEdr_Service.GetTemplateData(
             edr,

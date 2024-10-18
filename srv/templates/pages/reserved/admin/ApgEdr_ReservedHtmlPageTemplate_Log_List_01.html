@@ -12,16 +12,22 @@
       Tng.ApgTng_IPageData (V1.0)
   * @version
       1.0.0 APG 20240813
+      1.0.1 APG 20241007 Pagination
   * ---------------------------------------------------------------------------- 
 -->
 
 <section>
 
+    <h3>
+        Page <% page.data.pag.page %> of <% page.data.pag.pages %>. 
+        Requests from <% page.data.pag.from %> to <% page.data.pag.to %> of <% page.data.pag.items %>.
+    </h3>
+
     <table style="display: block; overflow-x: auto; overflow-y: auto; white-space: nowrap; max-height: 20rem;">
         <tr>
             <th style="min-width: 4rem">Counter</th>
             <th style="min-width: 4rem">Received</th>
-            <th style="min-width: 10rem">Host</th>
+            <th style="min-width: 10rem">Client</th>
             <th style="min-width: 4rem">Method</th>
             <th style="min-width: 30rem">Url</th>
             <th style="min-width: 5rem">ms</th>
@@ -42,7 +48,7 @@
                 <a id="counter_<% counter %>"></a>
             </td>
             <td><% request.received %></td>
-            <td><% request.remoteAddr.hostname %></td>
+            <td><% request.client.hostname %></td>
             <td><% request.method %></td>
             <td><% request.route %></td>
             <td>
@@ -53,5 +59,37 @@
         </tr>
         <% } %>
     </table>
+
+    <p style="text-align: right;">
+        <% const firstDisabled = (page.data.pag.first == "") ? 'disabled' : ''; %>
+        <button
+          onclick="window.location.href='<% page.data.pag.first %>'"
+          type="button"
+          <% firstDisabled %>
+        >First</button>
+
+
+        <% const prevDisabled = (page.data.pag.prev == "") ? 'disabled' : ''; %>
+        <button
+          onclick="window.location.href='<% page.data.pag.prev %>'"
+          type="button"
+          <% prevDisabled %>
+        >Prev</button>
+
+        <% const nextDisabled = (page.data.pag.next == "") ? 'disabled' : ''; %>
+        <button
+          onclick="window.location.href='<% page.data.pag.next %>'"
+          type="button"
+          <% nextDisabled %>
+        >Next</button>
+
+        <% const lastDisabled = (page.data.pag.last == "") ? 'disabled' : ''; %>
+        <button
+          onclick="window.location.href='<% page.data.pag.last %>'"
+          type="button"
+          <% lastDisabled %>
+        >Last</button>
+    </p>
+
 
 </section>

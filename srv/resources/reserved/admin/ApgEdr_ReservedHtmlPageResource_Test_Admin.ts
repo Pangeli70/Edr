@@ -6,6 +6,7 @@
  * @version 0.3 APG 20240106 Revamped
  * @version 1.0 APG 20240701 Cleanup
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
+ * @version 1.1 APG 20240912 Better permissions management
  * ----------------------------------------------------------------------------
  */
 
@@ -18,11 +19,13 @@ import {
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_Admin extends Edr.Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_TestAdmin
+    extends Edr.ApgEdr_ReservedHtmlPageResource {
 
     override paths = [ApgEdr_eRoutes.RESERVED_PAGE_ADMIN_TEST];
 
     readonly EDR_ROLE = Edr.ApgEdr_Auth_eRole.ADMIN;
+    readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_TestAdmin.name;
 
     async GET(
         request: Edr.Drash.Request,
@@ -30,10 +33,7 @@ export class ApgEdr_ReservedHtmlPageResource_Admin extends Edr.Drash.Resource {
     ) {
 
         const edr = Edr.ApgEdr_Service.GetEdrRequest(request);
-        if (!Edr.ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
-            this.redirect(Edr.ApgEdr_Route_eShared.PAGE_LOGIN, response);
-            return;
-        }
+        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
 
         const templateData = Edr.ApgEdr_Service.GetTemplateData(
             edr,
@@ -43,9 +43,6 @@ export class ApgEdr_ReservedHtmlPageResource_Admin extends Edr.Drash.Resource {
 
         await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData);
     }
-
-
-
 
 
 }

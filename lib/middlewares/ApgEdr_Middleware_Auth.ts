@@ -44,7 +44,12 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
 
         const edr = ApgEdr_Service.GetEdrRequest(request);
 
-        ApgEdr_Log_Service.LogDebug(edr, import.meta.url, this.runBeforeResource, 'Called');
+        ApgEdr_Log_Service.LogDebug(
+            edr,
+            ApgEdr_Middleware_Auth.name,
+            this.runBeforeResource,
+            'Called'
+        );
 
         const authCookie = request.getCookie(ApgEdr_Auth_eCookie.JWT);
 
@@ -53,20 +58,31 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
 
             if (r.ok) {
 
-                edr.auth = r.payload!.data as ApgEdr_Auth_IJwtPayload;
+                edr.auth = r.payload as ApgEdr_Auth_IJwtPayload;
 
-                r = await ApgEdr_Auth_Service.GetJwtCookie(edr.auth.email, edr.auth.session);
+                r = await ApgEdr_Auth_Service.GetJwtCookie(edr.auth.email);
                 if (!r.ok) {
-                    throw new Error(r.message);
+                    throw new Error(r.joinMessages());
                 }
-                response.setCookie(r.payload!.data as Uts.Std.Cookie);
+                response.setCookie(r.payload as Uts.Std.Cookie);
 
                 const message = `Authenticated: ${edr.auth.email} and cookie renewed`;
-                ApgEdr_Log_Service.Log(edr, Uts.ApgUts_eLogType.AUTH, import.meta.url, this.runBeforeResource, message);
+                ApgEdr_Log_Service.Log(
+                    edr,
+                    Uts.ApgUts_eEventType.AUTH,
+                    ApgEdr_Middleware_Auth.name,
+                    this.runBeforeResource,
+                    message
+                );
 
             }
             else {
-                ApgEdr_Log_Service.LogError(edr, import.meta.url, this.runBeforeResource, r.message);
+                ApgEdr_Log_Service.LogError(
+                    edr,
+                    ApgEdr_Middleware_Auth.name,
+                    this.runBeforeResource,
+                    r.joinMessages()
+                );
             }
         }
 
@@ -83,7 +99,12 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
     ): void {
 
         const edr = ApgEdr_Service.GetEdrRequest(request);
-        ApgEdr_Log_Service.LogDebug(edr, import.meta.url, this.runAfterResource, 'Called');
+        ApgEdr_Log_Service.LogDebug(
+            edr,
+            ApgEdr_Middleware_Auth.name,
+            this.runAfterResource,
+            'Called'
+        );
 
     }
 

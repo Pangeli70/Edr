@@ -4,6 +4,7 @@
  * @version 1.0 APG 20240708
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * @version 1.2 APG 20240813 Moved to lib
+ * @version 1.3 APG 20240902 Better permissions management
  * ----------------------------------------------------------------------------
  */
 
@@ -18,17 +19,25 @@ import {
     ApgEdr_Route_eShared
 } from "../../../enums/ApgEdr_Route_eShared.ts";
 import {
+    ApgEdr_IMessage
+} from "../../../interfaces/ApgEdr_IMessage.ts";
+import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_ReservedHtmlPageResource
+} from "../ApgEdr_ReservedHtmlPageResource.ts";
 
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_Errors extends Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_Errors
+    extends ApgEdr_ReservedHtmlPageResource {
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_ERRORS];
 
-    readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Errors.name;
 
     async GET(
         request: Drash.Request,
@@ -36,26 +45,31 @@ export class ApgEdr_ReservedHtmlPageResource_Errors extends Drash.Resource {
     ) {
 
         const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
-            this.redirect(ApgEdr_Route_eShared.PAGE_LOGIN, response);
-            return;
-        }
+        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
 
         const data: {
+            href: string;
             counter: number;
             method: string;
-            url: string;
-            message: string;
+            route: string;
+            message: ApgEdr_IMessage;
         }[] = []
 
         for (const error of ApgEdr_Service.Errors) {
 
-            const request = ApgEdr_Service.Requests.find(r => r.counter == error.counter)!;
+            if (!error.message) { 
+                error.message = {
+                    title: "Error",
+                    text: "No message specified for error with counterId [" + error.counter + "]",
+                    next: ApgEdr_Route_eShared.PAGE_HOME
+                }
+            }
 
             data.push({
+                href: ApgEdr_Route_eShared.PAGE_ERROR + "/" + error.counter + "?FEL=1",
                 counter: error.counter,
-                method: request.method,
-                url: request.route,
+                method: error.method,
+                route: error.route,
                 message: error.message
             })
         }
@@ -79,9 +93,6 @@ export class ApgEdr_ReservedHtmlPageResource_Errors extends Drash.Resource {
             }
         );
     }
-
-
-
 
 
 }

@@ -4,6 +4,7 @@
  * @version 1.0 APG 20240708
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * @version 1.2 APG 20240813 Moved to lib
+ * @version 1.3 APG 20240902 Better permissions management
  * ----------------------------------------------------------------------------
  */
 
@@ -23,17 +24,21 @@ import {
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_ReservedHtmlPageResource
+} from "../ApgEdr_ReservedHtmlPageResource.ts";
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_Log_Entry extends Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_Log_Entry
+    extends ApgEdr_ReservedHtmlPageResource {
 
     readonly PATH_PARAM_ID = 'id';
 
-    readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
-
-
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_LOG_ENTRY + "/:" + this.PATH_PARAM_ID];
+
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Log_Entry.name;
 
 
     async GET(
@@ -42,10 +47,7 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry extends Drash.Resource {
     ) {
 
         const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
-            this.redirect(ApgEdr_Route_eShared.PAGE_LOGIN, response);
-            return;
-        }
+        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
 
 
         const rawId = request.pathParam(this.PATH_PARAM_ID)!;
@@ -54,7 +56,7 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry extends Drash.Resource {
 
 
         if (!loggedRequest) {
-            this.#errorIdNotFound(response, edr, rawId);
+            this.#errorIdNotFound(this.GET, request, response, edr, rawId);
             return;
         }
 
@@ -86,20 +88,25 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry extends Drash.Resource {
 
 
     #errorIdNotFound(
-        response: Drash.Response,
+        amethod: Function,
+        arequest: Drash.Request,
+        aresponse: Drash.Response,
         aedr: ApgEdr_IRequest,
         arawId: string,
     ) {
-        const message = "Request with id " + arawId + " not found";
+
+        aedr.message = {
+            title: "Error",
+            text: "Request with id " + arawId + " not found",
+            next: ApgEdr_Route_eShared.RESERVED_PAGE_LOG
+        };
+
         ApgEdr_Service.Error(
-            import.meta.url,
+            ApgEdr_ReservedHtmlPageResource_Log_Entry.name,
             this.GET,
-            aedr,
-            message,
-            ApgEdr_Route_eShared.RESERVED_PAGE_LOG
+            aedr
         );
 
-        const errorPage = ApgEdr_Route_eShared.PAGE_ERROR + "/" + aedr.counter.toString();
-        this.redirect(errorPage, response);
+        this.loggedRedirectToError(amethod, aresponse, aedr, arequest.url);
     }
 }

@@ -2,6 +2,7 @@
  * @module [ApgEdr_Auth]
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20240701
+ * @version 0.2 APG 20241017 Extends ApgUts_Service
  * ----------------------------------------------------------------------------
  */
 
@@ -34,12 +35,15 @@ import {
 
 
 
-export class ApgEdr_Auth_Service {
+export class ApgEdr_Auth_Service extends Uts.ApgUts_Service {
 
-    static readonly ISSUER = 'ApgEdr_Auth_Service';
+    protected static InitServiceName() {
+        return ApgEdr_Auth_Service.name;
+    }
 
     static readonly MAX_OTP_ATTEMPTS = 5;
-    static readonly MAX_OTP_TIME_SPAN = 10 * 60 * 1000;  // 10 minutes in milliseconds
+    static readonly OTP_VALIDITY_MINUTES = 10;
+    static readonly MAX_OTP_TIME_SPAN_MS = this.OTP_VALIDITY_MINUTES * 60 * 1000;  // in milliseconds
 
     static readonly MAX_JWT_TIME_SPAN = 5 * 60 * 60;  // 5 hours in seconds
     static readonly MAX_COOKIE_AGE = 5 * 60 * 60;  // 5 hours in seconds
@@ -51,7 +55,7 @@ export class ApgEdr_Auth_Service {
 
     static currentKey: CryptoKey | null = null;
 
-
+    // TODO: move to Atlas DB for persistent storage (@APG 2024/10/17) @5h
     static Authentications: ApgEdr_Auth_TAuthentication = {
         'pangeli70@gmail.com': {
             email: 'pangeli70@gmail.com',
@@ -92,20 +96,20 @@ export class ApgEdr_Auth_Service {
         aotp: number,
         aotpDateTime: number
     ) {
-
-        const r = new Uts.ApgUts_RestResult('ApgEdr');
+        const method = this.Method(this.VerifyOtp);
+        const r = new Uts.ApgUts_Result();
 
         const user = ApgEdr_Auth_Service.Authentications[aemail];
 
         if (!user) {
             r.ok = false;
-            r.message = 'User not found';
+            r.message(method, 'User not found');
             return r;
         }
 
         if (user.isLocked) {
             r.ok = false;
-            r.message += 'User is locked';
+            r.message(method, 'User is locked');
             return r;
         }
 
@@ -114,12 +118,13 @@ export class ApgEdr_Auth_Service {
             r.ok = false;
             user.otpAttempts++;
             const remainingAttempts = (this.MAX_OTP_ATTEMPTS - user.otpAttempts).toString();
-            r.message = 'Wrong OTP. You have still ' + remainingAttempts + ' attempts';
+            const message = 'Wrong OTP. You have still ' + remainingAttempts + ' attempts';
+            r.message(method, message);
 
             if (user.otpAttempts >= this.MAX_OTP_ATTEMPTS) {
                 user.isLocked = true;
                 user.lockedReason = ': Maximum OPT attempts reached the user is locked';
-                r.message += user.lockedReason;
+                r.message(method, user.lockedReason);
             }
 
             return r;
@@ -127,9 +132,9 @@ export class ApgEdr_Auth_Service {
 
         const deltaTimeMilliseconds = aotpDateTime - user.lastOtpDateTime;
 
-        if (deltaTimeMilliseconds > this.MAX_OTP_TIME_SPAN) {
+        if (deltaTimeMilliseconds > this.MAX_OTP_TIME_SPAN_MS) {
             r.ok = false;
-            r.message = 'OTP expired';
+            r.message(method, 'OTP expired');
             user.otpAttempts = 0;
 
             return r;
@@ -149,13 +154,13 @@ export class ApgEdr_Auth_Service {
         aotp: number,
         aotpDateTime: number
     ) {
-
-        const r = new Uts.ApgUts_RestResult('ApgEdr');
+        const method = this.Method(this.SetNewOtpForUser);
+        const r = new Uts.ApgUts_Result();
 
         const user = ApgEdr_Auth_Service.Authentications[aemail];
         if (!user) {
             r.ok = false;
-            r.message = 'User not found';
+            r.message(method, 'User not found');
             return r;
         }
 
@@ -169,25 +174,19 @@ export class ApgEdr_Auth_Service {
 
     static async GetJwtCookie(
         aemail: string,
-        asession: string
     ) {
-        const r = new Uts.ApgUts_RestResult('ApgEdr');
+        const r = new Uts.ApgUts_Result<Uts.Std.Cookie>();
+
+        let role = ApgEdr_Auth_eRole.GUEST;
+        let email = aemail;
 
         const user = ApgEdr_Auth_Service.Authentications[aemail];
-        if (!user) {
-            r.ok = false;
-            r.message = 'User not found';
-            return r;
+        if (user) {
+            role = this.GetRoleForUser(user);
+            email = user.email;
         }
 
-        const role = this.GetRoleForUser(user);
-        if (!role) {
-            r.ok = false;
-            r.message = 'Role not found for user ' + aemail;
-            return r;
-        }
-
-        const jwt = await this.GenerateJwt(user.email, role, asession);
+        const jwt = await this.GenerateJwt(email, role);
 
         const cookie: Uts.Std.Cookie = {
             name: ApgEdr_Auth_eCookie.JWT,
@@ -196,10 +195,7 @@ export class ApgEdr_Auth_Service {
             maxAge: this.MAX_COOKIE_AGE,
             httpOnly: true
         };
-        r.payload = {
-            signature: "Cookie",
-            data: cookie
-        }
+        r.setPayload(cookie, "Cookie")
 
         return r;
     }
@@ -224,7 +220,6 @@ export class ApgEdr_Auth_Service {
     static async GenerateJwt(
         aemail: string,
         arole: ApgEdr_Auth_eRole,
-        asession: string
     ) {
 
         const header: Djwt.Header = {
@@ -233,15 +228,14 @@ export class ApgEdr_Auth_Service {
         };
 
         const payload: ApgEdr_Auth_IJwtPayload = {
-            iss: this.ISSUER,
+            iss: this.SERVICE,
             exp: Djwt.getNumericDate(this.MAX_JWT_TIME_SPAN),
             email: aemail,
             role: arole,
-            session: asession
         };
 
 
-        await this.#ensureCurrentCryptoKey();
+        await this.#ensureCurrentCryptoKeyOrThrow();
 
         const jwt = await Djwt.create(header, payload, this.currentKey)
 
@@ -251,12 +245,12 @@ export class ApgEdr_Auth_Service {
 
 
 
-    static async #ensureCurrentCryptoKey() {
+    static async #ensureCurrentCryptoKeyOrThrow() {
 
         const CRYPTO_KEY = Deno.env.get(ApgEdr_Env_eEntry.JWT_CRYPTO);
 
         if (CRYPTO_KEY == undefined) {
-            throw new Error("No CRYPTO_KEY provided in environment");
+            throw new Error("No CRYPTO_KEY provided in environment variables");
         }
 
         if (this.currentKey == null) {
@@ -279,24 +273,22 @@ export class ApgEdr_Auth_Service {
     static async VerifyJwt(
         jwt: string
     ) {
-        const r = new Uts.ApgUts_RestResult('ApgEdr');
+        const method = this.Method(this.VerifyJwt);
+        const r = new Uts.ApgUts_Result();
         try {
 
-            await this.#ensureCurrentCryptoKey();
+            await this.#ensureCurrentCryptoKeyOrThrow();
             const payload = await Djwt.verify(jwt, this.currentKey);
 
             r.ok = true;
-            r.message = 'JWT is valid';
+            r.message(method, 'JWT is valid');
 
-            r.payload = {
-                signature: this.JWT_PAYLOAD_SIGNATURE,
-                data: payload
-            }
+            r.setPayload(payload, this.JWT_PAYLOAD_SIGNATURE);
 
         }
         catch (_e) {
             r.ok = false;
-            r.message = 'Invalid JWT: ' + _e.message;
+            r.message(method, 'Invalid JWT: ' + _e.message);
         }
 
         return r;
@@ -305,11 +297,15 @@ export class ApgEdr_Auth_Service {
 
 
     static GetRoleForUser(user: ApgEdr_Auth_IUser) {
-        return this.Authorizations[user.email];
+        return this.Authorizations[user.email] || ApgEdr_Auth_eRole.GUEST;
     }
 
 
 
+    /**
+     * Type guard
+     * @param apayload  
+    */
     // deno-lint-ignore no-explicit-any
     static IsJwtPayload(apayload: any): apayload is ApgEdr_Auth_IJwtPayload {
         return (
@@ -321,24 +317,25 @@ export class ApgEdr_Auth_Service {
 
 
 
+    /**
+     * Unlocks a user resetting the attempts and the lock flag
+     * @param aemail User identifier
+     * @remarks The passed email must be checked previously.
+     */
     static UnlockUser(
         aemail: string
     ) {
 
-        const r = new Uts.ApgUts_RestResult('ApgEdr');
-
         const user = ApgEdr_Auth_Service.Authentications[aemail];
         if (!user) {
-            r.ok = false;
-            r.message = 'User not found';
-            return r;
+            return;
         }
 
         user.isLocked = false;
         user.otpAttempts = 0;
         user.lockedReason = '';
 
-        return r;
+        // TODO: Update the user in the database (@APG 2024/10/17 01:30) @5h
 
     }
 

@@ -68,6 +68,18 @@ export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
         isReserved: false
     },
     {
+        url: ApgEdr_eRoutes.RESERVED_PAGE_GUEST_TEST,
+        label: {
+            IT: "Test ospite",
+            EN: "Test guest"
+        },
+        title: {
+            IT: "Esempio di pagina riservata per gli ospiti",
+            EN: "Example of reserved page for guests"
+        },
+        isReserved: true
+    },
+    {
         url: ApgEdr_eRoutes.RESERVED_PAGE_USER_TEST,
         label: {
             IT: "Test utente",
@@ -103,7 +115,7 @@ export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
             EN: "Access to the reserved pages of the service"
         },
         isReserved: false,
-        isGuestOnly: true
+        isAnonymousOnly: true
     },
     {
         url: Edr.ApgEdr_Route_eShared.PAGE_LOGOUT,
@@ -187,6 +199,18 @@ export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
         title: {
             IT: "Impostazioni dell'ambiente",
             EN: "Environment settings"
+        },
+        isReserved: true
+    },
+    {
+        url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_TELEMETRY_PURGE,
+        label: {
+            IT: "Svuota telemetria",
+            EN: "Purge telemetry"
+        },
+        title: {
+            IT: "Svuota il database di telemetria",
+            EN: "Purges the telemetry database"
         },
         isReserved: true
     },

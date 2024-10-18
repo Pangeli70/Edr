@@ -3,28 +3,37 @@
  * @author [APG] Angeli Paolo Giusto
  * @version 1.0 APG 20240807
  * @version 1.1 APG 20240813 Moved to lib
+ * @version 1.2 APG 20240902 Better permissions management
  * ----------------------------------------------------------------------------
  */
 
 import {
     Drash, Tng
 } from "../../../deps.ts";
+import { ApgEdr_Auth_eRole } from "../../../enums/ApgEdr_Auth_eRole.ts";
 import {
     ApgEdr_Route_eShared
 } from "../../../enums/ApgEdr_Route_eShared.ts";
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_ReservedHtmlPageResource
+} from "../ApgEdr_ReservedHtmlPageResource.ts";
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_Environment extends Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_Environment
+    extends ApgEdr_ReservedHtmlPageResource {
 
     readonly BODY_PARAM_ENV = "environment";
     readonly BODY_PARAM_USE_CDN = "useCdn";
     readonly BODY_PARAM_USE_TNG_CACHE = "useTngCache";
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_ENVIRONMENT];
+
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Environment.name;
 
 
     async GET(
@@ -33,6 +42,7 @@ export class ApgEdr_ReservedHtmlPageResource_Environment extends Drash.Resource 
     ) {
 
         const edr = ApgEdr_Service.GetEdrRequest(request);
+        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
 
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,

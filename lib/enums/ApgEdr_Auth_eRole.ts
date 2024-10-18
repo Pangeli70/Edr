@@ -18,7 +18,10 @@ export enum ApgEdr_Auth_eRole {
     /** Registerd user */
     USER = "User",
 
-    /** Unknown guest */
+    /** Guest */
     GUEST = "Guest",
+
+    /** Unknown anonymous */
+    ANONYMOUS = "Anonymous",
 
 }

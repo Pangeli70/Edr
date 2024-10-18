@@ -2,6 +2,7 @@
  * @module [ApgEdr_Mail]
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20240701
+ * @version 0.2 APG 20241017 Extends ApgUts_Service
  * ----------------------------------------------------------------------------
  */
 import {
@@ -16,7 +17,14 @@ import {
 /**
  * Service used to send emails using the Resend Email Web Api
  */
-export class ApgEdr_ResendMail_Service {
+export class ApgEdr_ResendMail_Service extends Uts.ApgUts_Service {
+
+
+
+    static override InitServiceName() {
+        return ApgEdr_ResendMail_Service.name;
+    }
+
 
 
     static async SendEmail(
@@ -24,14 +32,20 @@ export class ApgEdr_ResendMail_Service {
         arecipients: string[],
         asubject: string,
         ahtml: string,
-        accn?: string
+        accn?: string[]
     ) {
 
+        const method = this.Method(this.SendEmail);
+        const r = new Uts.ApgUts_Result<string>()
 
         const RESEND_API_KEY = Deno.env.get(ApgEdr_Env_eEntry.EMAIL_API);
-        if (!RESEND_API_KEY) { 
-            throw new Error("No Resend Email Api Key provided in environment");
+        if (!RESEND_API_KEY) {
+            r.ok = false;
+            r.message(method, "No Resend Email Api Key provided in environment variables");
         };
+
+        const recipients = [...arecipients];
+        if (accn) recipients.concat(accn);
 
         const res = await fetch('https://api.resend.com/emails', {
             method: 'POST',
@@ -47,18 +61,14 @@ export class ApgEdr_ResendMail_Service {
             })
         });
 
-        const r = new Uts.ApgUts_RestResult(import.meta.url)
+
 
         if (res.ok) {
-            r.ok = true;
-            r.payload = {
-                signature: "string",
-                data: await res.json()
-            } as Uts.ApgUts_IRestPayload;
+            r.setPayload(await res.json(), "string");
         }
-        else { 
-            r.ok = true;
-            r.message = 'Error while sending email';
+        else {
+            r.ok = false;
+            r.message(method, 'Error while sending email');
         }
 
         return r;

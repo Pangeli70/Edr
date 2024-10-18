@@ -2,6 +2,7 @@
  * @module [ApgEdr/lib]
  * @author [APG] Angeli Paolo Giusto
  * @version 1.0 APG 20240813
+ * @version 1.1 APG 20240902 Better permissions management
  * ----------------------------------------------------------------------------
  */
 
@@ -24,17 +25,22 @@ import {
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_ReservedHtmlPageResource
+} from "../ApgEdr_ReservedHtmlPageResource.ts";
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_User extends Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_User
+    extends ApgEdr_ReservedHtmlPageResource {
 
-    readonly PATH_PARAM_ID = 'id';
+    readonly PATH_PARAM_USER_ID = 'id';
 
-    readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_User.name;
 
 
-    override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_USER + "/:" + this.PATH_PARAM_ID];
+    override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_USER + "/:" + this.PATH_PARAM_USER_ID];
 
 
     async GET(
@@ -43,20 +49,17 @@ export class ApgEdr_ReservedHtmlPageResource_User extends Drash.Resource {
     ) {
 
         const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
-            this.redirect(ApgEdr_Route_eShared.PAGE_LOGIN, response);
-            return;
-        }
 
+        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
 
-        const rawId = request.pathParam(this.PATH_PARAM_ID)!;
+        const rawId = request.pathParam(this.PATH_PARAM_USER_ID)!;
 
-        const user = ApgEdr_Auth_Service.Profilations[rawId];
+        const profile = ApgEdr_Auth_Service.Profilations[rawId];
         const role = ApgEdr_Auth_Service.Authorizations[rawId];
-        const auth = ApgEdr_Auth_Service.Authentications[rawId];
+        const user = ApgEdr_Auth_Service.Authentications[rawId];
 
-        if (!user) {
-            this.#errorUserNotFound(response, edr, rawId);
+        if (!profile) {
+            this.#errorUserNotFound(this.GET, request, response, edr, rawId);
             return;
         }
 
@@ -71,9 +74,9 @@ export class ApgEdr_ReservedHtmlPageResource_User extends Drash.Resource {
         templateData.page.data = {
             usersRoute: ApgEdr_Route_eShared.RESERVED_PAGE_USERS,
             unlockRoute: ApgEdr_Route_eShared.RESERVED_PAGE_USER_UNLOCK,
-            user,
+            profile,
             role,
-            auth
+            user
         }
 
 
@@ -91,20 +94,25 @@ export class ApgEdr_ReservedHtmlPageResource_User extends Drash.Resource {
 
 
     #errorUserNotFound(
-        response: Drash.Response,
+        amethod: Function,
+        arequest: Drash.Request,
+        aresponse: Drash.Response,
         aedr: ApgEdr_IRequest,
         arawId: string,
     ) {
-        const message = "User with email " + arawId + " not found";
+
+        aedr.message = {
+            title: "Error",
+            text: "User with email " + arawId + " not found",
+            next: ApgEdr_Route_eShared.RESERVED_PAGE_USERS
+        }
+
         ApgEdr_Service.Error(
-            import.meta.url,
+            ApgEdr_ReservedHtmlPageResource_User.name,
             this.GET,
-            aedr,
-            message,
-            ApgEdr_Route_eShared.RESERVED_PAGE_USERS
+            aedr
         );
 
-        const errorPage = ApgEdr_Route_eShared.PAGE_ERROR + "/" + aedr.counter.toString();
-        this.redirect(errorPage, response);
+        this.loggedRedirectToError(amethod, aresponse, aedr, arequest.url);
     }
 }

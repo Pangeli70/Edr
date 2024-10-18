@@ -20,6 +20,8 @@ export enum ApgEdr_Route_eShared {
 
     PAGE_ERROR = "/Edr/Error",
 
+    PAGE_MESSAGE = "/Edr/Message",
+
     PAGE_LANGUAGE = "/Edr/Language",
 
     PAGE_LOGIN = "/Edr/Auth/Login",
@@ -27,6 +29,8 @@ export enum ApgEdr_Route_eShared {
     PAGE_LOGOUT = "/Edr/Auth/Logout",
     
     PAGE_REQ_OTP = "/Edr/Auth/Otp",
+
+    PAGE_SUPPORT = "/Edr/Support",
 
     PAGE_TOOLS = "/Edr/Tools",
 
@@ -54,6 +58,8 @@ export enum ApgEdr_Route_eShared {
     RESERVED_PAGE_USER = "/Edr/Rsvd/User",
 
     RESERVED_PAGE_USER_UNLOCK = "/Edr/Rsvd/User/Unlock",
+
+    RESERVED_PAGE_TELEMETRY_PURGE = "/Edr/Rsvd/Telemetry/Purge",
 
 
 }

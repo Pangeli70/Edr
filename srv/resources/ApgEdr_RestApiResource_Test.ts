@@ -30,7 +30,7 @@ const ApgEdr_Tests: ApgEdr_ITest[] = [
 /**
  * Route per testare la classe base Edr.ApgEdr_Base_RestResource
  */
-export class ApgEdr_RestApiResource_Test extends Edr.ApgEdr_RestResource_Base {
+export class ApgEdr_RestApiResource_Test extends Edr.ApgEdr_RestResource {
 
 
     public paths = [ApgEdr_eRoutes.API_TEST];

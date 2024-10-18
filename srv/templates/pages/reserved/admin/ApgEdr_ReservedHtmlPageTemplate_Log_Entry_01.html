@@ -22,6 +22,22 @@
     <table>
         <tr>
             <td style="min-width: 6rem; font-style: italic;">
+                Telemetry Id
+            </td>
+            <td>
+                <% page.data.request.telemetryId %>
+            </td>
+        </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Deployment
+            </td>
+            <td>
+                <% page.data.request.deployment %>
+            </td>
+        </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
                 Counter
             </td>
             <td style="min-width: 30rem">
@@ -39,10 +55,10 @@
         </tr>
         <tr>
             <td style="min-width: 6rem; font-style: italic;">
-                Host
+                Client
             </td>
             <td>
-                <% page.data.request.remoteAddr.hostname %>: <% page.data.request.remoteAddr.port %>
+                <% page.data.request.client.hostname %>: <% page.data.request.client.port %>
             </td>
         </tr>
         <tr>
@@ -61,16 +77,40 @@
                 <% page.data.request.route %>
             </td>
         </tr>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Language
+            </td>
+            <td>
+                <% page.data.request.language %>
+            </td>
+        </tr>
+
 
         <% if (page.data.request.auth) { %>
         <% const auth = page.data.request.auth; %>
         <tr>
             <td style="min-width: 6rem; font-style: italic;">
-                Auth
+                JWT Auth
             </td>
             <td>
-                Session: <% auth.session %> | User: <% auth.email %> | Role:
-                <% auth.role %>
+                Session: <% auth.session %> <br>
+                User: <% auth.email %> <br>
+                Role: <% auth.role %>
+            </td>
+        </tr>
+        <% } %>
+
+        <% if (page.data.request.message) { %>
+        <% const msg = page.data.request.message; %>
+        <tr>
+            <td style="min-width: 6rem; font-style: italic;">
+                Message
+            </td>
+            <td>
+                Title: <% msg.title %> <br>
+                Text: <% msg.text %> <br>
+                Next: <% msg.next %>
             </td>
         </tr>
         <% } %>

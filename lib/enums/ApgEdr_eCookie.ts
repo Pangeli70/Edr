@@ -16,6 +16,11 @@ export enum ApgEdr_eCookie {
      */
     LANGUAGE = "APG_EDR_COOKIE_LANGUAGE",
 
+    /**
+     * Session identifier for aggregation of telemetry data
+     */
+    TELEMETRY_ID = "APG_EDR_COOKIE_TELEMETRY_ID",
+
 
 
 }

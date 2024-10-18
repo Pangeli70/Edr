@@ -4,6 +4,7 @@
  * @version 1.0 APG 20240708
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * @version 1.2 APG 20240813 Moved to lib
+ * @version 1.3 APG 20240902 Better permissions management
  * ----------------------------------------------------------------------------
  */
 
@@ -20,14 +21,19 @@ import {
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_ReservedHtmlPageResource
+} from "../ApgEdr_ReservedHtmlPageResource.ts";
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_Tng_Templates extends Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_Tng_Templates
+    extends ApgEdr_ReservedHtmlPageResource {
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_TNG_TEMPLATES];
 
-    readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Tng_Templates.name;
 
     async GET(
         request: Drash.Request,
@@ -35,10 +41,7 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Templates extends Drash.Resourc
     ) {
 
         const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!ApgEdr_Service.VerifyProtectedPage(edr, this.EDR_ROLE)) {
-            this.redirect(ApgEdr_Route_eShared.PAGE_LOGIN, response);
-            return;
-        }
+        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
 
 
         const pagesDir = ApgEdr_Service.LocalTemplatesPath;
@@ -76,13 +79,13 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Templates extends Drash.Resourc
 
         const rootRoute = ApgEdr_Route_eShared.FILE_ANY_TEMPLATE.replace("/*", "");
         let rootDir = aroot
-        if (rootDir == "") { 
+        if (rootDir == "") {
             rootDir = afolder
         }
 
         for await (const dirEntry of Deno.readDir(afolder)) {
 
-            if (dirEntry.isDirectory) { 
+            if (dirEntry.isDirectory) {
                 const subfolder = `${afolder}/${dirEntry.name}`
                 data.push(...await this.#getFilesRecursively(subfolder, rootDir));
             }
@@ -90,13 +93,13 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Templates extends Drash.Resourc
             else {
                 const ext = dirEntry.name.split('.').pop();
                 if (ext == 'html') {
-    
+
                     const rawPath = `${afolder}/${dirEntry.name}`;
                     const filePath = rawPath.replace(rootDir, "")
                     data.push({
                         url: rootRoute + filePath,
                     });
-    
+
                 }
             }
         }

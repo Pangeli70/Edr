@@ -12,6 +12,7 @@
       Tng.ApgTng_IPageData (V1.0)
   * @version
       1.0.0 APG 20240813
+      1.0.1 APG 20241012
   * ---------------------------------------------------------------------------- 
 -->
 
@@ -30,7 +31,7 @@
         <tr>
             <td>
                 <a
-                  href="/Edr/Rsvd/Log/Entry/<% error.counter %>"
+                  href="<% error.href %>"
                   role="button"
                   style="padding: 0.1rem; line-height: 1rem;"
                 >
@@ -38,8 +39,8 @@
                 </a>
             </td>
             <td><% error.method %></td>
-            <td><% error.url %></td>
-            <td><% error.message %></td>
+            <td><% error.route %></td>
+            <td><% error.message.text %></td>
         </tr>
         <% } %>
     </table>

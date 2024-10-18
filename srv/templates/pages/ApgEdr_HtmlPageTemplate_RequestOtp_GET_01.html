@@ -1,0 +1,32 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages]
+  * @file 
+      [ApgEdr_HtmlPageTemplate_RequestOtp_GET_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      Page to request the Otp by submitting the email
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @version
+      1.0.0 APG 20240813
+      1.0.1 APG 20241016 Better text and translations
+  * ---------------------------------------------------------------------------- 
+-->
+
+<section>
+
+
+    <form action="<% page.data.action %>" method="post">
+        
+        <label for="email"><% page.data.translations.GET_P1 %></label>
+        <input type="text" id="email" name="email" placeholder="E-mail">
+
+        <input type="submit" value="<% page.data.translations.GET_Submit %>">
+
+    </form>
+
+
+</section>

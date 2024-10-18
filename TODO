@@ -1,0 +1,51 @@
+Apg Edr todo list
+-----------------
+
+Edr:
+  ☐ Translate messages in ApgEdr_Auth_Service @APG(24-10-16 10:35) @1h @low
+  ✔ Convert Edr services in descendants Of ApgUts_Service @APG(24-10-16 10:35) @1h/15m @done(24-10-18 01:42)
+
+Auth:
+  ✔ Remove session from JWT @APG(24-10-18 01:57) @15m/15m @done(24-10-18 01:58)
+
+Otp:
+  ☐ In the OTP submission page  @APG(24-10-09 10:35) 
+    ✔ Add a warning about OTP expiration. @20m/10m @low
+    ✔ Remind to check for spam folder. @20m/10m @done(24-10-15 00:35)
+  ☐ Multilanguage pages end email message @APG(24-10-09 10:35) @1h @low
+    ✔ Translate Request Otp POST Resource @done(24-10-15 00:31) @2h
+    ✔ Translate Request Otp GET Resource @1h/30m @done(24-10-16 01:17)
+    ✔ Translate Request Otp POST Resource @1h/1.30m @done(24-10-16 01:17)
+    ☐ Translate Login POST Resource
+  ☐ Email message in Html format @APG(24-10-09 11:23) @2h @low
+  ☐ Improve the Otp email message both for title and info  @APG(24-10-09 10:35) @1h @low
+    ✔ Email message multilanguage @done(24-10-15 00:31)
+      like purpose,expiration etc.
+  ☐ When OTP is expired redirect to /edr/auth/otp not /login page @APG(24-10-09 10:43) @20m @high
+  ☐ Rename and invert the /otp and /login pages @APG(24-10-09 10:45) @1h @high
+  ☐ After the authetication show a message page about current privileges @APG(24-10-10 22:35) @1h @low
+  ☐ Implement new page to request support @APG(24-10-16 01:20) @2h
+  ☐ Extract OTP and Email functions from resources @APG(24-10-16 01:20) @2h 
+
+
+Telemetry:
+  ✔ Telemetry ID as a cookie @APG(24-10-09 10:35) @1h/1h @done(24-10-14 23:23)
+  ☐ Debug telemetry on Atlas @APG(24-10-09 10:35) @5h @high
+    ☐ Introduce a delay in connection to Mongo DB and some rebouncing attempts @APG(24-10-09 10:35) @1h
+    to allow warmups on cold startups
+  ☐ Telemetry browser (search etc.) @APG(24-10-09 10:35) @5h @low
+  ☐ Telemetry download @APG(24-10-09 10:35) @1h @low
+  ☐ Telemetry purge message page and result @APG(24-10-09 10:35) @1h @low
+  ☐ Send to telemetry as fire and forget no await @APG(24-10-09 10:35) @30m @high
+
+Logging:
+  ☐ Move pagination component to a reusable component @APG(24-10-12 10:35) @1h @critical
+  ✔ Verbosity on echo @done(24-10-08 14:57) @1h/20m  @high
+  ☐ Errors send email maybe @APG(24-10-09 10:31) @1h @low
+  ✔ Error page details redirects to log list not error list @APG(24-10-09 11:12) @30m/20m @low @done(24-10-13 00:58)
+
+Environment:
+  ☐ Implement a browser of the internal events of the services @APG(24-10-09 11:26) @4h @high
+
+Uts:
+  ☐ Convert TMultilanguage in enumeration @APG(24-10-09 10:35) @1h @high
