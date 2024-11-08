@@ -5,6 +5,7 @@
  * @version 0.2 APG 20230416 Moved to its own microservice
  * @version 0.3 APG 20230710 New implementation
  * @version 0.4 APG 20230726 Inject storage and english comments
+ * @version 0.5 APG 20241107 Better logging
  * ----------------------------------------------------------------------------
  */
 
@@ -12,12 +13,6 @@ import {
     Drash,
     Uts
 } from "../deps.ts";
-import {
-    ApgEdr_IRequest
-} from "../interfaces/ApgEdr_IRequest.ts";
-import {
-    ApgEdr_Log_Service
-} from "../services/ApgEdr_Log_Service.ts";
 import {
     ApgEdr_Service
 } from "../services/ApgEdr_Service.ts";
@@ -42,11 +37,10 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
         _response: Drash.Response,
     ): void {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
-        ApgEdr_Log_Service.LogDebug(
-            edr,
+        const edr = ApgEdr_Service.GetEdr(request);
+        edr.LogDebug(
             ApgEdr_Middleware_Log.name,
-            this.runBeforeResource,
+            this.runBeforeResource.name,
             'Called'
         );
 
@@ -59,7 +53,7 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
         _response: Drash.Response
     ): void {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
         edr.totalTime = (performance.now() - edr.startTime);
         edr.endMemory = Uts.ApgUts.GetMemoryUsageMb().rss;
@@ -68,11 +62,10 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
         const deltaMemory = (edr.endMemory - edr.startMemory).toFixed(2) + 'MB';
 
         const message = 'totalTime: ' + totalTime + ' deltaMemory: ' + deltaMemory;
-        ApgEdr_Log_Service.Log(
-            edr,
+        edr.Log(
             Uts.ApgUts_eEventType.ANSW,
             ApgEdr_Middleware_Log.name,
-            this.runAfterResource,
+            this.runAfterResource.name,
             message
         );
 

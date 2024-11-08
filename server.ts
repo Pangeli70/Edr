@@ -24,6 +24,8 @@ for (const k in env) {
     }
 }
 
+
+// Setting access to private github repositories 
 const key = Deno.env.get("APG_EDR_GITHUB_PRIVATE_KEY");
 if (!key) {
     throw new Error("Missing github private package key in environment");
@@ -32,24 +34,31 @@ Deno.env.set('DENO_AUTH_TOKENS', key + "@raw.githubusercontent.com");
 
 
 
-import { Edr, Tng } from "./srv/deps.ts";
+import { Edr, Tng, Mng } from "./srv/deps.ts";
 
 // Setup Logger
-Edr.ApgEdr_Log_Service.DoEventsEcho = true;
-Edr.ApgEdr_Log_Service.DoVerboseEcho = false;
-Edr.ApgEdr_Log_Service.DoDebug = false;
+Edr.ApgEdr_Request.DoEventsEcho = true;
+Edr.ApgEdr_Request.DoVerboseEcho = false;
+Edr.ApgEdr_Request.DoDebug = false;
 
 // Setup edr
 Edr.ApgEdr_Service.Microservice = ApgEdr_Microservice;
 Edr.ApgEdr_Service.ClientCacheMaxAge = 10 * 60; // 10 minutes
 Edr.ApgEdr_Service.UseCdn = false;
+
 // Setup env customization
 // Edr.ApgEdr_Service.DefaultFavicon = "ApgEdr_Favicon_Breda_2024_V01";
 // Edr.ApgEdr_Service.DefaultLogoJs = "ApgEdr_Logo3D_Breda_2024_V01";
 
-// Setup MontgoDb support
-Edr.ApgEdr_MongoDb_Service.Setup("ApgEdr", true, false);
+// Setup MongoDb support
+Mng.ApgMng_Service.Setup(Edr.ApgEdr_Microservice_Name, true, true);
+Mng.ApgMng_Service.InitOrPanic();
+
+// Setup MongoDB Telemetry
 Edr.ApgEdr_Telemetry_Service.Setup(5);
+
+// Setup Dev tracking
+Edr.ApgEdr_Dev_Service.Setup(Edr.ApgEdr_Microservice_Name);
 
 // Setup Tng
 Tng.ApgTng_Service.TemplatesPath = "./srv/templates";

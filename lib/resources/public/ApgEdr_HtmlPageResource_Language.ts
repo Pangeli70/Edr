@@ -35,7 +35,7 @@ export class ApgEdr_HtmlPageResource_Language extends Drash.Resource {
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
@@ -65,7 +65,7 @@ export class ApgEdr_HtmlPageResource_Language extends Drash.Resource {
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
         const rawLang = await request.bodyParam(this.BODY_PARAM_LANG) as string;
 

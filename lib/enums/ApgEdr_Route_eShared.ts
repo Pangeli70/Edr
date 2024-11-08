@@ -3,6 +3,7 @@
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20240701
  * @version 0.2 APG 20240726 English comments
+ * @version 0.3 APG 20241107 Telemetry and Dev
  * ----------------------------------------------------------------------------
  */
 
@@ -60,6 +61,16 @@ export enum ApgEdr_Route_eShared {
     RESERVED_PAGE_USER_UNLOCK = "/Edr/Rsvd/User/Unlock",
 
     RESERVED_PAGE_TELEMETRY_PURGE = "/Edr/Rsvd/Telemetry/Purge",
+
+    RESERVED_PAGE_TELEMETRY = "/Edr/Rsvd/Telemetry",
+
+    RESERVED_PAGE_STATUS= "/Edr/Rsvd/Status",
+
+    RESERVED_PAGE_DEV_STORIES = "/Edr/Rsvd/Dev/Stories",
+    RESERVED_PAGE_DEV_STORY = "/Edr/Rsvd/Dev/Story",
+    RESERVED_PAGE_DEV_ACTIVITY = "/Edr/Rsvd/Dev/Activity",
+    RESERVED_PAGE_DEV_LOG = "/Edr/Rsvd/Dev/Log",
+
 
 
 }

@@ -11,14 +11,14 @@
  */
 
 import {
+    ApgEdr_Request
+} from "../../classes/ApgEdr_Request.ts";
+import {
     Drash, Uts
 } from "../../deps.ts";
 import {
     ApgEdr_Route_eShared
 } from "../../enums/ApgEdr_Route_eShared.ts";
-import {
-    ApgEdr_IRequest
-} from "../../interfaces/ApgEdr_IRequest.ts";
 import {
     ApgEdr_Auth_Service
 } from "../../services/ApgEdr_Auth_Service.ts";
@@ -107,7 +107,7 @@ export class ApgEdr_HtmlPageResource_Login extends
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
         const rawEmail = await request.bodyParam(this.BODY_PARAM_EMAIL) as string;
 
@@ -145,7 +145,7 @@ export class ApgEdr_HtmlPageResource_Login extends
 
 
         if (errorMessage !== "") {
-            this.#errorDuringLogin(this.POST, request, response, edr, rawEmail, errorMessage);
+            this.#handleLoginError(edr, this.POST.name, request, response, rawEmail, errorMessage);
             return;
         }
         else {
@@ -155,11 +155,11 @@ export class ApgEdr_HtmlPageResource_Login extends
 
 
 
-    #errorDuringLogin(
-        amethod: Function,
+    #handleLoginError(
+        aedr: ApgEdr_Request,
+        amethodName: string,
         arequest: Drash.Request,
         aresponse: Drash.Response,
-        aedr: ApgEdr_IRequest,
         arawEmail: string,
         aerrorMessage: string,
     ) {
@@ -178,12 +178,12 @@ export class ApgEdr_HtmlPageResource_Login extends
         };
 
         // Log the error
-        ApgEdr_Service.Error(
+        ApgEdr_Service.HandleError(
+            aedr,
             this.RESOURCE_NAME,
-            amethod,
-            aedr
+            amethodName,
         );
 
-        this.loggedRedirectToError(amethod, aresponse, aedr, arequest.url);
+        this.logAndRedirectToErrorPage(aedr, amethodName, aresponse, arequest.url);
     }
 }

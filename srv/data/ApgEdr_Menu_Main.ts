@@ -191,6 +191,18 @@ export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
         isReserved: true
     },
     {
+        url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_DEV_STORIES,
+        label: {
+            IT: "Storie utente",
+            EN: "User stories"
+        },
+        title: {
+            IT: "Elencate per dominio del microservizio",
+            EN: "Listed by the domain of the microservice"
+        },
+        isReserved: false
+    },
+    {
         url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_ENVIRONMENT,
         label: {
             IT: "Ambiente",
@@ -199,6 +211,18 @@ export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
         title: {
             IT: "Impostazioni dell'ambiente",
             EN: "Environment settings"
+        },
+        isReserved: true
+    },
+    {
+        url: Edr.ApgEdr_Route_eShared.RESERVED_PAGE_STATUS,
+        label: {
+            IT: "Stato",
+            EN: "Status"
+        },
+        title: {
+            IT: "Stato di funzionamento dei servizi",
+            EN: "Operational status if the servicess"
         },
         isReserved: true
     },

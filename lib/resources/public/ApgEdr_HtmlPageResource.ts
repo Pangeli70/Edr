@@ -2,6 +2,7 @@
  * @module [ApgEdr/lib]
  * @author [APG] Angeli Paolo Giusto
  * @version 1.0 APG 20241006
+ * @version 1.0 APG 20241107 Better logging
  * ----------------------------------------------------------------------------
 */
 
@@ -14,15 +15,9 @@ import {
     ApgEdr_Route_eShared
 } from "../../enums/ApgEdr_Route_eShared.ts";
 import {
-    ApgEdr_IRequest
-} from "../../interfaces/ApgEdr_IRequest.ts";
+    ApgEdr_Request
+} from "../../classes/ApgEdr_Request.ts";
 
-import {
-    ApgEdr_Log_Service
-} from "../../services/ApgEdr_Log_Service.ts";
-import {
-    ApgEdr_Service
-} from "../../services/ApgEdr_Service.ts";
 
 
 
@@ -31,21 +26,23 @@ import {
 export abstract class ApgEdr_HtmlPageResource extends Drash.Resource {
 
 
+    /**
+     * Abstract property Must be overridden by subclasses
+     */
     abstract readonly RESOURCE_NAME: string;
 
 
-    protected loggedRedirect(
-        amethod: Function,
-        aresponse: Drash.Response,
-        aedr: ApgEdr_IRequest,
+    protected logAndRedirect(
+        aedr: ApgEdr_Request,
+        amethodName: string,
         afromUrl: string,
-        atoUrl: string
+        atoUrl: string,
+        aresponse: Drash.Response,
     ) {
-        ApgEdr_Log_Service.Log(
-            aedr,
+        aedr.Log(
             Uts.ApgUts_eEventType.REDIR,
             this.RESOURCE_NAME,
-            amethod,
+            amethodName,
             'Redirecting to ' + atoUrl
         )
 
@@ -55,21 +52,21 @@ export abstract class ApgEdr_HtmlPageResource extends Drash.Resource {
 
         aedr.redirectedFrom.push(afromUrl);
 
-      //  ApgEdr_Service.StoreEdr(aedr);
+        //  ApgEdr_Service.StoreEdr(aedr);
 
         this.redirect(atoUrl, aresponse);
     }
 
 
 
-    protected loggedRedirectToError(
-        amethod: Function,
+    protected logAndRedirectToErrorPage(
+        aedr: ApgEdr_Request,
+        amethodName: string,
         aresponse: Drash.Response,
-        aedr: ApgEdr_IRequest,
         afromUrl: string,
     ) {
         const url = ApgEdr_Route_eShared.PAGE_ERROR + "/" + aedr.counter;
-        this.loggedRedirect(amethod, aresponse, aedr, afromUrl, url);
+        this.logAndRedirect(aedr, amethodName, afromUrl, url, aresponse);
     }
 
 

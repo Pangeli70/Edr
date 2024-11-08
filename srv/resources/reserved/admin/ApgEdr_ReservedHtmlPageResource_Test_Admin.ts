@@ -32,8 +32,8 @@ export class ApgEdr_ReservedHtmlPageResource_TestAdmin
         response: Edr.Drash.Response
     ) {
 
-        const edr = Edr.ApgEdr_Service.GetEdrRequest(request);
-        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        const edr = Edr.ApgEdr_Service.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
         const templateData = Edr.ApgEdr_Service.GetTemplateData(
             edr,

@@ -13,6 +13,9 @@
 
 
 import {
+    ApgEdr_Request
+} from "../classes/ApgEdr_Request.ts";
+import {
     Drash, Tng, Uts
 } from "../deps.ts";
 import {
@@ -30,9 +33,6 @@ import {
 import {
     ApgEdr_IRequest
 } from "../interfaces/ApgEdr_IRequest.ts";
-import {
-    ApgEdr_Log_Service
-} from "./ApgEdr_Log_Service.ts";
 
 
 /**
@@ -153,12 +153,12 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
      * Get the edr data injected in the Drash request
      * by the middlewares
      */
-    static GetEdrRequest(request: Drash.Request) {
+    static GetEdr(request: Drash.Request) {
 
         // deno-lint-ignore no-explicit-any
         if ((request as any).edr) {
             // deno-lint-ignore no-explicit-any
-            const edr = (request as any).edr as ApgEdr_IRequest;
+            const edr = (request as any).edr as ApgEdr_Request;
             return edr;
         }
         else {
@@ -295,7 +295,7 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
             isCdnTemplate: false,
         }
     ) {
-        const edr = this.GetEdrRequest(request);
+        const edr = this.GetEdr(request);
 
         const events: Uts.ApgUts_ILoggableEvent[] = [];
 
@@ -314,7 +314,7 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
 
         response.html(html);
 
-        ApgEdr_Log_Service.LogEvents(edr, events);
+        edr.LogEvents(events);
     }
 
 
@@ -408,26 +408,25 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
     }
 
 
-    static Error(
-        amodule: string,
-        // deno-lint-ignore ban-types
-        amethod: Function,
-        aedr: ApgEdr_IRequest
+
+    static HandleError(
+        aedr: ApgEdr_Request,
+        aclassName: string,
+        amethodName: string,
     ) {
 
-        this.Errors.push(aedr);
-
+        
         const { title, text } = this.PrepareMessage(aedr);
-
+        
         const message = `${title}: ${text}`;
-
-        ApgEdr_Log_Service.LogError(
-            aedr,
-            amodule,
-            amethod,
+        
+        aedr.LogError(
+            aclassName,
+            amethodName,
             message
         );
-
+        
+        this.Errors.push(aedr);
 
     }
 

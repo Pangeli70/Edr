@@ -44,7 +44,7 @@ export class ApgEdr_HtmlPageResource_Error
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
         const rawErrId = request.pathParam(this.PATH_PARAM_ERR_ID);
 

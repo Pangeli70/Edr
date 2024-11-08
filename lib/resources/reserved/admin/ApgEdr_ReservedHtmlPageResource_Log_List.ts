@@ -12,7 +12,8 @@
 
 import {
     Drash,
-    Uts
+    Uts,
+    Tng
 } from "../../../deps.ts";
 import {
     ApgEdr_Auth_eRole
@@ -31,19 +32,6 @@ import {
 } from "../ApgEdr_ReservedHtmlPageResource.ts";
 
 
-interface IPagination {
-    pages: number,
-    page: number,
-    from: number,
-    to: number,
-    items: number,
-    next: string,
-    prev: string,
-    first: string,
-    last: string,
-}
-
-
 export class ApgEdr_ReservedHtmlPageResource_Log_List
     extends ApgEdr_ReservedHtmlPageResource {
 
@@ -60,81 +48,32 @@ export class ApgEdr_ReservedHtmlPageResource_Log_List
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        const edr = ApgEdr_Service.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
-        const rawPagination = request.queryParam(this.QS_PARAM_PAGINATION);
+        const rawPage = request.queryParam(this.QS_PARAM_PAGINATION);
 
-        const baseUrl = `${ApgEdr_Route_eShared.RESERVED_PAGE_LOG}?${this.QS_PARAM_PAGINATION}=`;
-
-
-        const pagination: IPagination = {
-            pages: 1,
-            page: 1,
-            from: 1,
-            to: this.PAGINATION_SIZE,
-            items: ApgEdr_Service.Requests.length,
-            next: "",
-            prev: "",
-            first: "",
-            last: "",
-        }
-
-        if (rawPagination) {
-            if (Uts.ApgUts_Is.IsInteger(rawPagination)) {
-                pagination.page = parseInt(rawPagination);
+        let page = 1;
+        if (rawPage) {
+            if (Uts.ApgUts_Is.IsInteger(rawPage)) {
+                page = parseInt(rawPage);
             }
         }
+
+        const baseUrl = `${ApgEdr_Route_eShared.RESERVED_PAGE_LOG}?${this.QS_PARAM_PAGINATION}=`
+
+        const pagination: Tng.ApgTng_IPagination = this.getPagination(
+            ApgEdr_Service.Requests.length,
+            this.PAGINATION_SIZE,
+            page,
+            baseUrl
+        );
 
         const filteredRequests: ApgEdr_IRequest[] = [];
-
-        pagination.pages = Math.ceil(pagination.items / this.PAGINATION_SIZE);
-
-
-
-        if (pagination.pages == 1) {
-            filteredRequests.push(...ApgEdr_Service.Requests);
-            pagination.to = pagination.items;
-        }
-        else {
-
-            let startIndex = 0;
-            let endIndex = this.PAGINATION_SIZE;
-
-            if (pagination.page > pagination.pages) {
-                pagination.page = pagination.pages;
-            }
-
-            if (pagination.page != 1) {
-                startIndex = (pagination.page - 1) * this.PAGINATION_SIZE;
-                endIndex = startIndex + this.PAGINATION_SIZE;
-                if (endIndex > pagination.items - 1) {
-                    endIndex = pagination.items - 1;
-                }
-            }
-            filteredRequests
-                .push(...ApgEdr_Service.Requests.slice(startIndex, endIndex))
-            filteredRequests
-                .sort((a, b) => a.counter - b.counter);
-
-            pagination.from = startIndex + 1;
-            pagination.to = endIndex;
-
-            if (pagination.page != 1) {
-                pagination.first = `${baseUrl}1`;
-            }
-            if (pagination.page > 1) {
-                pagination.prev = `${baseUrl}${pagination.page - 1}`;
-            }
-            if (pagination.page < pagination.pages) {
-                pagination.next = `${baseUrl}${pagination.page + 1}`;
-            }
-            if (pagination.page != pagination.pages) {
-                pagination.last = `${baseUrl}${pagination.pages}`;
-            }
-        }
-
-
+        filteredRequests
+            .push(...ApgEdr_Service.Requests.slice(pagination.from - 1, pagination.to - 1));
+        filteredRequests
+            .sort((a, b) => a.counter - b.counter);
 
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
@@ -159,4 +98,63 @@ export class ApgEdr_ReservedHtmlPageResource_Log_List
     }
 
 
+
+    private getPagination(
+        aitems: number,
+        apageSize: number,
+        apage: number,
+        baseUrl: string
+    ) {
+
+        const pagination: Tng.ApgTng_IPagination = {
+            pages: 1,
+            page: apage,
+            from: 1,
+            to: apageSize,
+            items: aitems,
+            next: "",
+            prev: "",
+            first: "",
+            last: "",
+        };
+
+        pagination.pages = Math.ceil(pagination.items / apageSize);
+
+
+        if (pagination.pages == 1) {
+            pagination.page = 1;
+            pagination.to = pagination.items;
+
+        }
+        else {
+
+            if (pagination.page > pagination.pages) {
+                pagination.page = pagination.pages;
+            }
+
+            const startIndex = (pagination.page - 1) * apageSize;
+            let endIndex = startIndex + apageSize;
+            if (endIndex > pagination.items - 1) {
+                endIndex = pagination.items - 1;
+            }
+
+            pagination.from = startIndex + 1;
+            pagination.to = endIndex;
+
+            if (pagination.page != 1) {
+                pagination.first = `${baseUrl}1`;
+            }
+            if (pagination.page > 1) {
+                pagination.prev = `${baseUrl}${pagination.page - 1}`;
+            }
+            if (pagination.page < pagination.pages) {
+                pagination.next = `${baseUrl}${pagination.page + 1}`;
+            }
+            if (pagination.page != pagination.pages) {
+                pagination.last = `${baseUrl}${pagination.pages}`;
+            }
+        }
+
+        return pagination;
+    }
 }

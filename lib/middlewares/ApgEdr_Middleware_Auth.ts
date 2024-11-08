@@ -5,6 +5,7 @@
  * @version 0.2 APG 20230416 Moved to its own microservice
  * @version 0.3 APG 20230710 New implementation
  * @version 0.4 APG 20240726 English comments
+ * @version 0.5 APG 20241107 Better logging
  * ----------------------------------------------------------------------------
  */
 
@@ -21,9 +22,6 @@ import {
 import {
     ApgEdr_Auth_Service
 } from "../services/ApgEdr_Auth_Service.ts";
-import {
-    ApgEdr_Log_Service
-} from "../services/ApgEdr_Log_Service.ts";
 import {
     ApgEdr_Service
 } from "../services/ApgEdr_Service.ts";
@@ -42,12 +40,11 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
     ) {
 
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
-        ApgEdr_Log_Service.LogDebug(
-            edr,
+        edr.LogDebug(
             ApgEdr_Middleware_Auth.name,
-            this.runBeforeResource,
+            this.runBeforeResource.name,
             'Called'
         );
 
@@ -67,20 +64,18 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
                 response.setCookie(r.payload as Uts.Std.Cookie);
 
                 const message = `Authenticated: ${edr.auth.email} and cookie renewed`;
-                ApgEdr_Log_Service.Log(
-                    edr,
+                edr.Log(
                     Uts.ApgUts_eEventType.AUTH,
                     ApgEdr_Middleware_Auth.name,
-                    this.runBeforeResource,
+                    this.runBeforeResource.name,
                     message
                 );
 
             }
             else {
-                ApgEdr_Log_Service.LogError(
-                    edr,
+                edr.LogError(
                     ApgEdr_Middleware_Auth.name,
-                    this.runBeforeResource,
+                    this.runBeforeResource.name,
                     r.joinMessages()
                 );
             }
@@ -98,11 +93,10 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
         _response: Drash.Response
     ): void {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
-        ApgEdr_Log_Service.LogDebug(
-            edr,
+        const edr = ApgEdr_Service.GetEdr(request);
+        edr.LogDebug(
             ApgEdr_Middleware_Auth.name,
-            this.runAfterResource,
+            this.runAfterResource.name,
             'Called'
         );
 

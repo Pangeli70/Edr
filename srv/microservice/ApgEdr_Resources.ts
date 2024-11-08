@@ -69,6 +69,11 @@ export const ApgEdr_Resources: typeof Edr.Drash.Resource[] = [
 
     Edr.ApgEdr_ReservedHtmlPageResource_Telemetry_Purge,
 
+    Edr.ApgEdr_ReservedHtmlPageResource_Dev_Stories,
+    Edr.ApgEdr_ReservedHtmlPageResource_Dev_Story,
+
+    Edr.ApgEdr_ReservedHtmlPageResource_Status,
+
     ApgEdr_RestApiResource_Test
 
 ];

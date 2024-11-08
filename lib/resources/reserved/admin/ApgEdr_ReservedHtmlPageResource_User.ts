@@ -16,9 +16,10 @@ import {
 import {
     ApgEdr_Route_eShared
 } from "../../../enums/ApgEdr_Route_eShared.ts";
+
 import {
-    ApgEdr_IRequest
-} from "../../../interfaces/ApgEdr_IRequest.ts";
+    ApgEdr_Request
+} from "../../../classes/ApgEdr_Request.ts";
 import {
     ApgEdr_Auth_Service
 } from "../../../services/ApgEdr_Auth_Service.ts";
@@ -48,9 +49,9 @@ export class ApgEdr_ReservedHtmlPageResource_User
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
-        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
         const rawId = request.pathParam(this.PATH_PARAM_USER_ID)!;
 
@@ -59,7 +60,7 @@ export class ApgEdr_ReservedHtmlPageResource_User
         const user = ApgEdr_Auth_Service.Authentications[rawId];
 
         if (!profile) {
-            this.#errorUserNotFound(this.GET, request, response, edr, rawId);
+            this.#handleUserNotFoundError(edr, this.GET.name, request, response, rawId);
             return;
         }
 
@@ -93,11 +94,11 @@ export class ApgEdr_ReservedHtmlPageResource_User
 
 
 
-    #errorUserNotFound(
-        amethod: Function,
+    #handleUserNotFoundError(
+        aedr: ApgEdr_Request,
+        amethodName: string,
         arequest: Drash.Request,
         aresponse: Drash.Response,
-        aedr: ApgEdr_IRequest,
         arawId: string,
     ) {
 
@@ -107,12 +108,12 @@ export class ApgEdr_ReservedHtmlPageResource_User
             next: ApgEdr_Route_eShared.RESERVED_PAGE_USERS
         }
 
-        ApgEdr_Service.Error(
+        ApgEdr_Service.HandleError(
+            aedr,
             ApgEdr_ReservedHtmlPageResource_User.name,
-            this.GET,
-            aedr
+            this.GET.name,
         );
 
-        this.loggedRedirectToError(amethod, aresponse, aedr, arequest.url);
+        this.logAndRedirectToErrorPage(aedr, amethodName, aresponse, arequest.url);
     }
 }

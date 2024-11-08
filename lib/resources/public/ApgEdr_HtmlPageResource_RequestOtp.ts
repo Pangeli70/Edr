@@ -8,9 +8,13 @@
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * @version 1.2 APG 20240813 Moved to lib
  * @version 1.2 APG 20241015 Translations
- * ----------------------------------------------------------------------------
+ * @version 1.3 APG 20241107 Better error management
+----------------------------------------------------------------------------
  */
 
+import {
+    ApgEdr_Request
+} from "../../classes/ApgEdr_Request.ts";
 import {
     Drash,
     Uts
@@ -18,9 +22,6 @@ import {
 import {
     ApgEdr_Route_eShared
 } from "../../enums/ApgEdr_Route_eShared.ts";
-import {
-    ApgEdr_IRequest
-} from "../../interfaces/ApgEdr_IRequest.ts";
 import {
     ApgEdr_Auth_Service
 } from "../../services/ApgEdr_Auth_Service.ts";
@@ -142,7 +143,7 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
@@ -175,14 +176,14 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
         const rawEmail = await request.bodyParam(this.BODY_PARAM_EMAIL) as string;
         const auth = ApgEdr_Auth_Service.Authentications[rawEmail];
 
         if (!auth) {
             const errorMessage = _Translator.get(_eTranslation.POST_Error_EmailNotFound, edr.language);
-            this.#errorDuringLogin(this.POST, request, response, edr, errorMessage);
+            this.#handleEmailDeliveryError(edr, this.POST.name, request, response, errorMessage);
             return;
         }
 
@@ -212,7 +213,7 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
                 edr.language,
                 [rawEmail, ...r.messages]
             );
-            this.#errorDuringLogin(this.POST, request, response, edr, errorMessage);
+            this.#handleEmailDeliveryError(edr, this.POST.name, request, response, errorMessage);
             return;
         }
 
@@ -254,11 +255,11 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
 
 
 
-    #errorDuringLogin(
-        amethod: Function,
+    #handleEmailDeliveryError(
+        aedr: ApgEdr_Request,
+        amethodName: string,
         arequest: Drash.Request,
         aresponse: Drash.Response,
-        aedr: ApgEdr_IRequest,
         aerrorMessage: string
     ) {
 
@@ -270,14 +271,14 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
 
 
         // Log the error
-        ApgEdr_Service.Error(
-            this.RESOURCE_NAME,
-            amethod,
+        ApgEdr_Service.HandleError(
             aedr,
+            this.RESOURCE_NAME,
+            amethodName,
         );
 
 
-        this.loggedRedirectToError(amethod, aresponse, aedr, arequest.url);
+        this.logAndRedirectToErrorPage(aedr, amethodName, aresponse, arequest.url);
 
     }
 }

@@ -40,8 +40,8 @@ export class ApgEdr_ReservedHtmlPageResource_Tng_Templates
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        const edr = ApgEdr_Service.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
 
         const pagesDir = ApgEdr_Service.LocalTemplatesPath;

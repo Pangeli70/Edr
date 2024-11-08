@@ -3,6 +3,7 @@
  * @author [APG] Angeli Paolo Giusto
  * @version 1.0 APG 20240813
  * @version 1.1 APG 20240902 Better permissions management
+ * @version 1.2 APG 20241107 Better error management
  * ----------------------------------------------------------------------------
  */
 
@@ -17,11 +18,11 @@ import {
     ApgEdr_Route_eShared
 } from "../../../enums/ApgEdr_Route_eShared.ts";
 import {
-    ApgEdr_IRequest
-} from "../../../interfaces/ApgEdr_IRequest.ts";
-import {
     ApgEdr_Auth_Service
 } from "../../../services/ApgEdr_Auth_Service.ts";
+import {
+    ApgEdr_Request
+} from "../../../classes/ApgEdr_Request.ts";
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
@@ -32,7 +33,7 @@ import {
 
 
 export class ApgEdr_ReservedHtmlPageResource_User_Unlock
-    
+
     extends ApgEdr_ReservedHtmlPageResource {
 
     readonly PATH_PARAM_ID = 'id';
@@ -49,15 +50,15 @@ export class ApgEdr_ReservedHtmlPageResource_User_Unlock
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        const edr = ApgEdr_Service.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response,)) return;
 
         const rawId = request.pathParam(this.PATH_PARAM_ID)!;
 
         const user = ApgEdr_Auth_Service.Authentications[rawId];
 
         if (!user) {
-            this.#errorUserNotFound(this.GET, request, response, edr, rawId);
+            this.#handleUserNotFoundError(edr, this.GET.name, request, response, rawId);
             return;
         }
 
@@ -69,11 +70,11 @@ export class ApgEdr_ReservedHtmlPageResource_User_Unlock
 
 
 
-    #errorUserNotFound(
-        amethod: Function,
+    #handleUserNotFoundError(
+        aedr: ApgEdr_Request,
+        amethodName: string,
         arequest: Drash.Request,
         aresponse: Drash.Response,
-        aedr: ApgEdr_IRequest,
         arawId: string,
     ) {
 
@@ -83,12 +84,12 @@ export class ApgEdr_ReservedHtmlPageResource_User_Unlock
             next: ApgEdr_Route_eShared.RESERVED_PAGE_USERS
         }
 
-        ApgEdr_Service.Error(
+        ApgEdr_Service.HandleError(
+            aedr,
             ApgEdr_ReservedHtmlPageResource_User_Unlock.name,
-            this.GET,
-            aedr
+            this.GET.name,
         );
 
-        this.loggedRedirectToError(amethod, aresponse, aedr, arequest.url);
+        this.logAndRedirectToErrorPage(aedr, amethodName, aresponse, arequest.url);
     }
 }

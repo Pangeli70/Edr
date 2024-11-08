@@ -47,9 +47,9 @@ export class ApgEdr_ReservedHtmlPageResource_Users
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
-        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,

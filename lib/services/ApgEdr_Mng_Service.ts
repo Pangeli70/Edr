@@ -20,9 +20,11 @@ interface ApgEdr_MongoDb_CollectionPair<T extends Mng.Mongo.Document> {
 }
 
 /**
- * Service used to manage the MongoDb pair for persistency
+ * Service used to manage the MongoDb databases used for 
  *  - Local is used for development and testing purposes
  *  - Atlas is used for production
+ * 
+ * The service allows to manage collection pairs
  */
 export class ApgEdr_MongoDb_Service extends Uts.ApgUts_Service {
 
@@ -31,11 +33,15 @@ export class ApgEdr_MongoDb_Service extends Uts.ApgUts_Service {
         return ApgEdr_MongoDb_Service.name;
     }
 
-
+    static #inited = false;
     private static dbName = 'ApgEdr';
 
     private static _doLocalDb = false;
+    private static _localDb: Mng.ApgMng_DB_Local | null = null;
+
     private static _doAtlasDb = false;
+    private static _atlasDb: Mng.ApgMng_DB_Atlas | null = null;
+
 
 
     static Setup(
@@ -53,27 +59,26 @@ export class ApgEdr_MongoDb_Service extends Uts.ApgUts_Service {
     }
 
 
-    static async Init() {
 
-        const r = new Uts.ApgUts_Result<void>();
+    static async InitOrPanic() {
+
+        if (this.#inited) {
+            return;
+        }
+
+        let r = new Uts.ApgUts_Result<void>();
 
         if (this._doLocalDb) {
-            const r1 = await this.#initLocalDb();
-            if (!r1.ok) {
-                r.ok = false;
-                r.message(this.Init.name, `Impossibile to connect to [${this.dbName}] Local database`, r1.messages)
-            }
+            r = await this.#initLocalDb();
+            Uts.ApgUts.PanicIf(!r.ok, `Impossibile to initialize the MongoDb Local database connection`)
         }
 
         if (this._doAtlasDb) {
-            const r2 = await this.#initAtlasDb();
-            if (!r2.ok) {
-                r.ok = false;
-                r.message(this.Init.name, `Impossibile to connect to [${this.dbName}] Database database`, r2.messages)
-            }
+            r = await this.#initAtlasDb();
+            Uts.ApgUts.PanicIf(!r.ok, `Impossibile to initialize the MongoDb Atlas database connection`)
         }
 
-        return r;
+        this.#inited = true;
 
     }
 
@@ -81,24 +86,13 @@ export class ApgEdr_MongoDb_Service extends Uts.ApgUts_Service {
 
     static async #initLocalDb() {
 
-        const options =
-        {
-            mongoHost: "",
-            user: "",
-            password: "",
-        }
+        const e = this.LogBegin(this.#initLocalDb);
 
-        const r = await Mng.ApgMng_Service_Connector.Connect(
-            Mng.ApgMng_eMode.local,
-            this.dbName,
-            options
-        );
+        this._localDb = new Mng.ApgMng_DB_Local(this.dbName);
 
-        if (!r.ok) {
-            r.ok = false;
-            r.message(this.#initLocalDb.name, `Impossibile to connect to [${this.dbName}] database`, r.messages)
-        }
+        const r = await this._localDb.initializeConnection();
 
+        this.LogEnd(e)
         return r;
 
     };
@@ -107,38 +101,32 @@ export class ApgEdr_MongoDb_Service extends Uts.ApgUts_Service {
 
     static async #initAtlasDb() {
 
+        const e = this.LogBegin(this.#initAtlasDb);
+        let r = new Uts.ApgUts_Result<void>();
 
         const ATLAS_HOST = Deno.env.get(ApgEdr_Env_eEntry.ATLAS_HOST);
         if (ATLAS_HOST == undefined) {
-            throw new Error("No Mongo DB Atlas Host provided in environment variables");
+            const m = "No Mongo DB Atlas Host provided in environment variables";
+            return this.Error(r, e.method, m);
         }
+
         const ATLAS_USER = Deno.env.get(ApgEdr_Env_eEntry.ATLAS_USER);
         if (ATLAS_USER == undefined) {
-            throw new Error("No Mongo DB Atlas User provided in environment variables");
+            const m = "No Mongo DB Atlas User provided in environment variables";
+            return this.Error(r, e.method, m);
         }
+
         const ATLAS_PWD = Deno.env.get(ApgEdr_Env_eEntry.ATLAS_PWD);
         if (ATLAS_PWD == undefined) {
-            throw new Error("No Mongo DB Atlas Password provided in environment variables");
+            const m = "No Mongo DB Atlas Password provided in environment variables";
+            return this.Error(r, e.method, m);
         }
 
-        const options =
-        {
-            mongoHost: ATLAS_HOST || "",
-            user: ATLAS_USER || "",
-            password: ATLAS_PWD || "",
-        }
+        this._atlasDb = new Mng.ApgMng_DB_Atlas(this.dbName, ATLAS_HOST, ATLAS_USER, ATLAS_PWD);
 
-        const r = await Mng.ApgMng_Service_Connector.Connect(
-            Mng.ApgMng_eMode.atlas,
-            this.dbName,
-            options
-        );
+        r = await this._atlasDb.initializeConnection();
 
-        if (!r.ok) {
-            r.ok = false;
-            r.message(this.#initAtlasDb.name, `Impossibile to connect to [${this.dbName}] database`, r.messages)
-        }
-
+        this.LogEnd(e)
         return r;
 
     };
@@ -146,10 +134,11 @@ export class ApgEdr_MongoDb_Service extends Uts.ApgUts_Service {
 
 
     static async getDbCollectionPair<T extends Mng.Mongo.Document>(
-        aname: string,
+        acollectionName: string,
     ) {
 
-        await this.Init();
+        await this.InitOrPanic();
+        const e = this.LogBegin(this.getDbCollectionPair, acollectionName);
 
         const r = new Uts.ApgUts_Result<ApgEdr_MongoDb_CollectionPair<T>>();
 
@@ -157,36 +146,29 @@ export class ApgEdr_MongoDb_Service extends Uts.ApgUts_Service {
         const p: ApgEdr_MongoDb_CollectionPair<T> = {}
 
 
-        if (this._doLocalDb) {
+        if (this._doLocalDb && this._localDb) {
 
-            const dbKey = this.dbName + "_" + Mng.ApgMng_eMode.local;
-            const dbCollection = Mng.ApgMng_Service_Connector.Collection<T>(dbKey, aname);
-
-            if (!dbCollection) {
-                r.ok = false;
-                r.message(this.getDbCollectionPair.name, `[${aname}] collection in [${this.dbName}] Local DB not found`)
+            const r1 = this._localDb.getCollection<T>(acollectionName);
+            if (!r1.ok) {
+                return this.Error(r, e.method, 'Error getting local collection', r1.messages)
             }
-            else {
-                p.local = dbCollection;
-            }
+            p.local = r1.payload!;
         }
 
-        if (this._doAtlasDb) {
+        if (this._doAtlasDb && this._atlasDb) {
 
-            const dbKey = this.dbName + "_" + Mng.ApgMng_eMode.atlas;
-            const dbCollection = Mng.ApgMng_Service_Connector.Collection<T>(dbKey, aname);
-
-            if (!dbCollection) {
-                r.ok = false;
-                r.message(this.getDbCollectionPair.name, `[${aname}] collection in [${this.dbName}] Atlas DB not found`)
+            const r1 = this._atlasDb.getCollection<T>(acollectionName);
+            if (!r1.ok) {
+                return this.Error(r, e.method, 'Error getting Atlas collection', r1.messages)
             }
-            else {
-                p.atlas = dbCollection;
-            }
+            p.atlas = r1.payload!;
         }
 
-        r.setPayload(p, 'asignature')
+        if (r.ok) {
+            r.setPayload(p)
+        }
 
+        this.LogEnd(e);
         return r;
     }
 }

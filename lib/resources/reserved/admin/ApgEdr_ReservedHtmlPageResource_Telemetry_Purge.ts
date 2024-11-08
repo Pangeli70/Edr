@@ -16,12 +16,8 @@ import {
     ApgEdr_Route_eShared
 } from "../../../enums/ApgEdr_Route_eShared.ts";
 import {
-    ApgEdr_IRequest
-} from "../../../interfaces/ApgEdr_IRequest.ts";
-import { ApgEdr_Telemetry_Service } from "../../../mod.ts";
-import {
-    ApgEdr_Auth_Service
-} from "../../../services/ApgEdr_Auth_Service.ts";
+    ApgEdr_Telemetry_Service
+} from "../../../mod.ts";
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
@@ -46,8 +42,8 @@ export class ApgEdr_ReservedHtmlPageResource_Telemetry_Purge
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        const edr = ApgEdr_Service.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
 
         const n = await ApgEdr_Telemetry_Service.Purge()

@@ -1,0 +1,197 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages/reserved/admin]
+  * @file 
+      [ApgEdr_Dev_Story_ReservedHtmlPageTemplate_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      Story details and list of actions
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @version
+      1.0.0 APG 20241028
+  * ---------------------------------------------------------------------------- 
+-->
+
+<section>
+
+    <style>
+        #Story_Form table tr td {
+            /* background-color: red; */
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+        }
+
+        #Story_Form table tr td input {
+            /* background-color: rgb(76, 169, 172); */
+            /* padding-top: 0.2rem; */
+            /* padding-bottom: 0.2rem; */
+            /* line-height: 1.5rem; */
+            height: 2rem;
+        }
+    </style>
+
+    <form id="Story_Form">
+
+        <% const story = page.data.story; %>
+
+        <p style="text-align: right;">
+            <a
+              href="<% page.data.entryRoute %>"
+              role="button"
+            >Back</a>
+        </p>
+
+        <table>
+            <tr>
+                <td>
+                    <label for="timestampId">Id: </label>
+                </td>
+                <td>
+                    <input
+                      type="text"
+                      id="timestampId"
+                      name="timestampId"
+                      value="<% story.timestampId %>"
+                      style="margin: 0px;"
+                      readonly
+                    >
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="microservice">Microservice: </label>
+                </td>
+                <td>
+                    <input
+                      type="text"
+                      id="microservice"
+                      name="microservice"
+                      value="<% story.microservice %>"
+                      style="margin: 0px;"
+                      required
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="owner">Owner: </label>
+                </td>
+                <td>
+                    <input
+                      type="text"
+                      id="owner"
+                      name="owner"
+                      value="<% story.owner %>"
+                      style="margin: 0px;"
+                      required
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="expectation">Expectation: </label>
+                </td>
+                <td>
+                    <input
+                      type="text"
+                      id="expectation"
+                      name="expectation"
+                      value="<% story.expectation %>"
+                      style="margin: 0px;"
+                      required
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="outcome">Outcome: </label>
+                </td>
+                <td>
+                    <input
+                      type="text"
+                      id="outcome"
+                      name="outcome"
+                      value="<% story.outcome %>"
+                      style="margin: 0px;"
+                      required
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="notes">Notes: </label>
+                </td>
+                <td>
+                    <input
+                      type="text"
+                      id="notes"
+                      name="notes"
+                      value="<% story.outcome %>"
+                      style="margin: 0px;"
+                      required
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="feasibility">Feasibility: </label>
+                </td>
+                <td>
+                    <input
+                      type="text"
+                      id="feasibility"
+                      name="feasibility"
+                      value="<% story.feasibility %>"
+                      style="margin: 0px;"
+                      required
+                    >
+                </td>
+            </tr>
+        </table>
+
+        <p style="text-align: right;">
+            <a
+              href="<% page.data.entryRoute %>/<% story.timestampId %>"
+              role="button"
+            >Delete</a>
+
+            <button type="submit" style="width: min-content;">Save</button>
+            <button type="reset">Cancel</button>
+        </p>
+    </form>
+
+    <table style="display: block; overflow-x: auto; overflow-y: auto; white-space: nowrap; max-height: 20rem;">
+        <tr>
+            <th style="min-width: 4rem">Id</th>
+            <th style="min-width: 30rem">Description</th>
+            <th style="min-width: 4rem">Author</th>
+            <th style="min-width: 30rem">Priority</th>
+            <th style="min-width: 30rem">Status</th>
+
+        </tr>
+
+        <% for (const activity of page.data.activities) { %>
+        <% const itemUrl = page.data.entryRoute + "/" + activity.timestampId %>
+        <tr>
+            <td>
+                <a
+                  href="<% itemUrl %>"
+                  role="button"
+                  style="padding: 0.1rem; line-height: 1rem;"
+                >
+                    (**)
+                </a>
+            </td>
+            <td><% activity.description %></td>
+            <td><% activity.author %></td>
+            <td><% activity.priority %></td>
+            <td><% activity.status %></td>
+        </tr>
+        <% } %>
+    </table>
+
+</section>

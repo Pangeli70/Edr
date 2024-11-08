@@ -7,14 +7,14 @@
  */
 
 import {
-    Uts
+    Uts, Edr
 } from "../deps.ts";
 
 export const ApgEdr_Microservice: Uts.ApgUts_IMicroservice = {
-    name: "ApgEdr",
+    name: Edr.ApgEdr_Microservice_Name,
     version: "1.0",
     title: "Enhanced Drash Resources",
-    isDeploy: Uts.ApgUts.IsDenoDeploy(),
+    isDeploy: Uts.ApgUts_Is.IsDeploy(),
     devServerIP: "localhost",
     devServerPort: 12058
 };

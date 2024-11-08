@@ -1,3 +1,10 @@
+/** ---------------------------------------------------------------------------
+ * @module [ApgEdr_Log]
+ * @author [APG] Angeli Paolo Giusto
+ * @version 0.1 APG 20241107
+ * ----------------------------------------------------------------------------
+ */
+
 import { Mng } from "../deps.ts";
 import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
 

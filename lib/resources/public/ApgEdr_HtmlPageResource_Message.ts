@@ -40,7 +40,7 @@ export class ApgEdr_HtmlPageResource_Message
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
         const templateData = this.#getTemplateData(edr);
 

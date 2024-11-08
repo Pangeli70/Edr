@@ -4,6 +4,7 @@
  * @version 0.1 APG 20220909 Alpha version
  * @version 0.2 APG 20230416 Moved to its own microservice
  * @version 0.3 APG 20241007 Max asset size
+ * @version 0.3 APG 20241107 Better logging
  * ----------------------------------------------------------------------------
  */
 
@@ -14,9 +15,6 @@ import {
 import {
     ApgEdr_Route_eShared
 } from "../../enums/ApgEdr_Route_eShared.ts";
-import {
-    ApgEdr_Log_Service
-} from "../../services/ApgEdr_Log_Service.ts";
 import {
     ApgEdr_Service
 } from "../../services/ApgEdr_Service.ts";
@@ -66,9 +64,11 @@ export class ApgEdr_FileResource_AnyAsset extends Drash.Resource {
         const info = await file.stat()
         const size = info.size / 1024 / 1024;
         if (size > ApgEdr_Service.MaxAssetSize) {
-            const edr = ApgEdr_Service.GetEdrRequest(request);
+            const edr = ApgEdr_Service.GetEdr(request);
             const message = `The file "${realFile}" is larger than the maximum allowed size of ${ApgEdr_Service.MaxAssetSize} MB.`;
-            ApgEdr_Log_Service.LogError(edr, ApgEdr_FileResource_AnyAsset.name, this.GET, message)
+            edr.LogError(
+                ApgEdr_FileResource_AnyAsset.name, this.GET.name, message
+            )
         }
 
         return response.file(fullPath);

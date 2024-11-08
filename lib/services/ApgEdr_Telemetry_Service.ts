@@ -8,7 +8,7 @@
 
 import {
     ApgEdr_Collection_Telemetry
-} from "../classes/ApgEdr_Collection_Telemetry.ts";
+} from "../collections/ApgEdr_Collection_Telemetry.ts";
 import {
     Mng,
     Uts
@@ -16,9 +16,7 @@ import {
 import {
     ApgEdr_IRequest
 } from "../interfaces/ApgEdr_IRequest.ts";
-import {
-    ApgEdr_MongoDb_Service
-} from "./ApgEdr_Mng_Service.ts";
+
 
 
 
@@ -54,18 +52,13 @@ export class ApgEdr_Telemetry_Service extends Uts.ApgUts_Service {
 
 
 
-    static async Init() {
+    static async InitOrThrow() {
 
         if (this.#inited) {
             return;
         }
 
-        const r = await ApgEdr_MongoDb_Service.getDbCollectionPair<ApgEdr_IRequest>(this.#collectionName);
-
-
-        if (!r.ok) {
-            throw new Error(r.messages.join('\n'));
-        }
+        const r = await Mng.ApgMng_Service.getDbCollectionPair<ApgEdr_IRequest>(this.#collectionName);
 
         if (r.ok) {
 
@@ -80,7 +73,14 @@ export class ApgEdr_Telemetry_Service extends Uts.ApgUts_Service {
             }
 
             this.#inited = true;
+
+            return;
         }
+
+        if (!r.ok) {
+            throw new Error(r.joinMessages('\n'));
+        }
+
     }
 
 
@@ -89,11 +89,12 @@ export class ApgEdr_Telemetry_Service extends Uts.ApgUts_Service {
         aedr: ApgEdr_IRequest
     ) {
 
-        this.Init();
+        this.InitOrThrow();
+
+        const METHOD = this.Method(this.Send);
+        const r = new Uts.ApgUts_Result<number[]>();
 
         this.#buffer.push(aedr);
-
-        const r = new Uts.ApgUts_Result<number[]>();
 
         if (this.#buffer.length < this.#bufferSize) {
             return r;
@@ -104,26 +105,24 @@ export class ApgEdr_Telemetry_Service extends Uts.ApgUts_Service {
             let r1 = new Uts.ApgUts_Result<Mng.ApgMng_TMultipleInsertResult>();
 
             if (this.#localCollection) {
-                r1 = await this.#localCollection.insertMany(this.#buffer);
+                r1 = await this.#localCollection.createMany(this.#buffer);
                 if (r1.ok) {
                     p[0] = r1.payload?.insertedIds?.length ?? 0;
                 }
             }
 
             if (this.#atlasCollection) {
-                r1 = await this.#atlasCollection.insertMany(this.#buffer);
+                r1 = await this.#atlasCollection.createMany(this.#buffer);
                 if (r1.ok) {
                     p[1] = r1.payload?.insertedIds?.length ?? 0;
                 }
             }
 
-            r.setPayload(p, 'Array<number>');
+            r.setPayload(p);
             this.#buffer = [];
         }
         catch (e) {
-            r.ok = false;
-            const m = this.Method(this.Send);
-            r.message(m, e.message);
+            return this.Error(r, METHOD, e.message);
         }
         return r;
 
@@ -133,7 +132,7 @@ export class ApgEdr_Telemetry_Service extends Uts.ApgUts_Service {
 
     static async Purge() {
 
-        this.Init();
+        this.InitOrThrow();
 
         const r = new Uts.ApgUts_Result<number[]>();
         const p = [0, 0];

@@ -2,15 +2,13 @@
  * @module [ApgEdr/lib]
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20240929
+ * @version 0.2 APG 20241107 Better logging
  * ----------------------------------------------------------------------------
  */
 
 import {
     Drash, Uts
 } from "../deps.ts";
-import {
-    ApgEdr_Log_Service
-} from "../services/ApgEdr_Log_Service.ts";
 import {
     ApgEdr_Service
 } from "../services/ApgEdr_Service.ts";
@@ -35,11 +33,10 @@ export class ApgEdr_Middleware_Telemetry extends Drash.Service {
         _response: Drash.Response,
     ): void {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
-        ApgEdr_Log_Service.LogDebug(
-            edr,
+        const edr = ApgEdr_Service.GetEdr(request);
+        edr.LogDebug(
             ApgEdr_Middleware_Telemetry.name,
-            this.runBeforeResource,
+            this.runBeforeResource.name,
             'Called'
         );
 
@@ -52,14 +49,13 @@ export class ApgEdr_Middleware_Telemetry extends Drash.Service {
         _response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
+        const edr = ApgEdr_Service.GetEdr(request);
 
         const r = await ApgEdr_Telemetry_Service.Send(edr);
 
-        ApgEdr_Log_Service.LogDebug(
-            edr,
+        edr.LogDebug(
             ApgEdr_Middleware_Telemetry.name,
-            this.runAfterResource,
+            this.runAfterResource.name,
             'Called'
         );
 
@@ -67,11 +63,10 @@ export class ApgEdr_Middleware_Telemetry extends Drash.Service {
             const p = r.payload as number[];
             if (p) {
                 const message = 'Sent to telemetry ' + p[0].toString() + ' requests to local DB and ' + p[1].toString() + ' requests to Atlas DB';
-                ApgEdr_Log_Service.Log(
-                    edr,
+                edr.Log(
                     Uts.ApgUts_eEventType.TELE,
                     ApgEdr_Middleware_Telemetry.name,
-                    this.runAfterResource,
+                    this.runAfterResource.name,
                     message
                 );
             }

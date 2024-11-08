@@ -44,8 +44,8 @@ export class ApgEdr_ReservedHtmlPageResource_Errors
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        const edr = ApgEdr_Service.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
         const data: {
             href: string;
@@ -57,7 +57,7 @@ export class ApgEdr_ReservedHtmlPageResource_Errors
 
         for (const error of ApgEdr_Service.Errors) {
 
-            if (!error.message) { 
+            if (!error.message) {
                 error.message = {
                     title: "Error",
                     text: "No message specified for error with counterId [" + error.counter + "]",

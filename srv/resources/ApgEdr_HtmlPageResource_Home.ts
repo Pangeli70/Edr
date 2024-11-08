@@ -34,7 +34,7 @@ export class ApgEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
         response: Edr.Drash.Response
     ) {
 
-        const edr = Edr.ApgEdr_Service.GetEdrRequest(request);
+        const edr = Edr.ApgEdr_Service.GetEdr(request);
 
 
         const templateData = Edr.ApgEdr_Service.GetTemplateData(

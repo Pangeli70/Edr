@@ -5,6 +5,7 @@
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * @version 1.2 APG 20240813 Moved to lib
  * @version 1.3 APG 20240902 Better permissions management
+ * @version 1.4 APG 20241107 Better error management
  * ----------------------------------------------------------------------------
  */
 
@@ -19,8 +20,8 @@ import {
     ApgEdr_Route_eShared
 } from "../../../enums/ApgEdr_Route_eShared.ts";
 import {
-    ApgEdr_IRequest
-} from "../../../mod.ts";
+    ApgEdr_Request
+} from "../../../classes/ApgEdr_Request.ts";
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
@@ -46,8 +47,8 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdrRequest(request);
-        if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        const edr = ApgEdr_Service.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
 
         const rawId = request.pathParam(this.PATH_PARAM_ID)!;
@@ -56,7 +57,7 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry
 
 
         if (!loggedRequest) {
-            this.#errorIdNotFound(this.GET, request, response, edr, rawId);
+            this.#handleIdNotFoundError(edr, this.GET.name, request, response, rawId);
             return;
         }
 
@@ -87,11 +88,11 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry
 
 
 
-    #errorIdNotFound(
-        amethod: Function,
+    #handleIdNotFoundError(
+        aedr: ApgEdr_Request,
+        amethodName: string,
         arequest: Drash.Request,
         aresponse: Drash.Response,
-        aedr: ApgEdr_IRequest,
         arawId: string,
     ) {
 
@@ -101,12 +102,12 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry
             next: ApgEdr_Route_eShared.RESERVED_PAGE_LOG
         };
 
-        ApgEdr_Service.Error(
+        ApgEdr_Service.HandleError(
+            aedr,
             ApgEdr_ReservedHtmlPageResource_Log_Entry.name,
-            this.GET,
-            aedr
+            this.GET.name,
         );
 
-        this.loggedRedirectToError(amethod, aresponse, aedr, arequest.url);
+        this.logAndRedirectToErrorPage(aedr, amethodName, aresponse, arequest.url);
     }
 }

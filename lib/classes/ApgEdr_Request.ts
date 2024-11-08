@@ -1,31 +1,67 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Log]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20240707 Extracted from ApgEdr_Service
- * @version 0.2 APG 20241017 Extends ApgUts_Service
+ * @version 0.1 APG 20241107 Concrete implementation of interface
  * ----------------------------------------------------------------------------
  */
 
 
 import {
+    Drash,
     Uts
 } from "../deps.ts";
 import {
+    ApgEdr_Auth_IJwtPayload
+} from "../interfaces/ApgEdr_Auth_IJwtPayload.ts";
+import {
+    ApgEdr_IMessage
+} from "../interfaces/ApgEdr_IMessage.ts";
+import {
     ApgEdr_IRequest
 } from "../interfaces/ApgEdr_IRequest.ts";
+import {
+    ApgEdr_Service
+} from "../services/ApgEdr_Service.ts";
 
 
 
 /**
  * Service to manage logging of events in an Edr based microservice
  */
-export class ApgEdr_Log_Service extends Uts.ApgUts_Service {
+export class ApgEdr_Request implements ApgEdr_IRequest {
 
 
+    deployment: string;
 
-    static override InitServiceName() {
-        return ApgEdr_Log_Service.name;
-    }
+    counter: number;
+
+    telemetryId: string;
+
+    received: string;
+
+    client: Deno.NetAddr;
+
+    method: string;
+
+    route: string;
+
+    language: Uts.ApgUts_TLanguage;
+
+    startTime: number;
+
+    totalTime: number;
+
+    startMemory: number;
+
+    endMemory: number;
+
+    events: Uts.ApgUts_ILoggableEvent[];
+
+    auth?: ApgEdr_Auth_IJwtPayload
+
+    redirectedFrom?: string[];
+
+    message?: ApgEdr_IMessage; // @0.3
 
 
     /**
@@ -44,24 +80,44 @@ export class ApgEdr_Log_Service extends Uts.ApgUts_Service {
     static DoVerboseEcho = true;
 
 
+    constructor(
+        arequest: Drash.Request,
+        adeployment: string,
+        acounter: number
+    ) {
+
+        this.telemetryId = ApgEdr_Service.GetTelemetryId(arequest);
+        this.received = new Date().toUTCString();
+        this.client = arequest.conn_info.remoteAddr as Deno.NetAddr;
+        this.method = arequest.method;
+        this.route = arequest.url;
+        this.language = ApgEdr_Service.GetLanguage(arequest);
+        this.deployment = adeployment;
+        this.counter = acounter;
+        this.startTime = performance.now();
+        this.totalTime = 0;
+        this.startMemory = Uts.ApgUts.GetMemoryUsageMb().rss;
+        this.endMemory = 0;
+        this.events = [];
+    }
+
+
     /**
      * Logs an event in the passed Edr request
      */
-    static Log(
-        aedr: ApgEdr_IRequest,
+    Log(
         atype: Uts.ApgUts_eEventType,
         aclassName: string,
-        // deno-lint-ignore ban-types
-        afunction: Function,
+        amethodName: string,
         amessage: string
     ) {
 
-        const event = Uts.ApgUts_EventFactory.New(atype, aclassName, afunction, amessage);
+        const event = Uts.ApgUts_EventFactory.New(atype, aclassName, amethodName, amessage);
 
-        aedr.events.push(event);
+        this.events.push(event);
 
-        if (this.DoEventsEcho) {
-            ApgEdr_Log_Service.#Echo(aedr, event);
+        if (ApgEdr_Request.DoEventsEcho) {
+            this.#Echo(event);
         }
 
     }
@@ -71,17 +127,16 @@ export class ApgEdr_Log_Service extends Uts.ApgUts_Service {
     /**
      * Stores a set of events in the passed request
      */
-    static LogEvents(
-        arequest: ApgEdr_IRequest,
+    LogEvents(
         aevents: Uts.ApgUts_ILoggableEvent[]
     ) {
 
         for (const event of aevents) {
 
-            arequest.events.push(event);
+            this.events.push(event);
 
-            if (this.DoEventsEcho) {
-                ApgEdr_Log_Service.#Echo(arequest, event);
+            if (ApgEdr_Request.DoEventsEcho) {
+                this.#Echo(event);
             }
         }
 
@@ -89,49 +144,43 @@ export class ApgEdr_Log_Service extends Uts.ApgUts_Service {
 
 
 
-    static LogInfo(
-        arequest: ApgEdr_IRequest,
+    LogInfo(
         aclassName: string,
-        // deno-lint-ignore ban-types
-        afunction: Function,
+        amethodName: string,
         amessage: string
     ) {
-        this.Log(arequest, Uts.ApgUts_eEventType.INFO, aclassName, afunction, amessage);
+        this.Log(Uts.ApgUts_eEventType.INFO, aclassName, amethodName, amessage);
     }
 
 
 
-    static LogError(
-        arequest: ApgEdr_IRequest,
+    LogError(
         aclassName: string,
-        // deno-lint-ignore ban-types
-        afunction: Function,
+        amethodName: string,
         amessage: string
     ) {
-        this.Log(arequest, Uts.ApgUts_eEventType.ERROR, aclassName, afunction, amessage);
+        this.Log(Uts.ApgUts_eEventType.ERROR, aclassName, amethodName, amessage);
     }
 
 
 
-    static LogDebug(
-        arequest: ApgEdr_IRequest,
+    LogDebug(
         aclassName: string,
-        afunction: Function,
+        amethodName: string,
         amessage: string
     ) {
-        if (this.DoDebug) {
-            this.Log(arequest, Uts.ApgUts_eEventType.DEBUG, aclassName, afunction, amessage);
+        if (ApgEdr_Request.DoDebug) {
+            this.Log(Uts.ApgUts_eEventType.DEBUG, aclassName, amethodName, amessage);
         }
     }
 
 
 
-    static #Echo(
-        arequest: ApgEdr_IRequest,
+    #Echo(
         aevent: Uts.ApgUts_ILoggableEvent
     ) {
 
-        const counter = arequest.counter.toString().padStart(6, "0");
+        const counter = this.counter.toString().padStart(6, "0");
         const perf = aevent.time.toFixed(2).padStart(12, "0");
 
         let message = "";
@@ -141,8 +190,8 @@ export class ApgEdr_Log_Service extends Uts.ApgUts_Service {
         message = this.#colorizeEcho(aevent, message);
         console.log(message);
 
-        if (this.DoVerboseEcho) {
-            message = `                  | ${perf} | ${aevent.module}.${aevent.function.name}`;
+        if (ApgEdr_Request.DoVerboseEcho) {
+            message = `                  | ${perf} | ${aevent.module}.${aevent.method}`;
             console.log(message);
             console.log("");
         }
@@ -151,11 +200,11 @@ export class ApgEdr_Log_Service extends Uts.ApgUts_Service {
 
 
 
-    static #colorizeEcho(
+    #colorizeEcho(
         aevent: Uts.ApgUts_ILoggableEvent,
         message: string
     ) {
-        
+
         switch (aevent.type) {
 
             case Uts.ApgUts_eEventType.ERROR: {
@@ -196,7 +245,7 @@ export class ApgEdr_Log_Service extends Uts.ApgUts_Service {
                 message = Uts.Std.Colors.blue(message);
                 break;
             }
-                
+
             case Uts.ApgUts_eEventType.TELE: {
                 message = Uts.Std.Colors.bgBlue(message);
                 break;

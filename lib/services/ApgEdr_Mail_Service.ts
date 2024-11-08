@@ -3,6 +3,7 @@
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20240701
  * @version 0.2 APG 20241017 Extends ApgUts_Service
+ * @version 0.3 APG 20241107 Better error management
  * ----------------------------------------------------------------------------
  */
 import {
@@ -34,14 +35,12 @@ export class ApgEdr_ResendMail_Service extends Uts.ApgUts_Service {
         ahtml: string,
         accn?: string[]
     ) {
-
-        const method = this.Method(this.SendEmail);
+        const e = this.LogBegin(this.SendEmail);
         const r = new Uts.ApgUts_Result<string>()
 
         const RESEND_API_KEY = Deno.env.get(ApgEdr_Env_eEntry.EMAIL_API);
         if (!RESEND_API_KEY) {
-            r.ok = false;
-            r.message(method, "No Resend Email Api Key provided in environment variables");
+            return this.Error(r, e.method, "No Resend Email Api Key provided in environment variables");
         };
 
         const recipients = [...arecipients];
@@ -61,16 +60,14 @@ export class ApgEdr_ResendMail_Service extends Uts.ApgUts_Service {
             })
         });
 
-
-
         if (res.ok) {
-            r.setPayload(await res.json(), "string");
+            r.setPayload(await res.json());
         }
         else {
-            r.ok = false;
-            r.message(method, 'Error while sending email');
+            return this.Error(r, e.method, 'Error while sending email');
         }
 
+        this.LogEnd(e)
         return r;
     };
 

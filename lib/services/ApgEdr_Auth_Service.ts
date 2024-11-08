@@ -3,6 +3,7 @@
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20240701
  * @version 0.2 APG 20241017 Extends ApgUts_Service
+ * @version 0.3 APG 20241107 Better errorm management
  * ----------------------------------------------------------------------------
  */
 
@@ -36,6 +37,8 @@ import {
 
 
 export class ApgEdr_Auth_Service extends Uts.ApgUts_Service {
+
+    protected _events: Uts.ApgUts_ILoggableEvent[] = [];
 
     protected static InitServiceName() {
         return ApgEdr_Auth_Service.name;
@@ -96,48 +99,40 @@ export class ApgEdr_Auth_Service extends Uts.ApgUts_Service {
         aotp: number,
         aotpDateTime: number
     ) {
-        const method = this.Method(this.VerifyOtp);
+        const METHOD = this.Method(this.VerifyOtp);
         const r = new Uts.ApgUts_Result();
 
         const user = ApgEdr_Auth_Service.Authentications[aemail];
 
         if (!user) {
-            r.ok = false;
-            r.message(method, 'User not found');
-            return r;
+            return this.Error(r, METHOD, 'User not found');
         }
 
         if (user.isLocked) {
-            r.ok = false;
-            r.message(method, 'User is locked');
-            return r;
+            return this.Error(r, METHOD, 'User is locked');
         }
 
 
         if (user.lastOtp !== aotp) {
-            r.ok = false;
+
             user.otpAttempts++;
             const remainingAttempts = (this.MAX_OTP_ATTEMPTS - user.otpAttempts).toString();
-            const message = 'Wrong OTP. You have still ' + remainingAttempts + ' attempts';
-            r.message(method, message);
+            let message = 'Wrong OTP. You have still ' + remainingAttempts + ' attempts';
 
             if (user.otpAttempts >= this.MAX_OTP_ATTEMPTS) {
                 user.isLocked = true;
-                user.lockedReason = ': Maximum OPT attempts reached the user is locked';
-                r.message(method, user.lockedReason);
+                message = ': Maximum OPT attempts reached the user is locked';
+                user.lockedReason = message;
             }
 
-            return r;
+            return this.Error(r, METHOD, message);
         }
 
         const deltaTimeMilliseconds = aotpDateTime - user.lastOtpDateTime;
 
         if (deltaTimeMilliseconds > this.MAX_OTP_TIME_SPAN_MS) {
-            r.ok = false;
-            r.message(method, 'OTP expired');
             user.otpAttempts = 0;
-
-            return r;
+            return this.Error(r, METHOD, 'OTP expired');
         }
 
         user.authentications++;
@@ -154,14 +149,12 @@ export class ApgEdr_Auth_Service extends Uts.ApgUts_Service {
         aotp: number,
         aotpDateTime: number
     ) {
-        const method = this.Method(this.SetNewOtpForUser);
+        const METHOD = this.Method(this.SetNewOtpForUser);
         const r = new Uts.ApgUts_Result();
 
         const user = ApgEdr_Auth_Service.Authentications[aemail];
         if (!user) {
-            r.ok = false;
-            r.message(method, 'User not found');
-            return r;
+            return this.Error(r, METHOD, 'User not found');
         }
 
         user.lastOtp = aotp;
@@ -195,7 +188,7 @@ export class ApgEdr_Auth_Service extends Uts.ApgUts_Service {
             maxAge: this.MAX_COOKIE_AGE,
             httpOnly: true
         };
-        r.setPayload(cookie, "Cookie")
+        r.setPayload(cookie)
 
         return r;
     }
@@ -228,7 +221,7 @@ export class ApgEdr_Auth_Service extends Uts.ApgUts_Service {
         };
 
         const payload: ApgEdr_Auth_IJwtPayload = {
-            iss: this.SERVICE,
+            iss: this.name,
             exp: Djwt.getNumericDate(this.MAX_JWT_TIME_SPAN),
             email: aemail,
             role: arole,
@@ -273,22 +266,19 @@ export class ApgEdr_Auth_Service extends Uts.ApgUts_Service {
     static async VerifyJwt(
         jwt: string
     ) {
-        const method = this.Method(this.VerifyJwt);
+        const METHOD = this.Method(this.VerifyJwt);
         const r = new Uts.ApgUts_Result();
         try {
 
             await this.#ensureCurrentCryptoKeyOrThrow();
             const payload = await Djwt.verify(jwt, this.currentKey);
-
-            r.ok = true;
-            r.message(method, 'JWT is valid');
-
-            r.setPayload(payload, this.JWT_PAYLOAD_SIGNATURE);
+            r.setPayload(payload);
 
         }
         catch (_e) {
-            r.ok = false;
-            r.message(method, 'Invalid JWT: ' + _e.message);
+
+            return this.Error(r, METHOD, 'Invalid JWT: ' + _e.message);
+
         }
 
         return r;
