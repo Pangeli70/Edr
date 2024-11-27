@@ -34,7 +34,7 @@ Deno.env.set('DENO_AUTH_TOKENS', key + "@raw.githubusercontent.com");
 
 
 
-import { Edr, Tng, Mng } from "./srv/deps.ts";
+import { Edr, Tng, Mng, Specs } from "./srv/deps.ts";
 
 // Setup Logger
 Edr.ApgEdr_Request.DoEventsEcho = true;
@@ -78,6 +78,18 @@ import {
 Edr.ApgEdr_Auth_Service.Authentications = ApgEdr_Auth_Authentications;
 Edr.ApgEdr_Auth_Service.Authorizations = ApgEdr_Auth_Authorizations;
 Edr.ApgEdr_Auth_Service.Profilations = ApgEdr_Auth_Profilations;
+
+// Setup Edr Test Suites
+Edr.ApgEdr_Tst_Service.AddSuite({
+    name: Specs.ApgSpc_Spec_ApgUts_Math.name,
+    spec: new Specs.ApgSpc_Spec_ApgUts_Math(),
+    results: []
+});
+Edr.ApgEdr_Tst_Service.AddSuite({
+    name: Specs.ApgSpc_Spec_ApgUts_Object.name,
+    spec: new Specs.ApgSpc_Spec_ApgUts_Object(),
+    results: []
+})
 
 
 const server = new Edr.Drash.Server({

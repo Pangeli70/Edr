@@ -1,20 +1,33 @@
 <!-- 
   * ---------------------------------------------------------------------------
   * @module 
-      [ApgEdr/srv/templates/partials]
-  * @file
-      [ApgTng_HtmlPagePartial_TabularLinksMenu]
+      [ApgEdr/srv/templates/pages]
+  * @file 
+      [ApgEdr_HtmlPageTemplate_Menu_01] [bunny.net]
   * @author
       [APG] Angeli Paolo Giusto
   * @description 
-      Tabular links menu partial
+      Vertical menu page
   * @requires
       Tng.ApgTng_IPageData (V1.0)
   * @params
+      page.translations.intro: {Uts.ApgUts_IMultilanguage}
       page.data.links: {Tng.ApgTng_IHyperlink[]}
   * @version
       1.0 20240701
       1.1 20240731
       1.2 20240814 Styles
+      1.3 20241108 General version 
   * ---------------------------------------------------------------------------- 
 -->
+<link
+  rel="stylesheet"
+  href="/assets/css/ApgEdr_Pico_Custom_Fancy_V01.css"
+>
+
+
+<section>
+
+  <% partial("/partials/ApgEdr_HtmlPagePartial_TabularLinksMenu.html") %>    
+
+</section>

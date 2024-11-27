@@ -20,7 +20,7 @@ import {
  */
 export class ApgEdr_ResendMail_Service extends Uts.ApgUts_Service {
 
-
+    static sender = 'support@apg-web-dev-24.it'
 
     static override InitServiceName() {
         return ApgEdr_ResendMail_Service.name;

@@ -1,0 +1,32 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages]
+  * @file 
+      [ApgEdr_HtmlPageTemplate_Tst_Suite_GET_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      Shows list of test suite executions
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @params
+      page.translations.intro: {string}
+      page.data.results: {Tng.ApgTng_IHyperlink[]}
+  * @version
+      1.0 20241124 
+  * ---------------------------------------------------------------------------- 
+-->
+
+
+<section>
+
+  <p><% page.translations.intro %></p>
+
+
+
+  <% partial("/partials/ApgEdr_HtmlPagePartial_Tst_Result.html") %>
+
+  
+
+</section>

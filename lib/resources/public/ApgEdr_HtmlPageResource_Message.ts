@@ -6,11 +6,8 @@
  */
 
 import {
-    Drash
+    Drash, Uts
 } from "../../deps.ts";
-import {
-    ApgEdr_Route_eShared
-} from "../../enums/ApgEdr_Route_eShared.ts";
 import {
     ApgEdr_IRequest
 } from "../../interfaces/ApgEdr_IRequest.ts";
@@ -23,17 +20,13 @@ import {
 
 
 /**
- * remark:
- * This page is meant to be used only by a response.redirect method.
- * The ApgEdr_IMessage data is supposed to be present in the Request.edr property
+ * General purpose abstract message or static multilangiuage page.
  */
-export class ApgEdr_HtmlPageResource_Message
+export abstract class ApgEdr_HtmlPageResource_Message
     extends ApgEdr_HtmlPageResource {
 
-
-    override RESOURCE_NAME = ApgEdr_HtmlPageResource_Message.name;
-    
-    override paths = [ApgEdr_Route_eShared.PAGE_MESSAGE];
+    abstract readonly NEXT: string;
+    abstract readonly TITLE: Uts.ApgUts_IMultilanguage;
 
     async GET(
         request: Drash.Request,
@@ -42,7 +35,7 @@ export class ApgEdr_HtmlPageResource_Message
 
         const edr = ApgEdr_Service.GetEdr(request);
 
-        const templateData = this.#getTemplateData(edr);
+        const templateData = await this.#getTemplateData(edr);
 
         await ApgEdr_Service.RenderPageUsingTng(
             request,
@@ -57,19 +50,39 @@ export class ApgEdr_HtmlPageResource_Message
 
 
 
-    #getTemplateData(aedr: ApgEdr_IRequest) {
+    /**
+     * Virtual method
+     * Get a message to display a single paragraph in the page
+     */
+    protected getMessage(_alanguage: Uts.ApgUts_TLanguage) { 
+        return "";
+    }
 
-        const { title, text, next } = ApgEdr_Service.PrepareMessage(aedr);
+
+    
+    /**
+     * Virtual method
+     * Get chunk of HTML to display in the page
+     */
+    protected async getHtml(_alanguage: Uts.ApgUts_TLanguage) {
+        return await new Promise<string>((resolve) => resolve(""));
+    }
+
+
+
+    async #getTemplateData(aedr: ApgEdr_IRequest) {
+
 
         const r = ApgEdr_Service.GetTemplateData(
             aedr,
-            title,
-            "/pages/ApgEdr_HtmlPageTemplate_Message_01.html"
+            Uts.ApgUts_Translator.Translate(this.TITLE, aedr.language),
+            "/pages/ApgEdr_HtmlPageTemplate_Message_GET_01.html"
         );
 
         r.page.data = {
-            message: text,
-            okLink: next
+            message: this.getMessage(aedr.language),
+            html: await this.getHtml(aedr.language),
+            okLink: this.NEXT
         };
 
         return r;

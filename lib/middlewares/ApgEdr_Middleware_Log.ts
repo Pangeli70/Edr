@@ -16,6 +16,9 @@ import {
 import {
     ApgEdr_Service
 } from "../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_Log_Service
+} from "../services/ApgEdr_Log_Service.ts";
 
 
 /**
@@ -69,7 +72,7 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
             message
         );
 
-        ApgEdr_Service.StoreEdr(edr)
+        ApgEdr_Log_Service.Store(edr)
 
     }
 }

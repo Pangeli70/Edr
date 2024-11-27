@@ -13,15 +13,14 @@ export enum ApgEdr_eRoutes {
 
     PAGE_HOME = "/",
 
-    API_TEST = "/Edr/Test/Api",
+    PAGE_ABOUT = "/About",
 
-    RESERVED_PAGE_GUEST_TEST = "/Edr/Test/Rsvd/Guest",
+    PAGE_SUPPORT = "/Support",
 
-    RESERVED_PAGE_USER_TEST = "/Edr/Test/Rsvd/User",
 
-    RESERVED_PAGE_ADMIN_TEST = "/Edr/Test/Rsvd/Admin",
 
-    TEMPLATE_TEST = "/templates/pages/ApgEdr_HtmlPageTemplate_Tools_01.html",
+
+
 
 
 }

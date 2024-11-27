@@ -15,10 +15,12 @@ export * from "./classes/ApgEdr_Request.ts"
 
 export * from "./services/ApgEdr_Auth_Service.ts"
 export * from "./services/ApgEdr_Dev_Service.ts"
+export * from "./services/ApgEdr_Log_Service.ts"
 export * from "./services/ApgEdr_Mail_Service.ts"
 export * from "./services/ApgEdr_Mng_Service.ts"
 export * from "./services/ApgEdr_Service.ts"
 export * from "./services/ApgEdr_Telemetry_Service.ts"
+export * from "./services/ApgEdr_Tst_Service.ts"
 
 export * from "./enums/ApgEdr_Auth_eCookie.ts"
 export * from "./enums/ApgEdr_Auth_eRole.ts"

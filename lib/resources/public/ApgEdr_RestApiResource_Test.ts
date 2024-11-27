@@ -7,11 +7,18 @@
  */
 
 import {
-    Edr,
-} from "../deps.ts";
+    Drash
+} from "../../deps.ts";
 import {
-    ApgEdr_eRoutes
-} from "../enums/ApgEdr_eRoute.ts";
+    ApgEdr_Service
+} from "../../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_RestResource
+} from "./ApgEdr_RestResource.ts";
+import {
+    ApgEdr_Route_eShared
+} from "../../enums/ApgEdr_Route_eShared.ts";
+
 
 
 interface ApgEdr_ITest {
@@ -30,19 +37,19 @@ const ApgEdr_Tests: ApgEdr_ITest[] = [
 /**
  * Route per testare la classe base Edr.ApgEdr_Base_RestResource
  */
-export class ApgEdr_RestApiResource_Test extends Edr.ApgEdr_RestResource {
+export class ApgEdr_RestApiResource_Test extends ApgEdr_RestResource {
 
 
-    public paths = [ApgEdr_eRoutes.API_TEST];
+    public paths = [ApgEdr_Route_eShared.API_TEST];
 
 
     public GET(
-        request: Edr.Drash.Request,
-        response: Edr.Drash.Response
+        request: Drash.Request,
+        response: Drash.Response
     ) {
 
 
-        const r = this.begin(Edr.ApgEdr_Service.Microservice.name, request);
+        const r = this.begin(ApgEdr_Service.Microservice.name, request);
 
         const mode = this.GET_mode(request);
 
@@ -80,12 +87,12 @@ export class ApgEdr_RestApiResource_Test extends Edr.ApgEdr_RestResource {
 
 
     public POST(
-        request: Edr.Drash.Request,
-        response: Edr.Drash.Response
+        request: Drash.Request,
+        response: Drash.Response
     ) {
 
 
-        const r = this.begin(Edr.ApgEdr_Service.Microservice.name, request);
+        const r = this.begin(ApgEdr_Service.Microservice.name, request);
 
         const rawParams = request.bodyParam(ApgEdr_RestApiResource_Test.POST_BP_PARAMS);
 
@@ -114,9 +121,9 @@ export class ApgEdr_RestApiResource_Test extends Edr.ApgEdr_RestResource {
     routeHelp() {
         const r = super.routeHelp();
 
-        r.route = ApgEdr_eRoutes.API_TEST;
+        r.route = ApgEdr_Route_eShared.API_TEST;
         r.description = [
-            "Route to test the base class Edr.ApgEdr_Base_RestResource"
+            "Route to test the base class ApgEdr_Base_RestResource"
         ]
 
         r.GET!.qsParams![1].values.push(

@@ -12,8 +12,8 @@
 
 import {
     Drash,
-    Uts,
-    Tng
+    Tng,
+    Uts
 } from "../../../deps.ts";
 import {
     ApgEdr_Auth_eRole
@@ -24,6 +24,9 @@ import {
 import {
     ApgEdr_IRequest
 } from "../../../interfaces/ApgEdr_IRequest.ts";
+import {
+    ApgEdr_Log_Service
+} from "../../../services/ApgEdr_Log_Service.ts";
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
@@ -63,7 +66,7 @@ export class ApgEdr_ReservedHtmlPageResource_Log_List
         const baseUrl = `${ApgEdr_Route_eShared.RESERVED_PAGE_LOG}?${this.QS_PARAM_PAGINATION}=`
 
         const pagination: Tng.ApgTng_IPagination = this.getPagination(
-            ApgEdr_Service.Requests.length,
+            ApgEdr_Log_Service.Requests.length,
             this.PAGINATION_SIZE,
             page,
             baseUrl
@@ -71,7 +74,7 @@ export class ApgEdr_ReservedHtmlPageResource_Log_List
 
         const filteredRequests: ApgEdr_IRequest[] = [];
         filteredRequests
-            .push(...ApgEdr_Service.Requests.slice(pagination.from - 1, pagination.to - 1));
+            .push(...ApgEdr_Log_Service.Requests.slice(pagination.from - 1, pagination.to - 1));
         filteredRequests
             .sort((a, b) => a.counter - b.counter);
 

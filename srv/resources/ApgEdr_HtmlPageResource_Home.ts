@@ -15,7 +15,7 @@ import {
     ApgEdr_Menu_Main
 } from "../data/ApgEdr_Menu_Main.ts";
 import {
-    Edr
+    Edr, Tng, Uts
 } from "../deps.ts";
 import {
     ApgEdr_eRoutes
@@ -23,41 +23,22 @@ import {
 
 
 
-
-export class ApgEdr_HtmlPageResource_Home extends Edr.Drash.Resource {
+export class ApgEdr_HtmlPageResource_Home
+    extends Edr.ApgEdr_HtmlPageResource_Menu
+{
 
     override paths = ["/", ApgEdr_eRoutes.PAGE_HOME];
 
+    override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Home.name;
 
-    async GET(
-        request: Edr.Drash.Request,
-        response: Edr.Drash.Response
-    ) {
-
-        const edr = Edr.ApgEdr_Service.GetEdr(request);
-
-
-        const templateData = Edr.ApgEdr_Service.GetTemplateData(
-            edr,
-            'Home page',
-            "/pages/ApgEdr_HtmlPageTemplate_MainMenu_01.html"
-        );
-
-
-        const isLoggedIn = templateData.user.role != Edr.ApgEdr_Auth_eRole.ANONYMOUS;
-
-        const links = Edr.ApgEdr_Service.FilterLinksByLogin(ApgEdr_Menu_Main, isLoggedIn);
-        templateData.page.data = { links };
-
-        templateData.page.translations = {
-            intro: {
-                EN: "This site is used to test the ApgEdr library and give some advice about microservices development",
-                IT: "Questo sito è usato per testare la libreria ApgEdr e dare alcuni consigli su come sviluppare i microservizi"
-            }
-        }
-
-        await Edr.ApgEdr_Service.RenderPageUsingTng(request, response, templateData);
+    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
+        EN: "Main menu",
+        IT: "Menu principale"
     }
+
+    override readonly MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_Main;
+
+    override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = [];
 
 
 

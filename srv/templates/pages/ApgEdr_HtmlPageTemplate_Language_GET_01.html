@@ -12,6 +12,7 @@
       Tng.ApgTng_IPageData (V1.0)
   * @version
       1.0.0 APG 20240813
+      1.0.1 APG 20241117
   * ---------------------------------------------------------------------------- 
 -->
 
@@ -23,7 +24,7 @@
     >
 
         <p>
-            <% page.translations.intro[page.lang] %>
+            <% page.translations.GET_Intro_Label %>
         </p>
 
         <select
@@ -32,11 +33,7 @@
           required
         >
             <option value="">...</option>
-            <option value="EN">English</option>
-            <option value="ES">Espanol</option>
-            <option value="DE">Deutsch</option>
-            <option value="FR">Francais</option>
-            <option value="IT">Italiano</option>
+            <% page.data.languageOptions %>
 
         </select>
 

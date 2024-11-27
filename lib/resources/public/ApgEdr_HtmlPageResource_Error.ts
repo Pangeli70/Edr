@@ -17,6 +17,7 @@ import {
 import {
     ApgEdr_IRequest
 } from "../../interfaces/ApgEdr_IRequest.ts";
+import { ApgEdr_Log_Service } from "../../services/ApgEdr_Log_Service.ts";
 import {
     ApgEdr_Service
 } from "../../services/ApgEdr_Service.ts";
@@ -30,7 +31,7 @@ export class ApgEdr_HtmlPageResource_Error
     extends ApgEdr_HtmlPageResource {
 
 
-    override RESOURCE_NAME = ApgEdr_HtmlPageResource_Error.name;
+    override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Error.name;
 
     readonly PATH_PARAM_ERR_ID = 'counter';
 
@@ -52,7 +53,7 @@ export class ApgEdr_HtmlPageResource_Error
 
         if (Uts.ApgUts_Is.IsInteger(rawErrId)) {
             const errId = parseInt(rawErrId!);
-            const edrWithError = ApgEdr_Service.RetriveEdr(errId);
+            const edrWithError = ApgEdr_Log_Service.RetriveEdrByCallId(errId);
             if (edrWithError) {
                 edr.message = edrWithError.message;
             }
@@ -87,7 +88,7 @@ export class ApgEdr_HtmlPageResource_Error
             ApgEdr_Service.Errors.push(aedr)
         }
 
-        const { title, text, next } = ApgEdr_Service.PrepareMessage(aedr);
+        const { title, text, next } = ApgEdr_Service.PrepareMessageFromEdr(aedr);
 
         const r = ApgEdr_Service.GetTemplateData(
             aedr,

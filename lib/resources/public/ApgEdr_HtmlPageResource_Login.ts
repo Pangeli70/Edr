@@ -57,11 +57,11 @@ const _Translator = new Uts.ApgUts_Translator(
 // This resource redirects to home page if succesful or to error page if not
 
 
-export class ApgEdr_HtmlPageResource_Login extends
-    ApgEdr_HtmlPageResource {
+export class ApgEdr_HtmlPageResource_Login
+    extends ApgEdr_HtmlPageResource {
 
 
-    override RESOURCE_NAME = "ApgEdr_HtmlPageResource_Login";
+    override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Login.name;
 
     readonly BODY_PARAM_EMAIL = "email";
     readonly BODY_PARAM_OTP = "otp";

@@ -9,7 +9,8 @@
 
 import {
     Drash,
-    Uts
+    Uts,
+    Tng
 } from "../../deps.ts";
 import {
     ApgEdr_Route_eShared
@@ -23,7 +24,8 @@ import {
 
 
 
-export abstract class ApgEdr_HtmlPageResource extends Drash.Resource {
+export abstract class ApgEdr_HtmlPageResource
+    extends Drash.Resource {
 
 
     /**
@@ -69,5 +71,26 @@ export abstract class ApgEdr_HtmlPageResource extends Drash.Resource {
         this.logAndRedirect(aedr, amethodName, afromUrl, url, aresponse);
     }
 
+
+    
+    protected getTranslatedLinks(
+        alinks: Tng.ApgTng_IHyperlink[],
+        alang: Uts.ApgUts_TLanguage
+    ) {
+
+        const r: {
+            url: string,
+            label: string,
+            title: string
+        }[] = [];
+        for (const link of alinks) {
+            r.push({
+                url: link.url,
+                label: Uts.ApgUts_Translator.Translate(link.label, alang),
+                title: (link.title) ? Uts.ApgUts_Translator.Translate(link.title, alang) : ""
+            })
+        }
+        return r;
+    }
 
 }

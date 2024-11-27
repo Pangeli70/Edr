@@ -131,7 +131,7 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
     ApgEdr_HtmlPageResource {
 
 
-    override RESOURCE_NAME = ApgEdr_HtmlPageResource_RequestOtp.name;
+    override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_RequestOtp.name;
 
     readonly BODY_PARAM_EMAIL = "email";
 
@@ -239,7 +239,7 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
             },
             action: ApgEdr_Route_eShared.PAGE_LOGIN,
             requestNewOtpLink: ApgEdr_Route_eShared.PAGE_REQ_OTP,
-            requestSupportLink: ApgEdr_Route_eShared.PAGE_SUPPORT
+            requestSupportLink: ApgEdr_Route_eShared.PAGE_REQ_SUPPORT
         }
 
 

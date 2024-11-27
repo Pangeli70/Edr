@@ -53,8 +53,8 @@ export class ApgEdr_FileResource_AnyAsset extends Drash.Resource {
             ext === ".gltf" ||
             ext === ".stl"
         ) {
-            if (ApgEdr_Service.ClientCacheMaxAge > 0) {
-                const cacheControlValue = "max-age=" + ApgEdr_Service.ClientCacheMaxAge.toString();
+            if (ApgEdr_Service.ServedAssets_ClientCache_MaxAge > 0) {
+                const cacheControlValue = "max-age=" + ApgEdr_Service.ServedAssets_ClientCache_MaxAge.toString();
                 response.headers.append("Cache-Control", cacheControlValue);
             }
         }

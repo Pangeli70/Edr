@@ -9,6 +9,9 @@
 
 
 import {
+    ApgEdr_Request
+} from "../../classes/ApgEdr_Request.ts";
+import {
     Drash, Uts
 } from "../../deps.ts";
 import {
@@ -20,10 +23,59 @@ import {
 import {
     ApgEdr_Service
 } from "../../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_HtmlPageResource
+} from "./ApgEdr_HtmlPageResource.ts";
 
 
 
-export class ApgEdr_HtmlPageResource_Language extends Drash.Resource {
+enum _etranslations {
+
+    GET_Page_Title = "GET_Page_Title",
+    GET_Intro_Label = "GET_Intro_Label",
+    GET_Language_Options = "GET_Language_Options",
+    GET_Select_Language = "GET_Select_Language",
+    POST_Message = "POST_Message",
+}
+
+const _Translations = {
+    [_etranslations.GET_Page_Title]: {
+        EN: "Select your language",
+        ES: "Elija su idioma",
+        DE: "Waehle deine Sprache",
+        FR: "Choisissez votre langue",
+        IT: "Seleziona la tua lingua",
+    },
+    [_etranslations.GET_Intro_Label]: {
+        EN: "Language",
+        ES: "Idioma",
+        DE: "Sprache",
+        FR: "Langue",
+        IT: "Lingua",
+    },
+    [_etranslations.GET_Language_Options]: {
+        EN: "English",
+        ES: "Español",
+        DE: "Deutsch",
+        FR: "Français",
+        IT: "Italiano",
+    },
+    [_etranslations.POST_Message]: {
+        EN: "The site language has been changed to ",
+        ES: "El idioma del sitio ha sido cambiado a ",
+        DE: "Die Sprache des Sites wurde auf ",
+        FR: "La langue du site a été changée à ",
+        IT: "La lingua del sito è stata cambiata a ",
+    },
+
+}
+
+const _Translator = new Uts.ApgUts_Translator(_Translations);
+
+export class ApgEdr_HtmlPageResource_Language extends
+    ApgEdr_HtmlPageResource {
+
+    override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Language.name;
 
     readonly BODY_PARAM_LANG = "lang";
     readonly MAX_COOKIE_AGE = 5 * 365 * 24 * 60 * 60;  // 5 years in seconds
@@ -39,14 +91,18 @@ export class ApgEdr_HtmlPageResource_Language extends Drash.Resource {
 
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
-            'Language',
+            _Translator.get(_etranslations.GET_Page_Title, edr.language),
             "/pages/ApgEdr_HtmlPageTemplate_Language_GET_01.html",
         )
 
         templateData.page.data = {
-            action: ApgEdr_Route_eShared.PAGE_LANGUAGE
+            action: ApgEdr_Route_eShared.PAGE_LANGUAGE,
+            languageOptions: this.#getCurrentLanguageOptions(edr),
         }
-        templateData.page.translations = this.#getPageTranslations();
+        templateData.page.translations =
+        {
+            [_etranslations.GET_Intro_Label]: _Translator.get(_etranslations.GET_Intro_Label, edr.language)
+        }
 
         await ApgEdr_Service.RenderPageUsingTng(
             request,
@@ -82,14 +138,14 @@ export class ApgEdr_HtmlPageResource_Language extends Drash.Resource {
 
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
-            'Language',
+            _Translator.get(_etranslations.GET_Page_Title, edr.language),
             "/pages/ApgEdr_HtmlPageTemplate_Language_POST_01.html"
         )
 
         templateData.page.data = {
-            okLink: "/"
+            okLink: ApgEdr_Route_eShared.PAGE_MENU_USER
         }
-        templateData.page.translations = this.#postPageTranslations();
+        templateData.page.translations = _Translator.getAll(edr.language);
 
         await ApgEdr_Service.RenderPageUsingTng(
             request,
@@ -102,38 +158,19 @@ export class ApgEdr_HtmlPageResource_Language extends Drash.Resource {
     }
 
 
-    #getPageTranslations() {
-        const r: Record<string, Uts.ApgUts_IMultilanguage> = {
-            intro: {
-                EN: "Select your language",
-                ES: "Elija su idioma",
-                DE: "Waehle deine Sprache",
-                FR: "Choisissez votre langue",
-                IT: "Seleziona la tua lingua",
-            },
 
+    #getCurrentLanguageOptions(aedr: ApgEdr_Request) {
+
+        const r: string[] = [];
+
+        const options = _Translations[_etranslations.GET_Language_Options];
+        for (const lang in options) {
+            const selected = lang === aedr.language ? " selected" : "";
+            const caption = options[lang as Uts.ApgUts_TLanguage];
+            r.push(`<option value="${lang}"${selected}>${caption}</option>`);
         }
-        return r;
+
+        return r.join("\n");
     }
 
-    #postPageTranslations() {
-        const r: Record<string, Uts.ApgUts_IMultilanguage> = {
-            intro: {
-                EN: "The site language has been changed to ",
-                ES: "El idioma del sitio ha sido cambiado a ",
-                DE: "Die Sprache des Sites wurde auf ",
-                FR: "La langue du site a été changée à ",
-                IT: "La lingua del sito è stata cambiata a ",
-            },
-
-            language: {
-                EN: "English",
-                ES: "Español",
-                DE: "Deutsch",
-                FR: "Français",
-                IT: "Italiano",
-            }
-        }
-        return r;
-    }
 }

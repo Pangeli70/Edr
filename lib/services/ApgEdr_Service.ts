@@ -8,6 +8,7 @@
  * @version 0.5 APG 20240814 Renaming and filterlinks
  * @version 0.6 APG 20241008 Max Asset Size
  * @version 0.7 APG 20241017 Extends ApgUts_Service
+ * @version 0.8 APG 20241108 Extracted log service
  * ----------------------------------------------------------------------------
  */
 
@@ -46,7 +47,9 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
 
     /**
      * Defines the expiration of the cookie that contains the telemetry id
-     * In seconds
+     * This is basically the session expiration after the user interrupts 
+     * interaction with the microservice.
+     * In seconds. 
      */
     static readonly MAX_TELEMETRY_TIME_SPAN = 60 * 60;  // 1 hours in seconds
 
@@ -56,18 +59,14 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
      */
     static Errors: ApgEdr_IRequest[] = [];
 
-    /** 
-     * Cache of the requests made by the clients 
-     * It is used for the logging and telemetry
-     */
-    static Requests: ApgEdr_IRequest[] = [];
+
 
     /** 
-     * Html response header for client's cache persistency of served assets
-     * In seconds
+     * Client's cache persistency of served assets set in the Html response header
+     * In seconds. It is used to limit the amount of times the asset is requested.
      */
-    static ClientCacheMaxAge = 0; 
-
+    static ServedAssets_ClientCache_MaxAge = 10 * 60; // 10 minutes
+ 
     /**
      * The maximum size in MB of the assets served by this microservice
      * If the size is exceeded the request could be rejected. 
@@ -115,6 +114,11 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
      */
     static CdnTemplatesPath = "/assets/html/templates";
 
+
+    /**
+     * Support team email address
+     */
+    static SupportEmail = "support@apg";
 
     /**
      * Microservice definition
@@ -351,6 +355,10 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
         alinks: Tng.ApgTng_IHyperlink[],
         isLoggedIn: boolean
     ) {
+        if (!alinks || alinks.length == 0) {
+            return [];
+        }
+
         return alinks.filter(a => {
 
             let r = true;
@@ -368,24 +376,8 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
 
 
 
-    static StoreEdr(aedr: ApgEdr_IRequest) {
+    static PrepareMessageFromEdr(aedr: ApgEdr_IRequest) {
 
-        this.Requests.push(aedr);
-
-    }
-
-
-
-    static RetriveEdr(aindex: number) {
-
-        return this.Requests.find(aitem => aitem.counter == aindex);
-
-    }
-
-
-
-    static PrepareMessage(aedr: ApgEdr_IRequest) {
-        
         if (!aedr.message) {
             aedr.message = {
                 title: "Error",
@@ -415,17 +407,17 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
         amethodName: string,
     ) {
 
-        
-        const { title, text } = this.PrepareMessage(aedr);
-        
+
+        const { title, text } = this.PrepareMessageFromEdr(aedr);
+
         const message = `${title}: ${text}`;
-        
+
         aedr.LogError(
             aclassName,
             amethodName,
             message
         );
-        
+
         this.Errors.push(aedr);
 
     }

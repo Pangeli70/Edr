@@ -85,6 +85,8 @@ export class ApgEdr_Middleware_Any extends Drash.Service {
 
         }
 
+
+        // Renew the telemetry id cookie
         const cookie: Uts.Std.Cookie = {
             name: ApgEdr_eCookie.TELEMETRY_ID,
             value: edr.telemetryId,

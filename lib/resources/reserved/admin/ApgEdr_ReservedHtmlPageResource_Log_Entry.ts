@@ -11,6 +11,9 @@
 
 
 import {
+    ApgEdr_Request
+} from "../../../classes/ApgEdr_Request.ts";
+import {
     Drash
 } from "../../../deps.ts";
 import {
@@ -20,8 +23,8 @@ import {
     ApgEdr_Route_eShared
 } from "../../../enums/ApgEdr_Route_eShared.ts";
 import {
-    ApgEdr_Request
-} from "../../../classes/ApgEdr_Request.ts";
+    ApgEdr_Log_Service
+} from "../../../services/ApgEdr_Log_Service.ts";
 import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
@@ -53,7 +56,7 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry
 
         const rawId = request.pathParam(this.PATH_PARAM_ID)!;
         const counter = parseInt(rawId!);
-        const loggedRequest = ApgEdr_Service.Requests.find(r => r.counter == counter);
+        const loggedRequest = ApgEdr_Log_Service.Requests.find(r => r.counter == counter);
 
 
         if (!loggedRequest) {

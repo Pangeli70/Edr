@@ -5,8 +5,13 @@
  * ----------------------------------------------------------------------------
  */
 
-import { Mng } from "../deps.ts";
-import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
+import {
+    Mng
+} from "../deps.ts";
+import {
+    ApgEdr_IRequest
+} from "../interfaces/ApgEdr_IRequest.ts";
+
 
 export interface ApgEdr_IEdr_Schema extends ApgEdr_IRequest { }
 

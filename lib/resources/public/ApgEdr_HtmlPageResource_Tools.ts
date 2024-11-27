@@ -19,12 +19,43 @@ import {
 import {
     ApgEdr_Service
 } from "../../services/ApgEdr_Service.ts";
+import { ApgEdr_HtmlPageResource } from "./ApgEdr_HtmlPageResource.ts";
 
 
+export const ApgEdr_Menu_Dev_Tng_Top = [
+    {
+        url: ApgEdr_Route_eShared.PAGE_HOME,
+        label: {
+            IT: "Menu principale",
+            EN: "Main menu"
+        },
+        title: {
+            IT: "Torna a pagina inziale",
+            EN: "Back to home page"
+        },
+        isReserved: false
+    },
+    {
+        url: ApgEdr_Route_eShared.PAGE_MENU_DEV,
+        label: {
+            IT: "Sviluppatore",
+            EN: "Developer"
+        },
+        title: {
+            IT: "Torna a menu funzioni sviluppatore",
+            EN: "Back to developer features menu"
+        },
+        isReserved: false
+    },
 
-export class ApgEdr_HtmlPageResource_Tools extends Drash.Resource {
+]
 
-    override paths = [ApgEdr_Route_eShared.PAGE_TOOLS];
+
+export class ApgEdr_HtmlPageResource_Tools
+    extends ApgEdr_HtmlPageResource {
+
+    override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Tools.name
+    override paths = [ApgEdr_Route_eShared.PAGE_DEV_TOOLS];
 
     async GET(
         request: Drash.Request,
@@ -38,6 +69,12 @@ export class ApgEdr_HtmlPageResource_Tools extends Drash.Resource {
             'Development tools',
             "/pages/ApgEdr_HtmlPageTemplate_Tools_01.html",
         )
+
+        const topMenu = this.getTranslatedLinks(ApgEdr_Menu_Dev_Tng_Top, edr.language);
+
+        templateData.page.data = {
+            topMenu
+        }
 
         await ApgEdr_Service.RenderPageUsingTng(
             request,
