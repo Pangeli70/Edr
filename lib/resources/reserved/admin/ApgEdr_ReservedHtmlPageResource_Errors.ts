@@ -32,12 +32,20 @@ import {
 
 
 export class ApgEdr_ReservedHtmlPageResource_Errors
+
     extends ApgEdr_ReservedHtmlPageResource {
+
+
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Errors.name;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Errors_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_ERRORS];
 
-    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
-    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Errors.name;
+
 
     async GET(
         request: Drash.Request,
@@ -78,20 +86,16 @@ export class ApgEdr_ReservedHtmlPageResource_Errors
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Errors',
-            "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Errors_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
         templateData.page.data = data;
 
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 

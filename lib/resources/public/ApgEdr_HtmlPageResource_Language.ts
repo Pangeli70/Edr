@@ -20,12 +20,16 @@ import {
 import {
     ApgEdr_Route_eShared
 } from "../../enums/ApgEdr_Route_eShared.ts";
+import { Tng } from "../../monorepo.ts";
 import {
     ApgEdr_Service
 } from "../../services/ApgEdr_Service.ts";
 import {
     ApgEdr_HtmlPageResource
 } from "./ApgEdr_HtmlPageResource.ts";
+
+
+
 
 
 
@@ -37,6 +41,8 @@ enum _etranslations {
     GET_Select_Language = "GET_Select_Language",
     POST_Message = "POST_Message",
 }
+
+
 
 const _Translations = {
     [_etranslations.GET_Page_Title]: {
@@ -70,17 +76,41 @@ const _Translations = {
 
 }
 
+
 const _Translator = new Uts.ApgUts_Translator(_Translations);
 
-export class ApgEdr_HtmlPageResource_Language extends
-    ApgEdr_HtmlPageResource {
+
+
+export class ApgEdr_HtmlPageResource_Language
+
+    extends ApgEdr_HtmlPageResource {
+
+    static readonly PAGE_DATA: Tng.ApgTng_IHyperlink = {
+        url: ApgEdr_Route_eShared.PAGE_LANGUAGE,
+        label: {
+            IT: "Lingua",
+            EN: "Language"
+        },
+        title: {
+            IT: "Imposta il cookie per la lingua di utilizzo del microservizio",
+            EN: "Set the cookie for the language of use of the microservice"
+        },
+        isReserved: false
+    };
+
 
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Language.name;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Language_GET_01.html",
+        POST: "/pages/ApgEdr_HtmlPageTemplate_Language_POST_01.html",
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly BODY_PARAM_LANG = "lang";
     readonly MAX_COOKIE_AGE = 5 * 365 * 24 * 60 * 60;  // 5 years in seconds
 
     override paths = [ApgEdr_Route_eShared.PAGE_LANGUAGE];
+
 
     async GET(
         request: Drash.Request,
@@ -89,29 +119,26 @@ export class ApgEdr_HtmlPageResource_Language extends
 
         const edr = ApgEdr_Service.GetEdr(request);
 
+        const pageTitle = _Translator.get(_etranslations.GET_Page_Title, edr.language);
+
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
-            _Translator.get(_etranslations.GET_Page_Title, edr.language),
-            "/pages/ApgEdr_HtmlPageTemplate_Language_GET_01.html",
+            pageTitle,
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
         templateData.page.data = {
             action: ApgEdr_Route_eShared.PAGE_LANGUAGE,
             languageOptions: this.#getCurrentLanguageOptions(edr),
         }
-        templateData.page.translations =
-        {
+        templateData.page.translations = {
             [_etranslations.GET_Intro_Label]: _Translator.get(_etranslations.GET_Intro_Label, edr.language)
         }
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 
@@ -139,7 +166,8 @@ export class ApgEdr_HtmlPageResource_Language extends
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             _Translator.get(_etranslations.GET_Page_Title, edr.language),
-            "/pages/ApgEdr_HtmlPageTemplate_Language_POST_01.html"
+            this.TNG_TEMPLATES.POST,
+            true
         )
 
         templateData.page.data = {
@@ -147,14 +175,9 @@ export class ApgEdr_HtmlPageResource_Language extends
         }
         templateData.page.translations = _Translator.getAll(edr.language);
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            });
-
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events)
+        response.html(html);
     }
 
 

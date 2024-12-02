@@ -25,18 +25,36 @@ import {
     ApgEdr_Service
 } from "../../../services/ApgEdr_Service.ts";
 import {
+    ApgEdr_Shared_Links
+} from "../../data/ApgEdr_Resources_Links.ts";
+import {
     ApgEdr_ReservedHtmlPageResource
 } from "../ApgEdr_ReservedHtmlPageResource.ts";
 
 
 
+export const NavBar = [
+
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+
+]
+
+
+
 export class ApgEdr_ReservedHtmlPageResource_Dev_Stories
+
     extends ApgEdr_ReservedHtmlPageResource {
 
-    override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_DEV_STORIES];
 
-    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
     override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Dev_Stories.name;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/reserved/admin/ApgEdr_Dev_StoriesByDomain_ReservedHtmlPageTemplate_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
+
+    override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_DEV_STORIES];
 
 
 
@@ -70,24 +88,25 @@ export class ApgEdr_ReservedHtmlPageResource_Dev_Stories
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Stories by domain',
-            "/pages/reserved/admin/ApgEdr_Dev_StoriesByDomain_ReservedHtmlPageTemplate_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
+
+        const topMenu = this.getTranslatedLinks(NavBar, edr.language);
+
+
         templateData.page.data = {
+            topMenu,
             url: ApgEdr_Route_eShared.RESERVED_PAGE_DEV_STORIES,
             domains,
             stories,
             entryRoute: ApgEdr_Route_eShared.RESERVED_PAGE_DEV_STORY,
         }
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events)
+        response.html(html);
     }
 
 

@@ -23,10 +23,19 @@ import {
  * General purpose abstract message or static multilangiuage page.
  */
 export abstract class ApgEdr_HtmlPageResource_Message
+
     extends ApgEdr_HtmlPageResource {
+
 
     abstract readonly NEXT: string;
     abstract readonly TITLE: Uts.ApgUts_IMultilanguage;
+
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Language_GET_01.html",
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
+
+
 
     async GET(
         request: Drash.Request,
@@ -37,15 +46,9 @@ export abstract class ApgEdr_HtmlPageResource_Message
 
         const templateData = await this.#getTemplateData(edr);
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
-
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 
@@ -54,12 +57,12 @@ export abstract class ApgEdr_HtmlPageResource_Message
      * Virtual method
      * Get a message to display a single paragraph in the page
      */
-    protected getMessage(_alanguage: Uts.ApgUts_TLanguage) { 
+    protected getMessage(_alanguage: Uts.ApgUts_TLanguage) {
         return "";
     }
 
 
-    
+
     /**
      * Virtual method
      * Get chunk of HTML to display in the page
@@ -76,7 +79,8 @@ export abstract class ApgEdr_HtmlPageResource_Message
         const r = ApgEdr_Service.GetTemplateData(
             aedr,
             Uts.ApgUts_Translator.Translate(this.TITLE, aedr.language),
-            "/pages/ApgEdr_HtmlPageTemplate_Message_GET_01.html"
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         );
 
         r.page.data = {

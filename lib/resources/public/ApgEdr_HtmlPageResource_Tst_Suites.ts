@@ -19,17 +19,37 @@ import {
     ApgEdr_Tst_Service
 } from "../../services/ApgEdr_Tst_Service.ts";
 import {
+    ApgEdr_Shared_Links
+} from "../data/ApgEdr_Resources_Links.ts";
+import {
     ApgEdr_HtmlPageResource
 } from "./ApgEdr_HtmlPageResource.ts";
 
 
 
+export const NavBar = [
+
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+
+]
+
+
+
 export class ApgEdr_HtmlPageResource_Tst_Suites
+
     extends ApgEdr_HtmlPageResource {
 
+
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Tst_Suites.name;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Menu_GET_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     public override paths = [ApgEdr_Route_eShared.PAGE_DEV_TST_SUITES];
+
+
 
     public async GET(
         request: Drash.Request,
@@ -54,23 +74,22 @@ export class ApgEdr_HtmlPageResource_Tst_Suites
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Spec suites',
-            "/pages/ApgEdr_HtmlPageTemplate_Menu_GET_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
+        const topMenu = this.getTranslatedLinks(NavBar, edr.language);
+
+
         templateData.page.data = {
-            menu: this.getTranslatedLinks(links, 'EN')
+            menu: this.getTranslatedLinks(links, 'EN'),
+            topMenu
         };
 
 
-
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events)
+        response.html(html);
     }
 
 

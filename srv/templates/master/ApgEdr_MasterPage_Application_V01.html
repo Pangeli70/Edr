@@ -120,14 +120,17 @@
             </a>
           </td>
           <td style="padding: 0.5rem">
-            <h6 style="margin: 0; font-size: 0.6rem; text-align: right;">
+
+            <h3 style="margin-top: auto; margin-bottom: auto">
+              <% page.title %>
+            </h3>
+
+          </td>
+          <td>
+            <h6 style="margin: 0; text-align: right;">
               <% const env = (microservice.isDeploy)? "Prod": "Dev" ; %>
               <% microservice.name %> <% microservice.version %> (<% env %>)
-            </h6>
-            <h4 style="margin-top: auto; margin-bottom: auto">
-              <% page.title %>
-            </h4>
-            <h6 style="margin: 0; font-size: 0.6rem; text-align: right;">
+              <br><br>
               <% user.email %>
             </h6>
           </td>

@@ -66,7 +66,7 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
      * In seconds. It is used to limit the amount of times the asset is requested.
      */
     static ServedAssets_ClientCache_MaxAge = 10 * 60; // 10 minutes
- 
+
     /**
      * The maximum size in MB of the assets served by this microservice
      * If the size is exceeded the request could be rejected. 
@@ -243,6 +243,7 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
         edr: ApgEdr_IRequest,
         atitle: string,
         atemplate: string,
+        aisCdnTemplate: boolean
     ): Tng.ApgTng_IPageData {
 
         return {
@@ -256,6 +257,7 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
                 favicon: this.DefaultFavicon,
                 logoJs: this.DefaultLogoJs,
                 template: atemplate,
+                isCdnTemplate: aisCdnTemplate,
                 title: atitle,
                 lang: edr.language,
                 rendered: new Date().toLocaleString(),
@@ -279,46 +281,21 @@ export class ApgEdr_Service extends Uts.ApgUts_Service {
      * The template file must be provided in the property
      * [apageData.page.template].
      * 
-     * The path to the template file could be local referring to the property 
-     * [LocalTemplatesPath], or it can be remote referring to the propery 
-     * [RemoteTemplatesPath].
-     * 
-     * To force the use of the remote template when the microservice is not self 
-     * hosted use the flag in the property [IsSelfHosted]
-     * 
-     * @param request Drash request
-     * @param response Drash response
-     * @param apageData data to be used in the interpolation of the template
-     * @param aoptions options for the use of the remote templates
      */
     static async RenderPageUsingTng(
-        request: Drash.Request,
-        response: Drash.Response,
-        apageData: Tng.ApgTng_IPageData,
-        aoptions = {
-            isCdnTemplate: false,
-        }
+        apageData: Tng.ApgTng_IPageData
     ) {
-        const edr = this.GetEdr(request);
-
-        const events: Uts.ApgUts_ILoggableEvent[] = [];
 
         if (this.UseCdn) {
             const cdnPath = `${this.CdnHost}${this.CdnTemplatesPath}`;
             apageData.page.master = `${cdnPath}${apageData.page.master}`
-            if (aoptions.isCdnTemplate) {
+            if (apageData.page.isCdnTemplate) {
                 apageData.page.template = `${cdnPath}${apageData.page.template}`
             }
         }
 
-        const html = await Tng.ApgTng_Service.Render(
-            apageData,
-            events
-        );
+        return await Tng.ApgTng_Service.Render(apageData);
 
-        response.html(html);
-
-        edr.LogEvents(events);
     }
 
 

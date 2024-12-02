@@ -28,16 +28,22 @@ import {
 
 
 export class ApgEdr_HtmlPageResource_Error
+
     extends ApgEdr_HtmlPageResource {
 
 
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Error.name;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Error_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly PATH_PARAM_ERR_ID = 'counter';
 
     readonly QS_PARAM_FROM_ERRORS_LIST = 'FEL';
 
     override paths = [ApgEdr_Route_eShared.PAGE_ERROR + "/:" + this.PATH_PARAM_ERR_ID];
+
 
 
     async GET(
@@ -59,18 +65,11 @@ export class ApgEdr_HtmlPageResource_Error
             }
         }
 
-
         const templateData = this.#getTemplateData(edr, isFromErrorsList);
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
-
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 
@@ -93,12 +92,13 @@ export class ApgEdr_HtmlPageResource_Error
         const r = ApgEdr_Service.GetTemplateData(
             aedr,
             title,
-            "/pages/ApgEdr_HtmlPageTemplate_Error_01.html"
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         );
 
         r.page.data = {
             message: text,
-            okLink: aisFromErrorsList ? ApgEdr_Route_eShared.RESERVED_PAGE_ERRORS: next
+            okLink: aisFromErrorsList ? ApgEdr_Route_eShared.RESERVED_PAGE_ERRORS : next
         }
 
         return r;

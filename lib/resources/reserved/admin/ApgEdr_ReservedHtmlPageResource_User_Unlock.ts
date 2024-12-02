@@ -36,11 +36,13 @@ export class ApgEdr_ReservedHtmlPageResource_User_Unlock
 
     extends ApgEdr_ReservedHtmlPageResource {
 
-    readonly PATH_PARAM_ID = 'id';
-
-    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    
     override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_User_Unlock.name;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly TNG_TEMPLATES = {}
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
+    readonly PATH_PARAM_ID = 'id';
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_USER_UNLOCK + "/:" + this.PATH_PARAM_ID];
 

@@ -28,11 +28,13 @@ import {
 
 
 export class ApgEdr_ReservedHtmlPageResource_Telemetry_Purge
+
     extends ApgEdr_ReservedHtmlPageResource {
 
-    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
     override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Telemetry_Purge.name;
-
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly TNG_TEMPLATES = {}
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_TELEMETRY_PURGE];
 

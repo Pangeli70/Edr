@@ -28,14 +28,20 @@ import {
 
 
 export class ApgEdr_ReservedHtmlPageResource_Dev_Story
+
     extends ApgEdr_ReservedHtmlPageResource {
     
+
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Dev_Story.name;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/reserved/admin/ApgEdr_Dev_Story_ReservedHtmlPageTemplate_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
+
     readonly PATH_PARAM_ID = 'id';
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_DEV_STORY + '/:' + this.PATH_PARAM_ID];
-
-    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
-    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Dev_Story.name;
 
 
 
@@ -45,9 +51,9 @@ export class ApgEdr_ReservedHtmlPageResource_Dev_Story
     ) {
 
         const edr = ApgEdr_Service.GetEdr(request);
-     //   if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        //   if (!this.verifyPermissions(this.GET, request, response, edr)) return;
 
-        
+
         const rawId = request.pathParam(this.PATH_PARAM_ID)!;
 
         const r = await ApgEdr_Dev_Service.GetStoryById(rawId);
@@ -70,7 +76,8 @@ export class ApgEdr_ReservedHtmlPageResource_Dev_Story
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Story ' + story.timestampId + ' details',
-            "/pages/reserved/admin/ApgEdr_Dev_Story_ReservedHtmlPageTemplate_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
         templateData.page.data = {
@@ -80,14 +87,9 @@ export class ApgEdr_ReservedHtmlPageResource_Dev_Story
             entryRoute: ApgEdr_Route_eShared.RESERVED_PAGE_DEV_ACTIVITY,
         }
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events)
+        response.html(html);
     }
 
 

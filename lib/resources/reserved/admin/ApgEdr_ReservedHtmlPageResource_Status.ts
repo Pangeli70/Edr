@@ -56,14 +56,20 @@ const services = {
 
 
 export class ApgEdr_ReservedHtmlPageResource_Status
+
     extends ApgEdr_ReservedHtmlPageResource {
+
+
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Status.name;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/reserved/admin/ApgEdr_Status_ReservedHtmlPageTemplate_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly QS_PARAM_TYPE = 'type';
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_STATUS];
-
-    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
-    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Status.name;
 
 
 
@@ -80,30 +86,26 @@ export class ApgEdr_ReservedHtmlPageResource_Status
             type = ApgEdr_eService.MONGO;
         }
 
-        const events = this.#getEvents(type);
+        const serviceEvents = this.#getEvents(type);
 
 
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Events for service',
-            "/pages/reserved/admin/ApgEdr_Status_ReservedHtmlPageTemplate_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
         templateData.page.data = {
             url: ApgEdr_Route_eShared.RESERVED_PAGE_STATUS,
             type,
             services,
-            events
+            events: serviceEvents
         }
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 

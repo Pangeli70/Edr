@@ -22,6 +22,7 @@ import {
 
 
 export abstract class ApgEdr_HtmlPageResource_Menu
+
     extends ApgEdr_HtmlPageResource {
 
     /**
@@ -30,6 +31,11 @@ export abstract class ApgEdr_HtmlPageResource_Menu
     abstract readonly TITLE: Uts.ApgUts_IMultilanguage;
     abstract readonly MENU: Tng.ApgTng_IHyperlink[];
     abstract readonly TOP_MENU: Tng.ApgTng_IHyperlink[];
+
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Menu_GET_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
 
     async GET(
@@ -47,7 +53,8 @@ export abstract class ApgEdr_HtmlPageResource_Menu
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             title,
-            "/pages/ApgEdr_HtmlPageTemplate_Menu_GET_01.html"
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         );
 
         const isLoggedIn = templateData.user.role != ApgEdr_Auth_eRole.ANONYMOUS;
@@ -64,11 +71,10 @@ export abstract class ApgEdr_HtmlPageResource_Menu
         };
 
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request, response, templateData
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
-
 
 
 

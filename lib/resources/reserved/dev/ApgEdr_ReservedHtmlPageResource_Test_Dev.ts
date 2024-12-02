@@ -25,12 +25,20 @@ import {
 
 
 export class ApgEdr_ReservedHtmlPageResource_Test_Dev
+
     extends ApgEdr_ReservedHtmlPageResource {
+
+
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Test_Dev.name;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/reserved/dev/ApgEdr_ReservedHtmlPageTemplate_Test_Dev.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_DEV_TEST_DEV];
 
-    readonly EDR_ROLE = ApgEdr_Auth_eRole.DEV;
-    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Test_Dev.name;
+
 
     async GET(
         request: Drash.Request,
@@ -44,10 +52,13 @@ export class ApgEdr_ReservedHtmlPageResource_Test_Dev
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Developer page',
-            "/pages/reserved/dev/ApgEdr_ReservedHtmlPageTemplate_Test_Dev.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
-        await ApgEdr_Service.RenderPageUsingTng(request, response, templateData);
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 

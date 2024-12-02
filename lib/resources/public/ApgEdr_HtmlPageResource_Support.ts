@@ -94,15 +94,22 @@ const _Translator = new Uts.ApgUts_Translator(
 
 
 export class ApgEdr_HtmlPageResource_Support
+
     extends ApgEdr_HtmlPageResource {
 
 
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Support.name;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Support_GET_01.html",
+        POST: "/pages/ApgEdr_HtmlPageTemplate_Message_GET_01.html",
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly BODY_PARAM_EMAIL = "email";
     readonly BODY_PARAM_MESSAGE = "message";
 
     override paths = [ApgEdr_Route_eShared.PAGE_REQ_SUPPORT];
+
 
 
     async GET(
@@ -115,7 +122,8 @@ export class ApgEdr_HtmlPageResource_Support
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             _Translator.get(_eTranslations.GET_Page_Title, edr.language),
-            "/pages/ApgEdr_HtmlPageTemplate_Support_GET_01.html"
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
         templateData.page.data = {
@@ -124,14 +132,9 @@ export class ApgEdr_HtmlPageResource_Support
 
         templateData.page.translations = _Translator.getAll(edr.language);
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 
@@ -182,7 +185,8 @@ export class ApgEdr_HtmlPageResource_Support
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             _Translator.get(_eTranslations.GET_Page_Title, edr.language),
-            "/pages/ApgEdr_HtmlPageTemplate_Message_GET_01.html"
+            this.TNG_TEMPLATES.POST,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
         templateData.page.data = {
@@ -191,14 +195,9 @@ export class ApgEdr_HtmlPageResource_Support
         }
 
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            });
-
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 

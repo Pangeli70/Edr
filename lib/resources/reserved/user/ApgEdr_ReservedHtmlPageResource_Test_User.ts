@@ -7,6 +7,7 @@
  * @version 1.0 APG 20240701 Cleanup
  * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
  * @version 1.2 APG 20241113 Moved in shared resources
+ * @version 1.3 APG 20241201 TNG_TEMPLATES and cleanup
  * ----------------------------------------------------------------------------
  */
 
@@ -29,12 +30,20 @@ import {
 
 
 export class ApgEdr_ReservedHtmlPageResource_Test_User
+
     extends ApgEdr_ReservedHtmlPageResource {
+
+
+    readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Test_User.name;
+    readonly EDR_ROLE = ApgEdr_Auth_eRole.USER;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/reserved/user/ApgEdr_ReservedHtmlPageTemplate_Test_User.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_DEV_TEST_USER];
 
-    readonly EDR_ROLE = ApgEdr_Auth_eRole.USER;
-    readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Test_User.name;
+
 
     async GET(
         request: Drash.Request,
@@ -47,10 +56,13 @@ export class ApgEdr_ReservedHtmlPageResource_Test_User
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'User page',
-            "/pages/reserved/user/ApgEdr_ReservedHtmlPageTemplate_Test_User.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
-        await ApgEdr_Service.RenderPageUsingTng(request, response, templateData);
+        const {html, events} = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 

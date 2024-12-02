@@ -35,14 +35,21 @@ import {
 
 
 export class ApgEdr_ReservedHtmlPageResource_Log_Entry
+
     extends ApgEdr_ReservedHtmlPageResource {
+
+
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Log_Entry.name;
+    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Log_Entry_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly PATH_PARAM_ID = 'id';
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_LOG_ENTRY + "/:" + this.PATH_PARAM_ID];
 
-    override readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
-    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Log_Entry.name;
 
 
     async GET(
@@ -68,7 +75,8 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Logged request',
-            "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Log_Entry_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
 
@@ -78,14 +86,9 @@ export class ApgEdr_ReservedHtmlPageResource_Log_Entry
         }
 
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 

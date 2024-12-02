@@ -54,52 +54,21 @@ const _Translator = new Uts.ApgUts_Translator(
 )
 
 
+
 // This resource redirects to home page if succesful or to error page if not
-
-
 export class ApgEdr_HtmlPageResource_Login
+    
     extends ApgEdr_HtmlPageResource {
 
 
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Login.name;
+    override readonly TNG_TEMPLATES = {};
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly BODY_PARAM_EMAIL = "email";
     readonly BODY_PARAM_OTP = "otp";
 
     override paths = [ApgEdr_Route_eShared.PAGE_LOGIN];
-
-
-    // async GET(
-    //     request: Drash.Request,
-    //     response: Drash.Response
-    // ) {
-
-    //     const edr = ApgEdr_Service.GetEdrRequest(request);
-
-    //     const rawEmail = request.queryParam(this.BODY_PARAM_EMAIL) as string;
-
-    //     const templateData = ApgEdr_Service.GetTemplateData(
-    //         edr,
-    //         Uts.ApgUts_Translator.Translate(_pageTranslations[_eCaption.GET_Title], edr.language),
-    //         "/pages/ApgEdr_HtmlPageTemplate_Login_01.html"
-    //     )
-
-    //     templateData.page.data = {
-    //         email: rawEmail,
-    //         action: ApgEdr_Route_eShared.PAGE_LOGIN,
-    //         requestNewOtpLink: ApgEdr_Route_eShared.PAGE_REQ_OTP
-    //     }
-
-    //     await ApgEdr_Service.RenderPageUsingTng(
-    //         request,
-    //         response,
-    //         templateData,
-    //         {
-    //             isCdnTemplate: true
-    //         }
-    //     );
-    // }
-
 
 
     async POST(

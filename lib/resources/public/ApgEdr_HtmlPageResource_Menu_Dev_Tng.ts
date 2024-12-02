@@ -13,6 +13,9 @@ import {
     ApgEdr_Route_eShared
 } from "../../enums/ApgEdr_Route_eShared.ts";
 import {
+    ApgEdr_Shared_Links
+} from "../data/ApgEdr_Resources_Links.ts";
+import {
     ApgEdr_HtmlPageResource_Menu
 } from "./ApgEdr_HtmlPageResource_Menu.ts";
 
@@ -20,75 +23,21 @@ import {
 
 export const ApgEdr_Menu_Dev_Tng = [
 
-    {
-        url: ApgEdr_Route_eShared.TNG_TEST,
-        label: {
-            IT: "Test modello",
-            EN: "Template test"
-        },
-        title: {
-            IT: "Test della risorsa per servire i templates ad altri servizi",
-            EN: "Test for the resource used to serve templates to other services"
-        },
-        isReserved: false
-    },
-
-    {
-        url: ApgEdr_Route_eShared.RESERVED_PAGE_TNG_TEMPLATES,
-        label: {
-            IT: "Modelli",
-            EN: "Templates"
-        },
-        title: {
-            IT: "Modelli di pagine disponibili per il template engine",
-            EN: "Available page templates for the template engine"
-        },
-        isReserved: true
-    },
-
-    {
-        url: ApgEdr_Route_eShared.RESERVED_PAGE_TNG_CACHES,
-        label: {
-            IT: "Cache",
-            EN: "Cache"
-        },
-        title: {
-            IT: "Dettagli della cache utilizzata dal template engine",
-            EN: "Details of the cache used by the template engine"
-        },
-        isReserved: true
-    },
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.TNG_TEST],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_TNG_TEMPLATES],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_TNG_CACHES],
 
 ]
 
 
-export const ApgEdr_Menu_Dev_Tng_Top = [
-    {
-        url: ApgEdr_Route_eShared.PAGE_HOME,
-        label: {
-            IT: "Menu principale",
-            EN: "Main menu"
-        },
-        title: {
-            IT: "Torna a pagina inziale",
-            EN: "Back to home page"
-        },
-        isReserved: false
-    },
-    {
-        url: ApgEdr_Route_eShared.PAGE_MENU_DEV,
-        label: {
-            IT: "Sviluppatore",
-            EN: "Developer"
-        },
-        title: {
-            IT: "Torna a menu funzioni sviluppatore",
-            EN: "Back to developer features menu"
-        },
-        isReserved: false
-    },
+
+export const NavBar = [
+
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
 
 ]
+
 
 
 export class ApgEdr_HtmlPageResource_Menu_Dev_Tng
@@ -105,7 +54,7 @@ export class ApgEdr_HtmlPageResource_Menu_Dev_Tng
 
     override readonly MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_Dev_Tng;
 
-    override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_Dev_Tng_Top;
+    override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = NavBar;
 
 
 

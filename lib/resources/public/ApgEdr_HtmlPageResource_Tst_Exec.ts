@@ -12,6 +12,7 @@ import {
 import {
     ApgEdr_Route_eShared
 } from "../../enums/ApgEdr_Route_eShared.ts";
+import { Uts } from "../../monorepo.ts";
 import {
     ApgEdr_Service
 } from "../../services/ApgEdr_Service.ts";
@@ -19,23 +20,41 @@ import {
     ApgEdr_Tst_Service
 } from "../../services/ApgEdr_Tst_Service.ts";
 import {
+    ApgEdr_Shared_Links
+} from "../data/ApgEdr_Resources_Links.ts";
+import {
     ApgEdr_HtmlPageResource
 } from "./ApgEdr_HtmlPageResource.ts";
 
 
+
+
+
+
 export class ApgEdr_HtmlPageResource_Tst_Exec
+
     extends ApgEdr_HtmlPageResource {
 
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Tst_Exec.name;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Tst_Exec_GET_01.html",
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly PATH_PARAM_SUITE = 'suite';
     readonly PATH_PARAM_EXEC = 'index';
-    public override paths = [ApgEdr_Route_eShared.PAGE_DEV_TST_EXEC + "/:" + this.PATH_PARAM_SUITE + "/:" + this.PATH_PARAM_EXEC];
+
+    public override paths = [
+        ApgEdr_Route_eShared.PAGE_DEV_TST_EXEC + "/:" +
+        this.PATH_PARAM_SUITE + "/:" +
+        this.PATH_PARAM_EXEC
+    ];
+
+
 
     public async GET(request: Drash.Request, response: Drash.Response) {
 
         const edr = ApgEdr_Service.GetEdr(request);
-
 
         const rawSuite = request.pathParam(this.PATH_PARAM_SUITE) as string;
         const rawExec = request.pathParam(this.PATH_PARAM_EXEC) as string;
@@ -50,15 +69,29 @@ export class ApgEdr_HtmlPageResource_Tst_Exec
 
         const result = ApgEdr_Tst_Service.SpecResultByIndex(suite, index);
 
-
-
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Spec execution result',
-            "/pages/ApgEdr_HtmlPageTemplate_Tst_Exec_GET_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
+        const NavBar = [
+
+            ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+            ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+            ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_DEV_TST_SUITES],
+
+        ]
+
+        const suiteLink = Uts.ApgUts_Object.DeepCopy(ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_DEV_TST_SUITE])
+        suiteLink.url += "/" + suite;
+        NavBar.push(suiteLink);
+        const topMenu = this.getTranslatedLinks(NavBar, edr.language);
+        topMenu[3].label = suite;
+
         templateData.page.data = {
+            topMenu,
             action: ApgEdr_Route_eShared.PAGE_DEV_TST_SUITE + "/" + suite,
             result
         };
@@ -68,15 +101,12 @@ export class ApgEdr_HtmlPageResource_Tst_Exec
         }
 
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events)
+        response.html(html);
     }
+
+
 
     #prepareResultForRendering(aresult: Spc.ApgSpc_TSpecResult) {
 

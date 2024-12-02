@@ -30,12 +30,20 @@ import {
 
 
 export class ApgEdr_ReservedHtmlPageResource_Test_Admin
+
     extends ApgEdr_ReservedHtmlPageResource {
+
+
+    readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Test_Admin.name;
+    readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Test_Admin.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     override paths = [ApgEdr_Route_eShared.RESERVED_PAGE_DEV_TEST_ADMIN];
 
-    readonly EDR_ROLE = ApgEdr_Auth_eRole.ADMIN;
-    readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Test_Admin.name;
+
 
     async GET(
         request: Drash.Request,
@@ -48,10 +56,13 @@ export class ApgEdr_ReservedHtmlPageResource_Test_Admin
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Admin page',
-            "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Test_Admin.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
-        await ApgEdr_Service.RenderPageUsingTng(request, response, templateData);
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 

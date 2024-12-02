@@ -17,17 +17,35 @@ import {
 import {
     ApgEdr_Tst_Service
 } from "../../services/ApgEdr_Tst_Service.ts";
+import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
 import {
     ApgEdr_HtmlPageResource
 } from "./ApgEdr_HtmlPageResource.ts";
 
 
+
+
+export const NavBar = [
+
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_DEV_TST_SUITES],
+
+]
+
+
 export class ApgEdr_HtmlPageResource_Tst_Specs 
+    
     extends ApgEdr_HtmlPageResource {
     
+    
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Tst_Specs.name;
+    override readonly TNG_TEMPLATES = {
+    }
 
     public override paths = ["/specs/:framework/:specs"];
+
+
 
     public async GET(request: Drash.Request, response: Drash.Response) {
 
@@ -68,15 +86,14 @@ export class ApgEdr_HtmlPageResource_Tst_Specs
             "/pages/ApgEdr_HtmlPageTemplate_TST_Suite_GET_01.html",
         )
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
+        const html = await ApgEdr_Service.RenderPageUsingTng(
+            edr,
             templateData,
             {
                 isCdnTemplate: true
             }
         );
-
+        response.html(html);
     }
 
 

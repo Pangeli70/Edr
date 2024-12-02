@@ -21,18 +21,39 @@ import {
     ApgEdr_Tst_Service
 } from "../../services/ApgEdr_Tst_Service.ts";
 import {
+    ApgEdr_Shared_Links
+} from "../data/ApgEdr_Resources_Links.ts";
+import {
     ApgEdr_HtmlPageResource
 } from "./ApgEdr_HtmlPageResource.ts";
 
 
 
+export const NavBar = [
+
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_DEV_TST_SUITES],
+
+]
+
+
 export class ApgEdr_HtmlPageResource_Tst_Suite
+
     extends ApgEdr_HtmlPageResource {
 
+
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Tst_Suite.name;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Tst_Suite_GET_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly PATH_PARAM_SUITE = 'suite';
+
     public override paths = [ApgEdr_Route_eShared.PAGE_DEV_TST_SUITE + "/:" + this.PATH_PARAM_SUITE];
+
+
 
     public async GET(
         request: Drash.Request,
@@ -50,7 +71,7 @@ export class ApgEdr_HtmlPageResource_Tst_Suite
 
         const menu: Tng.ApgTng_IHyperlink[] = [];
         const results = ApgEdr_Tst_Service.Results(suite);
-        
+
         for (let i = 0; i < results!.length; i++) {
             const res = results![i];
             const title = `Failed: ${res.failed}, Skipped: ${res.skipped}, Total: ${res.total}`;
@@ -68,25 +89,26 @@ export class ApgEdr_HtmlPageResource_Tst_Suite
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Spec suite executions',
-            "/pages/ApgEdr_HtmlPageTemplate_Tst_Suite_GET_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
+
+        const topMenu = this.getTranslatedLinks(NavBar, edr.language);
+
+
 
         templateData.page.data = {
             action: ApgEdr_Route_eShared.PAGE_DEV_TST_SUITE + "/" + suite,
             menu: this.getTranslatedLinks(menu, 'EN'),
-            flags
+            flags,
+            topMenu
         };
 
 
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events)
+        response.html(html);
     }
 
 

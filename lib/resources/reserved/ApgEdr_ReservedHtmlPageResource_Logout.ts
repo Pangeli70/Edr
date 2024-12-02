@@ -19,12 +19,25 @@ import {
 import {
     ApgEdr_Service
 } from "../../services/ApgEdr_Service.ts";
+import {
+    ApgEdr_HtmlPageResource
+} from "../public/ApgEdr_HtmlPageResource.ts";
 
 
 
-export class ApgEdr_ReservedHtmlPageResource_Logout extends Drash.Resource {
+export class ApgEdr_ReservedHtmlPageResource_Logout
+    
+    extends ApgEdr_HtmlPageResource {
+
+    
+    override readonly RESOURCE_NAME = ApgEdr_ReservedHtmlPageResource_Logout.name;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/reserved/ApgEdr_ReservedHtmlPageTemplate_Logout_01.html"
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     override paths = [ApgEdr_Route_eShared.PAGE_LOGOUT];
+
 
 
     async GET(
@@ -37,10 +50,11 @@ export class ApgEdr_ReservedHtmlPageResource_Logout extends Drash.Resource {
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Log out',
-            "/pages/reserved/ApgEdr_ReservedHtmlPageTemplate_Logout_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
-        templateData.page.data= {
+        templateData.page.data = {
             okLink: "/"
         }
 
@@ -48,15 +62,9 @@ export class ApgEdr_ReservedHtmlPageResource_Logout extends Drash.Resource {
         const cookie = ApgEdr_Auth_Service.DeleteJwtCookie();
         response.setCookie(cookie);
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
-
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 

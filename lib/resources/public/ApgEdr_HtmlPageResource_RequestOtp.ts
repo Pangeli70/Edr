@@ -127,15 +127,22 @@ const _Translator = new Uts.ApgUts_Translator(
 
 
 
-export class ApgEdr_HtmlPageResource_RequestOtp extends
-    ApgEdr_HtmlPageResource {
+export class ApgEdr_HtmlPageResource_RequestOtp
+
+    extends ApgEdr_HtmlPageResource {
 
 
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_RequestOtp.name;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_RequestOtp_GET_01.html",
+        POST: "/pages/ApgEdr_HtmlPageTemplate_RequestOtp_POST_01.html",
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly BODY_PARAM_EMAIL = "email";
 
     override paths = [ApgEdr_Route_eShared.PAGE_REQ_OTP];
+
 
 
     async GET(
@@ -148,7 +155,8 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             _Translator.get(_eTranslation.GET_PageTitle, edr.language),
-            "/pages/ApgEdr_HtmlPageTemplate_RequestOtp_GET_01.html"
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
         templateData.page.data = {
@@ -159,14 +167,9 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
             action: ApgEdr_Route_eShared.PAGE_REQ_OTP
         }
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 
 
@@ -189,6 +192,7 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
 
         const newOtp = ApgEdr_Auth_Service.GenerateOTP();
 
+        // TODO move this address to configurable variable -- APG 20241201
         const sender = ApgEdr_Service.Microservice.name + " <login@apg-web-dev-24.it>";
         const subject = ApgEdr_Service.Microservice.name + " " + _Translator.get(
             _eTranslation.EMAIL_Subject,
@@ -223,7 +227,8 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             _Translator.get(_eTranslation.POST_PageTitle, edr.language),
-            "/pages/ApgEdr_HtmlPageTemplate_RequestOtp_POST_01.html"
+            this.TNG_TEMPLATES.POST,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
         templateData.page.data = {
@@ -243,14 +248,9 @@ export class ApgEdr_HtmlPageResource_RequestOtp extends
         }
 
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events)
+        response.html(html);
     }
 
 

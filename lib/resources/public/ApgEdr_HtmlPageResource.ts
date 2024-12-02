@@ -29,9 +29,16 @@ export abstract class ApgEdr_HtmlPageResource
 
 
     /**
-     * Abstract property Must be overridden by subclasses
+     * Abstract properties Must be overridden by subclasses
      */
     abstract readonly RESOURCE_NAME: string;
+    
+    abstract readonly TNG_TEMPLATES: {
+        GET?: string,
+        POST?: string,
+    };
+
+    abstract readonly ARE_TEMPLATES_FROM_CDN: boolean;
 
 
     protected logAndRedirect(

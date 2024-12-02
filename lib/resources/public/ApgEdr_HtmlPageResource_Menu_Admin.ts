@@ -13,109 +13,35 @@ import {
     ApgEdr_Route_eShared
 } from "../../enums/ApgEdr_Route_eShared.ts";
 import {
+    ApgEdr_Shared_Links
+} from "../data/ApgEdr_Resources_Links.ts";
+import {
     ApgEdr_HtmlPageResource_Menu
 } from "./ApgEdr_HtmlPageResource_Menu.ts";
 
 
 
-
 export const ApgEdr_Menu_Admin = [
 
-    {
-        url: ApgEdr_Route_eShared.RESERVED_PAGE_USERS,
-        label: {
-            IT: "Utenti",
-            EN: "Users"
-        },
-        title: {
-            IT: "Lista degli utenti registrati per l'uso del servizion",
-            EN: "List of the registered users for the use of the service"
-        },
-        isReserved: true
-    },
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_USERS],
 
-    {
-        url: ApgEdr_Route_eShared.RESERVED_PAGE_ERRORS,
-        label: {
-            IT: "Errori",
-            EN: "Errors"
-        },
-        title: {
-            IT: "Elenco degli errori riscontrati dal riavvio del servizio",
-            EN: "List of the errors encountered from the service restart"
-        },
-        isReserved: true
-    },
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_ERRORS],
 
-    {
-        url: ApgEdr_Route_eShared.RESERVED_PAGE_LOG,
-        label: {
-            IT: "Chiamate",
-            EN: "Log"
-        },
-        title: {
-            IT: "Elenco delle chiamate ricevute dal riavvio del servizio",
-            EN: "List of the calls received since the service restart"
-        },
-        isReserved: true
-    },
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_LOG],
 
-    {
-        url: ApgEdr_Route_eShared.RESERVED_PAGE_ENVIRONMENT,
-        label: {
-            IT: "Ambiente",
-            EN: "Environment"
-        },
-        title: {
-            IT: "Impostazioni dell'ambiente",
-            EN: "Environment settings"
-        },
-        isReserved: true
-    },
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_ENVIRONMENT],
 
-    {
-        url: ApgEdr_Route_eShared.RESERVED_PAGE_STATUS,
-        label: {
-            IT: "Stato",
-            EN: "Status"
-        },
-        title: {
-            IT: "Stato di funzionamento dei servizi",
-            EN: "Operational status if the servicess"
-        },
-        isReserved: true
-    },
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_STATUS],
 
-    {
-        url: ApgEdr_Route_eShared.RESERVED_PAGE_TELEMETRY_PURGE,
-        label: {
-            IT: "Svuota telemetria",
-            EN: "Purge telemetry"
-        },
-        title: {
-            IT: "Svuota il database di telemetria",
-            EN: "Purges the telemetry database"
-        },
-        isReserved: true
-    },
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_TELEMETRY_PURGE],
 ]
 
 
 
+export const NavBar = [
 
-export const ApgEdr_Menu_Admin_Top = [
-    {
-        url: ApgEdr_Route_eShared.PAGE_HOME,
-        label: {
-            IT: "Menu principale",
-            EN: "Main menu"
-        },
-        title: {
-            IT: "Pagina inziale",
-            EN: "Home page"
-        },
-        isReserved: false
-    },
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU],
+
 ]
 
 
@@ -134,6 +60,6 @@ export class ApgEdr_HtmlPageResource_Menu_Admin
 
     override readonly MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_Admin;
 
-    override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_Admin_Top;
+    override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = NavBar;
 
 }

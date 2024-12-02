@@ -19,43 +19,38 @@ import {
 import {
     ApgEdr_Service
 } from "../../services/ApgEdr_Service.ts";
-import { ApgEdr_HtmlPageResource } from "./ApgEdr_HtmlPageResource.ts";
+import {
+    ApgEdr_Shared_Links
+} from "../data/ApgEdr_Resources_Links.ts";
+import {
+    ApgEdr_HtmlPageResource
+} from "./ApgEdr_HtmlPageResource.ts";
 
 
-export const ApgEdr_Menu_Dev_Tng_Top = [
-    {
-        url: ApgEdr_Route_eShared.PAGE_HOME,
-        label: {
-            IT: "Menu principale",
-            EN: "Main menu"
-        },
-        title: {
-            IT: "Torna a pagina inziale",
-            EN: "Back to home page"
-        },
-        isReserved: false
-    },
-    {
-        url: ApgEdr_Route_eShared.PAGE_MENU_DEV,
-        label: {
-            IT: "Sviluppatore",
-            EN: "Developer"
-        },
-        title: {
-            IT: "Torna a menu funzioni sviluppatore",
-            EN: "Back to developer features menu"
-        },
-        isReserved: false
-    },
+
+export const NavBar = [
+
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
 
 ]
 
 
+
 export class ApgEdr_HtmlPageResource_Tools
+
     extends ApgEdr_HtmlPageResource {
 
+
     override readonly RESOURCE_NAME = ApgEdr_HtmlPageResource_Tools.name
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Tools_01.html",
+    };
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
+
     override paths = [ApgEdr_Route_eShared.PAGE_DEV_TOOLS];
+
+
 
     async GET(
         request: Drash.Request,
@@ -67,22 +62,18 @@ export class ApgEdr_HtmlPageResource_Tools
         const templateData = ApgEdr_Service.GetTemplateData(
             edr,
             'Development tools',
-            "/pages/ApgEdr_HtmlPageTemplate_Tools_01.html",
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
         )
 
-        const topMenu = this.getTranslatedLinks(ApgEdr_Menu_Dev_Tng_Top, edr.language);
+        const topMenu = this.getTranslatedLinks(NavBar, edr.language);
 
         templateData.page.data = {
             topMenu
         }
 
-        await ApgEdr_Service.RenderPageUsingTng(
-            request,
-            response,
-            templateData,
-            {
-                isCdnTemplate: true
-            }
-        );
+        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        edr.LogEvents(events);
+        response.html(html);
     }
 }
