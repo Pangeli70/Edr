@@ -5,9 +5,7 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Edr
-} from "../deps.ts";
+import {Edr} from "../deps.ts";
 
 export const ApgEdr_Auth_Authorizations: Edr.ApgEdr_Auth_TAuthorization = {
 

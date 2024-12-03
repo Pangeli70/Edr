@@ -5,15 +5,9 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    ApgEdr_RestHelpRoute_IGet
-} from "./ApgEdr_RestHelpRoute_IGet.ts";
-import {
-    ApgEdr_RestHelpParam_IPath
-} from "./ApgEdr_RestHelpParam_IPath.ts";
-import {
-    ApgEdr_RestHelpRoute_IPost
-} from "./ApgEdr_RestHelpRoute_IPost.ts";
+import {ApgEdr_RestHelpRoute_IGet} from "./ApgEdr_RestHelpRoute_IGet.ts";
+import {ApgEdr_RestHelpParam_IPath} from "./ApgEdr_RestHelpParam_IPath.ts";
+import {ApgEdr_RestHelpRoute_IPost} from "./ApgEdr_RestHelpRoute_IPost.ts";
 
 
 /**

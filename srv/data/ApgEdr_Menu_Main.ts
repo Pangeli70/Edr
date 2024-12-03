@@ -6,12 +6,8 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Tng, Edr
-} from "../deps.ts";
-import {
-    ApgEdr_eRoutes
-} from "../enums/ApgEdr_eRoute.ts";
+import {Tng, Edr} from "../deps.ts";
+import {ApgEdr_eRoutes} from "../enums/ApgEdr_eRoute.ts";
 
 
 

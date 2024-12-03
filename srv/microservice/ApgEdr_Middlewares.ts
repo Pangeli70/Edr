@@ -6,9 +6,7 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Edr
-} from "../deps.ts";
+import {Edr} from "../deps.ts";
 
 export const ApgEdr_Middlewares: Edr.Drash.Service[] = [
 

@@ -6,12 +6,8 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Djwt
-} from "../deps.ts";
-import {
-    ApgEdr_Auth_eRole
-} from "../enums/ApgEdr_Auth_eRole.ts";
+import {Djwt} from "../deps.ts";
+import {ApgEdr_Auth_eRole} from "../enums/ApgEdr_Auth_eRole.ts";
 
 
 /**

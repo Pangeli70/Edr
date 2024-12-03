@@ -6,9 +6,7 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Uts, Edr
-} from "../deps.ts";
+import {Uts, Edr} from "../deps.ts";
 
 export const ApgEdr_Microservice: Uts.ApgUts_IMicroservice = {
     name: Edr.ApgEdr_Microservice_Name,

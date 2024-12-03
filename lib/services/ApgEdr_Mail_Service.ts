@@ -6,12 +6,8 @@
  * @version 0.3 APG 20241107 Better error management
  * ----------------------------------------------------------------------------
  */
-import {
-    Uts
-} from "../deps.ts";
-import {
-    ApgEdr_Env_eEntry
-} from "../enums/ApgEdr_Env_eEntry.ts";
+import {Uts} from "../deps.ts";
+import {ApgEdr_Env_eEntry} from "../enums/ApgEdr_Env_eEntry.ts";
 
 
 

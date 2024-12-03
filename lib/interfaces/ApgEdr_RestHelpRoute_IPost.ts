@@ -5,12 +5,8 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    ApgEdr_RestHelpParam_IBody
-} from "./ApgEdr_RestHelpParam_IBody.ts";
-import {
-    ApgEdr_RestHelp_IPayload
-} from "./ApgEdr_RestHelp_IPayload.ts";
+import {ApgEdr_RestHelpParam_IBody} from "./ApgEdr_RestHelpParam_IBody.ts";
+import {ApgEdr_RestHelp_IPayload} from "./ApgEdr_RestHelp_IPayload.ts";
 
 
 /**

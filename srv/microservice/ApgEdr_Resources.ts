@@ -11,15 +11,9 @@
 
 
 
-import {
-    Edr
-} from "../deps.ts";
-import {
-    ApgEdr_HtmlPageResource_About
-} from "../resources/ApgEdr_HtmlPageResource_About.ts";
-import {
-    ApgEdr_HtmlPageResource_Home
-} from "../resources/ApgEdr_HtmlPageResource_Home.ts";
+import {Edr} from "../deps.ts";
+import {ApgEdr_TngResource_About} from "../resources/ApgEdr_TngResource_About.ts";
+import {ApgEdr_TngResource_Home} from "../resources/ApgEdr_TngResource_Home.ts";
 
 
 
@@ -30,55 +24,54 @@ export const ApgEdr_Resources: typeof Edr.Drash.Resource[] = [
     Edr.ApgEdr_FileResource_AnyAsset,
     Edr.ApgEdr_FileResource_AnyTemplate,
 
-    ApgEdr_HtmlPageResource_Home,
-    ApgEdr_HtmlPageResource_About,
-    Edr.ApgEdr_HtmlPageResource_Support,
-    Edr.ApgEdr_HtmlPageResource_Menu_User,
-    Edr.ApgEdr_HtmlPageResource_Menu_Dev,
-    Edr.ApgEdr_HtmlPageResource_Menu_Dev_Test,
-    Edr.ApgEdr_HtmlPageResource_Menu_Dev_Tng,
-    Edr.ApgEdr_HtmlPageResource_Menu_Admin,
+    ApgEdr_TngResource_Home,
+    ApgEdr_TngResource_About,
+    Edr.ApgEdr_TngResource_Support,
+    Edr.ApgEdr_TngResource_Menu_User,
+    Edr.ApgEdr_TngResource_Menu_Dev,
+    Edr.ApgEdr_TngResource_Menu_Dev_Test,
+    Edr.ApgEdr_TngResource_Menu_Dev_Tng,
+    Edr.ApgEdr_TngResource_Menu_Admin,
 
-    Edr.ApgEdr_ReservedHtmlPageResource_Test_Admin,
-    Edr.ApgEdr_ReservedHtmlPageResource_Test_Dev,
-    Edr.ApgEdr_ReservedHtmlPageResource_Test_User,
-    Edr.ApgEdr_ReservedHtmlPageResource_Test_Guest,
+    Edr.ApgEdr_Auth_TngResource_Admin_AuthTest,
+    Edr.ApgEdr_Auth_TngResource_Dev_AuthTest,
+    Edr.ApgEdr_Auth_TngResource_User_AuthTest,
+    Edr.ApgEdr_Auth_TngResource_Guest_AuthTest,
 
-    Edr.ApgEdr_HtmlPageResource_Tools,
+    Edr.ApgEdr_Auth_TngResource_Dev_Tools,
 
-    Edr.ApgEdr_HtmlPageResource_Language,
-    Edr.ApgEdr_HtmlPageResource_RequestOtp,
-    Edr.ApgEdr_HtmlPageResource_Login,
-    Edr.ApgEdr_HtmlPageResource_Error,
+    Edr.ApgEdr_TngResource_Language,
+    Edr.ApgEdr_TngResource_RequestOtp,
+    Edr.ApgEdr_TngResource_Login,
+    Edr.ApgEdr_TngResource_Error,
 
-    Edr.ApgEdr_ReservedHtmlPageResource_Logout,
+    Edr.ApgEdr_Auth_TngResource_Logout,
 
-    Edr.ApgEdr_ReservedHtmlPageResource_Log_List,
-    Edr.ApgEdr_ReservedHtmlPageResource_Log_Entry,
-    Edr.ApgEdr_ReservedHtmlPageResource_Errors,
-    Edr.ApgEdr_ReservedHtmlPageResource_Environment,
+    Edr.ApgEdr_Auth_TngResource_Log_List,
+    Edr.ApgEdr_Auth_TngResource_Log_Entry,
+    Edr.ApgEdr_Auth_TngResource_Log_Errors,
+    Edr.ApgEdr_Auth_TngResource_Environment,
 
-    Edr.ApgEdr_ReservedHtmlPageResource_Tng_Caches,
-    Edr.ApgEdr_ReservedHtmlPageResource_Tng_File,
-    Edr.ApgEdr_ReservedHtmlPageResource_Tng_Function,
-    Edr.ApgEdr_ReservedHtmlPageResource_Tng_Chunk,
-    Edr.ApgEdr_ReservedHtmlPageResource_Tng_Templates,
+    Edr.ApgEdr_Auth_TngResource_Tng_Caches,
+    Edr.ApgEdr_Auth_TngResource_Tng_File,
+    Edr.ApgEdr_Auth_TngResource_Tng_Function,
+    Edr.ApgEdr_Auth_TngResource_Tng_Chunk,
+    Edr.ApgEdr_Auth_TngResource_Tng_Templates,
 
-    Edr.ApgEdr_ReservedHtmlPageResource_User,
-    Edr.ApgEdr_ReservedHtmlPageResource_User_Unlock,
-    Edr.ApgEdr_ReservedHtmlPageResource_Users,
+    Edr.ApgEdr_Auth_TngResource_User,
+    Edr.ApgEdr_Auth_TngResource_User_Unlock,
+    Edr.ApgEdr_Auth_TngResource_Users,
 
-    Edr.ApgEdr_ReservedHtmlPageResource_Telemetry_Purge,
+    Edr.ApgEdr_Auth_TngResource_Telemetry_Purge,
 
-    Edr.ApgEdr_ReservedHtmlPageResource_Dev_Stories,
-    Edr.ApgEdr_ReservedHtmlPageResource_Dev_Story,
+    Edr.ApgEdr_Auth_TngResource_Dev_Stories,
+    Edr.ApgEdr_Auth_TngResource_Dev_Story,
 
-    Edr.ApgEdr_ReservedHtmlPageResource_Status,
+    Edr.ApgEdr_Auth_TngResource_Status,
 
-    Edr.ApgEdr_HtmlPageResource_Tst_Suites,
-    Edr.ApgEdr_HtmlPageResource_Tst_Suite,
-    Edr.ApgEdr_HtmlPageResource_Tst_Exec,
-    Edr.ApgEdr_HtmlPageResource_Tst_Specs,
+    Edr.ApgEdr_Auth_TngResource_Dev_TDD_Suites,
+    Edr.ApgEdr_Auth_TngResource_Dev_TDD_Suite,
+    Edr.ApgEdr_Auth_TngResource_Dev_TDD_Exec,
 
     Edr.ApgEdr_RestApiResource_Test,
 ];

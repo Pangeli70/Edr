@@ -6,9 +6,7 @@
  */
 
 
-import {
-    Drash
-} from "../deps.ts";
+import {Drash} from "../deps.ts";
 
 
 export class ApgEdr_Err_Service extends Drash.ErrorHandler {

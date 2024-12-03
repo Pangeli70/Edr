@@ -5,12 +5,8 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Mng
-} from "../deps.ts";
-import {
-    ApgEdr_Dev_ILog
-} from "../interfaces/ApgEdr_Dev_IActivity.ts";
+import {Mng} from "../deps.ts";
+import {ApgEdr_Dev_ILog} from "../interfaces/ApgEdr_Dev_IActivity.ts";
 
 
 export interface ApgEdr_Dev_ILogs_Schema extends ApgEdr_Dev_ILog { }

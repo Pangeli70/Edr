@@ -6,13 +6,9 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Mng,
-    Uts
-} from "../deps.ts";
-import {
-    ApgEdr_Env_eEntry
-} from "../enums/ApgEdr_Env_eEntry.ts";
+import {Mng,
+    Uts} from "../deps.ts";
+import {ApgEdr_Env_eEntry} from "../enums/ApgEdr_Env_eEntry.ts";
 
 interface ApgEdr_MongoDb_CollectionPair<T extends Mng.Mongo.Document> {
     local?: Mng.Mongo.Collection<T>;

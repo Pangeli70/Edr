@@ -5,12 +5,8 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    ApgEdr_RestHelp_IPayload
-} from "./ApgEdr_RestHelp_IPayload.ts";
-import {
-    ApgEdr_RestHelpParam_IQS
-} from "./ApgEdr_RestHelpParam_IQS.ts";
+import {ApgEdr_RestHelp_IPayload} from "./ApgEdr_RestHelp_IPayload.ts";
+import {ApgEdr_RestHelpParam_IQS} from "./ApgEdr_RestHelpParam_IQS.ts";
 
 
 /**

@@ -5,9 +5,7 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Uts
-} from "../deps.ts";
+import {Uts} from "../deps.ts";
 
 export interface ApgEdr_IMessage {
 

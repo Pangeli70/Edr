@@ -65,14 +65,12 @@ Tng.ApgTng_Service.TemplatesPath = "./srv/templates";
 Tng.ApgTng_Service.UseCache = false;
 Tng.ApgTng_Service.ChunkSize = 100;
 
-import {
-    ApgEdr_Auth_Authentications,
+import {ApgEdr_Auth_Authentications,
     ApgEdr_Auth_Authorizations,
     ApgEdr_Auth_Profilations,
     ApgEdr_Microservice,
     ApgEdr_Middlewares,
-    ApgEdr_Resources
-} from "./srv/mod.ts";
+    ApgEdr_Resources} from "./srv/mod.ts";
 
 // Setup Edr Auth
 Edr.ApgEdr_Auth_Service.Authentications = ApgEdr_Auth_Authentications;

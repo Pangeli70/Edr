@@ -6,15 +6,9 @@
  * ----------------------------------------------------------------------------
  */
 
-import {
-    Drash, Uts
-} from "../deps.ts";
-import {
-    ApgEdr_Service
-} from "../services/ApgEdr_Service.ts";
-import {
-    ApgEdr_Telemetry_Service
-} from "../services/ApgEdr_Telemetry_Service.ts";
+import {Drash, Uts} from "../deps.ts";
+import {ApgEdr_Service} from "../services/ApgEdr_Service.ts";
+import {ApgEdr_Telemetry_Service} from "../services/ApgEdr_Telemetry_Service.ts";
 
 
 
