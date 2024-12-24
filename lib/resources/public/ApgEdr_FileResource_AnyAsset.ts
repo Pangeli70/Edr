@@ -11,7 +11,7 @@
 import {Drash,
     Uts} from "../../deps.ts";
 import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
-import {ApgEdr_Service} from "../../services/ApgEdr_Service.ts";
+import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
 
 /**
  * Serves any file from the local assets folder
@@ -47,19 +47,19 @@ export class ApgEdr_FileResource_AnyAsset extends Drash.Resource {
             ext === ".gltf" ||
             ext === ".stl"
         ) {
-            if (ApgEdr_Service.ServedAssets_ClientCache_MaxAge > 0) {
-                const cacheControlValue = "max-age=" + ApgEdr_Service.ServedAssets_ClientCache_MaxAge.toString();
+            if (ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge > 0) {
+                const cacheControlValue = "max-age=" + ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge.toString();
                 response.headers.append("Cache-Control", cacheControlValue);
             }
         }
 
-        const fullPath = `${ApgEdr_Service.LocalAssetsPath}${realFile}`;
+        const fullPath = `${ApgEdr_Service_Core.LocalAssetsPath}${realFile}`;
         const file = await Deno.open(fullPath, { read: true });
         const info = await file.stat()
         const size = info.size / 1024 / 1024;
-        if (size > ApgEdr_Service.MaxAssetSize) {
-            const edr = ApgEdr_Service.GetEdr(request);
-            const message = `The file "${realFile}" is larger than the maximum allowed size of ${ApgEdr_Service.MaxAssetSize} MB.`;
+        if (size > ApgEdr_Service_Core.MaxAssetSize) {
+            const edr = ApgEdr_Service_Core.GetEdr(request);
+            const message = `The file "${realFile}" is larger than the maximum allowed size of ${ApgEdr_Service_Core.MaxAssetSize} MB.`;
             edr.LogError(
                 ApgEdr_FileResource_AnyAsset.name, this.GET.name, message
             )

@@ -13,8 +13,8 @@ import {Drash,
     Uts} from "../deps.ts";
 import {ApgEdr_Auth_eCookie} from "../enums/ApgEdr_Auth_eCookie.ts";
 import {ApgEdr_Auth_IJwtPayload} from "../interfaces/ApgEdr_Auth_IJwtPayload.ts";
-import {ApgEdr_Auth_Service} from "../services/ApgEdr_Auth_Service.ts";
-import {ApgEdr_Service} from "../services/ApgEdr_Service.ts";
+import {ApgEdr_Service_Auth} from "../services/ApgEdr_Service_Auth.ts";
+import {ApgEdr_Service_Core} from "../services/ApgEdr_Service_Core.ts";
 
 
 
@@ -30,7 +30,7 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
     ) {
 
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         edr.LogDebug(
             ApgEdr_Middleware_Auth.name,
@@ -41,13 +41,13 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
         const authCookie = request.getCookie(ApgEdr_Auth_eCookie.JWT);
 
         if (authCookie) {
-            let r = await ApgEdr_Auth_Service.VerifyJwt(authCookie);
+            let r = await ApgEdr_Service_Auth.VerifyJwt(authCookie);
 
             if (r.ok) {
 
                 edr.auth = r.payload as ApgEdr_Auth_IJwtPayload;
 
-                r = await ApgEdr_Auth_Service.GetJwtCookie(edr.auth.email);
+                r = await ApgEdr_Service_Auth.GetJwtCookie(edr.auth.email);
                 if (!r.ok) {
                     throw new Error(r.joinMessages());
                 }
@@ -83,7 +83,7 @@ export class ApgEdr_Middleware_Auth extends Drash.Service {
         _response: Drash.Response
     ): void {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
         edr.LogDebug(
             ApgEdr_Middleware_Auth.name,
             this.runAfterResource.name,

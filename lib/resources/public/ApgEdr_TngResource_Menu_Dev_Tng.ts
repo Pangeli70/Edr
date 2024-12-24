@@ -16,8 +16,8 @@ import { ApgEdr_TngResource_Menu } from "./ApgEdr_TngResource_Menu.ts";
  const ApgEdr_Menu_Dev_Tng = [
 
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.TNG_TEST],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_TNG_TEMPLATES],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_TNG_CACHES],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TNG_TEMPLATES],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES],
 
 ]
 

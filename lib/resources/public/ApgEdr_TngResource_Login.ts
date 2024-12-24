@@ -13,9 +13,9 @@
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
-import { ApgEdr_Auth_Service } from "../../services/ApgEdr_Auth_Service.ts";
-import { ApgEdr_Service } from "../../services/ApgEdr_Service.ts";
-import { ApgEdr_TngResource } from "./ApgEdr_TngResource.ts";
+import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
 
 
 
@@ -46,7 +46,7 @@ const _Translator = new Uts.ApgUts_Translator(
 // This resource redirects to home page if succesful or to error page if not
 export class ApgEdr_TngResource_Login
     
-    extends ApgEdr_TngResource {
+    extends ApgEdr_Base_TngResource {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Login.name;
@@ -68,7 +68,7 @@ export class ApgEdr_TngResource_Login
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         const rawEmail = await request.bodyParam(this.BODY_PARAM_EMAIL) as string;
 
@@ -78,7 +78,7 @@ export class ApgEdr_TngResource_Login
         const currentDateTime = Date.now();
 
 
-        let r = ApgEdr_Auth_Service.VerifyOtp(rawEmail, otp, currentDateTime);
+        let r = ApgEdr_Service_Auth.VerifyOtp(rawEmail, otp, currentDateTime);
 
 
         let errorMessage = "";
@@ -91,7 +91,7 @@ export class ApgEdr_TngResource_Login
         }
         else {
 
-            r = await ApgEdr_Auth_Service.GetJwtCookie(rawEmail);
+            r = await ApgEdr_Service_Auth.GetJwtCookie(rawEmail);
 
             if (!r.ok) {
                 errorMessage = _Translator.get(
@@ -127,7 +127,7 @@ export class ApgEdr_TngResource_Login
 
         // Delete the cookie anyways
         aresponse.headers.delete('Set-Cookie');
-        const cookie = ApgEdr_Auth_Service.DeleteJwtCookie();
+        const cookie = ApgEdr_Service_Auth.DeleteJwtCookie();
         aresponse.setCookie(cookie);
 
         const backPage = ApgEdr_Route_eShared.PAGE_LOGIN + "?" + this.BODY_PARAM_EMAIL + "=" + arawEmail;
@@ -139,7 +139,7 @@ export class ApgEdr_TngResource_Login
         };
 
         // Log the error
-        ApgEdr_Service.HandleError(
+        ApgEdr_Service_Core.HandleError(
             aedr,
             this.RESOURCE_NAME,
             amethodName,

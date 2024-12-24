@@ -29,16 +29,17 @@ export const ApgEdr_Resources: typeof Edr.Drash.Resource[] = [
     Edr.ApgEdr_TngResource_Support,
     Edr.ApgEdr_TngResource_Menu_User,
     Edr.ApgEdr_TngResource_Menu_Dev,
-    Edr.ApgEdr_TngResource_Menu_Dev_Test,
+    Edr.ApgEdr_TngResource_Menu_Auth_Test,
+    Edr.ApgEdr_TngResource_Menu_Api_Test,
     Edr.ApgEdr_TngResource_Menu_Dev_Tng,
     Edr.ApgEdr_TngResource_Menu_Admin,
 
-    Edr.ApgEdr_Auth_TngResource_Admin_AuthTest,
-    Edr.ApgEdr_Auth_TngResource_Dev_AuthTest,
-    Edr.ApgEdr_Auth_TngResource_User_AuthTest,
-    Edr.ApgEdr_Auth_TngResource_Guest_AuthTest,
+    Edr.ApgEdr_Admin_TngResource_AuthTest,
+    Edr.ApgEdr_Dev_TngResource_AuthTest,
+    Edr.ApgEdr_User_TngResource_AuthTest,
+    Edr.ApgEdr_Guest_TngResource_AuthTest,
 
-    Edr.ApgEdr_Auth_TngResource_Dev_Tools,
+    Edr.ApgEdr_Dev_TngResource_Tools,
 
     Edr.ApgEdr_TngResource_Language,
     Edr.ApgEdr_TngResource_RequestOtp,
@@ -47,31 +48,31 @@ export const ApgEdr_Resources: typeof Edr.Drash.Resource[] = [
 
     Edr.ApgEdr_Auth_TngResource_Logout,
 
-    Edr.ApgEdr_Auth_TngResource_Log_List,
-    Edr.ApgEdr_Auth_TngResource_Log_Entry,
-    Edr.ApgEdr_Auth_TngResource_Log_Errors,
-    Edr.ApgEdr_Auth_TngResource_Environment,
+    Edr.ApgEdr_Dev_TngResource_Requests,
+    Edr.ApgEdr_Dev_TngResource_Request,
+    Edr.ApgEdr_Dev_TngResource_Errors,
+    Edr.ApgEdr_Dev_TngResource_Environment,
 
-    Edr.ApgEdr_Auth_TngResource_Tng_Caches,
-    Edr.ApgEdr_Auth_TngResource_Tng_File,
-    Edr.ApgEdr_Auth_TngResource_Tng_Function,
-    Edr.ApgEdr_Auth_TngResource_Tng_Chunk,
-    Edr.ApgEdr_Auth_TngResource_Tng_Templates,
+    Edr.ApgEdr_Dev_TngResource_Tng_Caches,
+    Edr.ApgEdr_Dev_TngResource_Tng_File,
+    Edr.ApgEdr_Dev_TngResource_Tng_Function,
+    Edr.ApgEdr_Dev_TngResource_Tng_Chunk,
+    Edr.ApgEdr_Dev_TngResource_Tng_Templates,
 
-    Edr.ApgEdr_Auth_TngResource_User,
-    Edr.ApgEdr_Auth_TngResource_User_Unlock,
-    Edr.ApgEdr_Auth_TngResource_Users,
+    Edr.ApgEdr_Admin_TngResource_User,
+    Edr.ApgEdr_Admin_TngResource_User_Unlock,
+    Edr.ApgEdr_Admin_TngResource_Users,
 
-    Edr.ApgEdr_Auth_TngResource_Telemetry_Purge,
+    Edr.ApgEdr_Admin_TngResource_Telemetry_Purge,
 
-    Edr.ApgEdr_Auth_TngResource_Dev_Stories,
-    Edr.ApgEdr_Auth_TngResource_Dev_Story,
+    Edr.ApgEdr_Dev_TngResource_Stories,
+    Edr.ApgEdr_Dev_TngResource_Story,
 
-    Edr.ApgEdr_Auth_TngResource_Status,
+    Edr.ApgEdr_Dev_TngResource_Status,
 
-    Edr.ApgEdr_Auth_TngResource_Dev_TDD_Suites,
-    Edr.ApgEdr_Auth_TngResource_Dev_TDD_Suite,
-    Edr.ApgEdr_Auth_TngResource_Dev_TDD_Exec,
+    Edr.ApgEdr_Dev_TngResource_TDD_Suites,
+    Edr.ApgEdr_Dev_TngResource_TDD_Suite,
+    Edr.ApgEdr_Dev_TngResource_TDD_Exec,
 
     Edr.ApgEdr_RestApiResource_Test,
 ];

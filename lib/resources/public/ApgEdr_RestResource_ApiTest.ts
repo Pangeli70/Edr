@@ -7,7 +7,7 @@
  */
 
 import {Drash} from "../../deps.ts";
-import {ApgEdr_Service} from "../../services/ApgEdr_Service.ts";
+import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
 import {ApgEdr_RestResource} from "./ApgEdr_RestResource.ts";
 import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
 
@@ -41,7 +41,7 @@ export class ApgEdr_RestApiResource_Test extends ApgEdr_RestResource {
     ) {
 
 
-        const r = this.begin(ApgEdr_Service.Microservice.name, request);
+        const r = this.begin(ApgEdr_Service_Core.Microservice.name, request);
 
         const mode = this.GET_mode(request);
 
@@ -84,7 +84,7 @@ export class ApgEdr_RestApiResource_Test extends ApgEdr_RestResource {
     ) {
 
 
-        const r = this.begin(ApgEdr_Service.Microservice.name, request);
+        const r = this.begin(ApgEdr_Service_Core.Microservice.name, request);
 
         const rawParams = request.bodyParam(ApgEdr_RestApiResource_Test.POST_BP_PARAMS);
 

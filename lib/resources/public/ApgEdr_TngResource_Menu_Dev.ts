@@ -15,11 +15,10 @@ import { ApgEdr_TngResource_Menu } from "./ApgEdr_TngResource_Menu.ts";
 
  const ApgEdr_Menu_Dev = [
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_DEV_TOOLS],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TOOLS],
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV_TENGINE],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_DEV_STORIES],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV_TEST],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_DEV_TST_SUITES],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_STORIES],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TST_SUITES],
 
 ]
 
@@ -27,7 +26,7 @@ import { ApgEdr_TngResource_Menu } from "./ApgEdr_TngResource_Menu.ts";
 
  const NavBar = [
     
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU],
 ]
 
 

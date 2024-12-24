@@ -15,10 +15,10 @@
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
-import { ApgEdr_Auth_Service } from "../../services/ApgEdr_Auth_Service.ts";
-import { ApgEdr_ResendMail_Service } from "../../services/ApgEdr_Mail_Service.ts";
-import { ApgEdr_Service } from "../../services/ApgEdr_Service.ts";
-import { ApgEdr_TngResource } from "./ApgEdr_TngResource.ts";
+import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
+import { ApgEdr_Service_ResendMail } from "../../services/ApgEdr_Service_ResendMail.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
 
 
 
@@ -109,7 +109,7 @@ const _Translator = new Uts.ApgUts_Translator(
 
 export class ApgEdr_TngResource_RequestOtp
 
-    extends ApgEdr_TngResource {
+    extends ApgEdr_Base_TngResource {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_RequestOtp.name;
@@ -134,9 +134,9 @@ export class ApgEdr_TngResource_RequestOtp
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
-        const templateData = ApgEdr_Service.GetTemplateData(
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
             Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
             this.TNG_TEMPLATES.GET,
@@ -151,7 +151,7 @@ export class ApgEdr_TngResource_RequestOtp
             action: ApgEdr_Route_eShared.PAGE_REQ_OTP
         }
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);
         response.html(html);
     }
@@ -163,10 +163,10 @@ export class ApgEdr_TngResource_RequestOtp
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         const rawEmail = await request.bodyParam(this.BODY_PARAM_EMAIL) as string;
-        const auth = ApgEdr_Auth_Service.Authentications[rawEmail];
+        const auth = ApgEdr_Service_Auth.Authentications[rawEmail];
 
         if (!auth) {
             const errorMessage = _Translator.get(_eTranslation.POST_Error_EmailNotFound, edr.language);
@@ -174,21 +174,21 @@ export class ApgEdr_TngResource_RequestOtp
             return;
         }
 
-        const newOtp = ApgEdr_Auth_Service.GenerateOTP();
+        const newOtp = ApgEdr_Service_Auth.GenerateOTP();
 
         // TODO move this address to configurable variable -- APG 20241201
-        const sender = ApgEdr_Service.Microservice.name + " <login@apg-web-dev-24.it>";
-        const subject = ApgEdr_Service.Microservice.name + " " + _Translator.get(
+        const sender = ApgEdr_Service_Core.Microservice.name + " <login@apg-web-dev-24.it>";
+        const subject = ApgEdr_Service_Core.Microservice.name + " " + _Translator.get(
             _eTranslation.EMAIL_Subject,
             edr.language
         );
         const content = _Translator.get(
             _eTranslation.EMAIL_Content,
             edr.language,
-            [newOtp.toString(), ApgEdr_Auth_Service.OTP_VALIDITY_MINUTES.toString()]
+            [newOtp.toString(), ApgEdr_Service_Auth.OTP_VALIDITY_MINUTES.toString()]
         );
 
-        const r = await ApgEdr_ResendMail_Service.SendEmail(
+        const r = await ApgEdr_Service_ResendMail.SendEmail(
             sender,
             [rawEmail],
             subject,
@@ -206,9 +206,9 @@ export class ApgEdr_TngResource_RequestOtp
         }
 
         const newOtpDateTime = Date.now();
-        ApgEdr_Auth_Service.SetNewOtpForUser(rawEmail, newOtp, newOtpDateTime);
+        ApgEdr_Service_Auth.SetNewOtpForUser(rawEmail, newOtp, newOtpDateTime);
 
-        const templateData = ApgEdr_Service.GetTemplateData(
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
             _Translator.get(_eTranslation.POST_PageTitle, edr.language),
             this.TNG_TEMPLATES.POST,
@@ -220,7 +220,7 @@ export class ApgEdr_TngResource_RequestOtp
             translations: {
                 [_eTranslation.POST_P1]: _Translator.get(_eTranslation.POST_P1, edr.language, [rawEmail]),
                 [_eTranslation.POST_P2]: _Translator.get(_eTranslation.POST_P2, edr.language),
-                [_eTranslation.POST_P3]: _Translator.get(_eTranslation.POST_P3, edr.language, [ApgEdr_Auth_Service.OTP_VALIDITY_MINUTES.toString()]),
+                [_eTranslation.POST_P3]: _Translator.get(_eTranslation.POST_P3, edr.language, [ApgEdr_Service_Auth.OTP_VALIDITY_MINUTES.toString()]),
                 [_eTranslation.POST_P4]: _Translator.get(_eTranslation.POST_P4, edr.language),
                 [_eTranslation.POST_P5]: _Translator.get(_eTranslation.POST_P5, edr.language),
                 [_eTranslation.POST_BUTTON_NEW_OTP]: _Translator.get(_eTranslation.POST_BUTTON_NEW_OTP, edr.language),
@@ -232,7 +232,7 @@ export class ApgEdr_TngResource_RequestOtp
         }
 
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events)
         response.html(html);
     }
@@ -255,7 +255,7 @@ export class ApgEdr_TngResource_RequestOtp
 
 
         // Log the error
-        ApgEdr_Service.HandleError(
+        ApgEdr_Service_Core.HandleError(
             aedr,
             this.RESOURCE_NAME,
             amethodName,

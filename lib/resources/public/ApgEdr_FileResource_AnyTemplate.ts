@@ -9,7 +9,7 @@
 import {Drash,
     Uts} from "../../deps.ts";
 import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
-import {ApgEdr_Service} from "../../services/ApgEdr_Service.ts";
+import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
 
 
 /**
@@ -32,13 +32,13 @@ export class ApgEdr_FileResource_AnyTemplate extends Drash.Resource {
         if (
             ext === ".html" 
         ) {
-            if (ApgEdr_Service.ServedAssets_ClientCache_MaxAge > 0) {
-                const cacheControlValue = "max-age=" +  ApgEdr_Service.ServedAssets_ClientCache_MaxAge.toString();
+            if (ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge > 0) {
+                const cacheControlValue = "max-age=" +  ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge.toString();
                 response.headers.append("Cache-Control", cacheControlValue);
             }
         }
 
-        const file = `${ApgEdr_Service.LocalTemplatesPath}${realFile}`
+        const file = `${ApgEdr_Service_Core.LocalTemplatesPath}${realFile}`
         return response.file(file);
     }
 }

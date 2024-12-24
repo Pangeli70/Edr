@@ -12,8 +12,8 @@ import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_eCookie } from "../../enums/ApgEdr_eCookie.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
-import { ApgEdr_Service } from "../../services/ApgEdr_Service.ts";
-import { ApgEdr_TngResource } from "./ApgEdr_TngResource.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
 
 
 
@@ -59,7 +59,7 @@ const _Translator = new Uts.ApgUts_Translator(_Translations);
 
 export class ApgEdr_TngResource_Language
 
-    extends ApgEdr_TngResource {
+    extends ApgEdr_Base_TngResource {
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Language.name;
     override readonly TITLE: Uts.ApgUts_IMultilanguage = {
@@ -86,9 +86,9 @@ export class ApgEdr_TngResource_Language
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
-        const templateData = ApgEdr_Service.GetTemplateData(
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
             Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
             this.TNG_TEMPLATES.GET,
@@ -104,7 +104,7 @@ export class ApgEdr_TngResource_Language
             [_etranslations.GET_Intro_Label]: _Translator.get(_etranslations.GET_Intro_Label, edr.language)
         }
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);
         response.html(html);
     }
@@ -116,7 +116,7 @@ export class ApgEdr_TngResource_Language
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         const rawLang = await request.bodyParam(this.BODY_PARAM_LANG) as string;
 
@@ -131,7 +131,7 @@ export class ApgEdr_TngResource_Language
 
         edr.language = rawLang as Uts.ApgUts_TLanguage;
 
-        const templateData = ApgEdr_Service.GetTemplateData(
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
             Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
             this.TNG_TEMPLATES.POST,
@@ -143,7 +143,7 @@ export class ApgEdr_TngResource_Language
         }
         templateData.page.translations = _Translator.getAll(edr.language);
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events)
         response.html(html);
     }

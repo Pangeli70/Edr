@@ -9,15 +9,15 @@
 
 import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
-import { ApgEdr_Auth_Service } from "../../services/ApgEdr_Auth_Service.ts";
-import { ApgEdr_Service } from "../../services/ApgEdr_Service.ts";
-import { ApgEdr_TngResource } from "../public/ApgEdr_TngResource.ts";
+import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
 
 
 
 export class ApgEdr_Auth_TngResource_Logout
     
-    extends ApgEdr_TngResource {
+    extends ApgEdr_Base_TngResource {
 
     
     override readonly RESOURCE_NAME = ApgEdr_Auth_TngResource_Logout.name;
@@ -39,9 +39,9 @@ export class ApgEdr_Auth_TngResource_Logout
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
-        const templateData = ApgEdr_Service.GetTemplateData(
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
             Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
             this.TNG_TEMPLATES.GET,
@@ -53,10 +53,10 @@ export class ApgEdr_Auth_TngResource_Logout
         }
 
         response.headers.delete('Set-Cookie');
-        const cookie = ApgEdr_Auth_Service.DeleteJwtCookie();
+        const cookie = ApgEdr_Service_Auth.DeleteJwtCookie();
         response.setCookie(cookie);
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);
         response.html(html);
     }

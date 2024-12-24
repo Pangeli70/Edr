@@ -11,8 +11,8 @@
 
 import {Drash,
     Uts} from "../deps.ts";
-import {ApgEdr_Service} from "../services/ApgEdr_Service.ts";
-import {ApgEdr_Log_Service} from "../services/ApgEdr_Log_Service.ts";
+import {ApgEdr_Service_Core} from "../services/ApgEdr_Service_Core.ts";
+import {ApgEdr_Service_Requests} from "../services/ApgEdr_Service_Requests.ts";
 
 
 /**
@@ -34,7 +34,7 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
         _response: Drash.Response,
     ): void {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
         edr.LogDebug(
             ApgEdr_Middleware_Log.name,
             this.runBeforeResource.name,
@@ -50,7 +50,7 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
         _response: Drash.Response
     ): void {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         edr.totalTime = (performance.now() - edr.startTime);
         edr.endMemory = Uts.ApgUts.GetMemoryUsageMb().rss;
@@ -66,7 +66,7 @@ export class ApgEdr_Middleware_Log extends Drash.Service {
             message
         );
 
-        ApgEdr_Log_Service.Store(edr)
+        ApgEdr_Service_Requests.Store(edr)
 
     }
 }

@@ -11,8 +11,6 @@ import { Edr, Tng, Uts } from "../deps.ts";
 import { ApgEdr_eRoutes } from "../enums/ApgEdr_eRoute.ts";
 
 
-const title = { EN: "About", IT: "Informazioni" };
-
 export class ApgEdr_TngResource_About
 
     extends Edr.ApgEdr_TngResource_Message {
@@ -22,8 +20,12 @@ export class ApgEdr_TngResource_About
     override paths = [ApgEdr_eRoutes.PAGE_ABOUT];
 
     override readonly NEXT = ApgEdr_eRoutes.PAGE_HOME;
-    override readonly TITLE = title;
+    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
+        EN: "About",
+        IT: "Informazioni"
+    }
 
+    
     protected override async getHtml(alanguage: Uts.ApgUts_TLanguage) {
 
         const root = Tng.ApgTng_Service.TemplatesPath;

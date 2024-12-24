@@ -7,8 +7,8 @@
 
 import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_IRequest } from "../../interfaces/ApgEdr_IRequest.ts";
-import { ApgEdr_Service } from "../../services/ApgEdr_Service.ts";
-import { ApgEdr_TngResource } from "./ApgEdr_TngResource.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
 
 
 /**
@@ -16,13 +16,13 @@ import { ApgEdr_TngResource } from "./ApgEdr_TngResource.ts";
  */
 export abstract class ApgEdr_TngResource_Message
 
-    extends ApgEdr_TngResource {
+    extends ApgEdr_Base_TngResource {
 
 
     abstract readonly NEXT: string;
 
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/ApgEdr_HtmlPageTemplate_Language_GET_01.html",
+        GET: "/pages/ApgEdr_HtmlPageTemplate_Message_GET_01.html",
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 
@@ -33,11 +33,11 @@ export abstract class ApgEdr_TngResource_Message
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         const templateData = await this.#getTemplateData(edr);
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);
         response.html(html);
     }
@@ -67,7 +67,7 @@ export abstract class ApgEdr_TngResource_Message
     async #getTemplateData(aedr: ApgEdr_IRequest) {
 
 
-        const r = ApgEdr_Service.GetTemplateData(
+        const r = ApgEdr_Service_Core.GetTemplateData(
             aedr,
             Uts.ApgUts_Translator.Translate(this.TITLE, aedr.language),
             this.TNG_TEMPLATES.GET,

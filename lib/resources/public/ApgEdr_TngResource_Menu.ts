@@ -8,14 +8,14 @@
 
 import { Drash, Tng, Uts } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Service } from "../../services/ApgEdr_Service.ts";
-import { ApgEdr_TngResource } from "./ApgEdr_TngResource.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
 
 
 
 export abstract class ApgEdr_TngResource_Menu
 
-    extends ApgEdr_TngResource {
+    extends ApgEdr_Base_TngResource {
 
     /**
       * Abstract properties Must be overridden by subclasses
@@ -34,14 +34,14 @@ export abstract class ApgEdr_TngResource_Menu
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         const title = Uts.ApgUts_Translator.Translate(
             this.TITLE,
             edr.language
         );
 
-        const templateData = ApgEdr_Service.GetTemplateData(
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
             title,
             this.TNG_TEMPLATES.GET,
@@ -50,10 +50,10 @@ export abstract class ApgEdr_TngResource_Menu
 
         const isLoggedIn = templateData.user.role != ApgEdr_Auth_eRole.ANONYMOUS;
 
-        const menuFiltered = ApgEdr_Service.FilterLinksByLogin(this.MENU, isLoggedIn);
+        const menuFiltered = ApgEdr_Service_Core.FilterLinksByLogin(this.MENU, isLoggedIn);
         const menu = this.getTranslatedLinks(menuFiltered, edr.language);
 
-        const topMenuFiltered = ApgEdr_Service.FilterLinksByLogin(this.TOP_MENU, isLoggedIn);
+        const topMenuFiltered = ApgEdr_Service_Core.FilterLinksByLogin(this.TOP_MENU, isLoggedIn);
         const topMenu = this.getTranslatedLinks(topMenuFiltered, edr.language);
 
         templateData.page.data = {
@@ -62,7 +62,7 @@ export abstract class ApgEdr_TngResource_Menu
         };
 
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);
         response.html(html);
     }

@@ -9,12 +9,10 @@
  * ----------------------------------------------------------------------------
  */
 
-import {Drash,
-    Uts} from "../deps.ts";
-import {ApgEdr_eCookie} from "../enums/ApgEdr_eCookie.ts";
-
-import {ApgEdr_Request} from "../classes/ApgEdr_Request.ts";
-import {ApgEdr_Service} from "../services/ApgEdr_Service.ts";
+import { ApgEdr_Request } from "../classes/ApgEdr_Request.ts";
+import { Drash, Uts } from "../deps.ts";
+import { ApgEdr_eCookie } from "../enums/ApgEdr_eCookie.ts";
+import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
 
 
 /**
@@ -65,7 +63,7 @@ export class ApgEdr_Middleware_Any extends Drash.Service {
         response: Drash.Response
     ): void {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         edr.totalTime = (performance.now() - edr.startTime);
 
@@ -83,7 +81,7 @@ export class ApgEdr_Middleware_Any extends Drash.Service {
             name: ApgEdr_eCookie.TELEMETRY_ID,
             value: edr.telemetryId,
             path: '/',
-            maxAge: ApgEdr_Service.MAX_TELEMETRY_TIME_SPAN,
+            maxAge: ApgEdr_Service_Core.MAX_TELEMETRY_TIME_SPAN,
             httpOnly: true
         };
 

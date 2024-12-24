@@ -7,8 +7,8 @@
  */
 
 import {Drash, Uts} from "../deps.ts";
-import {ApgEdr_Service} from "../services/ApgEdr_Service.ts";
-import {ApgEdr_Telemetry_Service} from "../services/ApgEdr_Telemetry_Service.ts";
+import {ApgEdr_Service_Core} from "../services/ApgEdr_Service_Core.ts";
+import {ApgEdr_Service_Telemetry} from "../services/ApgEdr_Service_Telemetry.ts";
 
 
 
@@ -27,7 +27,7 @@ export class ApgEdr_Middleware_Telemetry extends Drash.Service {
         _response: Drash.Response,
     ): void {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
         edr.LogDebug(
             ApgEdr_Middleware_Telemetry.name,
             this.runBeforeResource.name,
@@ -43,9 +43,9 @@ export class ApgEdr_Middleware_Telemetry extends Drash.Service {
         _response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
-        const r = await ApgEdr_Telemetry_Service.Send(edr);
+        const r = await ApgEdr_Service_Telemetry.Send(edr);
 
         edr.LogDebug(
             ApgEdr_Middleware_Telemetry.name,

@@ -1,0 +1,84 @@
+/** ---------------------------------------------------------------------------
+ * @module [ApgEdr/lib]
+ * @author [APG] Angeli Paolo Giusto
+ * @version 1.0 APG 20240901
+ * @version 1.1 APG 20241005
+ * @version 1.1 APG 20241107 Better logging
+ * ----------------------------------------------------------------------------
+*/
+
+
+import { ApgEdr_Request } from "../classes/ApgEdr_Request.ts";
+import { Drash } from "../deps.ts";
+import { ApgEdr_Auth_eResult } from "../enums/ApgEdr_Auth_eResult.ts";
+import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
+import { ApgEdr_Route_eShared } from "../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Base_TngResource } from "./ApgEdr_Base_TngResource.ts";
+
+
+
+/**
+ * Authorized Tng Resource. The user must be logged in and have the right role
+ * to access the resource.
+ */
+export abstract class ApgEdr_Auth_TngResource
+    
+    extends ApgEdr_Base_TngResource {
+
+
+    /**
+     * Abstract property Must be overridden by subclasses
+     */
+    abstract readonly AUTH_ROLE: ApgEdr_Auth_eRole;
+
+
+
+    protected verifyPermissions(
+        aedr: ApgEdr_Request,
+        amethodName: string,
+        arequest: Drash.Request,
+        aresponse: Drash.Response,
+    ) {
+        const authResult = ApgEdr_Service_Core.VerifyProtectedPage(aedr, this.AUTH_ROLE);
+
+        if (authResult == ApgEdr_Auth_eResult.UNKNOWN) {
+            this.logAndRedirect(aedr, amethodName, arequest.url, ApgEdr_Route_eShared.PAGE_REQ_OTP, aresponse);
+            return false;
+        }
+        else if (authResult == ApgEdr_Auth_eResult.INSUFF) {
+
+            this.#handleInsuffPrivilegesError(aedr, amethodName, arequest, aresponse,);
+            return false;
+        }
+        return true;
+    }
+
+
+
+    #handleInsuffPrivilegesError(
+        aedr: ApgEdr_Request,
+        amethodName: string,
+        arequest: Drash.Request,
+        aresponse: Drash.Response,
+    ) {
+
+        aedr.message = {
+            title: "Error",
+            text: "Insufficient privileges",
+            next: ApgEdr_Route_eShared.PAGE_HOME
+        };
+
+        // Log the error
+        ApgEdr_Service_Core.HandleError(
+            aedr,
+            this.RESOURCE_NAME,
+            amethodName,
+        );
+
+        this.logAndRedirectToErrorPage(aedr, amethodName, aresponse, arequest.url);
+    }
+
+
+
+}

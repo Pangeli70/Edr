@@ -1,23 +1,20 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr_Log]
+ * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
  * @version 0.1 APG 20241107 Concrete implementation of interface
  * ----------------------------------------------------------------------------
  */
 
 
-import {Drash,
-    Uts} from "../deps.ts";
-import {ApgEdr_Auth_IJwtPayload} from "../interfaces/ApgEdr_Auth_IJwtPayload.ts";
-import {ApgEdr_IMessage} from "../interfaces/ApgEdr_IMessage.ts";
-import {ApgEdr_IRequest} from "../interfaces/ApgEdr_IRequest.ts";
-import {ApgEdr_Service} from "../services/ApgEdr_Service.ts";
+import { Drash, Uts } from "../deps.ts";
+import { ApgEdr_Auth_IJwtPayload } from "../interfaces/ApgEdr_Auth_IJwtPayload.ts";
+import { ApgEdr_IMessage } from "../interfaces/ApgEdr_IMessage.ts";
+import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
+import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
 
 
 
-/**
- * Service to manage logging of events in an Edr based microservice
- */
+
 export class ApgEdr_Request implements ApgEdr_IRequest {
 
 
@@ -76,12 +73,12 @@ export class ApgEdr_Request implements ApgEdr_IRequest {
         acounter: number
     ) {
 
-        this.telemetryId = ApgEdr_Service.GetTelemetryId(arequest);
+        this.telemetryId = ApgEdr_Service_Core.GetTelemetryId(arequest);
         this.received = new Date().toUTCString();
         this.client = arequest.conn_info.remoteAddr as Deno.NetAddr;
         this.method = arequest.method;
         this.route = arequest.url;
-        this.language = ApgEdr_Service.GetLanguage(arequest);
+        this.language = ApgEdr_Service_Core.GetLanguage(arequest);
         this.deployment = adeployment;
         this.counter = acounter;
         this.startTime = performance.now();

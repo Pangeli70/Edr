@@ -6,8 +6,8 @@
  * ----------------------------------------------------------------------------
  */
 
-import {Tng, Edr} from "../deps.ts";
-import {ApgEdr_eRoutes} from "../enums/ApgEdr_eRoute.ts";
+import { Tng, Edr } from "../deps.ts";
+import { ApgEdr_eRoutes } from "../enums/ApgEdr_eRoute.ts";
 
 
 
@@ -30,7 +30,6 @@ export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
         isReserved: false,
         isAnonymousOnly: true
     },
-
     {
         url: Edr.ApgEdr_Route_eShared.PAGE_MENU_USER,
         label: {
@@ -43,18 +42,41 @@ export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
         },
         isReserved: false
     },
-
+    {
+        url: Edr.ApgEdr_Route_eShared.PAGE_MENU_TEST_AUTH,
+        label: {
+            IT: "Autenticazione",
+            EN: "Authentication"
+        },
+        title: {
+            IT: "Verifica accessibilità pagine riservate per ruolo",
+            EN: "Role access verification for reserved pages"
+        },
+        isReserved: false
+    },
+    {
+        url: Edr.ApgEdr_Route_eShared.PAGE_MENU_TEST_API,
+        label: {
+            IT: "API",
+            EN: "API"
+        },
+        title: {
+            IT: "Esempi risorse API",
+            EN: "API resources examples"
+        },
+        isReserved: false
+    },
     {
         url: Edr.ApgEdr_Route_eShared.PAGE_MENU_DEV,
         label: {
-            IT: "Sviluppo",
-            EN: "Development"
+            IT: "Sviluppatore",
+            EN: "Developer"
         },
         title: {
-            IT: "Gestione attività di sviluppo",
-            EN: "Development activities management"
+            IT: "Funzioni per sviluppatori",
+            EN: "Developers features"
         },
-        isReserved: false
+        isReserved: true
     },
 
     {
@@ -80,7 +102,7 @@ export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
             IT: "Descrizione e spiegazione delle funzionalità del sito o del microservizio",
             EN: "Description and explanation of the functionality of the site or the microservice"
         },
-        isReserved: true
+        isReserved: false
     },
 
 ];

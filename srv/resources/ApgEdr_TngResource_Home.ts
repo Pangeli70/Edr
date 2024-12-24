@@ -25,7 +25,7 @@ export class ApgEdr_TngResource_Home
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Home.name;
 
-    override paths = ["/", ApgEdr_eRoutes.PAGE_HOME];
+    override paths = ["/", ApgEdr_eRoutes.PAGE_HOME, Edr.ApgEdr_Route_eShared.PAGE_MENU];
 
     override readonly TITLE: Uts.ApgUts_IMultilanguage = {
         EN: "Main menu",

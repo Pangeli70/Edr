@@ -9,9 +9,9 @@
 import {ApgEdr_Request} from "../../classes/ApgEdr_Request.ts";
 import {Drash, Uts} from "../../deps.ts";
 import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
-import {ApgEdr_ResendMail_Service} from "../../services/ApgEdr_Mail_Service.ts";
-import {ApgEdr_Service} from "../../services/ApgEdr_Service.ts";
-import {ApgEdr_TngResource} from "./ApgEdr_TngResource.ts";
+import {ApgEdr_Service_ResendMail} from "../../services/ApgEdr_Service_ResendMail.ts";
+import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
+import {ApgEdr_Base_TngResource} from "../ApgEdr_Base_TngResource.ts";
 
 
 
@@ -82,7 +82,7 @@ const _Translator = new Uts.ApgUts_Translator(
 
 export class ApgEdr_TngResource_Support
 
-    extends ApgEdr_TngResource {
+    extends ApgEdr_Base_TngResource {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Support.name;
@@ -108,9 +108,9 @@ export class ApgEdr_TngResource_Support
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
-        const templateData = ApgEdr_Service.GetTemplateData(
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
             Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
             this.TNG_TEMPLATES.GET,
@@ -123,7 +123,7 @@ export class ApgEdr_TngResource_Support
 
         templateData.page.translations = _Translator.getAll(edr.language);
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);
         response.html(html);
     }
@@ -135,7 +135,7 @@ export class ApgEdr_TngResource_Support
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         const rawEmail = await request.bodyParam(this.BODY_PARAM_EMAIL) as string;
         const emailOk = Uts.ApgUts_Is.IsEmailAddress(rawEmail);
@@ -151,16 +151,16 @@ export class ApgEdr_TngResource_Support
         const sender = _Translator.get(
             _eTranslations.POST_Email_Sender,
             edr.language,
-            [ApgEdr_Service.Microservice.name, ApgEdr_ResendMail_Service.sender]
+            [ApgEdr_Service_Core.Microservice.name, ApgEdr_Service_ResendMail.sender]
         );
-        const accns = [ApgEdr_Service.SupportEmail]
+        const accns = [ApgEdr_Service_Core.SupportEmail]
 
         const ahtml = _Translator.get(
             _eTranslations.POST_Email_Content,
             edr.language, [rawEmail, message])
 
         // TODO Send email to customer and to support team in ccn address
-        const r = await ApgEdr_ResendMail_Service.SendEmail(
+        const r = await ApgEdr_Service_ResendMail.SendEmail(
             sender,
             arecipients,
             _Translator.get(_eTranslations.POST_Email_Subject, edr.language),
@@ -173,7 +173,7 @@ export class ApgEdr_TngResource_Support
         }
 
 
-        const templateData = ApgEdr_Service.GetTemplateData(
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
             Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
             this.TNG_TEMPLATES.POST,
@@ -186,7 +186,7 @@ export class ApgEdr_TngResource_Support
         }
 
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);
         response.html(html);
     }
@@ -207,7 +207,7 @@ export class ApgEdr_TngResource_Support
             next: ApgEdr_Route_eShared.PAGE_REQ_SUPPORT
         };
         // Log the error
-        ApgEdr_Service.HandleError(
+        ApgEdr_Service_Core.HandleError(
             aedr,
             this.RESOURCE_NAME,
             amethodName,
@@ -235,7 +235,7 @@ export class ApgEdr_TngResource_Support
 
 
         // Log the error
-        ApgEdr_Service.HandleError(
+        ApgEdr_Service_Core.HandleError(
             aedr,
             this.RESOURCE_NAME,
             amethodName,

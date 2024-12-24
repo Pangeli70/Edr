@@ -15,17 +15,17 @@ import { ApgEdr_TngResource_Menu } from "./ApgEdr_TngResource_Menu.ts";
 
  const ApgEdr_Menu_Admin = [
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_USERS],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.ADMIN_PAGE_USERS],
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_ERRORS],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_ERRORS],
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_LOG],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_REQUESTS],
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_ENVIRONMENT],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_ENVIRONMENT],
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_STATUS],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_STATUS],
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.RESERVED_PAGE_TELEMETRY_PURGE],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TELEMETRY_PURGE],
 ]
 
 

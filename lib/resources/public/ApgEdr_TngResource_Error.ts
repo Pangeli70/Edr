@@ -10,15 +10,15 @@
 import { Drash, Uts, } from "../../deps.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_IRequest } from "../../interfaces/ApgEdr_IRequest.ts";
-import { ApgEdr_Log_Service } from "../../services/ApgEdr_Log_Service.ts";
-import { ApgEdr_Service } from "../../services/ApgEdr_Service.ts";
-import { ApgEdr_TngResource } from "./ApgEdr_TngResource.ts";
+import { ApgEdr_Service_Requests } from "../../services/ApgEdr_Service_Requests.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
 
 
 
 export class ApgEdr_TngResource_Error
 
-    extends ApgEdr_TngResource {
+    extends ApgEdr_Base_TngResource {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Error.name;
@@ -44,7 +44,7 @@ export class ApgEdr_TngResource_Error
         response: Drash.Response
     ) {
 
-        const edr = ApgEdr_Service.GetEdr(request);
+        const edr = ApgEdr_Service_Core.GetEdr(request);
 
         const rawErrId = request.pathParam(this.PATH_PARAM_ERR_ID);
 
@@ -52,7 +52,7 @@ export class ApgEdr_TngResource_Error
 
         if (Uts.ApgUts_Is.IsInteger(rawErrId)) {
             const errId = parseInt(rawErrId!);
-            const edrWithError = ApgEdr_Log_Service.RetriveEdrByCallId(errId);
+            const edrWithError = ApgEdr_Service_Requests.RetriveEdrByCallId(errId);
             if (edrWithError) {
                 edr.message = edrWithError.message;
             }
@@ -60,7 +60,7 @@ export class ApgEdr_TngResource_Error
 
         const templateData = this.#getTemplateData(edr, isFromErrorsList);
 
-        const { html, events } = await ApgEdr_Service.RenderPageUsingTng(templateData);
+        const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);
         response.html(html);
     }
@@ -82,12 +82,12 @@ export class ApgEdr_TngResource_Error
                 text: "The redirect to this error page does not have a message",
                 next: ApgEdr_Route_eShared.PAGE_HOME
             }
-            ApgEdr_Service.Errors.push(aedr)
+            ApgEdr_Service_Core.Errors.push(aedr)
         }
 
-        const { title, text, next } = ApgEdr_Service.PrepareMessageFromEdr(aedr);
+        const { title, text, next } = ApgEdr_Service_Core.PrepareMessageFromEdr(aedr);
 
-        const r = ApgEdr_Service.GetTemplateData(
+        const r = ApgEdr_Service_Core.GetTemplateData(
             aedr,
             title,
             this.TNG_TEMPLATES.GET,
@@ -96,7 +96,7 @@ export class ApgEdr_TngResource_Error
 
         r.page.data = {
             message: text,
-            okLink: aisFromErrorsList ? ApgEdr_Route_eShared.RESERVED_PAGE_ERRORS : next
+            okLink: aisFromErrorsList ? ApgEdr_Route_eShared.DEV_PAGE_ERRORS : next
         }
 
         return r;
