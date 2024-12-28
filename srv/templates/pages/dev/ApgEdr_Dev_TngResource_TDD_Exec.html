@@ -1,0 +1,29 @@
+<!-- 
+  * @author         [APG] Angeli Paolo Giusto
+  * @requires       Tng.ApgTng_IPageData (V1.0)
+  * @version        1.0.0 20241124
+                    1.0.1 20241207 Use partial
+-->
+
+<script>
+    const tngDataTemplate = {
+        page: {
+            data: {
+            },
+            translations: {
+                intro: ""
+            }
+        }
+    }
+</script>
+
+
+<section>
+
+    <p><% page.translations.intro %></p>
+
+
+    <% partial("/partials/ApgEdr_HtmlPagePartial_Tst_Result.html") %>
+
+
+</section>

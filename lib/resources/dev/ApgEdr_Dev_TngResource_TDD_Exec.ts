@@ -1,10 +1,12 @@
 /** -----------------------------------------------------------------------
- * @module [apg-tst]
+ * @module [ApgEdr_Dev]
  * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.3 [APG 2022/12/13] Deno Deploy Beta
  * @version 0.9.7 [APG 2023/05/08] Separation of concerns Lib/Srv
+ * @version 1.0.0 [APG 2024/11/07] Moving fro apg-tst to Edr Deno V2
  * -----------------------------------------------------------------------
  */
+
 import { Drash, Spc, Uts } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
@@ -26,7 +28,7 @@ export class ApgEdr_Dev_TngResource_TDD_Exec
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/ApgEdr_HtmlPageTemplate_Tst_Exec_GET_01.html",
+        GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 

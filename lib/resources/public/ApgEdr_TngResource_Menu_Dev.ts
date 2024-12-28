@@ -1,7 +1,8 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr_Public]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20241108 Extracted from Home resource
+ * @version 1.0.0 [APG 2024/11/08]
+ * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -13,9 +14,14 @@ import { ApgEdr_TngResource_Menu } from "./ApgEdr_TngResource_Menu.ts";
 
 
 
- const ApgEdr_Menu_Dev = [
+const ApgEdr_Menu_Dev = [
 
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TOOLS],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_ERRORS],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_REQUESTS],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_ENVIRONMENT],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_STATUS],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TELEMETRY_PURGE],
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV_TENGINE],
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_STORIES],
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TST_SUITES],
@@ -24,8 +30,8 @@ import { ApgEdr_TngResource_Menu } from "./ApgEdr_TngResource_Menu.ts";
 
 
 
- const NavBar = [
-    
+const NavBar = [
+
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU],
 ]
 

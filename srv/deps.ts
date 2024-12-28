@@ -1,10 +1,10 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr/srv]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240701 Cleanup
+ * @version 1.0.0 [APG 2024/07/01]
+ * @version 1.0.2 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
-
 
 
 export * from "./monorepo.ts";

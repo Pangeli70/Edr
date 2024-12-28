@@ -1,0 +1,52 @@
+<!-- 
+  * ---------------------------------------------------------------------------
+  * @module 
+      [ApgEdr/srv/templates/pages]
+  * @file 
+      [ApgEdr_TngTemplate_MainMenu_01] [bunny.net]
+  * @author
+      [APG] Angeli Paolo Giusto
+  * @description 
+      Vertical menu page used for the main menu of a microservice
+  * @requires
+      Tng.ApgTng_IPageData (V1.0)
+  * @params
+      page.translations.intro: {Uts.ApgUts_IMultilanguage}
+      page.data.links: {Tng.ApgTng_IHyperlink[]}
+  * @version
+      1.0 20240701
+      1.1 20240731
+      1.2 20240814 Styles
+  * ---------------------------------------------------------------------------- 
+-->
+<link
+  rel="stylesheet"
+  href="/assets/css/ApgEdr_Pico_Custom_Fancy_V01.css"
+>
+
+
+<section>
+
+
+  <p><% page.translations.intro[page.lang] %></p>
+
+  <table>
+    <% for (const link of page.data.links ) { %>
+    <tr>
+      <td style="width: 9rem; padding: 0.5rem;">
+        <button
+          class="btn"
+          onclick="window.location.assign('<% link.url %>')"
+          style="min-width: 8rem"
+        >
+          <% link.label[page.lang] %>
+        </button>
+      </td>
+      <td style="vertical-align: middle; font-size:0.8rem ; padding: 0.5rem;">
+        <% link.title[page.lang] %>
+      </td>
+    </tr>
+    <% } %>
+  </table>
+
+</section>

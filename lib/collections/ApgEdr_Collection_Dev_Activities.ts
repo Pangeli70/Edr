@@ -1,12 +1,14 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr_Log]
+ * @module [ApgEdr_Dev]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20241107
+ * @version 1.0.0 [APG 2024/11/07]
+ * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
 import { Mng } from "../deps.ts";
 import { ApgEdr_Dev_IActivity } from "../interfaces/ApgEdr_Dev_IActivity.ts";
+
 
 
 export interface ApgEdr_Dev_IActivity_Schema extends ApgEdr_Dev_IActivity { }

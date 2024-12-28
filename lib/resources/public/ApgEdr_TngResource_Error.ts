@@ -1,9 +1,10 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr_Public]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240708
- * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
- * @version 1.2 APG 20240813 Moved to lib
+ * @version 1.0.0 [APG 2024/07/08]
+ * @version 1.0.1 [APG 2024/07/31] ApgEdr_Service.GetTemplateData
+ * @version 1.0.2 [APG 2024/08/13] Moved to lib
+ * @version 1.0.3 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -27,7 +28,7 @@ export class ApgEdr_TngResource_Error
         IT: "Errore"
     }
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/ApgEdr_HtmlPageTemplate_Error_01.html"
+        GET: "/pages/public/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 

@@ -1,0 +1,31 @@
+<!-- 
+  * @author         [APG] Angeli Paolo Giusto
+  * @requires       Tng.ApgTng_IPageData (V1.0)
+  * @version        1.0.0 APG 20240813
+-->
+
+<script>
+    const tngDataTemplate = {
+        page: {
+            data: {
+                user: {
+                    email: "",
+                    role: ""
+                }
+            }
+        }
+    }
+</script>
+
+
+<section>
+
+    <p style="text-align: center; padding-top: 6rem; padding-bottom:6rem;">
+        To view the content of this page your need to be logged in and have at least the role of [Developer].
+        <br>
+        <br>
+        You are logged in as [<% user.email %>] and you have granted the role of [<% user.role %>] for this
+        microservice.
+    </p>
+
+</section>

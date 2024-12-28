@@ -1,8 +1,9 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20240929
- * @version 0.2 APG 20241107 Better logging
+ * @version 0.9.1 [APG 2024/09/29]
+ * @version 0.9.2 [APG 2024/11/07] Better logging
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 

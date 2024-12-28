@@ -1,8 +1,9 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr]
+ * @module [ApgEdr/lib]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20230416 Moved to its own microservice
- * @version 0.2 APG 20240704 
+ * @version 0.9.1 [APG 2023/04/16]
+ * @version 0.9.2 [APG 2024/07/04] 
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 

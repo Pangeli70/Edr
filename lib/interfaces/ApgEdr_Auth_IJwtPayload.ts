@@ -1,13 +1,14 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr]
+ * @module [ApgEdr_Auth]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20240704
- * @version 0.2 APG 20240726 English comments
+ * @version 0.9.1 [APG 2024/07/04]
+ * @version 0.9.2 [APG 2024/07/26] English comments
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
-import {Djwt} from "../deps.ts";
-import {ApgEdr_Auth_eRole} from "../enums/ApgEdr_Auth_eRole.ts";
+import { Djwt } from "../deps.ts";
+import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
 
 
 /**

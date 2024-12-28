@@ -1,0 +1,63 @@
+<!-- 
+  * @author         [APG] Angeli Paolo Giusto
+  * @requires       Tng.ApgTng_IPageData (V1.0)
+  * @version        1.0.0 APG 20240813
+-->
+<script>
+    const tngDataTemplate = {
+        page: {
+            data: {
+                profiles: [
+                    {
+                        email: "",
+                        name: "",
+                        surname: "",
+                        companyName: "",
+                        companyRole: ""
+                    }
+                ],
+                userRoute: ""
+            }
+        }
+    }
+</script>
+
+
+
+<section>
+
+    <table style="display: block; overflow-x: auto; overflow-y: auto; white-space: nowrap; max-height: 20rem;">
+        <tr style="font-style: italic;">
+            <th style="min-width: 4rem">Email</th>
+            <th style="min-width: 4rem">Name</th>
+            <th style="min-width: 4rem">Company</th>
+            <th style="min-width: 4rem">Role</th>
+        </tr>
+        <% for (const profile of page.data.profiles) { %>
+        <tr>
+            <td>
+                <a
+                  href="<% page.data.userRoute %>/<% profile.email %>"
+                  role="button"
+                  style="padding: 0.1rem; line-height: 1rem;"
+                >
+                    <% profile.email %>
+                </a>
+                <a id="email_<% profile.email %>"></a>
+
+            </td>
+            <td>
+                <% profile.surname %> <% profile.name %>
+            </td>
+            <td>
+                <% profile.companyName %>
+            </td>
+            <td>
+                <% profile.companyRole %>
+            </td>
+
+        </tr>
+        <% } %>
+    </table>
+
+</section>

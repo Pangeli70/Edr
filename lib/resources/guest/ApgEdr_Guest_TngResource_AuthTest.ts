@@ -1,8 +1,9 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/srv]
+ * @module [ApgEdr_Guest]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240912
- * @version 1.1 APG 20241113 Moved to shared resources
+ * @version 1.0.0 [APG 2024/09/12]
+ * @version 1.0.1 [APG 2024/11/13] Moved to shared resources
+ * @version 1.0.2 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -27,7 +28,7 @@ export class ApgEdr_Guest_TngResource_AuthTest
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.GUEST;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/reserved/guest/ApgEdr_ReservedHtmlPageTemplate_Test_Guest.html"
+        GET: "/pages/guest/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 

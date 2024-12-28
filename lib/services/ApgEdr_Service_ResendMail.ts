@@ -1,13 +1,14 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Mail]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20240701
- * @version 0.2 APG 20241017 Extends ApgUts_Service
- * @version 0.3 APG 20241107 Better error management
+ * @version 0.9.1 [APG 2024/07/01]
+ * @version 0.9.2 [APG 2024/10/17] Extends ApgUts_Service
+ * @version 0.9.3 [APG 2024/11/07] Better error management
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 import { Uts } from "../deps.ts";
-import { ApgEdr_Env_eEntry } from "../enums/ApgEdr_Env_eEntry.ts";
+import { ApgEdr_eEnvEntry } from "../enums/ApgEdr_eEnvEntry.ts";
 
 
 
@@ -37,7 +38,7 @@ export class ApgEdr_Service_ResendMail
         const e = this.LogBegin(this.SendEmail);
         const r = new Uts.ApgUts_Result<string>()
 
-        const RESEND_API_KEY = Deno.env.get(ApgEdr_Env_eEntry.EMAIL_API);
+        const RESEND_API_KEY = Deno.env.get(ApgEdr_eEnvEntry.EMAIL_API);
         if (!RESEND_API_KEY) {
             return this.Error(r, e.method, "No Resend Email Api Key provided in environment variables");
         };

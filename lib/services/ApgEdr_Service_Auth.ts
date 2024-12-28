@@ -1,16 +1,17 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Auth]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20240701
- * @version 0.2 APG 20241017 Extends ApgUts_Service
- * @version 0.3 APG 20241107 Better errorm management
+ * @version 0.9.1 [APG 2024/07/01]
+ * @version 0.9.2 [APG 2024/10/17] Extends ApgUts_Service
+ * @version 0.9.3 [APG 2024/11/07] Better errorm management
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
 import { Djwt, Uts } from "../deps.ts";
 import { ApgEdr_Auth_eCookie } from "../enums/ApgEdr_Auth_eCookie.ts";
 import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Env_eEntry } from "../enums/ApgEdr_Env_eEntry.ts";
+import { ApgEdr_eEnvEntry } from "../enums/ApgEdr_eEnvEntry.ts";
 import { ApgEdr_Auth_IJwtPayload } from "../interfaces/ApgEdr_Auth_IJwtPayload.ts";
 import { ApgEdr_Auth_IUser } from "../interfaces/ApgEdr_Auth_IUser.ts";
 import {
@@ -232,7 +233,7 @@ export class ApgEdr_Service_Auth
 
     static async #ensureCurrentCryptoKeyOrThrow() {
 
-        const CRYPTO_KEY = Deno.env.get(ApgEdr_Env_eEntry.JWT_CRYPTO);
+        const CRYPTO_KEY = Deno.env.get(ApgEdr_eEnvEntry.JWT_CRYPTO);
 
         if (CRYPTO_KEY == undefined) {
             throw new Error("No CRYPTO_KEY provided in environment variables");

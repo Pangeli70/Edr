@@ -1,9 +1,10 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20240701
- * @version 0.2 APG 20240726 English comments
- * @version 0.3 APG 20241107 Telemetry and Dev
+ * @version 0.9.1 [APG 2024/07/01]
+ * @version 0.9.2 [APG 2024/07/26] English comments
+ * @version 0.9.3 [APG 2024/11/07] Telemetry and Dev
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -48,7 +49,7 @@ export enum ApgEdr_Route_eShared {
     DEV_PAGE_TELEMETRY = "/Edr/Dev/Telemetry",
     DEV_PAGE_TELEMETRY_PURGE = "/Edr/Dev/Telemetry/Purge",
 
-    TNG_TEST = "/templates/pages/ApgEdr_HtmlPageTemplate_Tools_01.html",
+    TNG_TEST = "/templates/pages/ApgEdr_TngTemplate_Tools_01.html",
 
     DEV_PAGE_TNG_TEMPLATES = "/Edr/Dev/Tng/Templates",
     DEV_PAGE_TNG_CACHES = "/Edr/Dev/Tng/Caches",

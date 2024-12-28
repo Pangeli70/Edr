@@ -1,12 +1,13 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20220909 Alpha version
- * @version 0.2 APG 20230416 Moved to its own microservice
- * @version 0.3 APG 20240106 Revamped
- * @version 0.4 APG 20240710 New Middlewares
- * @version 0.5 APG 20240713 Private packages
- * @version 0.6 APG 20240808 Auto load env using --env command line param
+ * @version 0.9.1 [APG 2022/09/09] Alpha version
+ * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
+ * @version 0.9.3 [APG 2024/01/06] Revamped
+ * @version 0.9.4 [APG 2024/07/10] New Middlewares
+ * @version 0.9.5 [APG 2024/07/13] Private packages
+ * @version 0.9.6 [APG 2024/08/08] Auto load env using --env command line param
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -43,7 +44,7 @@ Deno.env.set('DENO_AUTH_TOKENS', key + "@raw.githubusercontent.com");
 //==============================================================================
 
 
-import { Edr, Mng, Specs, Tng } from "./srv/deps.ts";
+import { Edr, Mng, MngSpecs,SpcSpecs, Tng } from "./srv/deps.ts";
 import {
     ApgEdr_Auth_Authentications,
     ApgEdr_Auth_Authorizations,
@@ -98,13 +99,23 @@ Edr.ApgEdr_Service_Auth.Profilations = ApgEdr_Auth_Profilations;
 
 // Setup Edr Test Suites
 Edr.ApgEdr_Service_TddSpec.AddSuite({
-    name: Specs.ApgSpc_Spec_ApgUts_Math.name,
-    spec: new Specs.ApgSpc_Spec_ApgUts_Math(),
+    name: SpcSpecs.Specs.ApgSpc_Spec_ApgUts_Math.name,
+    spec: new SpcSpecs.Specs.ApgSpc_Spec_ApgUts_Math(),
     results: []
 });
 Edr.ApgEdr_Service_TddSpec.AddSuite({
-    name: Specs.ApgSpc_Spec_ApgUts_Object.name,
-    spec: new Specs.ApgSpc_Spec_ApgUts_Object(),
+    name: SpcSpecs.Specs.ApgSpc_Spec_ApgUts_Object.name,
+    spec: new SpcSpecs.Specs.ApgSpc_Spec_ApgUts_Object(),
+    results: []
+})
+Edr.ApgEdr_Service_TddSpec.AddSuite({
+    name: MngSpecs.Specs.ApgMng_Spec.name + "_" + Mng.ApgMng_eMode.local,
+    spec: new MngSpecs.Specs.ApgMng_Spec(Mng.ApgMng_eMode.local),
+    results: []
+})
+Edr.ApgEdr_Service_TddSpec.AddSuite({
+    name: MngSpecs.Specs.ApgMng_Spec.name + "_" + Mng.ApgMng_eMode.atlas,
+    spec: new MngSpecs.Specs.ApgMng_Spec(Mng.ApgMng_eMode.atlas),
     results: []
 })
 

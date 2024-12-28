@@ -1,9 +1,10 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
- * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240807
- * @version 1.1 APG 20240813 Moved to lib
- * @version 1.2 APG 20240902 Better permissions management
+ * @module [ApgEdr_Dev]
+ * @author [APG] ANGELI Paolo Giusto
+ * @version 1.0.0 [APG 2024/08/07]
+ * @version 1.0.1 [APG 2024/08/13] Moved to lib
+ * @version 1.0.2 [APG 2024/09/02] Better permissions management
+ * @version 1.0.3 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -12,6 +13,15 @@ import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+
+
+const NavBar = [
+
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+
+]
 
 
 
@@ -23,10 +33,11 @@ export class ApgEdr_Dev_TngResource_Environment
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Environment.name;
     override readonly TITLE: Uts.ApgUts_IMultilanguage = {
         EN: "Environment",
+        IT: "Ambiente"
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Environment_01.html"
+        GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 
@@ -53,8 +64,10 @@ export class ApgEdr_Dev_TngResource_Environment
             this.ARE_TEMPLATES_FROM_CDN
         )
 
+        const topMenu = this.getTranslatedLinks(NavBar, edr.language);
 
         templateData.page.data = {
+            topMenu,
             action: ApgEdr_Route_eShared.DEV_PAGE_ENVIRONMENT,
             useCdn: ApgEdr_Service_Core.UseCdn ? "checked" : "",
             useTngCache: Tng.ApgTng_Service.UseCache ? "checked" : "",

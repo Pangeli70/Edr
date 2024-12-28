@@ -1,17 +1,16 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20240704
- * @version 0.2 APG 20240726 English comments + language
- * @version 0.3 APG 20241005 Messages + Telemetry session
+ * @version 0.9.1 [APG 2024/07/04]
+ * @version 0.9.2 [APG 2024/07/26] English comments + language
+ * @version 0.9.3 [APG 2024/10/05] Messages + Telemetry session
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
 import { Uts } from "../deps.ts";
 import { ApgEdr_Auth_IJwtPayload } from "../mod.ts";
 import { ApgEdr_IMessage } from "./ApgEdr_IMessage.ts";
-
-
 
 
 

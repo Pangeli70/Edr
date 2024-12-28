@@ -1,10 +1,11 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
- * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240708
- * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
- * @version 1.2 APG 20240813 Moved to lib
- * @version 1.3 APG 20240902 Better permissions management
+ * @module [ApgEdr_Dev]
+ * @author [APG] ANGELI Paolo Giusto
+ * @version 1.0.0 [APG 2024/07/08]
+ * @version 1.0.1 [APG 2024/07/31] ApgEdr_Service.GetTemplateData
+ * @version 1.0.2 [APG 2024/08/13] Moved to lib
+ * @version 1.0.3 [APG 2024/09/02] Better permissions management
+ * @version 1.0.4 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -15,8 +16,17 @@ import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_IMessage } from "../../interfaces/ApgEdr_IMessage.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
+
+
+const NavBar = [
+
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+
+]
 
 
 export class ApgEdr_Dev_TngResource_Errors
@@ -30,7 +40,7 @@ export class ApgEdr_Dev_TngResource_Errors
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Errors_01.html"
+        GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 
@@ -46,7 +56,7 @@ export class ApgEdr_Dev_TngResource_Errors
         const edr = ApgEdr_Service_Core.GetEdr(request);
         if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
-        const data: {
+        const errors: {
             href: string;
             counter: number;
             method: string;
@@ -64,7 +74,7 @@ export class ApgEdr_Dev_TngResource_Errors
                 }
             }
 
-            data.push({
+            errors.push({
                 href: ApgEdr_Route_eShared.PAGE_ERROR + "/" + error.counter + "?FEL=1",
                 counter: error.counter,
                 method: error.method,
@@ -81,7 +91,12 @@ export class ApgEdr_Dev_TngResource_Errors
             this.ARE_TEMPLATES_FROM_CDN
         )
 
-        templateData.page.data = data;
+        const topMenu = this.getTranslatedLinks(NavBar, edr.language);
+
+        templateData.page.data = {
+            topMenu,
+            errors
+        };
 
 
         const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);

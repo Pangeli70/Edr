@@ -1,7 +1,8 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr_Public]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20241115
+ * @version 1.0.0 [APG 2024/11/15]
+ * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -12,6 +13,7 @@ import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
 import {ApgEdr_Service_ResendMail} from "../../services/ApgEdr_Service_ResendMail.ts";
 import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
 import {ApgEdr_Base_TngResource} from "../ApgEdr_Base_TngResource.ts";
+import { ApgEdr_TngResource_Message } from "./ApgEdr_TngResource_Message.ts";
 
 
 
@@ -91,8 +93,8 @@ export class ApgEdr_TngResource_Support
         IT: "Richiesta di supporto"
     }
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/ApgEdr_HtmlPageTemplate_Support_GET_01.html",
-        POST: "/pages/ApgEdr_HtmlPageTemplate_Message_GET_01.html",
+        GET: "/pages/public/" + this.RESOURCE_NAME + ".html",
+        POST: "/pages/public/" + ApgEdr_TngResource_Message.name + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 

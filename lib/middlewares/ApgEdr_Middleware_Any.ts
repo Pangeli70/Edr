@@ -1,17 +1,18 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20220909 Alpha version
- * @version 0.2 APG 20230416 Moved to its own microservice
- * @version 0.3 APG 20230710 New implementation
- * @version 0.4 APG 20240726 English comments
- * @version 0.5 APG 20241107 Request class and better logging
+ * @version 0.9.1 [APG 2022/09/09] Alpha version
+ * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
+ * @version 0.9.3 [APG 2023/07/10] New implementation
+ * @version 0.9.4 [APG 2024/07/26] English comments
+ * @version 0.9.5 [APG 2024/11/07] Request class and better logging
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
 import { ApgEdr_Request } from "../classes/ApgEdr_Request.ts";
 import { Drash, Uts } from "../deps.ts";
-import { ApgEdr_eCookie } from "../enums/ApgEdr_eCookie.ts";
+import { ApgEdr_eCookieId } from "../enums/ApgEdr_eCookieId.ts";
 import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
 
 
@@ -20,7 +21,7 @@ import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
  */
 export class ApgEdr_Middleware_Any extends Drash.Service {
 
-
+    // TODO use global env const here --APG 20241224
     private static _deployment = Deno.env.get("DENO_DEPLOYMENT_ID") ?? "localhost";
     private static _counter = 0;
 
@@ -78,7 +79,7 @@ export class ApgEdr_Middleware_Any extends Drash.Service {
 
         // Renew the telemetry id cookie
         const cookie: Uts.Std.Cookie = {
-            name: ApgEdr_eCookie.TELEMETRY_ID,
+            name: ApgEdr_eCookieId.TELEMETRY_ID,
             value: edr.telemetryId,
             path: '/',
             maxAge: ApgEdr_Service_Core.MAX_TELEMETRY_TIME_SPAN,

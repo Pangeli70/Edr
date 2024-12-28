@@ -1,8 +1,9 @@
 /** -----------------------------------------------------------------------
- * @module [apg-tst]
+ * @module [ApgEdr_Dev]
  * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.3 [APG 2022/12/13] Deno Deploy Beta
  * @version 0.9.7 [APG 2023/05/08] Separation of concerns Lib/Srv
+ * @version 1.0.0 [APG 2024/11/07] Moving fro apg-tst to Edr Deno V2
  * -----------------------------------------------------------------------
  */
 
@@ -13,6 +14,7 @@ import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_TddSpec } from "../../services/ApgEdr_Service_TddSpec.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
 import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_TngResource_Menu } from "../public/ApgEdr_TngResource_Menu.ts";
 
 
 
@@ -35,7 +37,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suites
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/ApgEdr_HtmlPageTemplate_Menu_GET_01.html"
+        GET: "/pages/public/" + ApgEdr_TngResource_Menu.name + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 

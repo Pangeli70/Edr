@@ -9,7 +9,7 @@
 import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
-import { ApgEdr_Dev_IStory } from "../../interfaces/ApgEdr_Dev_IActivity.ts";
+import { ApgEdr_Dev_IStory } from "../../interfaces/ApgEdr_Dev_IStory.ts";
 import { ApgEdr_Service_DevStories } from "../../services/ApgEdr_Service_DevStories.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
@@ -32,12 +32,12 @@ export class ApgEdr_Dev_TngResource_Stories
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Stories.name;
     override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: 'User story by domain',
-        IT: "Storie utente per dominio"
+        EN: 'User stories',
+        IT: "Storie utente"
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Dev_StoriesByDomain_01.html"
+        GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 
@@ -56,7 +56,7 @@ export class ApgEdr_Dev_TngResource_Stories
 
         const r = await ApgEdr_Service_DevStories.GetStoryDomains();
         if (!r.ok) {
-            // TODO manage this error -- APG20241202
+            // TODO manage this error -- APG 20241202
             // redirect to error
             return;
         }

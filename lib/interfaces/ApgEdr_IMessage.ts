@@ -1,12 +1,17 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20241005
+ * @version 0.9.1 [APG 2024/10/05]
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
-import {Uts} from "../deps.ts";
+import { Uts } from "../deps.ts";
 
+
+/**
+ * Miltilanguage message for the user. 
+ */
 export interface ApgEdr_IMessage {
 
     /**

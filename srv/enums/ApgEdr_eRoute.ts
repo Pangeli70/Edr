@@ -7,20 +7,12 @@
 
 
 /**
- * Routes del microservizio ApgEdr
+ * Routes of ApgEdr microservice
  */
 export enum ApgEdr_eRoutes {
 
     PAGE_HOME = "/",
 
     PAGE_ABOUT = "/About",
-
-    PAGE_SUPPORT = "/Support",
-
-
-
-
-
-
 
 }

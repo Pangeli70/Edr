@@ -2,9 +2,15 @@
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
  * ----------------------------------------------------------------------------
- */
+*/
 
+export * from "./ApgEdr_Auth_TngResource.ts"
+export * from "./ApgEdr_Base_RestResource.ts"
+export * from "./ApgEdr_Base_TngResource.ts"
+export * from "./public/ApgEdr_TngResource_Menu.ts"
 
+export * from "./data/ApgEdr_Resources_Links.ts"
+export * from "./data/ApgEdr_Resources_Shared.ts"
 
 export * from "./public/ApgEdr_FileResource_AnyAsset.ts"
 export * from "./public/ApgEdr_FileResource_AnyTemplate.ts"
@@ -12,11 +18,10 @@ export * from "./public/ApgEdr_FileResource_AnyTemplate.ts"
 export * from "./public/ApgEdr_TngResource_Error.ts"
 export * from "./public/ApgEdr_TngResource_Language.ts"
 export * from "./public/ApgEdr_TngResource_Login.ts"
-export * from "./public/ApgEdr_TngResource_Menu.ts"
 export * from "./public/ApgEdr_TngResource_Menu_Admin.ts"
-export * from "./public/ApgEdr_TngResource_Menu_Dev.ts"
-export * from "./public/ApgEdr_TngResource_Menu_Auth_Test.ts"
 export * from "./public/ApgEdr_TngResource_Menu_Api_Test.ts"
+export * from "./public/ApgEdr_TngResource_Menu_Auth_Test.ts"
+export * from "./public/ApgEdr_TngResource_Menu_Dev.ts"
 export * from "./public/ApgEdr_TngResource_Menu_Dev_Tng.ts"
 export * from "./public/ApgEdr_TngResource_Menu_User.ts"
 export * from "./public/ApgEdr_TngResource_Message.ts"
@@ -27,19 +32,16 @@ export * from "./public/ApgEdr_TngResource_Support.ts"
 export * from "./public/ApgEdr_RestResource_ApiTest.ts"
 
 
-export * from "./ApgEdr_Auth_TngResource.ts"
-export * from "./ApgEdr_Base_TngResource.ts"
-
 export * from "./admin/ApgEdr_Admin_TngResource_AuthTest.ts"
-export * from "./admin/ApgEdr_Admin_TngResource_Telemetry_Purge.ts"
+export * from "./dev/ApgEdr_Dev_TngResource_Telemetry_Purge.ts"
 export * from "./admin/ApgEdr_Admin_TngResource_User.ts"
 export * from "./admin/ApgEdr_Admin_TngResource_User_Unlock.ts"
 export * from "./admin/ApgEdr_Admin_TngResource_Users.ts"
 
 export * from "./dev/ApgEdr_Dev_TngResource_AuthTest.ts"
 export * from "./dev/ApgEdr_Dev_TngResource_Environment.ts"
-export * from "./dev/ApgEdr_Dev_TngResource_Request.ts"
 export * from "./dev/ApgEdr_Dev_TngResource_Errors.ts"
+export * from "./dev/ApgEdr_Dev_TngResource_Request.ts"
 export * from "./dev/ApgEdr_Dev_TngResource_Requests.ts"
 export * from "./dev/ApgEdr_Dev_TngResource_Status.ts"
 export * from "./dev/ApgEdr_Dev_TngResource_Stories.ts"
@@ -60,9 +62,8 @@ export * from "./guest/ApgEdr_Guest_TngResource_AuthTest.ts"
 export * from "./user/ApgEdr_User_TngResource_AuthTest.ts"
 
 
-export * from "./reserved/ApgEdr_TngResource_Logout.ts"
+export * from "./public/ApgEdr_TngResource_Logout.ts"
 
-export * from "./public/ApgEdr_RestResource.ts"
 
 
 

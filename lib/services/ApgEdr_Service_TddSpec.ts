@@ -1,8 +1,9 @@
 /** -----------------------------------------------------------------------
- * @module [apg-tst]
+ * @module [ApgEdr_Dev]
  * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.3 [APG 2022/12/13] Deno Deploy Beta
  * @version 0.9.7 [APG 2023/05/08] Separation of concerns Lib/Srv
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * -----------------------------------------------------------------------
  */
 

@@ -1,0 +1,54 @@
+<!-- 
+  * @author         [APG] Angeli Paolo Giusto
+  * @requires       Tng.ApgTng_IPageData (V1.0)
+  * @version        1.0.0 APG 20240813
+                    1.0.1 APG 20241117
+-->
+
+<script>
+    const tngDataTemplate = {
+        page: {
+            data: {
+                action: "",
+                languageOptions: ""
+            },
+            translations: {
+                GET_Intro_Label: "",
+                GET_Language_Options: ""   
+            }
+        }
+    }
+</script>
+
+
+<section>
+
+    <form
+      action="<% page.data.action %>"
+      method="post"
+    >
+
+        <p>
+            <% page.translations.GET_Intro_Label %>
+        </p>
+
+        <select
+          id="lang"
+          name="lang"
+          required
+        >
+            <option value="">...</option>
+            <% page.data.languageOptions %>
+
+        </select>
+
+        <p style="text-align: right;">
+            <input
+              type="submit"
+              value="Ok"
+            >
+        </p>
+    </form>
+
+
+</section>

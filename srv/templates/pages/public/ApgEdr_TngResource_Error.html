@@ -1,0 +1,35 @@
+<!-- 
+  * @author         [APG] Angeli Paolo Giusto
+  * @requires       Tng.ApgTng_IPageData (V1.0)
+  * @version        1.0.0 APG 20240813
+-->
+
+<script>
+    const tngDataTemplate = {
+        page: {
+            data: {
+                message: "",
+                okLink: ""
+            }
+        }
+    }
+</script>
+
+
+<section>
+
+    <p style="text-align: center; padding-top: 8rem; padding-bottom:8rem;">
+        <% page.data.message %>
+    </p>
+
+
+    <p style="text-align: right;">
+        <a
+          href="<% page.data.okLink %>"
+          role="button"
+          style="width: 6rem;"
+        >Ok</a>
+    </p>
+
+
+</section>

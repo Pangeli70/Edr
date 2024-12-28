@@ -1,16 +1,17 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr_Public]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240729
- * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
- * @version 1.2 APG 20240813 Moved to lib
+ * @version 1.0.0 [APG 2024/07/29]
+ * @version 1.0.1 [APG 2024/07/31] ApgEdr_Service.GetTemplateData
+ * @version 1.0.2 [APG 2024/08/13] Moved to lib
+ * @version 1.0.3 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
 
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash, Uts } from "../../deps.ts";
-import { ApgEdr_eCookie } from "../../enums/ApgEdr_eCookie.ts";
+import { ApgEdr_eCookieId } from "../../enums/ApgEdr_eCookieId.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
@@ -70,8 +71,8 @@ export class ApgEdr_TngResource_Language
         IT: "Seleziona la tua lingua",
     }
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/ApgEdr_HtmlPageTemplate_Language_GET_01.html",
-        POST: "/pages/ApgEdr_HtmlPageTemplate_Language_POST_01.html",
+        GET: "/pages/public/" + this.RESOURCE_NAME + ".html",
+        POST: "/pages/public/" + this.RESOURCE_NAME + "_POST.html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 
@@ -121,7 +122,7 @@ export class ApgEdr_TngResource_Language
         const rawLang = await request.bodyParam(this.BODY_PARAM_LANG) as string;
 
         const cookie: Uts.Std.Cookie = {
-            name: ApgEdr_eCookie.LANGUAGE,
+            name: ApgEdr_eCookieId.LANGUAGE,
             value: rawLang,
             path: '/',
             maxAge: this.MAX_COOKIE_AGE,

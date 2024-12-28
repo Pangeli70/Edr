@@ -1,7 +1,8 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20241108 Extracted from ApgEdr_Service
+ * @version 0.9.1 [APG 2024/11/08] Extracted from ApgEdr_Service
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 

@@ -1,9 +1,10 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr_Admin]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240813
- * @version 1.1 APG 20240902 Better permissions management
- * @version 1.2 APG 20241107 Better error management
+ * @version 1.0.0 [APG 2024/08/13]
+ * @version 1.0.1 [APG 2024/09/02] Better permissions management
+ * @version 1.0.2 [APG 2024/11/07] Better error management
+ * @version 1.0.3 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 

@@ -1,0 +1,125 @@
+<!-- 
+  * @author         [APG] Angeli Paolo Giusto
+  * @requires       Tng.ApgTng_IPageData (V1.0)
+  * @version        1.0.0 APG 20240813
+-->
+
+<script>
+    const tngDataTemplate = {
+        page: {
+            data: {
+                caches: {
+                    functions: [
+                        {
+                            key: "",
+                            label: ""
+                        }
+                    ],
+                    files: [
+                        {
+                            key: "",
+                            label: ""
+                        }
+                    ],
+                    chunks: [
+                        {
+                            key: "",
+                            label: ""
+                        }
+                    ],
+                },
+                clearButton: ""
+            },
+        }
+    }
+</script>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const anchor = document.location.hash.split("#")[1];
+
+        if (anchor) {
+            const element = document.getElementById(anchor);
+            if (element) {
+                if (element.parentElement.tagName === "DETAILS") {
+                    element.parentElement.open = true
+                }
+                element.scrollIntoView();
+                const p = element.nextElementSibling;
+                if (p) {
+                    if (p.tagName === "P") {
+                        p.style = "background-color: lightblue;"
+                    }
+                }
+            }
+        }
+    });
+
+</script>
+
+<section>
+    <details id="Functions">
+        <summary>
+            Functions
+        </summary>
+
+        <% for (const func of page.data.caches.functions){ %>
+        <% const funcPathParm = encodeURIComponent(func.key) %>
+        <a id="Function_<% funcPathParm %>"></a>
+        <p>
+            <a href="<% func.key %>">
+                <% func.label %>
+            </a>
+        </p>
+        <% } %>
+
+    </details>
+
+
+    <details id="Files">
+        <summary>
+            Files
+        </summary>
+
+        <% for (const file of page.data.caches.files){ %>
+        <% const filePathParm = encodeURIComponent(file.key) %>
+        <a id="File_<% filePathParm %>"></a>
+        <p>
+            <a href="<% file.key %>">
+                <% file.label %>
+            </a>
+        </p>
+        <% } %>
+
+    </details>
+
+    <details id="Chunks">
+        <summary>
+            Chunks
+        </summary>
+
+        <% for (const chunk of page.data.caches.chunks){ %>
+        <% const chunkPathParm = chunk.key %>
+        <a id="Chunk_<% chunkPathParm %>"></a>
+        <p>
+            <a href="<% chunk.key %>">
+                <% chunk.label %>
+            </a>
+        </p>
+        <% } %>
+
+    </details>
+
+    <br>
+    <p style="text-align: right;">
+        <a
+          href="<% page.data.clearBtn %>"
+          role="button"
+        >Clear caches</a>
+    </p>
+
+
+</section>

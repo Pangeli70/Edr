@@ -1,8 +1,9 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/srv]
+ * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240701 Cleanup
- * @version 1.1 APG 20240814 Resort the menu and improved texts
+ * @version 1.0.0 [APG 2024/07/01] Cleanup
+ * @version 1.0.1 [APG 2024/08/14] Sort the menu and improved texts
+ * @version 1.0.2 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 

@@ -1,21 +1,23 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr]
+ * @module [ApgEdr_REST]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 202401056
+ * @version 0.9.1 [APG 2024/01/06]
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
 
 /**
- * Definizione dell'help per il payload contenuto nella risposta alla chiamata alla REST API
+ * Payload description for autodiscoverability help of REST API
  */
 export interface ApgEdr_RestHelp_IPayload {
 
-    /** Tipo del payload */
+
     type: string;
 
-    /** Descrizione del contenuto del payload */
+
     description: string[];
+
 }
 
 

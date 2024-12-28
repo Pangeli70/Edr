@@ -1,7 +1,8 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr_Public]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20241108 Extracted from Home resource
+ * @version 1.0.0 [APG 2024/11/08] Extracted from Home resource
+ * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -17,6 +18,8 @@ export abstract class ApgEdr_TngResource_Menu
 
     extends ApgEdr_Base_TngResource {
 
+    readonly RESOURCE_NAME = ApgEdr_TngResource_Menu.name;
+    
     /**
       * Abstract properties Must be overridden by subclasses
       */
@@ -24,7 +27,7 @@ export abstract class ApgEdr_TngResource_Menu
     abstract readonly TOP_MENU: Tng.ApgTng_IHyperlink[];
 
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/ApgEdr_HtmlPageTemplate_Menu_GET_01.html"
+        GET: "/pages/public/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 

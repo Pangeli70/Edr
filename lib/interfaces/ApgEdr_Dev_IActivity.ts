@@ -1,31 +1,21 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr]
+ * @module [ApgEdr_Dev]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20241018
+ * @version 0.9.1 [APG 2024/10/18]
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
-
-
-export interface ApgEdr_Dev_IStory {
-
-    timestampId: string;
-    microservice: string;
-    domain: string;
-    owner: ApgEdr_Dev_eOwner;
-    expectation: string;
-    outcome: string;
-    notes: string;
-    tools: string;
-    createdBy: string;
-    feasibility: ApgEdr_Dev_eFeasibility;
-
-}
-
-export type ApgEdr_Dev_IStoryKey = keyof ApgEdr_Dev_IStory;
+import { ApgEdr_Dev_ePriority } from "../enums/ApgEdr_Dev_ePriority.ts";
+import { ApgEdr_Dev_eStatus } from "../enums/ApgEdr_Dev_eStatus.ts";
 
 
 
+/**
+ * The activity is the design and planning of the implementatin of one feature
+ * aimed to fiulfil the user story. Essentially it is a task that will be accomplished 
+ * by the developers by several days and by registering the progress with the events.
+ */
 export interface ApgEdr_Dev_IActivity {
 
     timestampId: string;
@@ -44,58 +34,3 @@ export type ApgEdr_Dev_IActivityKey = keyof ApgEdr_Dev_IActivity;
 
 
 
-export interface ApgEdr_Dev_ILog {
-
-    timestampId: string;
-    activityId: string;
-    description: string[];
-    createdAt: Date;
-    createdBy: string;
-    spentHours: number;
-
-}
-
-export type ApgEdr_Dev_LogKey = keyof ApgEdr_Dev_ILog;
-
-
-
-export enum ApgEdr_Dev_eStatus {
-
-    UNDEFINED = "0_ND",
-    NEW = "1_New",
-    APPROVED = "2_Approved",
-    REJECTED = "3_Rejected",
-    PLANNING = "4_Planning",
-    IN_PROGRESS = "5_InProgress",
-    TESTING = "6_Testing",
-    COMPLETED = "7_Done",
-}
-
-export enum ApgEdr_Dev_eFeasibility {
-
-    UNDEFINED = "0_ND",
-    YES = "1_Yes",
-    MAYBE = "2_Maybe",
-    NO = "3_No",
-}
-
-export enum ApgEdr_Dev_ePriority {
-
-    UNDEFINED = "0_ND",
-    LOW = "1_Low",
-    MEDIUM = "2_Medium",
-    HIGH = "3_High",
-    URGENT = "4_Urgent",
-    NEXT = "5_Next",
-    CURRENT = "6_Current",
-}
-
-
-
-export enum ApgEdr_Dev_eOwner {
-
-    UNDEFINED = "0_ND",
-    OWNER = "1_Owner",
-    DEVELOPER = "2_Developer",
-    USER = "3_User",
-}

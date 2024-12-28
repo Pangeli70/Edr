@@ -1,7 +1,8 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
- * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20241023
+ * @module [ApgEdr_Dev]
+ * @author [APG] ANGELI Paolo Giusto
+ * @version 1.0.0 [APG 2024/10/23]
+ * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
 */
 
@@ -9,12 +10,21 @@
 import { Drash, Mng, Tng, Uts } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_DevStories } from "../../services/ApgEdr_Service_DevStories.ts";
 import { ApgEdr_Service_ResendMail } from "../../services/ApgEdr_Service_ResendMail.ts";
-import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_Telemetry } from "../../services/ApgEdr_Service_Telemetry.ts";
 import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
 
+
+
+const NavBar = [
+
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+
+]
 
 
 enum ApgEdr_eService {
@@ -45,11 +55,11 @@ export class ApgEdr_Dev_TngResource_Status
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Status.name;
     override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Events for the service",
+        EN: "Events of the services",
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Status_01.html"
+        GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 
@@ -82,7 +92,10 @@ export class ApgEdr_Dev_TngResource_Status
             this.ARE_TEMPLATES_FROM_CDN
         )
 
+        const topMenu = this.getTranslatedLinks(NavBar, edr.language);
+
         templateData.page.data = {
+            topMenu,
             url: ApgEdr_Route_eShared.DEV_PAGE_STATUS,
             type,
             services,

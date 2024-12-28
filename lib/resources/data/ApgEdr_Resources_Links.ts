@@ -1,5 +1,12 @@
+/** ---------------------------------------------------------------------------
+ * @module [ApgEdr]
+ * @author [APG] Angeli Paolo Giusto
+ * @version 1.0.0 [APG 2024/08/13]
+ * ----------------------------------------------------------------------------
+*/
+
 import { Tng } from "../../deps.ts";
-import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 
 
 
@@ -18,6 +25,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.PAGE_MENU]: {
         url: ApgEdr_Route_eShared.PAGE_MENU,
         label: {
@@ -30,6 +38,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.PAGE_MENU_USER]: {
         url: ApgEdr_Route_eShared.PAGE_MENU_USER,
         label: {
@@ -42,6 +51,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.PAGE_MENU_ADMIN]: {
         url: ApgEdr_Route_eShared.PAGE_MENU_ADMIN,
         label: {
@@ -54,6 +64,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.PAGE_MENU_DEV]: {
         url: ApgEdr_Route_eShared.PAGE_MENU_DEV,
         label: {
@@ -94,6 +105,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.PAGE_REQ_SUPPORT]: {
         url: ApgEdr_Route_eShared.PAGE_REQ_SUPPORT,
         label: {
@@ -106,6 +118,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.PAGE_ABOUT]: {
         url: ApgEdr_Route_eShared.PAGE_ABOUT,
         label: {
@@ -134,6 +147,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false,
         isAnonymousOnly: true
     },
+
     [ApgEdr_Route_eShared.PAGE_LOGOUT]: {
         url: ApgEdr_Route_eShared.PAGE_LOGOUT,
         label: {
@@ -161,6 +175,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_USER]: {
         url: ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_USER,
         label: {
@@ -173,6 +188,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_DEV]: {
         url: ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_DEV,
         label: {
@@ -185,6 +201,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_ADMIN]: {
         url: ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_ADMIN,
         label: {
@@ -212,6 +229,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: true
     },
+
     [ApgEdr_Route_eShared.DEV_PAGE_ERRORS]: {
         url: ApgEdr_Route_eShared.DEV_PAGE_ERRORS,
         label: {
@@ -236,6 +254,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: true
     },
+
     [ApgEdr_Route_eShared.DEV_PAGE_TELEMETRY_PURGE]: {
         url: ApgEdr_Route_eShared.DEV_PAGE_TELEMETRY_PURGE,
         label: {
@@ -263,6 +282,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: false
     },
+
     [ApgEdr_Route_eShared.DEV_PAGE_TNG_TEMPLATES]:
     {
         url: ApgEdr_Route_eShared.DEV_PAGE_TNG_TEMPLATES,
@@ -276,6 +296,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: true
     },
+
     [ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES]:
     {
         url: ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES,
@@ -319,6 +340,7 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: true
     },
+
     [ApgEdr_Route_eShared.DEV_PAGE_STATUS]: {
         url: ApgEdr_Route_eShared.DEV_PAGE_STATUS,
         label: {

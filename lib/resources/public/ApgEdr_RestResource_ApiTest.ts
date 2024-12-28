@@ -1,15 +1,16 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/srv]
+ * @module [ApgEdr_Public]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20240106
- * @version 1.0 APG 20240701 Cleanup
+ * @version 0.9.1 [APG 2024/01/06]
+ * @version 0.9.2 [APG 2024/07/01] Cleanup
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
-import {Drash} from "../../deps.ts";
-import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
-import {ApgEdr_RestResource} from "./ApgEdr_RestResource.ts";
-import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
+import { Drash } from "../../deps.ts";
+import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Base_RestResource } from "../ApgEdr_Base_RestResource.ts";
 
 
 
@@ -29,7 +30,7 @@ const ApgEdr_Tests: ApgEdr_ITest[] = [
 /**
  * Route per testare la classe base Edr.ApgEdr_Base_RestResource
  */
-export class ApgEdr_RestApiResource_Test extends ApgEdr_RestResource {
+export class ApgEdr_RestApiResource_Test extends ApgEdr_Base_RestResource {
 
 
     public paths = [ApgEdr_Route_eShared.API_TEST];

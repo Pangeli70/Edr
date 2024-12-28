@@ -1,7 +1,8 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20241107 Concrete implementation of interface
+ * @version 1.0.0 [APG 2024/11/07] Concrete implementation of EDR request interface
+ * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -48,7 +49,7 @@ export class ApgEdr_Request implements ApgEdr_IRequest {
 
     redirectedFrom?: string[];
 
-    message?: ApgEdr_IMessage; // @0.3
+    message?: ApgEdr_IMessage;
 
 
     /**

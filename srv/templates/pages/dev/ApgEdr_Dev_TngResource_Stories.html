@@ -1,0 +1,83 @@
+<!-- 
+  * @author         [APG] Angeli Paolo Giusto
+  * @requires       Tng.ApgTng_IPageData (V1.0)
+  * @version        1.0.0 APG 20241024
+-->
+
+<script>
+    const tngDataTemplate = {
+        page: {
+            data: {
+                domains: [],
+                stories: [
+                    {
+                        id: "",
+                        owner: "",
+                        expectation: "",
+                        outcome: "",
+                        notes: "",
+                        feasibility: "",
+                        tools: ""
+                    }
+                ],
+                entryRoute: "",
+            }
+        }
+    }
+</script>
+
+
+<section>
+
+    <script>
+        function navigateToPage(adomain) {
+            const url = "<%page.data.url%>?domain=" + adomain;
+            window.location.href = url;
+            alert(url);
+        }
+    </script>
+
+    <select
+      id="domain"
+      name="domain"
+      style="padding: 0.1rem; line-height: 1rem;"
+      onchange="navigateToPage(this.value)"
+    >
+        <option value="all">All</option>
+        <% for (const domain of page.data.domains) { %>
+        <option value="<% domain %>">
+            <% domain %>P
+        </option>
+        <% } %>
+    </select>
+
+    <table style="display: block; overflow-x: auto; overflow-y: auto; white-space: nowrap; max-height: 20rem;">
+        <tr>
+            <th style="min-width: 4rem">Id</th>
+            <th style="min-width: 4rem">Owner</th>
+            <th style="min-width: 4rem">Expectation</th>
+            <th style="min-width: 30rem">Outcome</th>
+            <th style="min-width: 30rem">Feasibility</th>
+
+        </tr>
+        <% for (const story of page.data.stories) { %>
+        <% const itemUrl = page.data.entryRoute + "/" + story.timestampId %>
+        <tr>
+            <td>
+                <a
+                  href="<% itemUrl %>"
+                  role="button"
+                  style="padding: 0.1rem; line-height: 1rem;"
+                >
+                    (**)
+                </a>
+            </td>
+            <td><% story.owner %></td>
+            <td><% story.expectation %></td>
+            <td><% story.outcome %></td>
+            <td><% story.feasibility %></td>
+        </tr>
+        <% } %>
+    </table>
+
+</section>

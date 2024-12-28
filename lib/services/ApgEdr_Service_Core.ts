@@ -1,14 +1,15 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20220909 Alpha version
- * @version 0.2 APG 20230416 Moved to its own microservice
- * @version 0.3 APG 20240106 Revamped
- * @version 0.4 APG 20240728 English comments
- * @version 0.5 APG 20240814 Renaming and filterlinks
- * @version 0.6 APG 20241008 Max Asset Size
- * @version 0.7 APG 20241017 Extends ApgUts_Service
- * @version 0.8 APG 20241108 Extracted log service
+ * @version 0.9.1 [APG 2022/09/09] Alpha version
+ * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
+ * @version 0.9.3 [APG 2024/01/06] Revamped
+ * @version 0.9.4 [APG 2024/07/28] English comments
+ * @version 0.9.5 [APG 2024/08/14] Renaming and filterlinks
+ * @version 0.9.6 [APG 2024/10/08] Max Asset Size
+ * @version 0.9.7 [APG 2024/10/17] Extends ApgUts_Service
+ * @version 0.9.8 [APG 2024/11/08] Extracted log service
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -17,7 +18,7 @@ import { ApgEdr_Request } from "../classes/ApgEdr_Request.ts";
 import { Drash, Tng, Uts } from "../deps.ts";
 import { ApgEdr_Auth_eResult } from "../enums/ApgEdr_Auth_eResult.ts";
 import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_eCookie } from "../enums/ApgEdr_eCookie.ts";
+import { ApgEdr_eCookieId } from "../enums/ApgEdr_eCookieId.ts";
 import { ApgEdr_Route_eShared } from "../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
 
@@ -167,7 +168,7 @@ export class ApgEdr_Service_Core
      */
     static GetTelemetryId(request: Drash.Request) {
 
-        let r = request.getCookie(ApgEdr_eCookie.TELEMETRY_ID);
+        let r = request.getCookie(ApgEdr_eCookieId.TELEMETRY_ID);
 
         if (!r) {
             r = new Uts.ApgUts_DateTimeStamp().Stamp;
@@ -193,7 +194,7 @@ export class ApgEdr_Service_Core
             }
         }
 
-        const cookie = request.getCookie(ApgEdr_eCookie.LANGUAGE);
+        const cookie = request.getCookie(ApgEdr_eCookieId.LANGUAGE);
         if (cookie) {
             r = cookie;
         }

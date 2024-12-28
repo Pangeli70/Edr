@@ -1,8 +1,9 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20241006
- * @version 1.0 APG 20241107 Better logging
+ * @version 1.0.0 [APG 2024/10/06]
+ * @version 1.0.1 [APG 2024/11/07] Better logging
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
 */
 
@@ -19,7 +20,7 @@ import { ApgEdr_Route_eShared } from "../enums/ApgEdr_Route_eShared.ts";
  */
 
 export abstract class ApgEdr_Base_TngResource
-    
+
     extends Drash.Resource {
 
 
@@ -73,7 +74,7 @@ export abstract class ApgEdr_Base_TngResource
     }
 
 
-    
+
     protected getTranslatedLinks(
         alinks: Tng.ApgTng_IHyperlink[],
         alang: Uts.ApgUts_TLanguage

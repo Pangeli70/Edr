@@ -1,0 +1,60 @@
+<!-- 
+  * @author         [APG] Angeli Paolo Giusto
+  * @requires       Tng.ApgTng_IPageData (V1.0)
+  * @version        1.0.0 APG 20240813
+                    1.0.1 APG 20241015 Improved text and translations
+-->
+
+<section>
+
+    <p><% page.data.translations.POST_P1 %></p>
+    <p><% page.data.translations.POST_P2 %></p>
+
+    <form
+      action="<% page.data.action %>"
+      method="post"
+    >
+        <article>
+
+            <label for="otp">OTP</label>
+            <input
+              type="text"
+              id="otp"
+              name="otp"
+              placeholder="000000"
+              maxlength="6"
+              minlength="6"
+              pattern="[0-9]{6}"
+              required
+            >
+            <input
+              type="hidden"
+              id="email"
+              name="email"
+              value="<% page.data.email %>"
+            >
+
+            <input
+              type="submit"
+              value="Login"
+            >
+        </article>
+
+    </form>
+
+    <p><% page.data.translations.POST_P3 %></p>
+    <p><% page.data.translations.POST_P4 %>
+        <a
+          href="<% page.data.requestNewOtpLink %>"
+          role="button"
+        ><% page.data.translations.POST_Button_NewOtp %></a>
+    </p>
+    <p><% page.data.translations.POST_P5 %>
+        <a
+          href="<% page.data.requestSupportLink %>"
+          role="button"
+        ><% page.data.translations.POST_Button_Support %></a>
+    </p>
+
+
+</section>

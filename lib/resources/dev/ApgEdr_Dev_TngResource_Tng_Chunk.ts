@@ -1,22 +1,29 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr_Dev]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20240728
- * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
- * @version 1.2 APG 20240813 Moved to lib
- * @version 1.3 APG 20240902 Better permissions management
+ * @version 1.0.0 [APG 2024/07/28] Moving fro apg-tng to Edr
+ * @version 1.0.1 [APG 2024/07/31] ApgEdr_Service.GetTemplateData
+ * @version 1.0.2 [APG 2024/08/13] Moved to lib
+ * @version 1.0.3 [APG 2024/09/02] Better permissions management
+ * @version 1.0.4 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
 
-import {Drash, Tng, Uts} from "../../deps.ts";
-import {ApgEdr_Auth_eRole} from "../../enums/ApgEdr_Auth_eRole.ts";
-import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
-import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Auth_TngResource} from "../ApgEdr_Auth_TngResource.ts";
+import { Drash, Tng, Uts } from "../../deps.ts";
+import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
+import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
-
+const NavBar = [
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV_TENGINE],
+    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES],
+]
 
 
 export class ApgEdr_Dev_TngResource_Tng_Chunk
@@ -29,7 +36,7 @@ export class ApgEdr_Dev_TngResource_Tng_Chunk
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Tng_Content_01.html"
+        GET: "/pages/dev/ApgEdr_Dev_TngResource_Tng_Content.html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 
@@ -49,11 +56,11 @@ export class ApgEdr_Dev_TngResource_Tng_Chunk
 
         const rawId = request.pathParam(this.PATH_PARAM_ID)!;
 
-        const data = Tng.ApgTng_Service.GetChunkFromCache(parseInt(rawId));
+        const chunk = Tng.ApgTng_Service.GetChunkFromCache(parseInt(rawId));
 
-        data.content = Uts.ApgUts.EscapeHTML(data.content.toString());
+        chunk.content = Uts.ApgUts.EscapeHTML(chunk.content.toString());
 
-        (<any>data).backLink = ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES + "#Chunk_" + data.id;
+        const backLink = ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES + "#Chunk_" + chunk.id;
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
@@ -62,7 +69,14 @@ export class ApgEdr_Dev_TngResource_Tng_Chunk
             this.ARE_TEMPLATES_FROM_CDN
         )
 
-        templateData.page.data = data;
+        const topMenu = this.getTranslatedLinks(NavBar, edr.language);
+
+        templateData.page.data = {
+            topMenu,
+            id: chunk.id,
+            content: chunk.content,
+            backLink
+        };
 
         const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);

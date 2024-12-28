@@ -1,12 +1,13 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/srv]
+ * @module [ApgEdr_Dev]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20220909 Alpha version
- * @version 0.2 APG 20230416 Moved to its own microservice
- * @version 0.3 APG 20240106 Revamped
- * @version 1.0 APG 20240701 Cleanup
- * @version 1.1 APG 20240731 ApgEdr_Service.GetTemplateData
- * @version 1.2 APG 20240813 Moved to lib
+ * @version 0.9.1 [APG 2022/09/09] Alpha version
+ * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
+ * @version 0.9.3 [APG 2024/01/06] Revamped
+ * @version 1.0.0 [APG 2024/07/01] Cleanup
+ * @version 1.0.1 [APG 2024/07/31] ApgEdr_Service.GetTemplateData
+ * @version 1.0.2 [APG 2024/08/13] Moved to lib
+ * @version 1.0.3 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -37,7 +38,7 @@ export class ApgEdr_Dev_TngResource_Tools
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/ApgEdr_HtmlPageTemplate_Tools_01.html",
+        GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 

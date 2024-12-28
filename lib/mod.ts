@@ -1,10 +1,11 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr]
+ * @module [ApgEdr/lib]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20220909 Alpha version
- * @version 0.2 APG 20230416 Moved to its own microservice
- * @version 0.3 APG 20240704 Auth and Log
- * @version 0.4 APG 20241107 Telemetry and Dev
+ * @version 0.9.1 [APG 2022/09/09] Alpha version
+ * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
+ * @version 0.9.3 [APG 2024/07/04] Auth and Log
+ * @version 0.9.4 [APG 2024/11/07] Telemetry and Dev
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -17,15 +18,14 @@ export * from "./services/ApgEdr_Service_Auth.ts"
 export * from "./services/ApgEdr_Service_DevStories.ts"
 export * from "./services/ApgEdr_Service_Requests.ts"
 export * from "./services/ApgEdr_Service_ResendMail.ts"
-export * from "./services/ApgEdr_Service_MongoDb.ts"
 export * from "./services/ApgEdr_Service_Core.ts"
 export * from "./services/ApgEdr_Service_Telemetry.ts"
 export * from "./services/ApgEdr_Service_TddSpec.ts"
 
 export * from "./enums/ApgEdr_Auth_eCookie.ts"
 export * from "./enums/ApgEdr_Auth_eRole.ts"
-export * from "./enums/ApgEdr_eCookie.ts"
-export * from "./enums/ApgEdr_Env_eEntry.ts"
+export * from "./enums/ApgEdr_eCookieId.ts"
+export * from "./enums/ApgEdr_eEnvEntry.ts"
 export * from "./enums/ApgEdr_RestRoute_eGetMode.ts"
 export * from "./enums/ApgEdr_Route_eShared.ts"
 
@@ -43,12 +43,12 @@ export * from "./interfaces/ApgEdr_Auth_IUser.ts"
 export * from "./interfaces/ApgEdr_IMessage.ts"
 export * from "./interfaces/ApgEdr_IRequest.ts"
 
-export * from "./interfaces/ApgEdr_RestHelpParam_IBody.ts"
-export * from "./interfaces/ApgEdr_RestHelpParam_IPath.ts"
-export * from "./interfaces/ApgEdr_RestHelpParam_IQS.ts"
-export * from "./interfaces/ApgEdr_RestHelpRoute_IData.ts"
-export * from "./interfaces/ApgEdr_RestHelpRoute_IGet.ts"
-export * from "./interfaces/ApgEdr_RestHelpRoute_IPost.ts"
+export * from "./interfaces/ApgEdr_RestHelp_IBodyParam.ts"
+export * from "./interfaces/ApgEdr_RestHelp_IPathParam.ts"
+export * from "./interfaces/ApgEdr_RestHelp_IQSParam.ts"
+export * from "./interfaces/ApgEdr_RestHelp_IRoute.ts"
+export * from "./interfaces/ApgEdr_RestHelp_IGetRoute.ts"
+export * from "./interfaces/ApgEdr_RestHelp_IPostRoute.ts"
 
 export * from "./types/ApgEdr_Auth_Types.ts"
 

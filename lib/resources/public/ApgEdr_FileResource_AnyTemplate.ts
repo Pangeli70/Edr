@@ -1,19 +1,19 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr_Public]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20240702
- * @version 0.2 APG 20240726 English comments
+ * @version 0.9.1 [APG 2024/07/02]
+ * @version 0.9.2 [APG 2024/07/26] English comments
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
-import {Drash,
-    Uts} from "../../deps.ts";
-import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
-import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
+import { Drash, Uts } from "../../deps.ts";
+import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 
 
 /**
- * Risorsa del server Drash per servire qualsiasi template utilizzato dal ApgTng
+ * Serves any template from the local templates folder
  */
 export class ApgEdr_FileResource_AnyTemplate extends Drash.Resource {
 
@@ -30,10 +30,10 @@ export class ApgEdr_FileResource_AnyTemplate extends Drash.Resource {
         const ext = Uts.Std.Path.extname(realFile);
 
         if (
-            ext === ".html" 
+            ext === ".html"
         ) {
             if (ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge > 0) {
-                const cacheControlValue = "max-age=" +  ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge.toString();
+                const cacheControlValue = "max-age=" + ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge.toString();
                 response.headers.append("Cache-Control", cacheControlValue);
             }
         }

@@ -1,7 +1,8 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr_Auth]
+ * @module [ApgEdr_Dev]
  * @author [APG] Angeli Paolo Giusto
- * @version 0.1 APG 20241018
+ * @version 0.9.1 [APG 2024/10/18]
+ * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -13,16 +14,13 @@ import {
 } from "../collections/ApgEdr_Collection_Dev_Stories.ts";
 import { ApgEdr_Microservice_Name } from "../data/ApgEdr_Data.ts";
 import { Mng, Uts } from "../deps.ts";
-import {
-    ApgEdr_Dev_eFeasibility,
-    ApgEdr_Dev_eOwner,
-    ApgEdr_Dev_ePriority,
-    ApgEdr_Dev_eStatus,
-    ApgEdr_Dev_IActivity,
-    ApgEdr_Dev_ILog,
-    ApgEdr_Dev_IStory,
-    ApgEdr_Dev_IStoryKey
-} from "../interfaces/ApgEdr_Dev_IActivity.ts";
+import { ApgEdr_Dev_eFeasibility } from "../enums/ApgEdr_Dev_eFeasibility.ts";
+import { ApgEdr_Dev_eOwner } from "../enums/ApgEdr_Dev_eOwner.ts";
+import { ApgEdr_Dev_ePriority } from "../enums/ApgEdr_Dev_ePriority.ts";
+import { ApgEdr_Dev_eStatus } from "../enums/ApgEdr_Dev_eStatus.ts";
+import { ApgEdr_Dev_IActivity } from "../interfaces/ApgEdr_Dev_IActivity.ts";
+import { ApgEdr_Dev_IEvent } from "../interfaces/ApgEdr_Dev_IEvent.ts";
+import { ApgEdr_Dev_IStory, ApgEdr_Dev_IStoryKey } from "../interfaces/ApgEdr_Dev_IStory.ts";
 
 
 
@@ -155,7 +153,7 @@ export class ApgEdr_Service_DevStories
     static async #InitLogsCollection() {
 
 
-        const r = await Mng.ApgMng_Service.getDbCollectionPair<ApgEdr_Dev_ILog>(this.#logsCollectionName);
+        const r = await Mng.ApgMng_Service.getDbCollectionPair<ApgEdr_Dev_IEvent>(this.#logsCollectionName);
 
 
         if (r.ok) {
@@ -338,11 +336,11 @@ export class ApgEdr_Service_DevStories
     static async ListLogsByActivity(aactivityId: string) {
 
         await this.InitOrThrow();
-        let r = new Uts.ApgUts_Result<ApgEdr_Dev_ILog[]>();
+        let r = new Uts.ApgUts_Result<ApgEdr_Dev_IEvent[]>();
 
         const filter = {
             activityId: aactivityId,
-        } as Mng.Mongo.Filter<ApgEdr_Dev_ILog>;
+        } as Mng.Mongo.Filter<ApgEdr_Dev_IEvent>;
 
         const logsCollection = this.#atlasLogsCollection || this.#localLogsCollection;
 
@@ -414,7 +412,7 @@ export class ApgEdr_Service_DevStories
                 outcome: "The first outcome",
                 notes: "Note 1",
                 tools: "The first tool",
-                createdBy: auser,
+                issuer: auser,
                 feasibility: ApgEdr_Dev_eFeasibility.MAYBE
             },
             {
@@ -426,7 +424,7 @@ export class ApgEdr_Service_DevStories
                 outcome: "The second outcome",
                 notes: "Note 2",
                 tools: "The second tool",
-                createdBy: auser,
+                issuer: auser,
                 feasibility: ApgEdr_Dev_eFeasibility.MAYBE
             },
             {
@@ -438,7 +436,7 @@ export class ApgEdr_Service_DevStories
                 outcome: "The third outcome",
                 notes: "Note 3",
                 tools: "The third tool",
-                createdBy: auser,
+                issuer: auser,
                 feasibility: ApgEdr_Dev_eFeasibility.YES
             },
         ];
@@ -538,7 +536,7 @@ export class ApgEdr_Service_DevStories
         }
 
 
-        const logs: ApgEdr_Dev_ILog[] = [
+        const logs: ApgEdr_Dev_IEvent[] = [
             {
                 timestampId: timestamps[0],
                 activityId: activityIds[1],

@@ -1,7 +1,8 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
+ * @module [ApgEdr_Public]
  * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20241002
+ * @version 1.0.0 [APG 2024/10/02]
+ * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -18,11 +19,11 @@ export abstract class ApgEdr_TngResource_Message
 
     extends ApgEdr_Base_TngResource {
 
-
+    override readonly RESOURCE_NAME = ApgEdr_TngResource_Message.name;
     abstract readonly NEXT: string;
 
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/ApgEdr_HtmlPageTemplate_Message_GET_01.html",
+        GET: "/pages/public/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 

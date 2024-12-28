@@ -22,12 +22,12 @@ export class ApgEdr_Dev_TngResource_Story
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Story.name;
     override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: 'User story by domain',
-        IT: "Storie utente per dominio"
+        EN: 'User story',
+        IT: "Storia utente"
     }
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     override readonly TNG_TEMPLATES = {
-        GET: "/pages/reserved/admin/ApgEdr_ReservedHtmlPageTemplate_Dev_Story_01.html"
+        GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
     override readonly ARE_TEMPLATES_FROM_CDN = true;
 
