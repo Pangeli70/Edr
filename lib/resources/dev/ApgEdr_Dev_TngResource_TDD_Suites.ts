@@ -7,14 +7,15 @@
  * -----------------------------------------------------------------------
  */
 
-import { Drash, Tng, Uts } from "../../deps.ts";
+
+import { Drash, Tng } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_TddSpec } from "../../services/ApgEdr_Service_TddSpec.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
-import { ApgEdr_TngResource_Menu } from "../public/ApgEdr_TngResource_Menu.ts";
+import { ApgEdr_TngResource_Menu_Base } from "../ApgEdr_TngResource_Menu_Base.ts";
 
 
 
@@ -27,19 +28,17 @@ const NavBar = [
 
 export class ApgEdr_Dev_TngResource_TDD_Suites
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_TDD_Suites.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Spec suites",
-        IT: "Suite di spec",
-    }
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
-    override readonly TNG_TEMPLATES = {
-        GET: "/pages/public/" + ApgEdr_TngResource_Menu.name + ".html"
-    };
+    override readonly TITLE = "Spec suites";
     override readonly ARE_TEMPLATES_FROM_CDN = true;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/public/" + ApgEdr_TngResource_Menu_Base.name + ".html"
+    };
+    
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
     public override paths = [ApgEdr_Route_eShared.DEV_PAGE_TST_SUITES];
 
@@ -51,6 +50,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suites
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
         const links: Tng.ApgTng_IHyperlink[] = [];
 
@@ -67,7 +67,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suites
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            this.TITLE,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )

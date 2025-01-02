@@ -1,17 +1,20 @@
 
 <!-- 
-    * @file         ApgEdr_TngResource_Error.html
+    * @file         ApgEdr_TngResource_Message_Base.html
     * @author       [APG] ANGELI Paolo Giusto
     * @requires     Tng.ApgTng_IPageData (V1.0)
-    * @version      1.0.0 APG 20240813
-                    1.0.1 APG 20241224 script data="ApgTng"
+    * @version      1.0.0 APG 20241007
+                    1.0.1 APG 20241108
+                    1.0.2 APG 20241224 script data="ApgTng"
 -->
 
+
 <script data="ApgTng">
-    const ApgEdr_TngResource_Error = {
+    const ApgEdr_TngResource_Message_Base = {
         page: {
             data: {
                 message: "",
+                html: "",
                 okLink: ""
             }
         }
@@ -21,9 +24,17 @@
 
 <section>
 
-    <p style="text-align: center; padding-top: 8rem; padding-bottom:8rem;">
+    <% if(page.data.message) {%>
+    <p style="text-align: center; padding-top: 4rem; padding-bottom: 4rem;">
         <% page.data.message %>
     </p>
+    <% } %>
+
+    <% if(page.data.html) {%>
+    <div id="html">
+        <% page.data.html %>
+    </div>
+    <% } %>
 
 
     <p style="text-align: right;">

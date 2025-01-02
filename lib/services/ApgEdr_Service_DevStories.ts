@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Dev]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2024/10/18]
  * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
@@ -27,10 +27,10 @@ import { ApgEdr_Dev_IStory, ApgEdr_Dev_IStoryKey } from "../interfaces/ApgEdr_De
 
 
 export class ApgEdr_Service_DevStories
-    
+
     extends Uts.ApgUts_Service {
 
-    
+
     protected static InitServiceName() {
         return ApgEdr_Service_DevStories.name;
     }
@@ -60,51 +60,46 @@ export class ApgEdr_Service_DevStories
 
 
 
-    static async InitOrThrow() {
+    static async InitOrPanic() {
 
 
         if (this.#inited) {
             return;
         }
 
-        let r = await this.#InitStoriesCollection();
+        let r = await this.#InitStoriesCollectionOrPanic();
 
         if (r.ok) {
-            r = await this.#InitActivitiesCollection();
+            r = await this.#InitActivitiesCollectionOrPanic();
         }
 
         if (r.ok) {
-            r = await this.#InitLogsCollection();
+            r = await this.#InitLogsCollectionOrPanic();
         }
 
-        if (!r.ok) {
-            throw new Error(r.joinMessages('\n'));
-        }
+        Uts.ApgUts.PanicIf(!r.ok, r.joinMessages('\n'));
+
 
         this.#inited = true;
-        
+
         if (!await this.#isSeeded()) {
-            const rs = await this.Seed('Admin');
-            
-            if (!rs.ok) {
-                throw new Error(rs.joinMessages('\n'));
-            }
+
+            const r = await this.Seed('Admin');
+            Uts.ApgUts.PanicIf(!r.ok, r.joinMessages('\n'));
+
         }
-        
+
         const r2 = await this.GetStoryDomains();
-        
-        if (!r2.ok) {
-            throw new Error(r2.joinMessages('\n'));
-        }
-        
+        Uts.ApgUts.PanicIf(!r2.ok, r2.joinMessages('\n'));
+
         this.#storyDomains = r2.payload!;
     }
 
 
 
-    static async #InitStoriesCollection() {
+    static async #InitStoriesCollectionOrPanic() {
 
-        const r = await Mng.ApgMng_Service.getDbCollectionPair<ApgEdr_Dev_IStory>(this.#storiesCollectionName);
+        const r = await Mng.ApgMng_Service.getDbCollectionPairOrPanic<ApgEdr_Dev_IStory>(this.#storiesCollectionName);
 
         if (r.ok) {
 
@@ -125,10 +120,10 @@ export class ApgEdr_Service_DevStories
 
 
 
-    static async #InitActivitiesCollection() {
+    static async #InitActivitiesCollectionOrPanic() {
 
 
-        const r = await Mng.ApgMng_Service.getDbCollectionPair<ApgEdr_Dev_IActivity>(this.#activitiesCollectionName);
+        const r = await Mng.ApgMng_Service.getDbCollectionPairOrPanic<ApgEdr_Dev_IActivity>(this.#activitiesCollectionName);
 
 
         if (r.ok) {
@@ -150,10 +145,10 @@ export class ApgEdr_Service_DevStories
 
 
 
-    static async #InitLogsCollection() {
+    static async #InitLogsCollectionOrPanic() {
 
 
-        const r = await Mng.ApgMng_Service.getDbCollectionPair<ApgEdr_Dev_IEvent>(this.#logsCollectionName);
+        const r = await Mng.ApgMng_Service.getDbCollectionPairOrPanic<ApgEdr_Dev_IEvent>(this.#logsCollectionName);
 
 
         if (r.ok) {
@@ -189,7 +184,7 @@ export class ApgEdr_Service_DevStories
 
     static async ListStoryOwners(amicroservice: string) {
 
-        await this.InitOrThrow();
+        await this.InitOrPanic();
         const r = new Uts.ApgUts_Result<string[]>();
 
         const filter = { microservice: amicroservice } as Mng.Mongo.Filter<ApgEdr_Dev_IStory>;
@@ -219,7 +214,7 @@ export class ApgEdr_Service_DevStories
 
     static async GetStoryDomains(amicroservice?: string) {
 
-        await this.InitOrThrow();
+        await this.InitOrPanic();
         const r = new Uts.ApgUts_Result<string[]>();
 
         if (!amicroservice) {
@@ -253,7 +248,7 @@ export class ApgEdr_Service_DevStories
 
     static async ListStoriesByDomain(adomain: string, amicroservice?: string) {
 
-        await this.InitOrThrow();
+        await this.InitOrPanic();
         let r = new Uts.ApgUts_Result<ApgEdr_Dev_IStory[]>();
 
         if (!amicroservice) {
@@ -276,7 +271,7 @@ export class ApgEdr_Service_DevStories
 
     static async ListStoriesByOwner(aowner: string, amicroservice?: string) {
 
-        await this.InitOrThrow();
+        await this.InitOrPanic();
         let r = new Uts.ApgUts_Result<ApgEdr_Dev_IStory[]>();
 
         if (!amicroservice) {
@@ -296,9 +291,9 @@ export class ApgEdr_Service_DevStories
     }
 
 
-    static async GetStoryById(aid: string) { 
+    static async GetStoryById(aid: string) {
 
-        await this.InitOrThrow();
+        await this.InitOrPanic();
         let r = new Uts.ApgUts_Result<ApgEdr_Dev_IStory_Schema>();
 
         const filter = {
@@ -317,7 +312,7 @@ export class ApgEdr_Service_DevStories
 
     static async ListActivitiesByStory(astoryId: string) {
 
-        await this.InitOrThrow();
+        await this.InitOrPanic();
         let r = new Uts.ApgUts_Result<ApgEdr_Dev_IActivity[]>();
 
         const filter = {
@@ -335,7 +330,7 @@ export class ApgEdr_Service_DevStories
 
     static async ListLogsByActivity(aactivityId: string) {
 
-        await this.InitOrThrow();
+        await this.InitOrPanic();
         let r = new Uts.ApgUts_Result<ApgEdr_Dev_IEvent[]>();
 
         const filter = {
@@ -357,7 +352,7 @@ export class ApgEdr_Service_DevStories
      */
     static async Seed(auser: string) {
 
-        await this.InitOrThrow();
+        await this.InitOrPanic();
 
         let total = 0;
         const r = new Uts.ApgUts_Result<number>();

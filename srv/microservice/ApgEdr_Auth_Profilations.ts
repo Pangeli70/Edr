@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/08/13] Cleanup
  * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
@@ -15,7 +15,7 @@ export const ApgEdr_Auth_Profilations: Edr.ApgEdr_Auth_TProfilation = {
     'pangeli70@gmail.com': {
         email: 'pangeli70@gmail.com',
         name: 'Paolo Giusto',
-        surname: 'Angeli',
+        surname: 'ANGELI',
         companyId: '1234',
         companyName: 'Apg Solutions Srl',
         description: ['Sviluppatore'],
@@ -25,7 +25,7 @@ export const ApgEdr_Auth_Profilations: Edr.ApgEdr_Auth_TProfilation = {
     'paolo.angeli@bredasys.com': {
         email: 'paolo.angeli@bredasys.com',
         name: 'Paolo Giusto',
-        surname: 'Angeli',
+        surname: 'ANGELI',
         companyId: '1234',
         companyName: 'Breda Sistemi Industriali S.p.A.',
         description: ['Disegnatore, progettista, sviluppatore'],

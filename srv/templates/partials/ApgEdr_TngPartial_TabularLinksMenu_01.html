@@ -1,0 +1,48 @@
+
+<!-- 
+  * @file           ApgEdr_TngPartial_TabularLinksMenu_01.html
+  * @author         [APG] ANGELI Paolo Giusto
+  * @requires       Tng.ApgTng_IPageData (V1.0)
+  * @version        1.0.0 APG 20240701
+                    1.0.1 APG 20240731
+                    1.0.2 APG 20240814 Styles
+                    1.0.3 APG 20241224 script data="ApgTng"
+-->
+
+<script data="ApgTng">
+    const ApgEdr_TngPartial_TabularLinksMenu_01 = {
+        page: {
+            data: {
+                menu: [
+                    {
+                        url: "",
+                        label: "",
+                        title: ""
+                    }
+                ]
+            }
+        }
+    }
+</script>
+
+
+<table>
+    <% for (const link of page.data.menu ) { %>
+    <tr>
+        <td style="width: 20%; padding: 0.5rem;">
+            <button
+              class="btn"
+              onclick="window.location.assign('<% link.url %>')"
+              style="min-width: 100%"
+            >
+                <% link.label %>
+            </button>
+        </td>
+        <td style="vertical-align: middle; font-size:0.8rem ; padding: 0.5rem;">
+            <% link.title %>
+        </td>
+    </tr>
+    <% } %>
+</table>
+
+<!-- /Partial -------------------------------------------------------------- -->

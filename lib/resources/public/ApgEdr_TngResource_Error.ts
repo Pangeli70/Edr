@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Public]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/07/08]
  * @version 1.0.1 [APG 2024/07/31] ApgEdr_Service.GetTemplateData
  * @version 1.0.2 [APG 2024/08/13] Moved to lib
@@ -13,27 +13,39 @@ import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_IRequest } from "../../interfaces/ApgEdr_IRequest.ts";
 import { ApgEdr_Service_Requests } from "../../services/ApgEdr_Service_Requests.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
+import { ApgEdr_TngResource_Base } from "../ApgEdr_TngResource_Base.ts";
+
+
+
+enum _etranslations {
+    PAGE_TITLE = "PAGE_TITLE",
+}
+
+
+const _Translator = new Uts.ApgUts_Translator(
+    {
+        [_etranslations.PAGE_TITLE]: {
+            EN: "Error",
+            IT: "Errore"
+        },
+    }
+);
 
 
 
 export class ApgEdr_TngResource_Error
 
-    extends ApgEdr_Base_TngResource {
+    extends ApgEdr_TngResource_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Error.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Error",
-        IT: "Errore"
-    }
+    override readonly TITLE = "Error";
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/public/" + this.RESOURCE_NAME + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly PATH_PARAM_ERR_ID = 'counter';
-
     readonly QS_PARAM_FROM_ERRORS_LIST = 'FEL';
 
     override paths = [ApgEdr_Route_eShared.PAGE_ERROR + "/:" + this.PATH_PARAM_ERR_ID];
@@ -72,10 +84,7 @@ export class ApgEdr_TngResource_Error
         aisFromErrorsList: boolean
     ) {
 
-        const pageTitle = Uts.ApgUts_Translator.Translate(
-            this.TITLE,
-            aedr.language
-        );
+        const pageTitle = _Translator.get(_etranslations.PAGE_TITLE, aedr.language);
 
         if (!aedr.message) {
             aedr.message = {

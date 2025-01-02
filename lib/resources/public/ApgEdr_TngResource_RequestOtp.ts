@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Public]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2022/09/09] Alpha version
  * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
  * @version 0.9.3 [APG 2024/01/06] Revamped
@@ -19,12 +19,14 @@ import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_ResendMail } from "../../services/ApgEdr_Service_ResendMail.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
+import { ApgEdr_TngResource_Base } from "../ApgEdr_TngResource_Base.ts";
+import { Tng } from "../../monorepo.ts";
 
 
 
 enum _eTranslation {
 
+    GET_PageTitle = "GET_PageTitle",
     GET_P1 = "GET_P1",
     GET_SUBMIT = "GET_Submit",
 
@@ -46,6 +48,10 @@ enum _eTranslation {
 
 const _Translator = new Uts.ApgUts_Translator(
     {
+        [_eTranslation.GET_PageTitle]: {
+            IT: "Richiedi OTP",
+            EN: "Request OTP"
+        },
         [_eTranslation.GET_P1]: {
             IT: "Richiedi via E-Mail una password a singolo uso (OTP)",
             EN: "Request via E-mail a One Time Password (OTP)"
@@ -54,6 +60,7 @@ const _Translator = new Uts.ApgUts_Translator(
             IT: "Richiedi",
             EN: "Request"
         },
+
         [_eTranslation.POST_PageTitle]: {
             IT: "Inserire OTP",
             EN: "Submit OTP"
@@ -87,8 +94,8 @@ const _Translator = new Uts.ApgUts_Translator(
             EN: "Request support"
         },
         [_eTranslation.POST_Error_EmailNotFound]: {
-            IT: "Email [[%1]] non trovata. L'utente non esiste. Per favore contattare l'assistenza.",
-            EN: "Email [[%1]] not found the user is unknown. Please contact support."
+            IT: "Email [[%1]] non trovata. L'utente è sconosciuto. Per favore contattare l'assistenza.",
+            EN: "Email [[%1]] not found. The user is unknown. Please contact support."
         },
         [_eTranslation.POST_Error_MailServer]: {
             IT: "Il messaggio email con la OTP non è stato inviato a [%1]. Il server di posta elettronica non risponde.",
@@ -110,21 +117,19 @@ const _Translator = new Uts.ApgUts_Translator(
 
 export class ApgEdr_TngResource_RequestOtp
 
-    extends ApgEdr_Base_TngResource {
+    extends ApgEdr_TngResource_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_RequestOtp.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        IT: "Richiedi OTP",
-        EN: "Request OTP"
-    }
+    override readonly TITLE = "Request OTP";
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/public/" + this.RESOURCE_NAME + ".html",
         POST: "/pages/public/" + this.RESOURCE_NAME + "_POST.html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly BODY_PARAM_EMAIL = "email";
+    readonly QS_PARAM_EMAIL = "email";
 
     override paths = [ApgEdr_Route_eShared.PAGE_REQ_OTP];
 
@@ -136,20 +141,18 @@ export class ApgEdr_TngResource_RequestOtp
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+        const pageTitle = _Translator.get(_eTranslation.GET_PageTitle, edr.language);
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const rawEmail = request.queryParam(this.QS_PARAM_EMAIL);
 
-        templateData.page.data = {
-            translations: {
-                [_eTranslation.GET_P1]: _Translator.get(_eTranslation.GET_P1, edr.language),
-                [_eTranslation.GET_SUBMIT]: _Translator.get(_eTranslation.GET_SUBMIT, edr.language),
-            },
-            action: ApgEdr_Route_eShared.PAGE_REQ_OTP
+        let templateData: Tng.ApgTng_IPageData;
+
+        if (rawEmail !== undefined) {
+            const email = rawEmail.trim().toLowerCase();
+            templateData = this.#getTemplateDataForPost(edr, pageTitle, email);
+        }
+        else {
+            templateData = this.#getTemplateDataForGet(edr, pageTitle);
         }
 
         const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
@@ -159,19 +162,44 @@ export class ApgEdr_TngResource_RequestOtp
 
 
 
+    #getTemplateDataForGet(
+        edr: ApgEdr_Request,
+        pageTitle: string
+    ) {
+
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
+            edr,
+            pageTitle,
+            this.TNG_TEMPLATES.GET,
+            this.ARE_TEMPLATES_FROM_CDN
+        );
+
+        templateData.page.data = {
+            action: ApgEdr_Route_eShared.PAGE_REQ_OTP
+        };
+        templateData.page.translations = {
+            [_eTranslation.GET_P1]: _Translator.get(_eTranslation.GET_P1, edr.language),
+            [_eTranslation.GET_SUBMIT]: _Translator.get(_eTranslation.GET_SUBMIT, edr.language),
+        };
+        return templateData;
+    }
+
+
+    
     async POST(
         request: Drash.Request,
         response: Drash.Response
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+        const pageTitle = _Translator.get(_eTranslation.POST_PageTitle, edr.language);
 
         const rawEmail = await request.bodyParam(this.BODY_PARAM_EMAIL) as string;
         const auth = ApgEdr_Service_Auth.Authentications[rawEmail];
 
         if (!auth) {
-            const errorMessage = _Translator.get(_eTranslation.POST_Error_EmailNotFound, edr.language);
-            this.#handleEmailDeliveryError(edr, this.POST.name, request, response, errorMessage);
+            const errorMessage = _Translator.get(_eTranslation.POST_Error_EmailNotFound, edr.language, [rawEmail]);
+            this.#handlePostError(edr, this.POST.name, request, response, errorMessage);
             return;
         }
 
@@ -202,36 +230,14 @@ export class ApgEdr_TngResource_RequestOtp
                 edr.language,
                 [rawEmail, ...r.messages]
             );
-            this.#handleEmailDeliveryError(edr, this.POST.name, request, response, errorMessage);
+            this.#handlePostError(edr, this.POST.name, request, response, errorMessage);
             return;
         }
 
         const newOtpDateTime = Date.now();
-        ApgEdr_Service_Auth.SetNewOtpForUser(rawEmail, newOtp, newOtpDateTime);
+        const r2 = ApgEdr_Service_Auth.SetNewOtpForUser(rawEmail, newOtp, newOtpDateTime, edr.language);
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            _Translator.get(_eTranslation.POST_PageTitle, edr.language),
-            this.TNG_TEMPLATES.POST,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
-
-        templateData.page.data = {
-            email: rawEmail,
-            translations: {
-                [_eTranslation.POST_P1]: _Translator.get(_eTranslation.POST_P1, edr.language, [rawEmail]),
-                [_eTranslation.POST_P2]: _Translator.get(_eTranslation.POST_P2, edr.language),
-                [_eTranslation.POST_P3]: _Translator.get(_eTranslation.POST_P3, edr.language, [ApgEdr_Service_Auth.OTP_VALIDITY_MINUTES.toString()]),
-                [_eTranslation.POST_P4]: _Translator.get(_eTranslation.POST_P4, edr.language),
-                [_eTranslation.POST_P5]: _Translator.get(_eTranslation.POST_P5, edr.language),
-                [_eTranslation.POST_BUTTON_NEW_OTP]: _Translator.get(_eTranslation.POST_BUTTON_NEW_OTP, edr.language),
-                [_eTranslation.POST_BUTTON_SUPPORT]: _Translator.get(_eTranslation.POST_BUTTON_SUPPORT, edr.language),
-            },
-            action: ApgEdr_Route_eShared.PAGE_LOGIN,
-            requestNewOtpLink: ApgEdr_Route_eShared.PAGE_REQ_OTP,
-            requestSupportLink: ApgEdr_Route_eShared.PAGE_REQ_SUPPORT
-        }
-
+        const templateData = this.#getTemplateDataForPost(edr, pageTitle, rawEmail);
 
         const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events)
@@ -240,7 +246,37 @@ export class ApgEdr_TngResource_RequestOtp
 
 
 
-    #handleEmailDeliveryError(
+    #getTemplateDataForPost(edr: ApgEdr_Request, pageTitle: string, rawEmail: string) {
+
+        const templateData = ApgEdr_Service_Core.GetTemplateData(
+            edr,
+            pageTitle,
+            this.TNG_TEMPLATES.POST,
+            this.ARE_TEMPLATES_FROM_CDN
+        );
+
+        templateData.page.data = {
+            email: rawEmail,
+            action: ApgEdr_Route_eShared.PAGE_LOGIN,
+            requestNewOtpLink: ApgEdr_Route_eShared.PAGE_REQ_OTP,
+            requestSupportLink: ApgEdr_Route_eShared.PAGE_REQ_SUPPORT
+        };
+
+        templateData.page.translations = {
+            [_eTranslation.POST_P1]: _Translator.get(_eTranslation.POST_P1, edr.language, [rawEmail]),
+            [_eTranslation.POST_P2]: _Translator.get(_eTranslation.POST_P2, edr.language),
+            [_eTranslation.POST_P3]: _Translator.get(_eTranslation.POST_P3, edr.language, [ApgEdr_Service_Auth.OTP_VALIDITY_MINUTES.toString()]),
+            [_eTranslation.POST_P4]: _Translator.get(_eTranslation.POST_P4, edr.language),
+            [_eTranslation.POST_P5]: _Translator.get(_eTranslation.POST_P5, edr.language),
+            [_eTranslation.POST_BUTTON_NEW_OTP]: _Translator.get(_eTranslation.POST_BUTTON_NEW_OTP, edr.language),
+            [_eTranslation.POST_BUTTON_SUPPORT]: _Translator.get(_eTranslation.POST_BUTTON_SUPPORT, edr.language),
+        };
+        return templateData;
+    }
+
+
+
+    #handlePostError(
         aedr: ApgEdr_Request,
         amethodName: string,
         arequest: Drash.Request,

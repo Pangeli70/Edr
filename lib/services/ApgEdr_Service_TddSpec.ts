@@ -29,8 +29,12 @@ export class ApgEdr_Service_TddSpec
 
 
     static AddSuite(asuite: Spc.ApgSpc_TSuite,) {
+
         if (!this._suites.has(asuite.name)) {
+
             this._suites.set(asuite.name, asuite);
+            this.LogInfo(this.AddSuite.name, `Called for suite [${asuite.name}]`);
+
         }
     }
 
@@ -41,7 +45,8 @@ export class ApgEdr_Service_TddSpec
         let r = new Uts.ApgUts_Result<void>();
 
         if (!this._suites.has(asuite)) {
-            return r.error(this.RunSuite.name, `Test suite [${asuite}] not found`);
+            const message = `Test suite [${asuite}] not found`;
+            return this.Error(r, this.RunSuite.name, message);
         }
 
         const suite = this._suites.get(asuite)!;
@@ -52,6 +57,8 @@ export class ApgEdr_Service_TddSpec
 
         r = this.StoreResult(asuite, result)
         Spc.ApgSpc_Service.Reset();
+
+        this.LogInfo(this.RunSuite.name, `Called for suite [${asuite}]`);
 
         return r;
     }
@@ -67,7 +74,7 @@ export class ApgEdr_Service_TddSpec
         const r = new Uts.ApgUts_Result<void>();
 
         if (!this._suites.has(asuite)) {
-            return r.error(this.StoreResult.name, `Test suite [${asuite}] not found`);
+            return this.Error(r, this.StoreResult.name, `Test suite [${asuite}] not found`);
         }
 
         const suite = this._suites.get(asuite)!;
@@ -77,6 +84,8 @@ export class ApgEdr_Service_TddSpec
         }
 
         suite.results.push(aresult);
+
+        this.LogInfo(this.StoreResult.name, `Called for suite [${asuite}]`);
 
         return r;
 

@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Auth]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2024/07/01]
  * @version 0.9.2 [APG 2024/10/17] Extends ApgUts_Service
  * @version 0.9.3 [APG 2024/11/07] Better errorm management
@@ -20,6 +20,44 @@ import {
     ApgEdr_Auth_TProfilation
 } from "../types/ApgEdr_Auth_Types.ts";
 
+
+
+enum _eTranslation {
+    ERROR_User_not_found = "ERROR_User_not_found",
+    ERROR_User_is_locked = "ERROR_User_is_locked",
+    ERROR_Wrong_Otp = "ERROR_Wrong_Otp",
+    ERROR_Max_attempts = "ERROR_Max_attempts",
+    ERROR_Otp_Expired = "ERROR_Otp_Expired",
+
+}
+
+
+
+const _Translator = new Uts.ApgUts_Translator(
+    {
+        [_eTranslation.ERROR_User_not_found]: {
+            EN: "User not found",
+            IT: "Utente non trovato",
+        },
+        [_eTranslation.ERROR_User_is_locked]: {
+            EN: "User is locked",
+            IT: "Utente bloccato",
+        },
+        [_eTranslation.ERROR_Wrong_Otp]: {
+            EN: "Wrong OTP. You have still [[%1]] attempts",
+            IT: "OTP errata. Hai ancora [[%1]] tentativi",
+        },
+        [_eTranslation.ERROR_Max_attempts]: {
+            EN: "Wrong OTP. Maximum number of attempts reached, the user is locked",
+            IT: "OTP errata. Numero massimo di tentativi raggiunto, l'utente viene bloccato",
+        },
+        [_eTranslation.ERROR_Otp_Expired]: {
+            EN: "OTP has expired. Request a new one.",
+            IT: "La OTP è scaduta. Richiederne una nuova.",
+        },
+
+    }
+)
 
 
 
@@ -51,7 +89,7 @@ export class ApgEdr_Service_Auth
 
     static currentKey: CryptoKey | null = null;
 
-    // TODO: move to Atlas DB for persistent storage (@APG 2024/10/17) @5h
+    // TODO: move to Atlas DB for persistent storage -- [APG 2024/10/17] @5h
     static Authentications: ApgEdr_Auth_TAuthentication = {
         'pangeli70@gmail.com': {
             email: 'pangeli70@gmail.com',
@@ -73,7 +111,7 @@ export class ApgEdr_Service_Auth
         'pangeli70@gmail.com': {
             email: 'pangeli70@gmail.com',
             name: 'Paolo Giusto',
-            surname: 'Angeli',
+            surname: 'ANGELI',
             companyId: '1234',
             companyName: 'Apg Solutions Srl',
             description: ['Sviluppatore'],
@@ -90,7 +128,8 @@ export class ApgEdr_Service_Auth
     static VerifyOtp(
         aemail: string,
         aotp: number,
-        aotpDateTime: number
+        aotpDateTime: number,
+        alang: Uts.ApgUts_TLanguage
     ) {
         const METHOD = this.Method(this.VerifyOtp);
         const r = new Uts.ApgUts_Result();
@@ -98,11 +137,11 @@ export class ApgEdr_Service_Auth
         const user = ApgEdr_Service_Auth.Authentications[aemail];
 
         if (!user) {
-            return this.Error(r, METHOD, 'User not found');
+            return this.Error(r, METHOD, _Translator.get(_eTranslation.ERROR_User_not_found, alang));
         }
 
         if (user.isLocked) {
-            return this.Error(r, METHOD, 'User is locked');
+            return this.Error(r, METHOD, _Translator.get(_eTranslation.ERROR_User_is_locked, alang));
         }
 
 
@@ -110,11 +149,11 @@ export class ApgEdr_Service_Auth
 
             user.otpAttempts++;
             const remainingAttempts = (this.MAX_OTP_ATTEMPTS - user.otpAttempts).toString();
-            let message = 'Wrong OTP. You have still ' + remainingAttempts + ' attempts';
+            let message = _Translator.get(_eTranslation.ERROR_Wrong_Otp, alang, [remainingAttempts])
 
             if (user.otpAttempts >= this.MAX_OTP_ATTEMPTS) {
                 user.isLocked = true;
-                message = ': Maximum OPT attempts reached the user is locked';
+                message = _Translator.get(_eTranslation.ERROR_Max_attempts, alang);
                 user.lockedReason = message;
             }
 
@@ -125,12 +164,14 @@ export class ApgEdr_Service_Auth
 
         if (deltaTimeMilliseconds > this.MAX_OTP_TIME_SPAN_MS) {
             user.otpAttempts = 0;
-            return this.Error(r, METHOD, 'OTP expired');
+            return this.Error(r, METHOD, _Translator.get(_eTranslation.ERROR_Otp_Expired, alang));
         }
 
         user.authentications++;
         user.lastLogin = new Date().toISOString();
         user.otpAttempts = 0;
+
+        this.LogInfo(this.VerifyOtp.name, `Called for user [${aemail}]`);
 
         return r;
     }
@@ -140,14 +181,15 @@ export class ApgEdr_Service_Auth
     static SetNewOtpForUser(
         aemail: string,
         aotp: number,
-        aotpDateTime: number
+        aotpDateTime: number,
+        alang: Uts.ApgUts_TLanguage
     ) {
         const METHOD = this.Method(this.SetNewOtpForUser);
         const r = new Uts.ApgUts_Result();
 
         const user = ApgEdr_Service_Auth.Authentications[aemail];
         if (!user) {
-            return this.Error(r, METHOD, 'User not found');
+            return this.Error(r, METHOD, _Translator.get(_eTranslation.ERROR_User_not_found, alang));
         }
 
         user.lastOtp = aotp;
@@ -223,7 +265,9 @@ export class ApgEdr_Service_Auth
 
         await this.#ensureCurrentCryptoKeyOrThrow();
 
-        const jwt = await Djwt.create(header, payload, this.currentKey)
+        const jwt = await Djwt.create(header, payload, this.currentKey);
+
+        this.LogInfo(this.GenerateJwt.name, `Called for user [${aemail}]`);
 
         return jwt;
 
@@ -257,7 +301,7 @@ export class ApgEdr_Service_Auth
 
 
     static async VerifyJwt(
-        jwt: string
+        jwt: string,
     ) {
         const METHOD = this.Method(this.VerifyJwt);
         const r = new Uts.ApgUts_Result();
@@ -270,7 +314,7 @@ export class ApgEdr_Service_Auth
         }
         catch (_e) {
 
-            return this.Error(r, METHOD, 'Invalid JWT: ' + _e.message);
+            return this.Error(r, METHOD, 'Contact support, invalid JWT: ' + _e.message);
 
         }
 
@@ -318,7 +362,7 @@ export class ApgEdr_Service_Auth
         user.otpAttempts = 0;
         user.lockedReason = '';
 
-        // TODO: Update the user in the database (@APG 2024/10/17 01:30) @5h
+        // TODO: Update the user in the database -- [@APG 2024/10/17] @5h
 
     }
 

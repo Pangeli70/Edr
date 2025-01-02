@@ -1,19 +1,24 @@
+
 <!-- 
-  * @author         [APG] Angeli Paolo Giusto
-  * @requires       Tng.ApgTng_IPageData (V1.0)
-  * @version        1.0.0 APG 20240813
+    * @file         ApgEdr_Dev_TngResource_Tng_Templates.html
+    * @author       [APG] ANGELI Paolo Giusto
+    * @requires     Tng.ApgTng_IPageData (V1.0)
+    * @version      1.0.0 APG 20240813
+                    1.0.1 APG 20241224 script data="ApgTng"
 -->
 
-<script>
-    const tngDataTemplate = {
+<script data="ApgTng">
+    const ApgEdr_Dev_TngResource_Tng_Templates = {
         page: {
             data: {
                 topMenu: [],
                 localFiles: [
-                {
-                    url: ""
-                }
-            ]}
+                    {
+                        url: "",
+                        label: ""
+                    }
+                ]
+            }
         }
     }
 </script>
@@ -22,20 +27,22 @@
 <section>
 
     <table style="display: block; overflow-x: auto; overflow-y: auto; white-space: nowrap; max-height: 20rem;">
-        <tr>
-            <th style="min-width: 4rem">Template</th>
-        </tr>
+
         <% for (const template of page.data.localFiles) { %>
 
         <tr>
             <td>
+                <% template.pre %>
+                <% if ( template.isGroup ) { %>
+                        <% template.label %> 
+                <% } else { %>
                 <a
                   href="<% template.url %>"
-                  role="button"
                   style="padding: 0.1rem; line-height: 1rem;"
                 >
-                    <% template.url %>
+                    <% template.label %> 
                 </a>
+                <% } %>
             </td>
         </tr>
         <% } %>

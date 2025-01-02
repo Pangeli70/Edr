@@ -1,0 +1,123 @@
+
+<!-- 
+    * @file         ApgEdr_TngPartial_TDD_Result_01.html
+    * @author       [APG] ANGELI Paolo Giusto
+    * @requires     Tng.ApgTng_IPageData (V1.0)
+    * @version      1.0.0 APG 20241124
+                    1.0.1 APG 20241224 script data="ApgTng"
+-->
+
+<script data="ApgTng">
+    const ApgEdr_TngPartial_TDD_Result_01 = {
+        page: {
+            data: {
+                result: {
+                    events: [
+                        {
+                            clause: "",
+                            message: "",
+                            hrt: "",
+                            payload: ""
+                        }
+                    ]
+                }
+            }
+        }
+    }
+</script>
+
+
+<div class="tstEvent">
+    <% for (const event of page.data.result.events) { %>
+
+    <% let lastHrt = 0; %>
+    <% let deltaTime = 0; %>
+
+    <% if (event.clause == "init") { %>
+    <details>
+        <summary>
+            <h1>
+                <% event.message %>
+            </h1>
+        </summary>
+        <% } %>
+
+
+        <% if (event.clause == "when") { %>
+        <% { lastHrt = event.hrt; } %>
+        <h3>
+            <% event.message %>
+        </h3>
+        <% } %>
+
+        <% if (event.clause == "expect") { %>
+        <% { lastHrt = event.hrt; } %>
+        <h4>
+            <% event.message %>
+        </h4>
+        <% } %>
+
+        <% if (event.clause == "success") { %>
+        <% { deltaTime = event.hrt - lastHrt; } %>
+        <% { lastHrt = event.hrt; } %>
+        <h5>
+            <% event.message %>
+        </h5>
+        <p>
+            [<% deltaTime.toFixed(4) %>ms]&nbsp;<span class="success">&nbsp;SUCCESS&nbsp;</span>
+        </p>
+
+        <% if (event.payload != undefined) { %>
+        <div>
+            <p>
+                <% event.payload %>
+            </p>
+        </div>
+        <% } %>
+        <% } %>
+
+        <% if (event.clause == "failure") { %>
+        <% { deltaTime = event.hrt - lastHrt; } %>
+        <% { lastHrt = event.hrt; } %>
+        <h5>
+            <% event.message %>
+        </h5>
+        <p>
+            [<% deltaTime.toFixed(4) %>ms]&nbsp;<span class="failure">&nbsp;FAILURE&nbsp;</span>
+        </p>
+
+        <% if (event.payload != undefined) { %>
+        <div>
+            <p>
+                <% event.payload %>
+            </p>
+        </div>
+        <% } %>
+        <% } %>
+
+        <% if (event.clause == "skip") { %>
+        <% { lastHrt = event.hrt; } %>
+        <h5>
+            <% event.message %>
+        </h5>
+        <p>
+            [<% deltaTime.toFixed(4) %>ms]&nbsp;<span class="skipped">&nbsp;SKIPPED&nbsp;</span>
+        </p>
+        <% } %>
+
+        <% if (event.clause == "resume") { %>
+    </details>
+    <h2>
+        <% event.message %>
+    </h2>
+    <% if (event.payload != undefined) { %>
+    <p>
+        <% event.payload %>
+    </p>
+    <% } %>
+    <% } %>
+
+    <% } %>
+</div>
+
+<!-- /Partial -------------------------------------------------------------- -->

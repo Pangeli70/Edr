@@ -1,35 +1,44 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Public]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/11/08] Extracted from Home resource
  * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
 
-import { Drash, Tng, Uts } from "../../deps.ts";
-import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
+import { Drash, Tng, Uts } from "../deps.ts";
+import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
+import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_TngResource_Base } from "./ApgEdr_TngResource_Base.ts";
 
 
 
-export abstract class ApgEdr_TngResource_Menu
+export abstract class ApgEdr_TngResource_Menu_Base
 
-    extends ApgEdr_Base_TngResource {
+    extends ApgEdr_TngResource_Base {
 
-    readonly RESOURCE_NAME = ApgEdr_TngResource_Menu.name;
-    
+
+    override readonly RESOURCE_NAME = ApgEdr_TngResource_Menu_Base.name;
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/public/" + this.RESOURCE_NAME + ".html"
+    };
+
     /**
       * Abstract properties Must be overridden by subclasses
       */
     abstract readonly MENU: Tng.ApgTng_IHyperlink[];
     abstract readonly TOP_MENU: Tng.ApgTng_IHyperlink[];
 
-    override readonly TNG_TEMPLATES = {
-        GET: "/pages/public/" + this.RESOURCE_NAME + ".html"
-    };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+
+    /**
+     * Override this method to get a multilanguage page title for a menu page
+     */
+    protected getPageTitle(_alang: Uts.ApgUts_TLanguage) {
+        return this.TITLE;
+    }
+
 
 
     async GET(
@@ -39,10 +48,7 @@ export abstract class ApgEdr_TngResource_Menu
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
 
-        const title = Uts.ApgUts_Translator.Translate(
-            this.TITLE,
-            edr.language
-        );
+        const title = this.getPageTitle(edr.language);
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,

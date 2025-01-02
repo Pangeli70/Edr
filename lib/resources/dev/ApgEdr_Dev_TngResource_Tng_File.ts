@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Dev]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/07/28] Moving fro apg-tng to Edr
  * @version 1.0.1 [APG 2024/07/31] ApgEdr_Service.GetTemplateData
  * @version 1.0.2 [APG 2024/08/13] Moved to lib
@@ -14,7 +14,7 @@ import { Drash, Tng, Uts } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
@@ -28,21 +28,19 @@ const NavBar = [
 
 
 
-
 export class ApgEdr_Dev_TngResource_Tng_File
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Tng_File.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Tng file",
-    }
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TITLE = "Tng file";
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/dev/ApgEdr_Dev_TngResource_Tng_Content.html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+    
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
     readonly PATH_PARAM_ID = 'id'
 
@@ -68,7 +66,7 @@ export class ApgEdr_Dev_TngResource_Tng_File
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            this.TITLE,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )

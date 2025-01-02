@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Public]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2024/01/06]
  * @version 0.9.2 [APG 2024/07/01] Cleanup
  * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
@@ -10,7 +10,7 @@
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Base_RestResource } from "../ApgEdr_Base_RestResource.ts";
+import { ApgEdr_RestResource_Base } from "../ApgEdr_RestResource_Base.ts";
 
 
 
@@ -30,7 +30,9 @@ const ApgEdr_Tests: ApgEdr_ITest[] = [
 /**
  * Route per testare la classe base Edr.ApgEdr_Base_RestResource
  */
-export class ApgEdr_RestApiResource_Test extends ApgEdr_Base_RestResource {
+export class ApgEdr_RestApiResource_Test
+    
+    extends ApgEdr_RestResource_Base {
 
 
     public paths = [ApgEdr_Route_eShared.API_TEST];
@@ -119,7 +121,7 @@ export class ApgEdr_RestApiResource_Test extends ApgEdr_Base_RestResource {
             "Route to test the base class ApgEdr_Base_RestResource"
         ]
 
-        r.GET!.qsParams![1].values.push(
+        r.GET!.qsParams![1].values!.push(
             "Refer to the [ApgEdr_Tests] list."
         )
 

@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2024/09/29]
  * @version 0.9.2 [APG 2024/10/17] Extends ApgUts_Service
  * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
@@ -48,13 +48,13 @@ export class ApgEdr_Service_Telemetry
 
 
 
-    static async InitOrThrow() {
+    static async InitOrPanic() {
 
         if (this.#inited) {
             return;
         }
 
-        const r = await Mng.ApgMng_Service.getDbCollectionPair<ApgEdr_IRequest>(this.#collectionName);
+        const r = await Mng.ApgMng_Service.getDbCollectionPairOrPanic<ApgEdr_IRequest>(this.#collectionName);
 
         if (r.ok) {
 
@@ -73,10 +73,7 @@ export class ApgEdr_Service_Telemetry
             return;
         }
 
-        if (!r.ok) {
-            throw new Error(r.joinMessages('\n'));
-        }
-
+        Uts.ApgUts.PanicIf(!r.ok,r.joinMessages('\n'));
     }
 
 
@@ -85,7 +82,7 @@ export class ApgEdr_Service_Telemetry
         aedr: ApgEdr_IRequest
     ) {
 
-        this.InitOrThrow();
+        this.InitOrPanic();
 
         const METHOD = this.Method(this.Send);
         const r = new Uts.ApgUts_Result<number[]>();
@@ -115,11 +112,16 @@ export class ApgEdr_Service_Telemetry
             }
 
             r.setPayload(p);
+
+            // TODO we have to remove from the buffer only the items that we have sent to 
+            // the database not empty the buffer. [APG 2025/01/02]
             this.#buffer = [];
         }
         catch (e) {
             return this.Error(r, METHOD, e.message);
         }
+
+        this.LogInfo(this.Send.name, `Called for request [${aedr.counter}]`);
         return r;
 
     }
@@ -128,7 +130,7 @@ export class ApgEdr_Service_Telemetry
 
     static async Purge() {
 
-        this.InitOrThrow();
+        this.InitOrPanic();
 
         const r = new Uts.ApgUts_Result<number[]>();
         const p = [0, 0];
@@ -148,6 +150,8 @@ export class ApgEdr_Service_Telemetry
             }
         }
 
+        this.LogInfo(this.Purge.name, `Called`);
+        
         return r;
     }
 }

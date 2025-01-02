@@ -12,29 +12,28 @@
 
 
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
-import { Drash, Uts } from "../../deps.ts";
+import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_Requests } from "../../services/ApgEdr_Service_Requests.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 
 
 
 export class ApgEdr_Dev_TngResource_Request
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Request.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Logged request details",
-    }
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TITLE = "Logged request details";
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+    
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
     readonly PATH_PARAM_ID = 'id';
 
@@ -64,7 +63,7 @@ export class ApgEdr_Dev_TngResource_Request
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            this.TITLE,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )

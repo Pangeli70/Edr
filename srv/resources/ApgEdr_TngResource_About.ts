@@ -1,7 +1,8 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr/srv]
- * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20241108 
+ * @author [APG] ANGELI Paolo Giusto
+ * @version 1.0.0 [APG 2024/11/08]
+ * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
@@ -11,26 +12,42 @@ import { Edr, Tng, Uts } from "../deps.ts";
 import { ApgEdr_eRoutes } from "../enums/ApgEdr_eRoute.ts";
 
 
+enum _etranslations {
+    PAGE_TITLE = "PAGE_TITLE",
+}
+
+
+
+const _Translator = new Uts.ApgUts_Translator(
+    {
+        [_etranslations.PAGE_TITLE]: {
+            EN: "About",
+            IT: "Informazioni"
+        },
+    }
+);
+
+
+
 export class ApgEdr_TngResource_About
 
-    extends Edr.ApgEdr_TngResource_Message {
+    extends Edr.ApgEdr_TngResource_Message_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_About.name;
-    override paths = [ApgEdr_eRoutes.PAGE_ABOUT];
+    override readonly TITLE = "About";
 
     override readonly NEXT = ApgEdr_eRoutes.PAGE_HOME;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "About",
-        IT: "Informazioni"
-    }
+
+    override paths = [ApgEdr_eRoutes.PAGE_ABOUT];
 
     
+
     protected override async getHtml(alanguage: Uts.ApgUts_TLanguage) {
 
         const root = Tng.ApgTng_Service.TemplatesPath;
 
-        const path = root + "/partials/ApgEdr_HtmlPagePartial_About_" + alanguage + ".html"
+        const path = root + "/partials/ApgEdr_TngPartial_About_" + alanguage + ".html"
 
         let html = "";
         try {
@@ -45,5 +62,8 @@ export class ApgEdr_TngResource_About
 
 
 
+    override getPageTitle(alang: Uts.ApgUts_TLanguage) {
+        return _Translator.get(_etranslations.PAGE_TITLE, alang);
+    }
 
 }

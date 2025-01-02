@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Public]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2022/09/09] Alpha version
  * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
  * @version 0.9.3 [APG 2024/01/06] Revamped
@@ -11,16 +11,18 @@
  * ----------------------------------------------------------------------------
  */
 
+
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
+import { ApgEdr_TngResource_Base } from "../ApgEdr_TngResource_Base.ts";
 
 
 
 enum _eTranslation {
+    POST_Error_Title = "POST_Error_Title",
     POST_Error_Verify_OTP = "POST_Error_Verify_OTP",
     POST_Error_JWT_Cookie = "POST_Error_JWT_Cookie",
 }
@@ -29,14 +31,17 @@ enum _eTranslation {
 
 const _Translator = new Uts.ApgUts_Translator(
     {
-
+        [_eTranslation.POST_Error_Title]: {
+            EN: "Login error",
+            IT: "Errore di accesso",
+        },
         [_eTranslation.POST_Error_Verify_OTP]: {
-            EN: "Error while verifying OTP for [[%1]] : [[%2]]",
-            IT: "Errore durante la verifica della OTP per [[%1]] : [[%2]]",
+            EN: "Error while verifying OTP for [[%1]]:<br><br> [[%2]]",
+            IT: "Errore durante la verifica della OTP per [[%1]]:<br><br> [[%2]]",
         },
         [_eTranslation.POST_Error_JWT_Cookie]: {
-            EN: "Error while generating JWT cookie for [[%1]] : [[%2]]",
-            IT: "Errore durante la generazione del cookie JWT per [[%1]] : [[%2]]",
+            EN: "Error while generating JWT cookie for [[%1]]:<br><br> [[%2]]",
+            IT: "Errore durante la generazione del cookie JWT per [[%1]]:<br><br> [[%2]]",
         },
 
     }
@@ -47,16 +52,13 @@ const _Translator = new Uts.ApgUts_Translator(
 // This resource redirects to home page if succesful or to error page if not
 export class ApgEdr_TngResource_Login
     
-    extends ApgEdr_Base_TngResource {
+    extends ApgEdr_TngResource_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Login.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Login",
-        IT: "Accesso",
-    }
-    override readonly TNG_TEMPLATES = {};
+    override readonly TITLE = "Login";
     override readonly ARE_TEMPLATES_FROM_CDN = true;
+    override readonly TNG_TEMPLATES = {};
 
     readonly BODY_PARAM_EMAIL = "email";
     readonly BODY_PARAM_OTP = "otp";
@@ -79,7 +81,7 @@ export class ApgEdr_TngResource_Login
         const currentDateTime = Date.now();
 
 
-        let r = ApgEdr_Service_Auth.VerifyOtp(rawEmail, otp, currentDateTime);
+        let r = ApgEdr_Service_Auth.VerifyOtp(rawEmail, otp, currentDateTime, edr.language);
 
 
         let errorMessage = "";
@@ -131,10 +133,10 @@ export class ApgEdr_TngResource_Login
         const cookie = ApgEdr_Service_Auth.DeleteJwtCookie();
         aresponse.setCookie(cookie);
 
-        const backPage = ApgEdr_Route_eShared.PAGE_LOGIN + "?" + this.BODY_PARAM_EMAIL + "=" + arawEmail;
+        const backPage = ApgEdr_Route_eShared.PAGE_REQ_OTP + "?" + this.BODY_PARAM_EMAIL + "=" + arawEmail;
 
         aedr.message = {
-            title: "Error",
+            title: _Translator.get(_eTranslation.POST_Error_Title, aedr.language),
             text: aerrorMessage,
             next: backPage
         };

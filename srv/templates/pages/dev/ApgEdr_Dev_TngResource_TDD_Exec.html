@@ -1,14 +1,27 @@
-<!-- 
-  * @author         [APG] Angeli Paolo Giusto
-  * @requires       Tng.ApgTng_IPageData (V1.0)
-  * @version        1.0.0 20241124
+
+<!--
+    * @file         ApgEdr_Dev_TngResource_TDD_Exec.html
+    * @author       [APG] ANGELI Paolo Giusto
+    * @requires     Tng.ApgTng_IPageData (V1.0)
+    * @version      1.0.0 20241124
                     1.0.1 20241207 Use partial
+                    1.0.2 APG 20241224 script data="ApgTng"
 -->
 
-<script>
-    const tngDataTemplate = {
+<script data="ApgTng">
+    const ApgEdr_Dev_TngResource_TDD_Exec = {
         page: {
             data: {
+                result: {
+                    events: [
+                        {
+                            clause: "",
+                            message: "",
+                            hrt: "",
+                            payload: ""
+                        }
+                    ]
+                }
             },
             translations: {
                 intro: ""
@@ -18,12 +31,97 @@
 </script>
 
 
+<style>
+    .tstEvent {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .tstEvent details {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .tstEvent details summary {
+        margin: 0px;
+        /* padding: 0px; */
+    }
+
+    .tstEvent h1 {
+        color: rgb(120, 0, 206);
+        margin: 0px;
+        padding: 0px;
+        font-size: 1rem
+    }
+
+    .tstEvent h2 {
+        color: rgb(82, 0, 158);
+        margin: 0px;
+        padding: 1.2rem;
+        font-size: 0.8rem
+    }
+
+    .tstEvent h3 {
+        color: rgb(30, 0, 138);
+        margin: 0px;
+        padding: 1.2rem 0px 0px 1.2rem;
+        font-size: 0.6rem
+    }
+
+    .tstEvent h4 {
+        color: rgb(36, 40, 125);
+        margin: 02px;
+        padding: 0px 0px 0px 2.4rem;
+        font-size: 0.6rem
+    }
+
+    .tstEvent h5 {
+        color: rgb(26, 60, 104);
+        margin: 0px;
+        padding: 0px 0px 0px 3.6rem;
+        font-size: 0.6rem
+    }
+
+    .tstEvent h6 {
+        color: rgb(3, 106, 175);
+        margin: 0px;
+        padding: 0px 0px 0px 4.8rem;
+        font-size: 0.6rem
+    }
+
+    .tstEvent p {
+        margin: 0px;
+        padding: 0px 0px 0px 6.0rem;
+        font-size: 0.6rem
+    }
+
+    .tstEvent p .success {
+        font-weight: bold;
+        background-color: green;
+        color: white;
+    }
+
+    .tstEvent p .failure {
+        font-weight: bold;
+        background-color: red;
+        color: white;
+    }
+
+    .tstEvent p .skipped {
+        font-weight: bold;
+        background-color: gray;
+        color: white;
+    }
+</style>
+
+
+
 <section>
 
     <p><% page.translations.intro %></p>
 
 
-    <% partial("/partials/ApgEdr_HtmlPagePartial_Tst_Result.html") %>
+    <% partial("/partials/ApgEdr_TngPartial_TDD_Result_01.html") %>
 
 
 </section>

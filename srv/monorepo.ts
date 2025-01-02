@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr/Srv]
- * @author [APG] Angeli Paolo Giusto 
+ * @author [APG] ANGELI Paolo Giusto 
  * @version 0.9.1 [APG 2024/04/21]
  * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------

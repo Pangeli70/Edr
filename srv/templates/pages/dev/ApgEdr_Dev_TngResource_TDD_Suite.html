@@ -1,11 +1,14 @@
-<!-- 
-  * @author         [APG] Angeli Paolo Giusto
-  * @requires       Tng.ApgTng_IPageData (V1.0)
-  * @version        1.0.0 20241124 
+
+<!--
+    * @file         ApgEdr_Dev_TngResource_TDD_Suite.html
+    * @author       [APG] ANGELI Paolo Giusto
+    * @requires     Tng.ApgTng_IPageData (V1.0)
+    * @version      1.0.0 20241124 
+                    1.0.1 APG 20241224 script data="ApgTng"
 -->
 
-<script>
-    const tngDataTemplate = {
+<script data="ApgTng">
+    const ApgEdr_Dev_TngResource_TDD_Suite = {
         page: {
             data: {
                 flags: [],
@@ -23,7 +26,7 @@
 
     <p><% page.translations.intro %></p>
 
-    <% partial("/partials/ApgEdr_HtmlPagePartial_TabularLinksMenu.html") %>
+    <% partial("/partials/ApgEdr_TngPartial_TabularLinksMenu_01.html") %>
 
     <p>Flags</p>
     <ul>

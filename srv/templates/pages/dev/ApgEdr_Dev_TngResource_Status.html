@@ -1,11 +1,14 @@
-<!-- 
-  * @author         [APG] Angeli Paolo Giusto
-  * @requires       Tng.ApgTng_IPageData (V1.0)
-  * @version        1.0.0 APG 20241105
+
+<!--
+    * @file         ApgEdr_Dev_TngResource_Status.html
+    * @author       [APG] ANGELI Paolo Giusto
+    * @requires     Tng.ApgTng_IPageData (V1.0)
+    * @version      1.0.0 APG 20241105
+                    1.0.1 APG 20241224 script data="ApgTng"
 -->
 
-<script>
-    const tngDataTemplate = {
+<script data="ApgTng">
+    const ApgEdr_Dev_TngResource_Status = {
         page: {
             data: {
                 url: "",
@@ -43,7 +46,7 @@
     <select
       id="type"
       name="type"
-      style="padding: 0.1rem; line-height: 1rem;"
+      
       onchange="navigateToPage(this.value)"
     >
         <option value="">...</option>
@@ -59,13 +62,13 @@
     </select>
 
     <table style="display: block; overflow-x: auto; overflow-y: auto; white-space: nowrap; max-height: 20rem;">
-        <tr>
+        <tr style="font-style: italic;">
             <th style="min-width: 4rem">Date</th>
-            <th style="min-width: 4rem">time</th>
-            <th style="min-width: 4rem">type</th>
-            <th style="min-width: 10rem">module</th>
-            <th style="min-width: 10rem">method</th>
-            <th style="min-width: 20rem">message</th>
+            <th style="min-width: 4rem">Time</th>
+            <th style="min-width: 4rem">Type</th>
+            <th style="min-width: 10rem">Module</th>
+            <th style="min-width: 10rem">Method</th>
+            <th style="min-width: 20rem">Message</th>
 
         </tr>
         <% for (const event of page.data.events) { %>

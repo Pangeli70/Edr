@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/09/01]
  * @version 1.0.1 [APG 2024/10/05]
  * @version 1.0.2 [APG 2024/11/07] Better logging
@@ -15,7 +15,7 @@ import { ApgEdr_Auth_eResult } from "../enums/ApgEdr_Auth_eResult.ts";
 import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Base_TngResource } from "./ApgEdr_Base_TngResource.ts";
+import { ApgEdr_TngResource_Base } from "./ApgEdr_TngResource_Base.ts";
 
 
 
@@ -23,9 +23,9 @@ import { ApgEdr_Base_TngResource } from "./ApgEdr_Base_TngResource.ts";
  * Authorized Tng Resource. The user must be logged in and have the right role
  * to access the resource.
  */
-export abstract class ApgEdr_Auth_TngResource
+export abstract class ApgEdr_TngResource_Auth_Base
     
-    extends ApgEdr_Base_TngResource {
+    extends ApgEdr_TngResource_Base {
 
 
     /**

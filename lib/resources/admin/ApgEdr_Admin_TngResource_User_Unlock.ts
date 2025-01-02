@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Admin]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/08/13]
  * @version 1.0.1 [APG 2024/09/02] Better permissions management
  * @version 1.0.2 [APG 2024/11/07] Better error management
@@ -10,24 +10,22 @@
 
 
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
-import { Drash, Uts } from "../../deps.ts";
+import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 
 
 
 export class ApgEdr_Admin_TngResource_User_Unlock
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
     
     override readonly RESOURCE_NAME = ApgEdr_Admin_TngResource_User_Unlock.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "",
-    }
+    override readonly TITLE= "Title to be defined"
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.ADMIN;
     override readonly TNG_TEMPLATES = {}
     override readonly ARE_TEMPLATES_FROM_CDN = true;

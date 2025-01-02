@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Public]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/11/15]
  * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
@@ -12,17 +12,20 @@ import {Drash, Uts} from "../../deps.ts";
 import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
 import {ApgEdr_Service_ResendMail} from "../../services/ApgEdr_Service_ResendMail.ts";
 import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
-import {ApgEdr_Base_TngResource} from "../ApgEdr_Base_TngResource.ts";
-import { ApgEdr_TngResource_Message } from "./ApgEdr_TngResource_Message.ts";
+import {ApgEdr_TngResource_Base} from "../ApgEdr_TngResource_Base.ts";
+import { ApgEdr_TngResource_Message_Base } from "../ApgEdr_TngResource_Message_Base.ts";
 
 
 
 enum _eTranslations {
 
+    PAGE_TITLE = "PAGE_TITLE",
+
     GET_Email_Label = "GET_Email_Label",
     GET_Message_Label = "GET_Message_Label",
     GET_Ok_Button = "GET_Ok_Button",
     GET_Cancel_Button = "GET_Cancel_Button",
+
     POST_Email_Sender = "POST_Email_Sender",
     POST_Email_Subject = "POST_Email_Subject",
     POST_Email_Content = "POST_Email_Content",
@@ -36,7 +39,10 @@ enum _eTranslations {
 
 const _Translator = new Uts.ApgUts_Translator(
     {
-
+        [_eTranslations.PAGE_TITLE]: {
+            EN: "Support request",
+            IT: "Richiesta di supporto"
+        },
         [_eTranslations.GET_Email_Label]: {
             EN: "Email address to receive the answer",
             IT: "Indirizzo email per ricevere la risposta",
@@ -84,19 +90,16 @@ const _Translator = new Uts.ApgUts_Translator(
 
 export class ApgEdr_TngResource_Support
 
-    extends ApgEdr_Base_TngResource {
+    extends ApgEdr_TngResource_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Support.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Support request",
-        IT: "Richiesta di supporto"
-    }
+    override readonly TITLE = "Support request";
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/public/" + this.RESOURCE_NAME + ".html",
-        POST: "/pages/public/" + ApgEdr_TngResource_Message.name + ".html"
+        POST: "/pages/public/" + ApgEdr_TngResource_Message_Base.name + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
 
     readonly BODY_PARAM_EMAIL = "email";
     readonly BODY_PARAM_MESSAGE = "message";
@@ -111,10 +114,11 @@ export class ApgEdr_TngResource_Support
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+        const pageTitle = _Translator.get(_eTranslations.PAGE_TITLE, edr.language);
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            pageTitle,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )
@@ -138,6 +142,7 @@ export class ApgEdr_TngResource_Support
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+        const pageTitle = _Translator.get(_eTranslations.PAGE_TITLE, edr.language);
 
         const rawEmail = await request.bodyParam(this.BODY_PARAM_EMAIL) as string;
         const emailOk = Uts.ApgUts_Is.IsEmailAddress(rawEmail);
@@ -177,7 +182,7 @@ export class ApgEdr_TngResource_Support
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            pageTitle,
             this.TNG_TEMPLATES.POST,
             this.ARE_TEMPLATES_FROM_CDN
         )

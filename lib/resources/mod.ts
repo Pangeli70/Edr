@@ -1,13 +1,13 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * ----------------------------------------------------------------------------
 */
 
-export * from "./ApgEdr_Auth_TngResource.ts"
-export * from "./ApgEdr_Base_RestResource.ts"
-export * from "./ApgEdr_Base_TngResource.ts"
-export * from "./public/ApgEdr_TngResource_Menu.ts"
+export * from "./ApgEdr_TngResource_Auth_Base.ts"
+export * from "./ApgEdr_RestResource_Base.ts"
+export * from "./ApgEdr_TngResource_Base.ts"
+export * from "./ApgEdr_TngResource_Menu_Base.ts"
 
 export * from "./data/ApgEdr_Resources_Links.ts"
 export * from "./data/ApgEdr_Resources_Shared.ts"
@@ -24,7 +24,7 @@ export * from "./public/ApgEdr_TngResource_Menu_Auth_Test.ts"
 export * from "./public/ApgEdr_TngResource_Menu_Dev.ts"
 export * from "./public/ApgEdr_TngResource_Menu_Dev_Tng.ts"
 export * from "./public/ApgEdr_TngResource_Menu_User.ts"
-export * from "./public/ApgEdr_TngResource_Message.ts"
+export * from "./ApgEdr_TngResource_Message_Base.ts"
 export * from "./public/ApgEdr_TngResource_RequestOtp.ts"
 export * from "./public/ApgEdr_TngResource_Support.ts"
 

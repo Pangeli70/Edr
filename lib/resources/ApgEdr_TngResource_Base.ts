@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/10/06]
  * @version 1.0.1 [APG 2024/11/07] Better logging
  * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
@@ -19,7 +19,7 @@ import { ApgEdr_Route_eShared } from "../enums/ApgEdr_Route_eShared.ts";
  * A base class for HTML pages Server Side Rendered using ApgTng
  */
 
-export abstract class ApgEdr_Base_TngResource
+export abstract class ApgEdr_TngResource_Base
 
     extends Drash.Resource {
 
@@ -28,7 +28,7 @@ export abstract class ApgEdr_Base_TngResource
      * Abstract properties Must be overridden by subclasses
      */
     abstract readonly RESOURCE_NAME: string;
-    abstract readonly TITLE: Uts.ApgUts_IMultilanguage;
+    abstract readonly TITLE: string;
     abstract readonly TNG_TEMPLATES: {
         GET?: string,
         POST?: string,

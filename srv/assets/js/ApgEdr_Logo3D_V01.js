@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto 
+ * @author [APG] ANGELI Paolo Giusto 
  * @version 0.1 APG 20240109
  * @version 1.0 APG 20240701
  * @version 1.1 APG 20240713 Splitted in two parts extracting the customizable parts

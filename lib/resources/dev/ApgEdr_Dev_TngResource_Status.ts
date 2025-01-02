@@ -7,14 +7,16 @@
 */
 
 
-import { Drash, Mng, Tng, Uts } from "../../deps.ts";
+import { Drash, Mng, Tng } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_DevStories } from "../../services/ApgEdr_Service_DevStories.ts";
+import { ApgEdr_Service_Requests } from "../../services/ApgEdr_Service_Requests.ts";
 import { ApgEdr_Service_ResendMail } from "../../services/ApgEdr_Service_ResendMail.ts";
 import { ApgEdr_Service_Telemetry } from "../../services/ApgEdr_Service_Telemetry.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
@@ -29,39 +31,42 @@ const NavBar = [
 
 enum ApgEdr_eService {
 
-    MONGO = "mongo",
+    AUTH = "auth",
     EMAIL = "email",
+    DEV = "dev",
+    MONGO = "mongo",
+    REQUESTS = "requests",
     TENGINE = "tengine",
     TELEMETRY = "telemetry",
-    DEV = "dev",
-    AUTH = "auth",
 }
 
-const services = {
-    [ApgEdr_eService.MONGO]: "Mng Service",
+
+
+const services: Record<ApgEdr_eService, string> = {
+    [ApgEdr_eService.AUTH]: "Auth Service",
+    [ApgEdr_eService.DEV]: "Dev Service",
     [ApgEdr_eService.EMAIL]: "Email Service",
+    [ApgEdr_eService.MONGO]: "Mng Service",
+    [ApgEdr_eService.REQUESTS]: "Requests Service",
     [ApgEdr_eService.TENGINE]: "Tng Service",
     [ApgEdr_eService.TELEMETRY]: "Telemetry service",
-    [ApgEdr_eService.DEV]: "Dev Service",
-    [ApgEdr_eService.AUTH]: "Auth Service",
 }
 
 
 
 export class ApgEdr_Dev_TngResource_Status
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Status.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Events of the services",
-    }
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TITLE = "Status of the services";
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+    
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
     readonly QS_PARAM_TYPE = 'type';
 
@@ -87,7 +92,7 @@ export class ApgEdr_Dev_TngResource_Status
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            this.TITLE,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )
@@ -111,18 +116,20 @@ export class ApgEdr_Dev_TngResource_Status
     #getEvents(type: ApgEdr_eService) {
 
         switch (type) {
+            case ApgEdr_eService.AUTH:
+                return ApgEdr_Service_Auth.Events;
             case ApgEdr_eService.MONGO:
                 return Mng.ApgMng_Service.Events;
             case ApgEdr_eService.EMAIL:
                 return ApgEdr_Service_ResendMail.Events;
+            case ApgEdr_eService.REQUESTS:
+                return ApgEdr_Service_Requests.Events;
             case ApgEdr_eService.TENGINE:
                 return Tng.ApgTng_Service.Events;
             case ApgEdr_eService.TELEMETRY:
                 return ApgEdr_Service_Telemetry.Events;
             case ApgEdr_eService.DEV:
                 return ApgEdr_Service_DevStories.Events;
-            case ApgEdr_eService.AUTH:
-                return ApgEdr_Service_Core.Events;
             default:
                 return [];
         }

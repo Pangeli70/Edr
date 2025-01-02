@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_User]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2022/09/09] Alpha version
  * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
  * @version 0.9.3 [APG 2024/01/06] Revamped
@@ -12,29 +12,28 @@
  * ----------------------------------------------------------------------------
  */
 
-import { Drash, Uts } from "../../deps.ts";
+import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
+import { ApgEdr_TngResource_Message_Base } from "../ApgEdr_TngResource_Message_Base.ts";
 
 
 
 export class ApgEdr_User_TngResource_AuthTest
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     readonly RESOURCE_NAME = ApgEdr_User_TngResource_AuthTest.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "User authorization Test",
-        IT: "Test autorizzazione utente"
-    }
-    readonly AUTH_ROLE = ApgEdr_Auth_eRole.USER;
-    override readonly TNG_TEMPLATES = {
-        GET: "/pages/user/" + this.RESOURCE_NAME + ".html"
-    };
+    override readonly TITLE = "User authorization Test";
     override readonly ARE_TEMPLATES_FROM_CDN = true;
+    override readonly TNG_TEMPLATES = {
+        GET: "/pages/public/" + ApgEdr_TngResource_Message_Base.name + ".html"
+    };
+    
+    readonly AUTH_ROLE = ApgEdr_Auth_eRole.USER;
 
     override paths = [ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_USER];
 
@@ -54,6 +53,16 @@ export class ApgEdr_User_TngResource_AuthTest
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )
+
+
+        const message = `
+        To view the content of this page your need to be logged in and have at least the role of [User].<br><br>
+        You are logged in as [${templateData.user.email}] and you have granted the role of [${templateData.user.role}] for this microservice.
+        `;
+        templateData.page.data = {
+            message: message,
+            okLink: ApgEdr_Route_eShared.PAGE_MENU_TEST_AUTH
+        };
 
         const {html, events} = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);

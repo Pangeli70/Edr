@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2024/07/04]
  * @version 0.9.2 [APG 2024/07/26] English comments
  * @version 0.9.3 [APG 2024/08/13] Redirect url

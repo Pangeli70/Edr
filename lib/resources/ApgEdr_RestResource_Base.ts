@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2024/01/05]
  * @version 0.9.2 [APG 2024/07/26] English comments
  * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
@@ -17,7 +17,11 @@ import { ApgEdr_RestHelp_IRoute } from "../interfaces/ApgEdr_RestHelp_IRoute.ts"
 /**
  * REST API base resource
  */
-export class ApgEdr_Base_RestResource extends Drash.Resource {
+export class ApgEdr_RestResource_Base
+    
+    extends Drash.Resource {
+    
+    
 
     static readonly GET_QSP_MODE = 'Mode';
     static readonly GET_QSP_TEST_NAME = 'TestName';
@@ -53,7 +57,7 @@ export class ApgEdr_Base_RestResource extends Drash.Resource {
             GET: {
                 qsParams: [
                     {
-                        name: ApgEdr_Base_RestResource.GET_QSP_MODE,
+                        name: ApgEdr_RestResource_Base.GET_QSP_MODE,
                         type: 'string',
                         values: [
                             `${ApgEdr_RestRoute_eGetMode.HELP}`,
@@ -63,7 +67,7 @@ export class ApgEdr_Base_RestResource extends Drash.Resource {
                         description: []
                     },
                     {
-                        name: ApgEdr_Base_RestResource.GET_QSP_TEST_NAME,
+                        name: ApgEdr_RestResource_Base.GET_QSP_TEST_NAME,
                         type: 'string',
                         values: [
                             "Url encoded name of one of the tests.",
@@ -80,7 +84,7 @@ export class ApgEdr_Base_RestResource extends Drash.Resource {
             POST: {
                 bodyParams: [
                     {
-                        name: ApgEdr_Base_RestResource.POST_BP_PARAMS,
+                        name: ApgEdr_RestResource_Base.POST_BP_PARAMS,
                         type: "",
                         description: []
                     }
@@ -97,7 +101,7 @@ export class ApgEdr_Base_RestResource extends Drash.Resource {
     ) {
         let r = ApgEdr_RestRoute_eGetMode.RESULT;
 
-        const rawMode = request.queryParam(ApgEdr_Base_RestResource.GET_QSP_MODE);
+        const rawMode = request.queryParam(ApgEdr_RestResource_Base.GET_QSP_MODE);
 
         if (
             rawMode == ApgEdr_RestRoute_eGetMode.PARAMS ||

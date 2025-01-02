@@ -10,12 +10,12 @@
  */
 
 
-import { Drash, Uts } from "../../deps.ts";
+import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_IMessage } from "../../interfaces/ApgEdr_IMessage.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
@@ -29,20 +29,20 @@ const NavBar = [
 ]
 
 
+
 export class ApgEdr_Dev_TngResource_Errors
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Errors.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Logged errors",
-    }
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TITLE = "Logged errors";
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+    
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
     override paths = [ApgEdr_Route_eShared.DEV_PAGE_ERRORS];
 
@@ -86,7 +86,7 @@ export class ApgEdr_Dev_TngResource_Errors
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            this.TITLE,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )

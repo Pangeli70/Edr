@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/08/13] Cleanup
  * @version 1.0.1 [APG 2024/09/29] Telemetry
  * @version 1.0.2 [APG 2024/12/24] Moving to Deno V2

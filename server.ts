@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2022/09/09] Alpha version
  * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
  * @version 0.9.3 [APG 2024/01/06] Revamped
@@ -44,7 +44,7 @@ Deno.env.set('DENO_AUTH_TOKENS', key + "@raw.githubusercontent.com");
 //==============================================================================
 
 
-import { Edr, Mng, MngSpecs,SpcSpecs, Tng } from "./srv/deps.ts";
+import { Edr, Mng, Tng } from "./srv/deps.ts";
 import {
     ApgEdr_Auth_Authentications,
     ApgEdr_Auth_Authorizations,
@@ -56,15 +56,15 @@ import {
 
 
 // Setup Requests Logger
-Edr.ApgEdr_Request.DoEventsEcho = true;
-Edr.ApgEdr_Request.DoVerboseEcho = false;
-Edr.ApgEdr_Request.DoDebug = false;
+Edr.ApgEdr_Request.LogEventsEcho = true;
+Edr.ApgEdr_Request.LogVerboseEcho = false;
+Edr.ApgEdr_Request.LogDebug = false;
 
 
 // Setup edr
 Edr.ApgEdr_Service_Core.Microservice = ApgEdr_Microservice;
-//Edr.ApgEdr_Service_Core.ClientCacheMaxAge = 10 * 60; // 10 minutes
-Edr.ApgEdr_Service_Core.UseCdn = false;
+Edr.ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge = 10 * 60; // 10 minutes
+Edr.ApgEdr_Service_Core.UseCdn = true;
 
 
 // Setup env customization
@@ -86,8 +86,9 @@ Edr.ApgEdr_Service_DevStories.Setup(Edr.ApgEdr_Microservice_Name);
 
 
 // Setup Tng
+Tng.ApgTng_Service.LogInfoEvents = true;
 Tng.ApgTng_Service.TemplatesPath = "./srv/templates";
-Tng.ApgTng_Service.UseCache = false;
+Tng.ApgTng_Service.UseCache = true;
 Tng.ApgTng_Service.ChunkSize = 100;
 
 
@@ -95,30 +96,6 @@ Tng.ApgTng_Service.ChunkSize = 100;
 Edr.ApgEdr_Service_Auth.Authentications = ApgEdr_Auth_Authentications;
 Edr.ApgEdr_Service_Auth.Authorizations = ApgEdr_Auth_Authorizations;
 Edr.ApgEdr_Service_Auth.Profilations = ApgEdr_Auth_Profilations;
-
-
-// Setup Edr Test Suites
-Edr.ApgEdr_Service_TddSpec.AddSuite({
-    name: SpcSpecs.Specs.ApgSpc_Spec_ApgUts_Math.name,
-    spec: new SpcSpecs.Specs.ApgSpc_Spec_ApgUts_Math(),
-    results: []
-});
-Edr.ApgEdr_Service_TddSpec.AddSuite({
-    name: SpcSpecs.Specs.ApgSpc_Spec_ApgUts_Object.name,
-    spec: new SpcSpecs.Specs.ApgSpc_Spec_ApgUts_Object(),
-    results: []
-})
-Edr.ApgEdr_Service_TddSpec.AddSuite({
-    name: MngSpecs.Specs.ApgMng_Spec.name + "_" + Mng.ApgMng_eMode.local,
-    spec: new MngSpecs.Specs.ApgMng_Spec(Mng.ApgMng_eMode.local),
-    results: []
-})
-Edr.ApgEdr_Service_TddSpec.AddSuite({
-    name: MngSpecs.Specs.ApgMng_Spec.name + "_" + Mng.ApgMng_eMode.atlas,
-    spec: new MngSpecs.Specs.ApgMng_Spec(Mng.ApgMng_eMode.atlas),
-    results: []
-})
-
 
 
 
@@ -137,3 +114,5 @@ const server = new Edr.Drash.Server({
 server.run();
 
 Edr.ApgEdr_Service_Core.StartupResume(Edr.ApgEdr_Service_Core.Microservice, server.address);
+
+

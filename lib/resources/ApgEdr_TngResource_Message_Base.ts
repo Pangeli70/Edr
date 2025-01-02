@@ -1,31 +1,32 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Public]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/10/02]
  * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
  */
 
-import { Drash, Uts } from "../../deps.ts";
-import { ApgEdr_IRequest } from "../../interfaces/ApgEdr_IRequest.ts";
-import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Base_TngResource } from "../ApgEdr_Base_TngResource.ts";
+import { Drash, Uts } from "../deps.ts";
+import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
+import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_TngResource_Base } from "./ApgEdr_TngResource_Base.ts";
 
 
 /**
- * General purpose abstract message or static multilangiuage page.
+ * General purpose abstract message or static multilanguage page.
  */
-export abstract class ApgEdr_TngResource_Message
+export abstract class ApgEdr_TngResource_Message_Base
 
-    extends ApgEdr_Base_TngResource {
+    extends ApgEdr_TngResource_Base {
 
-    override readonly RESOURCE_NAME = ApgEdr_TngResource_Message.name;
-    abstract readonly NEXT: string;
 
+    override readonly RESOURCE_NAME = ApgEdr_TngResource_Message_Base.name;
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/public/" + this.RESOURCE_NAME + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+
+    abstract readonly NEXT: string;
 
 
 
@@ -41,6 +42,16 @@ export abstract class ApgEdr_TngResource_Message
         const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);
         edr.LogEvents(events);
         response.html(html);
+    }
+
+
+
+    /**
+     * Virtual method
+     * Get a message to display a single paragraph in the page
+     */
+    protected getPageTitle(_alanguage: Uts.ApgUts_TLanguage) {
+        return this.TITLE;
     }
 
 
@@ -68,9 +79,11 @@ export abstract class ApgEdr_TngResource_Message
     async #getTemplateData(aedr: ApgEdr_IRequest) {
 
 
+        const pageTitle = this.getPageTitle(aedr.language);
+
         const r = ApgEdr_Service_Core.GetTemplateData(
             aedr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, aedr.language),
+            pageTitle,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         );

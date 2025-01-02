@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr_Dev]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/07/08] Moving fro apg-tng to Edr
  * @version 1.0.1 [APG 2024/07/31] ApgEdr_Service.GetTemplateData
  * @version 1.0.2 [APG 2024/08/13] Moved to lib
@@ -10,12 +10,13 @@
  */
 
 
-import { Drash, Uts } from "../../deps.ts";
+import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+
 
 
 const NavBar = [
@@ -28,18 +29,17 @@ const NavBar = [
 
 export class ApgEdr_Dev_TngResource_Tng_Templates
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Tng_Templates.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Tng templates",
-    }
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TITLE = "Local Tng templates";
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+    
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
     override paths = [ApgEdr_Route_eShared.DEV_PAGE_TNG_TEMPLATES];
 
@@ -60,7 +60,7 @@ export class ApgEdr_Dev_TngResource_Tng_Templates
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            this.TITLE,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )
@@ -81,11 +81,16 @@ export class ApgEdr_Dev_TngResource_Tng_Templates
 
     async #getFilesRecursively(
         afolder: string,
-        aroot = ""
+        aroot = "",
+        alevel = 0
     ) {
 
         const data: {
+            isGroup: boolean;
             url: string;
+            pre: string;
+            file: string;
+            label: string;
         }[] = [];
 
         const rootRoute = ApgEdr_Route_eShared.FILE_ANY_TEMPLATE.replace("/*", "");
@@ -96,9 +101,19 @@ export class ApgEdr_Dev_TngResource_Tng_Templates
 
         for await (const dirEntry of Deno.readDir(afolder)) {
 
+            const rawPath = `${afolder}/${dirEntry.name}`;
+            const filePath = rawPath.replace(rootDir, "")
+
             if (dirEntry.isDirectory) {
-                const subfolder = `${afolder}/${dirEntry.name}`
-                data.push(...await this.#getFilesRecursively(subfolder, rootDir));
+                const subfolder = `${afolder}/${dirEntry.name}`;
+                data.push({
+                    isGroup: true,
+                    url: rootRoute + filePath, 
+                    pre: "&nbsp;".repeat(alevel * 4),
+                    file: subfolder,
+                    label: dirEntry.name
+                });
+                data.push(...await this.#getFilesRecursively(subfolder, rootDir, alevel+1));
             }
 
             else {
@@ -108,12 +123,20 @@ export class ApgEdr_Dev_TngResource_Tng_Templates
                     const rawPath = `${afolder}/${dirEntry.name}`;
                     const filePath = rawPath.replace(rootDir, "")
                     data.push({
-                        url: rootRoute + filePath,
+                        isGroup: false,
+                        url: rootRoute + filePath + "?wrap=1", 
+                        pre: "&nbsp;".repeat(alevel * 4 + 2),
+                        file: filePath,
+                        label: filePath.split("/").pop()!
                     });
 
                 }
             }
         }
+
+        //data.sort((a, b) => a.file.localeCompare(b.file));
+
+
         return data;
     }
 }

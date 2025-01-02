@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 1.0.0 [APG 2024/11/07] Concrete implementation of EDR request interface
  * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
@@ -55,17 +55,17 @@ export class ApgEdr_Request implements ApgEdr_IRequest {
     /**
      * Log also the debug events
      */
-    static DoDebug = false;
+    static LogDebug = false;
 
     /**
      * Console log of events
      */
-    static DoEventsEcho = true;
+    static LogEventsEcho = true;
 
     /**
      * Console log additional info
     */
-    static DoVerboseEcho = true;
+    static LogVerboseEcho = true;
 
 
     constructor(
@@ -104,7 +104,7 @@ export class ApgEdr_Request implements ApgEdr_IRequest {
 
         this.events.push(event);
 
-        if (ApgEdr_Request.DoEventsEcho) {
+        if (ApgEdr_Request.LogEventsEcho) {
             this.#Echo(event);
         }
 
@@ -123,7 +123,7 @@ export class ApgEdr_Request implements ApgEdr_IRequest {
 
             this.events.push(event);
 
-            if (ApgEdr_Request.DoEventsEcho) {
+            if (ApgEdr_Request.LogEventsEcho) {
                 this.#Echo(event);
             }
         }
@@ -157,7 +157,7 @@ export class ApgEdr_Request implements ApgEdr_IRequest {
         amethodName: string,
         amessage: string
     ) {
-        if (ApgEdr_Request.DoDebug) {
+        if (ApgEdr_Request.LogDebug) {
             this.Log(Uts.ApgUts_eEventType.DEBUG, aclassName, amethodName, amessage);
         }
     }
@@ -178,7 +178,7 @@ export class ApgEdr_Request implements ApgEdr_IRequest {
         message = this.#colorizeEcho(aevent, message);
         console.log(message);
 
-        if (ApgEdr_Request.DoVerboseEcho) {
+        if (ApgEdr_Request.LogVerboseEcho) {
             message = `                  | ${perf} | ${aevent.module}.${aevent.method}`;
             console.log(message);
             console.log("");

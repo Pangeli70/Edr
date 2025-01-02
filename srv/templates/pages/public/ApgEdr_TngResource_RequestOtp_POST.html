@@ -1,22 +1,46 @@
+
 <!-- 
-  * @author         [APG] Angeli Paolo Giusto
-  * @requires       Tng.ApgTng_IPageData (V1.0)
-  * @version        1.0.0 APG 20240813
+    * @file         ApgEdr_TngResource_RequestOtp_POST.html
+    * @author       [APG] ANGELI Paolo Giusto
+    * @requires     Tng.ApgTng_IPageData (V1.0)
+    * @version      1.0.0 APG 20240813
                     1.0.1 APG 20241015 Improved text and translations
+                    1.0.2 APG 20241224 script data="ApgTng"
 -->
+
+<script data="ApgTng">
+    const ApgEdr_TngResource_RequestOtp_POST = {
+        page: {
+            data: {
+                action: "",
+                email: "",
+                requestNewOtpLink: "",
+                requestSupportLink: ""
+            },
+            translations: {
+                POST_P1: "",
+                POST_P2: "",
+                POST_P3: "",
+                POST_P4: "",
+                POST_P5: "",
+                POST_Button_NewOtp: "",
+                POST_Button_Support: ""
+            }
+        }
+    }
+</script>
+
 
 <section>
 
-    <p><% page.data.translations.POST_P1 %></p>
-    <p><% page.data.translations.POST_P2 %></p>
+    <p><% page.translations.POST_P1 %>. <% page.translations.POST_P2 %></p>
+    <p><% page.translations.POST_P3 %></p>
 
     <form
       action="<% page.data.action %>"
       method="post"
     >
         <article>
-
-            <label for="otp">OTP</label>
             <input
               type="text"
               id="otp"
@@ -42,18 +66,11 @@
 
     </form>
 
-    <p><% page.data.translations.POST_P3 %></p>
-    <p><% page.data.translations.POST_P4 %>
-        <a
-          href="<% page.data.requestNewOtpLink %>"
-          role="button"
-        ><% page.data.translations.POST_Button_NewOtp %></a>
+    <p><% page.translations.POST_P4 %>
+        <a href="<% page.data.requestNewOtpLink %>"><% page.translations.POST_Button_NewOtp %></a>
     </p>
-    <p><% page.data.translations.POST_P5 %>
-        <a
-          href="<% page.data.requestSupportLink %>"
-          role="button"
-        ><% page.data.translations.POST_Button_Support %></a>
+    <p><% page.translations.POST_P5 %>
+        <a href="<% page.data.requestSupportLink %>"><% page.translations.POST_Button_Support %></a>
     </p>
 
 

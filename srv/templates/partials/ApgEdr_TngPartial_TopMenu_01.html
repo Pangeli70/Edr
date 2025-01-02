@@ -1,0 +1,45 @@
+
+<!-- 
+    * @file         ApgEdr_TngPartial_TopMenu_01.html
+    * @author       [APG] ANGELI Paolo Giusto
+    * @requires     Tng.ApgTng_IPageData (V1.0)
+    * @version      1.0.0 APG 20241126
+                    1.0.1 APG 20241224 script data="ApgTng"
+-->
+
+<script data="ApgTng">
+    const ApgEdr_TngPartial_TopMenu_01 = {
+        page: {
+            data: {
+                topMenu: [
+                    {
+                        url: "",
+                        label: "",
+                        title: ""
+                    }
+                ]
+            }
+        }
+    }
+</script>
+
+
+
+<% if(page.data.topMenu) { %>
+<section style="margin-bottom: 0px; padding-bottom: 0px;">
+
+    <p style="text-align: right; margin-bottom: 0px;">
+
+        <% for(const link of page.data.topMenu) { %>
+        <a
+          href="<% link.url %>"
+          role="button"
+          title="<% link.title %>"
+        ><% link.label %></a>
+        <% } %>
+
+    </p>
+    <% } %>
+</section>
+
+<!-- /Partial -------------------------------------------------------------- -->

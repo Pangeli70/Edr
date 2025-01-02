@@ -7,30 +7,30 @@
  * -----------------------------------------------------------------------
  */
 
-import { Drash, Spc, Uts } from "../../deps.ts";
+
+import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_TddSpec } from "../../services/ApgEdr_Service_TddSpec.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
 
 
 
 export class ApgEdr_Dev_TngResource_TDD_Exec
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
+    
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_TDD_Exec.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: 'Spec execution result',
-        IT: "Risultato esecuzione spec",
-    }
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TITLE = 'Spec execution result';
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
     readonly PATH_PARAM_SUITE = 'suite';
     readonly PATH_PARAM_EXEC = 'index';
@@ -46,6 +46,7 @@ export class ApgEdr_Dev_TngResource_TDD_Exec
     public async GET(request: Drash.Request, response: Drash.Response) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
         const rawSuite = request.pathParam(this.PATH_PARAM_SUITE) as string;
         const rawExec = request.pathParam(this.PATH_PARAM_EXEC) as string;
@@ -62,7 +63,7 @@ export class ApgEdr_Dev_TngResource_TDD_Exec
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            this.TITLE,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )
@@ -98,29 +99,4 @@ export class ApgEdr_Dev_TngResource_TDD_Exec
     }
 
 
-
-    #prepareResultForRendering(aresult: Spc.ApgSpc_TSpecResult) {
-
-        const tests: { name: string; events: Spc.ApgSpc_IEvent[] }[] = [];
-
-        let i = 0;
-        do {
-            const event = aresult.events[i];
-            if (event.clause == Spc.ApgSpc_eClause.init) {
-                const test = {
-                    name: event.message,
-                    events: [] as Spc.ApgSpc_IEvent[]
-                }
-                do {
-
-
-                    i++;
-                }
-                while (i < aresult.events.length);
-                tests.push(test);
-            }
-            i++;
-        }
-        while (i < aresult.events.length);
-    }
 }

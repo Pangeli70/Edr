@@ -1,19 +1,20 @@
 /** ---------------------------------------------------------------------------
- * @module [ApgEdr/lib]
- * @author [APG] Angeli Paolo Giusto
- * @version 1.0 APG 20241023
+ * @module [ApgEdr_Dev]
+ * @author [APG] ANGELI Paolo Giusto
+ * @version 1.0.0 APG 20241023
+ * @version 1.0.1 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
 */
 
 
-import { Drash, Uts } from "../../deps.ts";
+import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Dev_IStory } from "../../interfaces/ApgEdr_Dev_IStory.ts";
-import { ApgEdr_Service_DevStories } from "../../services/ApgEdr_Service_DevStories.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Service_DevStories } from "../../services/ApgEdr_Service_DevStories.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
 
 
 
@@ -27,19 +28,17 @@ const NavBar = [
 
 export class ApgEdr_Dev_TngResource_Stories
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_Stories.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: 'User stories',
-        IT: "Storie utente"
-    }
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TITLE = 'User stories';
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
     override paths = [ApgEdr_Route_eShared.DEV_PAGE_STORIES];
 
@@ -51,7 +50,7 @@ export class ApgEdr_Dev_TngResource_Stories
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
-        //   if (!this.verifyPermissions(this.GET, request, response, edr)) return;
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
 
         const r = await ApgEdr_Service_DevStories.GetStoryDomains();
@@ -75,7 +74,7 @@ export class ApgEdr_Dev_TngResource_Stories
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            this.TITLE,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )

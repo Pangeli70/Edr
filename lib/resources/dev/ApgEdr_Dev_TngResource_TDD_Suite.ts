@@ -7,18 +7,19 @@
  * -----------------------------------------------------------------------
  */
 
+
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
-import { Drash, Tng, Uts } from "../../deps.ts";
+import { Drash, Tng } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_TddSpec } from "../../services/ApgEdr_Service_TddSpec.ts";
+import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
-import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
 
 
 
- const NavBar = [
+const NavBar = [
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
     ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TST_SUITES],
@@ -27,19 +28,17 @@ import { ApgEdr_Auth_TngResource } from "../ApgEdr_Auth_TngResource.ts";
 
 export class ApgEdr_Dev_TngResource_TDD_Suite
 
-    extends ApgEdr_Auth_TngResource {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_Dev_TngResource_TDD_Suite.name;
-    override readonly TITLE: Uts.ApgUts_IMultilanguage = {
-        EN: "Spec's suite executions",
-        IT: "Esecuzioni della suite di spec",
-    }
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
+    override readonly TITLE = "Spec's suite executions";
+    override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/dev/" + this.RESOURCE_NAME + ".html"
     };
-    override readonly ARE_TEMPLATES_FROM_CDN = true;
+
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
     readonly PATH_PARAM_SUITE = 'suite';
 
@@ -53,6 +52,8 @@ export class ApgEdr_Dev_TngResource_TDD_Suite
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
+
         const rawSuite = request.pathParam(this.PATH_PARAM_SUITE);
 
         const suites = ApgEdr_Service_TddSpec.Suites();
@@ -80,13 +81,12 @@ export class ApgEdr_Dev_TngResource_TDD_Suite
 
         const templateData = ApgEdr_Service_Core.GetTemplateData(
             edr,
-            Uts.ApgUts_Translator.Translate(this.TITLE, edr.language),
+            this.TITLE,
             this.TNG_TEMPLATES.GET,
             this.ARE_TEMPLATES_FROM_CDN
         )
 
         const topMenu = this.getTranslatedLinks(NavBar, edr.language);
-
 
 
         templateData.page.data = {
@@ -95,7 +95,6 @@ export class ApgEdr_Dev_TngResource_TDD_Suite
             flags,
             topMenu
         };
-
 
 
         const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);

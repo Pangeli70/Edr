@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2022/09/09] Alpha version
  * @version 0.9.2 [APG 2023/04/16] Moved to its own microservice
  * @version 0.9.3 [APG 2024/01/06] Revamped
@@ -75,7 +75,12 @@ export class ApgEdr_Service_Core
     static LocalTemplatesPath = "./srv/templates";
 
     /**
-     * CDN server for assets and templates
+     * Remote CDN path to templates of ApgEdr shared resources
+     */
+    static CdnTemplatesPath = "/edr/templates";
+
+    /**
+     * CDN server for assets and templates. Defaults to BunnyCdn
      */
     static CdnHost = "https://apg-01.b-cdn.net";
 
@@ -99,16 +104,13 @@ export class ApgEdr_Service_Core
      */
     static DefaultLogoJs = "ApgEdr_Logo3D_Apg_2024_V01";
 
-    /**
-     * Remote CDN path to templates of ApgEdr shared resources
-     */
-    static CdnTemplatesPath = "/assets/html/templates";
+
 
 
     /**
-     * Support team email address
+     * Support team email address. It is initialized with a placeholder. Load this from env!
      */
-    static SupportEmail = "support@apg";
+    static SupportEmail = "support@apg-web-dev-24.it";
 
     /**
      * Microservice definition

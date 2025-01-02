@@ -1,0 +1,41 @@
+
+<!-- 
+    * @file         ApgEdr_TngResource_Menu_Base.html
+    * @author       [APG] ANGELI Paolo Giusto
+    * @requires     Tng.ApgTng_IPageData (V1.0)
+    * @version      1.0.0 APG 20240701
+                    1.0.1 APG 20240731
+                    1.0.2 APG 20240814 Fancy styles
+                    1.0.3 APG 20241108 Generalized version
+                    1.0.4 APG 20241207 Use Partial
+                    1.0.5 APG 20241224 script data="ApgTng"
+-->
+
+<script data="ApgTng">
+    const ApgEdr_TngResource_Menu_Base = {
+        page: {
+            data: {
+                menu: [
+                    {
+                        url: "",
+                        label: "",
+                        title: ""
+                    }
+                ]
+            }
+        }
+    }
+</script>
+
+
+<link
+  rel="stylesheet"
+  href="/assets/css/ApgEdr_Pico_Custom_Fancy_V01.css"
+>
+
+
+<section>
+
+    <% partial("/partials/ApgEdr_TngPartial_TabularLinksMenu_01.html") %>
+
+</section>

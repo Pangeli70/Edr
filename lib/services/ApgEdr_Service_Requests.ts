@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------
  * @module [ApgEdr]
- * @author [APG] Angeli Paolo Giusto
+ * @author [APG] ANGELI Paolo Giusto
  * @version 0.9.1 [APG 2024/11/08] Extracted from ApgEdr_Service
  * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
  * ----------------------------------------------------------------------------
@@ -41,6 +41,7 @@ export class ApgEdr_Service_Requests
     static Store(aedr: ApgEdr_IRequest) {
 
         this.Requests.push(aedr);
+        this.LogInfo(this.Store.name, `Called for callId [${aedr.counter}]`);
 
     }
 
