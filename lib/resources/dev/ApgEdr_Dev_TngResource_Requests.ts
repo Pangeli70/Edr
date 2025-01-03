@@ -13,19 +13,19 @@
 
 import { Drash, Tng, Uts } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_IRequest } from "../../interfaces/ApgEdr_IRequest.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_Requests } from "../../services/ApgEdr_Service_Requests.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
 
 const NavBar = [
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_DEV],
 
 ]
 
@@ -48,7 +48,7 @@ export class ApgEdr_Dev_TngResource_Requests
     readonly QS_PARAM_PAGINATION = 'page';
     readonly PAGINATION_SIZE = 20;
 
-    override paths = [ApgEdr_Route_eShared.DEV_PAGE_REQUESTS];
+    override paths = [ApgEdr_eRoute.DEV_PAGE_REQUESTS];
 
 
 
@@ -69,7 +69,7 @@ export class ApgEdr_Dev_TngResource_Requests
             }
         }
 
-        const baseUrl = `${ApgEdr_Route_eShared.DEV_PAGE_REQUESTS}?${this.QS_PARAM_PAGINATION}=`
+        const baseUrl = `${ApgEdr_eRoute.DEV_PAGE_REQUESTS}?${this.QS_PARAM_PAGINATION}=`
 
         const pagination: Tng.ApgTng_IPagination = this.getPagination(
             ApgEdr_Service_Requests.Requests.length,
@@ -96,7 +96,7 @@ export class ApgEdr_Dev_TngResource_Requests
         templateData.page.data = {
             topMenu,
             pag: pagination,
-            entryRoute: ApgEdr_Route_eShared.DEV_PAGE_REQUEST,
+            entryRoute: ApgEdr_eRoute.DEV_PAGE_REQUEST,
             requests: filteredRequests
         }
 

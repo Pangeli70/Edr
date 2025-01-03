@@ -14,7 +14,7 @@
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_Requests } from "../../services/ApgEdr_Service_Requests.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
@@ -37,7 +37,7 @@ export class ApgEdr_Dev_TngResource_Request
 
     readonly PATH_PARAM_ID = 'id';
 
-    override paths = [ApgEdr_Route_eShared.DEV_PAGE_REQUEST + "/:" + this.PATH_PARAM_ID];
+    override paths = [ApgEdr_eRoute.DEV_PAGE_REQUEST + "/:" + this.PATH_PARAM_ID];
 
 
 
@@ -70,7 +70,7 @@ export class ApgEdr_Dev_TngResource_Request
 
 
         templateData.page.data = {
-            logRoute: ApgEdr_Route_eShared.DEV_PAGE_REQUESTS,
+            logRoute: ApgEdr_eRoute.DEV_PAGE_REQUESTS,
             request: loggedRequest
         }
 
@@ -94,7 +94,7 @@ export class ApgEdr_Dev_TngResource_Request
         aedr.message = {
             title: "Error",
             text: "Request with id " + arawId + " not found",
-            next: ApgEdr_Route_eShared.DEV_PAGE_REQUESTS
+            next: ApgEdr_eRoute.DEV_PAGE_REQUESTS
         };
 
         ApgEdr_Service_Core.HandleError(

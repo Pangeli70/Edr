@@ -8,25 +8,25 @@
 
 
 import { Tng } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 import { ApgEdr_TngResource_Menu_Base } from "../ApgEdr_TngResource_Menu_Base.ts";
 
 
 
 const ApgEdr_Menu_Auth_Test = [
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_GUEST],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_USER],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_DEV],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_ADMIN],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_GUEST],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_USER],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_DEV],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_ADMIN],
 
 ]
 
 
 
 const NavBar = [
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
 ]
 
 
@@ -41,6 +41,6 @@ export class ApgEdr_TngResource_Menu_Auth_Test
     override readonly MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_Auth_Test;
     override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = NavBar;
 
-    override paths = [ApgEdr_Route_eShared.PAGE_MENU_TEST_AUTH];
+    override paths = [ApgEdr_eRoute.PAGE_MENU_TEST_AUTH];
 
 }

@@ -8,7 +8,7 @@
 
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_DevStories } from "../../services/ApgEdr_Service_DevStories.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
@@ -31,7 +31,7 @@ export class ApgEdr_Dev_TngResource_Story
 
     readonly PATH_PARAM_ID = 'id';
 
-    override paths = [ApgEdr_Route_eShared.DEV_PAGE_STORY + '/:' + this.PATH_PARAM_ID];
+    override paths = [ApgEdr_eRoute.DEV_PAGE_STORY + '/:' + this.PATH_PARAM_ID];
 
 
 
@@ -71,10 +71,10 @@ export class ApgEdr_Dev_TngResource_Story
         )
 
         templateData.page.data = {
-            url: ApgEdr_Route_eShared.DEV_PAGE_STORY,
+            url: ApgEdr_eRoute.DEV_PAGE_STORY,
             story,
             activities,
-            entryRoute: ApgEdr_Route_eShared.DEV_PAGE_ACTIVITY,
+            entryRoute: ApgEdr_eRoute.DEV_PAGE_ACTIVITY,
         }
 
         const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);

@@ -9,7 +9,7 @@
 
 import {ApgEdr_Request} from "../../classes/ApgEdr_Request.ts";
 import {Drash, Uts} from "../../deps.ts";
-import {ApgEdr_Route_eShared} from "../../enums/ApgEdr_Route_eShared.ts";
+import {ApgEdr_eRoute} from "../../enums/ApgEdr_eRoute.ts";
 import {ApgEdr_Service_ResendMail} from "../../services/ApgEdr_Service_ResendMail.ts";
 import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
 import {ApgEdr_TngResource_Base} from "../ApgEdr_TngResource_Base.ts";
@@ -19,7 +19,7 @@ import { ApgEdr_TngResource_Message_Base } from "../ApgEdr_TngResource_Message_B
 
 enum _eTranslations {
 
-    PAGE_TITLE = "PAGE_TITLE",
+    PAGE_TITLE = "PAGE_TITLE_GET_1",
 
     GET_Email_Label = "GET_Email_Label",
     GET_Message_Label = "GET_Message_Label",
@@ -104,7 +104,7 @@ export class ApgEdr_TngResource_Support
     readonly BODY_PARAM_EMAIL = "email";
     readonly BODY_PARAM_MESSAGE = "message";
 
-    override paths = [ApgEdr_Route_eShared.PAGE_REQ_SUPPORT];
+    override paths = [ApgEdr_eRoute.PAGE_REQ_SUPPORT];
 
 
 
@@ -124,7 +124,7 @@ export class ApgEdr_TngResource_Support
         )
 
         templateData.page.data = {
-            action: ApgEdr_Route_eShared.PAGE_REQ_SUPPORT
+            action: ApgEdr_eRoute.PAGE_REQ_SUPPORT
         }
 
         templateData.page.translations = _Translator.getAll(edr.language);
@@ -188,7 +188,7 @@ export class ApgEdr_TngResource_Support
         )
 
         templateData.page.data = {
-            okLink: ApgEdr_Route_eShared.PAGE_MENU_USER,
+            okLink: ApgEdr_eRoute.PAGE_MENU_USER,
             message: _Translator.get(_eTranslations.POST_Success_Message, edr.language),
         }
 
@@ -211,7 +211,7 @@ export class ApgEdr_TngResource_Support
         aedr.message = {
             title: "Error",
             text: _Translator.get(_eTranslations.POST_Error_MailAddress, aedr.language),
-            next: ApgEdr_Route_eShared.PAGE_REQ_SUPPORT
+            next: ApgEdr_eRoute.PAGE_REQ_SUPPORT
         };
         // Log the error
         ApgEdr_Service_Core.HandleError(
@@ -237,7 +237,7 @@ export class ApgEdr_TngResource_Support
         aedr.message = {
             title: "Error",
             text: _Translator.get(_eTranslations.POST_Error_MailServer, aedr.language),
-            next: ApgEdr_Route_eShared.PAGE_HOME
+            next: ApgEdr_eRoute.PAGE_HOME
         };
 
 

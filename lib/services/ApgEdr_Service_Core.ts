@@ -19,7 +19,7 @@ import { Drash, Tng, Uts } from "../deps.ts";
 import { ApgEdr_Auth_eResult } from "../enums/ApgEdr_Auth_eResult.ts";
 import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_eCookieId } from "../enums/ApgEdr_eCookieId.ts";
-import { ApgEdr_Route_eShared } from "../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
 
 
@@ -27,9 +27,9 @@ import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
  * Service for the shared data and features of the Edr microservice
  */
 export class ApgEdr_Service_Core
-    
+
     extends Uts.ApgUts_Service {
-    
+
 
     protected static InitServiceName() {
         return ApgEdr_Service_Core.name;
@@ -328,7 +328,10 @@ export class ApgEdr_Service_Core
             return [];
         }
 
+        let i = 0;
         return alinks.filter(a => {
+
+            Uts.ApgUts.PanicIf(!a, this.FilterLinksByLogin.name + ': Undefined item [' + i.toString() + '] in links array');
 
             let r = true;
             if (a.isReserved) {
@@ -339,6 +342,7 @@ export class ApgEdr_Service_Core
                     r = !isLoggedIn;
                 }
             }
+            i++;
             return r;
         });
     }
@@ -351,7 +355,7 @@ export class ApgEdr_Service_Core
             aedr.message = {
                 title: "Error",
                 text: "Unknown error or message",
-                next: ApgEdr_Route_eShared.PAGE_HOME
+                next: ApgEdr_eRoute.PAGE_HOME
             };
         }
 

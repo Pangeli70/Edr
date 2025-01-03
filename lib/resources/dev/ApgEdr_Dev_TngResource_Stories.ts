@@ -9,19 +9,19 @@
 
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Dev_IStory } from "../../interfaces/ApgEdr_Dev_IStory.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_DevStories } from "../../services/ApgEdr_Service_DevStories.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
 
 const NavBar = [
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_DEV],
 
 ]
 
@@ -40,7 +40,7 @@ export class ApgEdr_Dev_TngResource_Stories
 
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
-    override paths = [ApgEdr_Route_eShared.DEV_PAGE_STORIES];
+    override paths = [ApgEdr_eRoute.DEV_PAGE_STORIES];
 
 
 
@@ -85,10 +85,10 @@ export class ApgEdr_Dev_TngResource_Stories
 
         templateData.page.data = {
             topMenu,
-            url: ApgEdr_Route_eShared.DEV_PAGE_STORIES,
+            url: ApgEdr_eRoute.DEV_PAGE_STORIES,
             domains,
             stories,
-            entryRoute: ApgEdr_Route_eShared.DEV_PAGE_STORY,
+            entryRoute: ApgEdr_eRoute.DEV_PAGE_STORY,
         }
 
         const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);

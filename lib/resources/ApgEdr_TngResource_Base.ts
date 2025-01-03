@@ -10,7 +10,7 @@
 
 import { ApgEdr_Request } from "../classes/ApgEdr_Request.ts";
 import { Drash, Tng, Uts } from "../deps.ts";
-import { ApgEdr_Route_eShared } from "../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../enums/ApgEdr_eRoute.ts";
 
 
 
@@ -69,7 +69,7 @@ export abstract class ApgEdr_TngResource_Base
         aresponse: Drash.Response,
         afromUrl: string,
     ) {
-        const url = ApgEdr_Route_eShared.PAGE_ERROR + "/" + aedr.counter;
+        const url = ApgEdr_eRoute.PAGE_ERROR + "/" + aedr.counter;
         this.logAndRedirect(aedr, amethodName, afromUrl, url, aresponse);
     }
 

@@ -10,18 +10,18 @@
 
 import { Drash, Tng } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_TddSpec } from "../../services/ApgEdr_Service_TddSpec.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 import { ApgEdr_TngResource_Menu_Base } from "../ApgEdr_TngResource_Menu_Base.ts";
 
 
 
 const NavBar = [
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_DEV],
 ]
 
 
@@ -40,7 +40,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suites
     
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
 
-    public override paths = [ApgEdr_Route_eShared.DEV_PAGE_TST_SUITES];
+    public override paths = [ApgEdr_eRoute.DEV_PAGE_TST_SUITES];
 
 
 
@@ -57,7 +57,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suites
         const specs = ApgEdr_Service_TddSpec.Suites();
         for (const spec of specs!) {
             const item: Tng.ApgTng_IHyperlink = {
-                url: ApgEdr_Route_eShared.DEV_PAGE_TST_SUITE + "/" + spec,
+                url: ApgEdr_eRoute.DEV_PAGE_TST_SUITE + "/" + spec,
                 label: { EN: spec },
                 isReserved: false
             };

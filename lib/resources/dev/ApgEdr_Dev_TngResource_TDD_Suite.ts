@@ -11,18 +11,18 @@
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash, Tng } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_TddSpec } from "../../services/ApgEdr_Service_TddSpec.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
 
 const NavBar = [
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TST_SUITES],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_DEV],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.DEV_PAGE_TST_SUITES],
 ]
 
 
@@ -42,7 +42,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suite
 
     readonly PATH_PARAM_SUITE = 'suite';
 
-    public override paths = [ApgEdr_Route_eShared.DEV_PAGE_TST_SUITE + "/:" + this.PATH_PARAM_SUITE];
+    public override paths = [ApgEdr_eRoute.DEV_PAGE_TST_SUITE + "/:" + this.PATH_PARAM_SUITE];
 
 
 
@@ -69,7 +69,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suite
             const res = results![i];
             const title = `Failed: ${res.failed}, Skipped: ${res.skipped}, Total: ${res.total}`;
             const item = {
-                url: ApgEdr_Route_eShared.DEV_PAGE_TST_EXEC + "/" + suite + "/" + i.toString(),
+                url: ApgEdr_eRoute.DEV_PAGE_TST_EXEC + "/" + suite + "/" + i.toString(),
                 label: { EN: res.execution.toISOString() },
                 title: { EN: title },
                 isReserved: false
@@ -90,7 +90,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suite
 
 
         templateData.page.data = {
-            action: ApgEdr_Route_eShared.DEV_PAGE_TST_SUITE + "/" + suite,
+            action: ApgEdr_eRoute.DEV_PAGE_TST_SUITE + "/" + suite,
             menu: this.getTranslatedLinks(menu, 'EN'),
             flags,
             topMenu
@@ -120,7 +120,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suite
         const r = await ApgEdr_Service_TddSpec.RunSuite(suite);
 
         if (r.ok) {
-            this.redirect(ApgEdr_Route_eShared.DEV_PAGE_TST_SUITE + "/" + suite, response);
+            this.redirect(ApgEdr_eRoute.DEV_PAGE_TST_SUITE + "/" + suite, response);
         }
         else {
             this.#handleError(edr, this.POST.name, request, response, r.messages);
@@ -140,7 +140,7 @@ export class ApgEdr_Dev_TngResource_TDD_Suite
         aedr.message = {
             title: "Error running the test suite",
             text: amessages.join("<br>\n"),
-            next: ApgEdr_Route_eShared.PAGE_MENU_DEV
+            next: ApgEdr_eRoute.PAGE_MENU_DEV
         };
         // Log the error
         ApgEdr_Service_Core.HandleError(

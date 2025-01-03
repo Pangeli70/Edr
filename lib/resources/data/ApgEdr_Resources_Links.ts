@@ -6,15 +6,15 @@
 */
 
 import { Tng } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 
 
 
-export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyperlink> = {
+export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
 
 
-    [ApgEdr_Route_eShared.PAGE_HOME]: {
-        url: ApgEdr_Route_eShared.PAGE_HOME,
+    [ApgEdr_eRoute.PAGE_HOME]: {
+        url: ApgEdr_eRoute.PAGE_HOME,
         label: {
             IT: "Home",
             EN: "Home "
@@ -26,8 +26,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.PAGE_MENU]: {
-        url: ApgEdr_Route_eShared.PAGE_MENU,
+    [ApgEdr_eRoute.PAGE_MENU]: {
+        url: ApgEdr_eRoute.PAGE_MENU,
         label: {
             IT: "Menu principale",
             EN: "Main menu"
@@ -39,8 +39,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.PAGE_MENU_USER]: {
-        url: ApgEdr_Route_eShared.PAGE_MENU_USER,
+    [ApgEdr_eRoute.PAGE_MENU_USER]: {
+        url: ApgEdr_eRoute.PAGE_MENU_USER,
         label: {
             IT: "Utente",
             EN: "User"
@@ -52,8 +52,35 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.PAGE_MENU_ADMIN]: {
-        url: ApgEdr_Route_eShared.PAGE_MENU_ADMIN,
+    [ApgEdr_eRoute.PAGE_MENU_TEST_AUTH]:
+    {
+        url: ApgEdr_eRoute.PAGE_MENU_TEST_AUTH,
+        label: {
+            IT: "Autenticazione",
+            EN: "Authentication"
+        },
+        title: {
+            IT: "Verifica accessibilità pagine riservate per ruolo",
+            EN: "Role access verification for reserved pages"
+        },
+        isReserved: false
+    },
+
+    [ApgEdr_eRoute.PAGE_MENU_TEST_API]: {
+        url: ApgEdr_eRoute.PAGE_MENU_TEST_API,
+        label: {
+            IT: "API",
+            EN: "API"
+        },
+        title: {
+            IT: "Esempi risorse API",
+            EN: "API resources examples"
+        },
+        isReserved: false
+    },
+
+    [ApgEdr_eRoute.PAGE_MENU_ADMIN]: {
+        url: ApgEdr_eRoute.PAGE_MENU_ADMIN,
         label: {
             IT: "Amministratore",
             EN: "Administrator"
@@ -65,8 +92,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.PAGE_MENU_DEV]: {
-        url: ApgEdr_Route_eShared.PAGE_MENU_DEV,
+    [ApgEdr_eRoute.PAGE_MENU_DEV]: {
+        url: ApgEdr_eRoute.PAGE_MENU_DEV,
         label: {
             IT: "Sviluppo",
             EN: "Development"
@@ -78,8 +105,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.PAGE_MENU_DEV_TENGINE]: {
-        url: ApgEdr_Route_eShared.PAGE_MENU_DEV_TENGINE,
+    [ApgEdr_eRoute.PAGE_MENU_DEV_TENGINE]: {
+        url: ApgEdr_eRoute.PAGE_MENU_DEV_TENGINE,
         label: {
             IT: "Template engine",
             EN: "Template engine"
@@ -93,8 +120,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
 
 
 
-    [ApgEdr_Route_eShared.PAGE_LANGUAGE]: {
-        url: ApgEdr_Route_eShared.PAGE_LANGUAGE,
+    [ApgEdr_eRoute.PAGE_LANGUAGE]: {
+        url: ApgEdr_eRoute.PAGE_LANGUAGE,
         label: {
             IT: "Lingua",
             EN: "Language"
@@ -106,8 +133,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.PAGE_REQ_SUPPORT]: {
-        url: ApgEdr_Route_eShared.PAGE_REQ_SUPPORT,
+    [ApgEdr_eRoute.PAGE_REQ_SUPPORT]: {
+        url: ApgEdr_eRoute.PAGE_REQ_SUPPORT,
         label: {
             IT: "Supporto",
             EN: "Support"
@@ -119,8 +146,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.PAGE_ABOUT]: {
-        url: ApgEdr_Route_eShared.PAGE_ABOUT,
+    [ApgEdr_eRoute.PAGE_ABOUT]: {
+        url: ApgEdr_eRoute.PAGE_ABOUT,
         label: {
             IT: "A propostito",
             EN: "About"
@@ -134,8 +161,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
 
 
 
-    [ApgEdr_Route_eShared.PAGE_REQ_OTP]: {
-        url: ApgEdr_Route_eShared.PAGE_REQ_OTP,
+    [ApgEdr_eRoute.PAGE_REQ_OTP]: {
+        url: ApgEdr_eRoute.PAGE_REQ_OTP,
         label: {
             IT: "Accedi",
             EN: "Log in"
@@ -148,8 +175,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isAnonymousOnly: true
     },
 
-    [ApgEdr_Route_eShared.PAGE_LOGOUT]: {
-        url: ApgEdr_Route_eShared.PAGE_LOGOUT,
+    [ApgEdr_eRoute.PAGE_LOGOUT]: {
+        url: ApgEdr_eRoute.PAGE_LOGOUT,
         label: {
             IT: "Esci",
             EN: "Log out"
@@ -163,8 +190,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
 
 
 
-    [ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_GUEST]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_GUEST,
+    [ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_GUEST]: {
+        url: ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_GUEST,
         label: {
             IT: "Test ospite",
             EN: "Test guest"
@@ -176,8 +203,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_USER]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_USER,
+    [ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_USER]: {
+        url: ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_USER,
         label: {
             IT: "Test utente",
             EN: "Test user"
@@ -189,8 +216,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_DEV]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_DEV,
+    [ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_DEV]: {
+        url: ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_DEV,
         label: {
             IT: "Test svilupp.",
             EN: "Test developer"
@@ -202,8 +229,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_ADMIN]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_ADMIN,
+    [ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_ADMIN]: {
+        url: ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_ADMIN,
         label: {
             IT: "Test ammin.",
             EN: "Test admin"
@@ -217,8 +244,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
 
 
 
-    [ApgEdr_Route_eShared.DEV_PAGE_REQUESTS]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_REQUESTS,
+    [ApgEdr_eRoute.DEV_PAGE_REQUESTS]: {
+        url: ApgEdr_eRoute.DEV_PAGE_REQUESTS,
         label: {
             IT: "Chiamate",
             EN: "Log"
@@ -230,8 +257,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: true
     },
 
-    [ApgEdr_Route_eShared.DEV_PAGE_ERRORS]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_ERRORS,
+    [ApgEdr_eRoute.DEV_PAGE_ERRORS]: {
+        url: ApgEdr_eRoute.DEV_PAGE_ERRORS,
         label: {
             IT: "Errori",
             EN: "Errors"
@@ -242,8 +269,9 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         },
         isReserved: true
     },
-    [ApgEdr_Route_eShared.DEV_PAGE_TELEMETRY]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_TELEMETRY,
+
+    [ApgEdr_eRoute.DEV_PAGE_TELEMETRY]: {
+        url: ApgEdr_eRoute.DEV_PAGE_TELEMETRY,
         label: {
             IT: "Telemetria",
             EN: "Telemetry"
@@ -255,8 +283,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: true
     },
 
-    [ApgEdr_Route_eShared.DEV_PAGE_TELEMETRY_PURGE]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_TELEMETRY_PURGE,
+    [ApgEdr_eRoute.DEV_PAGE_TELEMETRY_PURGE]: {
+        url: ApgEdr_eRoute.DEV_PAGE_TELEMETRY_PURGE,
         label: {
             IT: "Svuota telemetria",
             EN: "Purge telemetry"
@@ -269,23 +297,9 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
     },
 
 
-
-    [ApgEdr_Route_eShared.TNG_TEST]: {
-        url: ApgEdr_Route_eShared.TNG_TEST,
-        label: {
-            IT: "Test modello",
-            EN: "Template test"
-        },
-        title: {
-            IT: "Test della risorsa per servire i templates ad altri servizi",
-            EN: "Test for the resource used to serve templates to other services"
-        },
-        isReserved: false
-    },
-
-    [ApgEdr_Route_eShared.DEV_PAGE_TNG_TEMPLATES]:
+    [ApgEdr_eRoute.DEV_PAGE_TNG_TEMPLATES]:
     {
-        url: ApgEdr_Route_eShared.DEV_PAGE_TNG_TEMPLATES,
+        url: ApgEdr_eRoute.DEV_PAGE_TNG_TEMPLATES,
         label: {
             IT: "Modelli",
             EN: "Templates"
@@ -297,9 +311,9 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: true
     },
 
-    [ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES]:
+    [ApgEdr_eRoute.DEV_PAGE_TNG_CACHES]:
     {
-        url: ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES,
+        url: ApgEdr_eRoute.DEV_PAGE_TNG_CACHES,
         label: {
             IT: "Cache",
             EN: "Cache"
@@ -313,8 +327,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
 
 
 
-    [ApgEdr_Route_eShared.ADMIN_PAGE_USERS]: {
-        url: ApgEdr_Route_eShared.ADMIN_PAGE_USERS,
+    [ApgEdr_eRoute.ADMIN_PAGE_USERS]: {
+        url: ApgEdr_eRoute.ADMIN_PAGE_USERS,
         label: {
             IT: "Utenti",
             EN: "Users"
@@ -328,8 +342,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
 
 
 
-    [ApgEdr_Route_eShared.DEV_PAGE_ENVIRONMENT]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_ENVIRONMENT,
+    [ApgEdr_eRoute.DEV_PAGE_ENVIRONMENT]: {
+        url: ApgEdr_eRoute.DEV_PAGE_ENVIRONMENT,
         label: {
             IT: "Ambiente",
             EN: "Environment"
@@ -341,8 +355,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: true
     },
 
-    [ApgEdr_Route_eShared.DEV_PAGE_STATUS]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_STATUS,
+    [ApgEdr_eRoute.DEV_PAGE_STATUS]: {
+        url: ApgEdr_eRoute.DEV_PAGE_STATUS,
         label: {
             IT: "Stato",
             EN: "Status"
@@ -356,8 +370,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
 
 
 
-    [ApgEdr_Route_eShared.API_TEST]: {
-        url: ApgEdr_Route_eShared.API_TEST,
+    [ApgEdr_eRoute.API_TEST]: {
+        url: ApgEdr_eRoute.API_TEST,
         label: {
             IT: "Test Rest API",
             EN: "Rest API test"
@@ -370,8 +384,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
     },
 
 
-    [ApgEdr_Route_eShared.DEV_PAGE_TOOLS]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_TOOLS,
+    [ApgEdr_eRoute.DEV_PAGE_TOOLS]: {
+        url: ApgEdr_eRoute.DEV_PAGE_TOOLS,
         label: {
             IT: "Strumenti",
             EN: "Tools"
@@ -384,8 +398,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
     },
 
 
-    [ApgEdr_Route_eShared.DEV_PAGE_TST_SUITES]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_TST_SUITES,
+    [ApgEdr_eRoute.DEV_PAGE_TST_SUITES]: {
+        url: ApgEdr_eRoute.DEV_PAGE_TST_SUITES,
         label: {
             IT: "Unit tests",
             EN: "Unit Tests"
@@ -397,8 +411,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
         isReserved: false
     },
 
-    [ApgEdr_Route_eShared.DEV_PAGE_TST_SUITE]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_TST_SUITE,
+    [ApgEdr_eRoute.DEV_PAGE_TST_SUITE]: {
+        url: ApgEdr_eRoute.DEV_PAGE_TST_SUITE,
         label: {
             IT: "Unit test",
             EN: "Unit Test"
@@ -411,8 +425,8 @@ export const ApgEdr_Shared_Links: Record<ApgEdr_Route_eShared, Tng.ApgTng_IHyper
     },
 
 
-    [ApgEdr_Route_eShared.DEV_PAGE_STORIES]: {
-        url: ApgEdr_Route_eShared.DEV_PAGE_STORIES,
+    [ApgEdr_eRoute.DEV_PAGE_STORIES]: {
+        url: ApgEdr_eRoute.DEV_PAGE_STORIES,
         label: {
             IT: "Storie utente",
             EN: "User stories"

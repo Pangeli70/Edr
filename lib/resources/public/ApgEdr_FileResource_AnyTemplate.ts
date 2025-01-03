@@ -9,7 +9,7 @@
 
 
 import { Drash, Uts } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 
 
@@ -22,7 +22,7 @@ export class ApgEdr_FileResource_AnyTemplate extends Drash.Resource {
 
     QS_PARAM_WRAP = "wrap";
 
-    override paths = [ApgEdr_Route_eShared.FILE_ANY_TEMPLATE];
+    override paths = [ApgEdr_eRoute.FILE_ANY_TEMPLATE];
 
 
     public GET(request: Drash.Request, response: Drash.Response) {
@@ -32,7 +32,7 @@ export class ApgEdr_FileResource_AnyTemplate extends Drash.Resource {
 
 
 
-        const root = ApgEdr_Route_eShared.FILE_ANY_TEMPLATE.replace("/*", "")
+        const root = ApgEdr_eRoute.FILE_ANY_TEMPLATE.replace("/*", "")
         const rawFile = new URL(request.url).pathname;
         const realFile = rawFile.replace(root, "");
 

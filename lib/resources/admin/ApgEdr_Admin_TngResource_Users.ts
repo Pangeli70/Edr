@@ -10,12 +10,12 @@
 
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Auth_IProfile } from "../../interfaces/ApgEdr_Auth_IProfile.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
 
@@ -26,13 +26,13 @@ export class ApgEdr_Admin_TngResource_Users
 
     override readonly RESOURCE_NAME = ApgEdr_Admin_TngResource_Users.name;
     override readonly TITLE = "Registerd users"
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.ADMIN;
     override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/admin/" + this.RESOURCE_NAME + ".html"
     };
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.ADMIN;
 
-    override paths = [ApgEdr_Route_eShared.ADMIN_PAGE_USERS];
+    override paths = [ApgEdr_eRoute.ADMIN_PAGE_USERS];
 
 
 
@@ -54,8 +54,8 @@ export class ApgEdr_Admin_TngResource_Users
 
         const NavBar = [
 
-            ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU],
-            ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_ADMIN],
+            ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU],
+            ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_ADMIN],
 
         ]
 
@@ -68,7 +68,7 @@ export class ApgEdr_Admin_TngResource_Users
 
         templateData.page.data = {
             topMenu,
-            userRoute: ApgEdr_Route_eShared.ADMIN_PAGE_USER,
+            userRoute: ApgEdr_eRoute.ADMIN_PAGE_USER,
             profiles
         }
 

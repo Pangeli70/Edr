@@ -9,7 +9,7 @@
 
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Telemetry } from "../../mod.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
@@ -27,7 +27,7 @@ export class ApgEdr_Dev_TngResource_Telemetry_Purge
     
     override readonly AUTH_ROLE = ApgEdr_Auth_eRole.DEV;
     
-    override paths = [ApgEdr_Route_eShared.DEV_PAGE_TELEMETRY_PURGE];
+    override paths = [ApgEdr_eRoute.DEV_PAGE_TELEMETRY_PURGE];
 
 
     async GET(
@@ -41,7 +41,7 @@ export class ApgEdr_Dev_TngResource_Telemetry_Purge
 
         const n = await ApgEdr_Service_Telemetry.Purge()
 
-        const route = ApgEdr_Route_eShared.PAGE_HOME;
+        const route = ApgEdr_eRoute.PAGE_HOME;
         this.redirect(route, response);
     }
 

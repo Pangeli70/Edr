@@ -12,7 +12,7 @@
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
@@ -26,13 +26,14 @@ export class ApgEdr_Admin_TngResource_User_Unlock
     
     override readonly RESOURCE_NAME = ApgEdr_Admin_TngResource_User_Unlock.name;
     override readonly TITLE= "Title to be defined"
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.ADMIN;
     override readonly TNG_TEMPLATES = {}
     override readonly ARE_TEMPLATES_FROM_CDN = true;
+    
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.ADMIN;
 
     readonly PATH_PARAM_ID = 'id';
 
-    override paths = [ApgEdr_Route_eShared.ADMIN_PAGE_USER_UNLOCK + "/:" + this.PATH_PARAM_ID];
+    override paths = [ApgEdr_eRoute.ADMIN_PAGE_USER_UNLOCK + "/:" + this.PATH_PARAM_ID];
 
 
     GET(
@@ -54,7 +55,7 @@ export class ApgEdr_Admin_TngResource_User_Unlock
 
         ApgEdr_Service_Auth.UnlockUser(rawId)
 
-        const route = ApgEdr_Route_eShared.ADMIN_PAGE_USER + "/" + rawId;
+        const route = ApgEdr_eRoute.ADMIN_PAGE_USER + "/" + rawId;
         this.redirect(route, response);
     }
 
@@ -71,7 +72,7 @@ export class ApgEdr_Admin_TngResource_User_Unlock
         aedr.message = {
             title: "Error",
             text: "User with email " + arawId + " not found",
-            next: ApgEdr_Route_eShared.ADMIN_PAGE_USERS
+            next: ApgEdr_eRoute.ADMIN_PAGE_USERS
         }
 
         ApgEdr_Service_Core.HandleError(

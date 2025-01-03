@@ -12,7 +12,7 @@
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_eCookieId } from "../../enums/ApgEdr_eCookieId.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Base } from "../ApgEdr_TngResource_Base.ts";
 import { ApgEdr_TngResource_Message_Base } from "../ApgEdr_TngResource_Message_Base.ts";
@@ -88,7 +88,7 @@ export class ApgEdr_TngResource_Language
     readonly BODY_PARAM_LANG = "lang";
     readonly MAX_COOKIE_AGE = 5 * 365 * 24 * 60 * 60;  // 5 years in seconds
 
-    override paths = [ApgEdr_Route_eShared.PAGE_LANGUAGE];
+    override paths = [ApgEdr_eRoute.PAGE_LANGUAGE];
 
 
 
@@ -108,7 +108,7 @@ export class ApgEdr_TngResource_Language
         )
 
         templateData.page.data = {
-            action: ApgEdr_Route_eShared.PAGE_LANGUAGE,
+            action: ApgEdr_eRoute.PAGE_LANGUAGE,
             languageOptions: this.#getCurrentLanguageOptions(edr),
         }
 
@@ -154,7 +154,7 @@ export class ApgEdr_TngResource_Language
         const translations = _Translator.getAll(edr.language);
         const message = translations[_etranslations.POST_Message] + "" + translations[_etranslations.GET_Language_Options]
         templateData.page.data = {
-            okLink: ApgEdr_Route_eShared.PAGE_MENU_USER,
+            okLink: ApgEdr_eRoute.PAGE_MENU_USER,
             message
         }
 

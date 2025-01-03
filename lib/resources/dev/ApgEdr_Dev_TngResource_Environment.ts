@@ -11,17 +11,17 @@
 
 import { Drash, Tng } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
 
 const NavBar = [
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_DEV],
 
 ]
 
@@ -45,7 +45,7 @@ export class ApgEdr_Dev_TngResource_Environment
     readonly BODY_PARAM_USE_CDN = "useCdn";
     readonly BODY_PARAM_USE_TNG_CACHE = "useTngCache";
 
-    override paths = [ApgEdr_Route_eShared.DEV_PAGE_ENVIRONMENT];
+    override paths = [ApgEdr_eRoute.DEV_PAGE_ENVIRONMENT];
 
 
 
@@ -68,7 +68,7 @@ export class ApgEdr_Dev_TngResource_Environment
 
         templateData.page.data = {
             topMenu,
-            action: ApgEdr_Route_eShared.DEV_PAGE_ENVIRONMENT,
+            action: ApgEdr_eRoute.DEV_PAGE_ENVIRONMENT,
             useCdn: ApgEdr_Service_Core.UseCdn ? "checked" : "",
             useTngCache: Tng.ApgTng_Service.UseCache ? "checked" : "",
         }
@@ -128,7 +128,7 @@ export class ApgEdr_Dev_TngResource_Environment
         ApgEdr_Service_Core.UseCdn = rawUseCdn === "on";
         Tng.ApgTng_Service.UseCache = rawUseTngCache === "on";
 
-        this.redirect(ApgEdr_Route_eShared.PAGE_MENU_DEV, response);
+        this.redirect(ApgEdr_eRoute.PAGE_MENU_DEV, response);
 
     }
 

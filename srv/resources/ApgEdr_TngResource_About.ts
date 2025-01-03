@@ -9,7 +9,6 @@
 
 
 import { Edr, Tng, Uts } from "../deps.ts";
-import { ApgEdr_eRoutes } from "../enums/ApgEdr_eRoute.ts";
 
 
 enum _etranslations {
@@ -37,11 +36,11 @@ export class ApgEdr_TngResource_About
     override readonly RESOURCE_NAME = ApgEdr_TngResource_About.name;
     override readonly TITLE = "About";
 
-    override readonly NEXT = ApgEdr_eRoutes.PAGE_HOME;
+    override readonly NEXT = Edr.ApgEdr_eRoute.PAGE_HOME;
 
-    override paths = [ApgEdr_eRoutes.PAGE_ABOUT];
+    override paths = [Edr.ApgEdr_eRoute.PAGE_ABOUT];
 
-    
+
 
     protected override async getHtml(alanguage: Uts.ApgUts_TLanguage) {
 

@@ -9,7 +9,7 @@
  */
 
 import { Drash, Uts, } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_IRequest } from "../../interfaces/ApgEdr_IRequest.ts";
 import { ApgEdr_Service_Requests } from "../../services/ApgEdr_Service_Requests.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
@@ -18,7 +18,7 @@ import { ApgEdr_TngResource_Base } from "../ApgEdr_TngResource_Base.ts";
 
 
 enum _etranslations {
-    PAGE_TITLE = "PAGE_TITLE",
+    PAGE_TITLE = "PAGE_TITLE_GET_1",
 }
 
 
@@ -48,7 +48,7 @@ export class ApgEdr_TngResource_Error
     readonly PATH_PARAM_ERR_ID = 'counter';
     readonly QS_PARAM_FROM_ERRORS_LIST = 'FEL';
 
-    override paths = [ApgEdr_Route_eShared.PAGE_ERROR + "/:" + this.PATH_PARAM_ERR_ID];
+    override paths = [ApgEdr_eRoute.PAGE_ERROR + "/:" + this.PATH_PARAM_ERR_ID];
 
 
 
@@ -90,7 +90,7 @@ export class ApgEdr_TngResource_Error
             aedr.message = {
                 title: pageTitle,
                 text: "The redirect to this error page does not have a message",
-                next: ApgEdr_Route_eShared.PAGE_HOME
+                next: ApgEdr_eRoute.PAGE_HOME
             }
             ApgEdr_Service_Core.Errors.push(aedr)
         }
@@ -106,7 +106,7 @@ export class ApgEdr_TngResource_Error
 
         r.page.data = {
             message: text,
-            okLink: aisFromErrorsList ? ApgEdr_Route_eShared.DEV_PAGE_ERRORS : next
+            okLink: aisFromErrorsList ? ApgEdr_eRoute.DEV_PAGE_ERRORS : next
         }
 
         return r;

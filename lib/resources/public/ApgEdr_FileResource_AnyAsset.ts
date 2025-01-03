@@ -11,7 +11,7 @@
 
 
 import { Drash, Uts } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 
 
@@ -25,7 +25,7 @@ import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
  */
 export class ApgEdr_FileResource_AnyAsset extends Drash.Resource {
 
-    override paths = [ApgEdr_Route_eShared.FILE_ANY_ASSET];
+    override paths = [ApgEdr_eRoute.FILE_ANY_ASSET];
 
 
     async GET(
@@ -33,7 +33,7 @@ export class ApgEdr_FileResource_AnyAsset extends Drash.Resource {
         response: Drash.Response
     ) {
 
-        const root = ApgEdr_Route_eShared.FILE_ANY_ASSET.replace("/*", "")
+        const root = ApgEdr_eRoute.FILE_ANY_ASSET.replace("/*", "")
         const rawFile = new URL(request.url).pathname;
         const realFile = rawFile.replace(root, "");
 

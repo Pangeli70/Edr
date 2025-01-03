@@ -12,9 +12,23 @@
  */
 
 
-import { ApgEdr_Menu_Main } from "../data/ApgEdr_Menu_Main.ts";
+
 import { Edr, Tng, Uts } from "../deps.ts";
-import { ApgEdr_eRoutes } from "../enums/ApgEdr_eRoute.ts";
+
+
+
+export const ApgEdr_Menu_Main: Tng.ApgTng_IHyperlink[] = [
+
+    Edr.ApgEdr_Resources_Links[Edr.ApgEdr_eRoute.PAGE_REQ_OTP],
+    Edr.ApgEdr_Resources_Links[Edr.ApgEdr_eRoute.PAGE_MENU_USER],
+    Edr.ApgEdr_Resources_Links[Edr.ApgEdr_eRoute.PAGE_MENU_TEST_AUTH],
+    Edr.ApgEdr_Resources_Links[Edr.ApgEdr_eRoute.PAGE_MENU_TEST_API],
+    Edr.ApgEdr_Resources_Links[Edr.ApgEdr_eRoute.PAGE_MENU_DEV],
+    Edr.ApgEdr_Resources_Links[Edr.ApgEdr_eRoute.PAGE_MENU_ADMIN],
+    Edr.ApgEdr_Resources_Links[Edr.ApgEdr_eRoute.PAGE_ABOUT],
+
+
+];
 
 
 
@@ -46,7 +60,7 @@ export class ApgEdr_TngResource_Home
     override readonly MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_Main;
     override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = [];
     
-    override paths = ["/", ApgEdr_eRoutes.PAGE_HOME, Edr.ApgEdr_Route_eShared.PAGE_MENU];
+    override paths = ["/", Edr.ApgEdr_eRoute.PAGE_HOME, Edr.ApgEdr_eRoute.PAGE_MENU];
 
 
     override getPageTitle(alang: Uts.ApgUts_TLanguage) {

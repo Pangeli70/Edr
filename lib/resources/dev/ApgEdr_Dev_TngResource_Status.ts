@@ -9,7 +9,7 @@
 
 import { Drash, Mng, Tng } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_DevStories } from "../../services/ApgEdr_Service_DevStories.ts";
@@ -17,14 +17,14 @@ import { ApgEdr_Service_Requests } from "../../services/ApgEdr_Service_Requests.
 import { ApgEdr_Service_ResendMail } from "../../services/ApgEdr_Service_ResendMail.ts";
 import { ApgEdr_Service_Telemetry } from "../../services/ApgEdr_Service_Telemetry.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
 
 const NavBar = [
 
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_DEV],
 
 ]
 
@@ -70,7 +70,7 @@ export class ApgEdr_Dev_TngResource_Status
 
     readonly QS_PARAM_TYPE = 'type';
 
-    override paths = [ApgEdr_Route_eShared.DEV_PAGE_STATUS];
+    override paths = [ApgEdr_eRoute.DEV_PAGE_STATUS];
 
 
 
@@ -101,7 +101,7 @@ export class ApgEdr_Dev_TngResource_Status
 
         templateData.page.data = {
             topMenu,
-            url: ApgEdr_Route_eShared.DEV_PAGE_STATUS,
+            url: ApgEdr_eRoute.DEV_PAGE_STATUS,
             type,
             services,
             events: serviceEvents

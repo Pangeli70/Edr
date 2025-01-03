@@ -9,7 +9,7 @@
  */
 
 import { Drash, Uts } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Base } from "../ApgEdr_TngResource_Base.ts";
@@ -17,7 +17,7 @@ import { ApgEdr_TngResource_Message_Base } from "../ApgEdr_TngResource_Message_B
 
 
 enum _eTranslation {
-    PAGE_TITLE = "PAGE_TITLE",
+    PAGE_TITLE = "PAGE_TITLE_GET_1",
     GET_Message = "GET_Message",
 }
 
@@ -50,7 +50,7 @@ export class ApgEdr_TngResource_Logout
         GET: "/pages/public/" + ApgEdr_TngResource_Message_Base.name + ".html"
     };
 
-    override paths = [ApgEdr_Route_eShared.PAGE_LOGOUT];
+    override paths = [ApgEdr_eRoute.PAGE_LOGOUT];
 
 
 

@@ -10,11 +10,11 @@
 
 import { Drash, Uts } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_Service_TddSpec } from "../../services/ApgEdr_Service_TddSpec.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
 
@@ -36,7 +36,7 @@ export class ApgEdr_Dev_TngResource_TDD_Exec
     readonly PATH_PARAM_EXEC = 'index';
 
     public override paths = [
-        ApgEdr_Route_eShared.DEV_PAGE_TST_EXEC + "/:" +
+        ApgEdr_eRoute.DEV_PAGE_TST_EXEC + "/:" +
         this.PATH_PARAM_SUITE + "/:" +
         this.PATH_PARAM_EXEC
     ];
@@ -70,13 +70,13 @@ export class ApgEdr_Dev_TngResource_TDD_Exec
 
         const NavBar = [
 
-            ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
-            ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
-            ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TST_SUITES],
+            ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
+            ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_DEV],
+            ApgEdr_Resources_Links[ApgEdr_eRoute.DEV_PAGE_TST_SUITES],
 
         ]
 
-        const suiteLink = Uts.ApgUts_Object.DeepCopy(ApgEdr_Shared_Links[ApgEdr_Route_eShared.DEV_PAGE_TST_SUITE])
+        const suiteLink = Uts.ApgUts_Object.DeepCopy(ApgEdr_Resources_Links[ApgEdr_eRoute.DEV_PAGE_TST_SUITE])
         suiteLink.url += "/" + suite;
         NavBar.push(suiteLink);
         const topMenu = this.getTranslatedLinks(NavBar, edr.language);
@@ -84,7 +84,7 @@ export class ApgEdr_Dev_TngResource_TDD_Exec
 
         templateData.page.data = {
             topMenu,
-            action: ApgEdr_Route_eShared.DEV_PAGE_TST_SUITE + "/" + suite,
+            action: ApgEdr_eRoute.DEV_PAGE_TST_SUITE + "/" + suite,
             result
         };
 

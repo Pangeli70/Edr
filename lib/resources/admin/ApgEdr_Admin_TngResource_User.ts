@@ -11,11 +11,11 @@
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
 
@@ -26,15 +26,16 @@ export class ApgEdr_Admin_TngResource_User
 
     override readonly RESOURCE_NAME = ApgEdr_Admin_TngResource_User.name;
     override readonly TITLE = "User details";
-    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.ADMIN;
     override readonly ARE_TEMPLATES_FROM_CDN = true;
     override readonly TNG_TEMPLATES = {
         GET: "/pages/admin/" + this.RESOURCE_NAME + ".html"
     };
 
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.ADMIN;
+
     readonly PATH_PARAM_USER_ID = 'id';
 
-    override paths = [ApgEdr_Route_eShared.ADMIN_PAGE_USER + "/:" + this.PATH_PARAM_USER_ID];
+    override paths = [ApgEdr_eRoute.ADMIN_PAGE_USER + "/:" + this.PATH_PARAM_USER_ID];
 
 
 
@@ -68,9 +69,9 @@ export class ApgEdr_Admin_TngResource_User
 
         const NavBar = [
 
-            ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU],
-            ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_ADMIN],
-            ApgEdr_Shared_Links[ApgEdr_Route_eShared.ADMIN_PAGE_USERS],
+            ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU],
+            ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_ADMIN],
+            ApgEdr_Resources_Links[ApgEdr_eRoute.ADMIN_PAGE_USERS],
 
         ]
 
@@ -79,8 +80,8 @@ export class ApgEdr_Admin_TngResource_User
 
         templateData.page.data = {
             topMenu,
-            usersRoute: ApgEdr_Route_eShared.ADMIN_PAGE_USERS,
-            unlockRoute: ApgEdr_Route_eShared.ADMIN_PAGE_USER_UNLOCK,
+            usersRoute: ApgEdr_eRoute.ADMIN_PAGE_USERS,
+            unlockRoute: ApgEdr_eRoute.ADMIN_PAGE_USER_UNLOCK,
             profile,
             role,
             user
@@ -106,7 +107,7 @@ export class ApgEdr_Admin_TngResource_User
         aedr.message = {
             title: "Error",
             text: "User with email " + arawId + " not found",
-            next: ApgEdr_Route_eShared.ADMIN_PAGE_USERS
+            next: ApgEdr_eRoute.ADMIN_PAGE_USERS
         }
 
         ApgEdr_Service_Core.HandleError(

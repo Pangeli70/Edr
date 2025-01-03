@@ -14,7 +14,7 @@
 
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
 import { ApgEdr_TngResource_Message_Base } from "../ApgEdr_TngResource_Message_Base.ts";
@@ -35,7 +35,7 @@ export class ApgEdr_User_TngResource_AuthTest
     
     readonly AUTH_ROLE = ApgEdr_Auth_eRole.USER;
 
-    override paths = [ApgEdr_Route_eShared.DEV_PAGE_AUTH_TEST_USER];
+    override paths = [ApgEdr_eRoute.DEV_PAGE_AUTH_TEST_USER];
 
 
 
@@ -61,7 +61,7 @@ export class ApgEdr_User_TngResource_AuthTest
         `;
         templateData.page.data = {
             message: message,
-            okLink: ApgEdr_Route_eShared.PAGE_MENU_TEST_AUTH
+            okLink: ApgEdr_eRoute.PAGE_MENU_TEST_AUTH
         };
 
         const {html, events} = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);

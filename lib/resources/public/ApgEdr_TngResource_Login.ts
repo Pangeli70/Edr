@@ -14,7 +14,7 @@
 
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash, Uts } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Base } from "../ApgEdr_TngResource_Base.ts";
@@ -63,7 +63,7 @@ export class ApgEdr_TngResource_Login
     readonly BODY_PARAM_EMAIL = "email";
     readonly BODY_PARAM_OTP = "otp";
 
-    override paths = [ApgEdr_Route_eShared.PAGE_LOGIN];
+    override paths = [ApgEdr_eRoute.PAGE_LOGIN];
 
 
     async POST(
@@ -113,7 +113,7 @@ export class ApgEdr_TngResource_Login
             return;
         }
         else {
-            this.redirect(ApgEdr_Route_eShared.PAGE_HOME, response);
+            this.redirect(ApgEdr_eRoute.PAGE_HOME, response);
         }
     }
 
@@ -133,7 +133,7 @@ export class ApgEdr_TngResource_Login
         const cookie = ApgEdr_Service_Auth.DeleteJwtCookie();
         aresponse.setCookie(cookie);
 
-        const backPage = ApgEdr_Route_eShared.PAGE_REQ_OTP + "?" + this.BODY_PARAM_EMAIL + "=" + arawEmail;
+        const backPage = ApgEdr_eRoute.PAGE_REQ_OTP + "?" + this.BODY_PARAM_EMAIL + "=" + arawEmail;
 
         aedr.message = {
             title: _Translator.get(_eTranslation.POST_Error_Title, aedr.language),

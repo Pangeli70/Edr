@@ -8,7 +8,6 @@
 
 import { Drash } from "../../deps.ts";
 import { ApgEdr_Admin_TngResource_AuthTest } from "../admin/ApgEdr_Admin_TngResource_AuthTest.ts";
-import { ApgEdr_Dev_TngResource_Telemetry_Purge } from "../dev/ApgEdr_Dev_TngResource_Telemetry_Purge.ts";
 import { ApgEdr_Admin_TngResource_User } from "../admin/ApgEdr_Admin_TngResource_User.ts";
 import { ApgEdr_Admin_TngResource_User_Unlock } from "../admin/ApgEdr_Admin_TngResource_User_Unlock.ts";
 import { ApgEdr_Admin_TngResource_Users } from "../admin/ApgEdr_Admin_TngResource_Users.ts";
@@ -23,6 +22,7 @@ import { ApgEdr_Dev_TngResource_Story } from "../dev/ApgEdr_Dev_TngResource_Stor
 import { ApgEdr_Dev_TngResource_TDD_Exec } from "../dev/ApgEdr_Dev_TngResource_TDD_Exec.ts";
 import { ApgEdr_Dev_TngResource_TDD_Suite } from "../dev/ApgEdr_Dev_TngResource_TDD_Suite.ts";
 import { ApgEdr_Dev_TngResource_TDD_Suites } from "../dev/ApgEdr_Dev_TngResource_TDD_Suites.ts";
+import { ApgEdr_Dev_TngResource_Telemetry_Purge } from "../dev/ApgEdr_Dev_TngResource_Telemetry_Purge.ts";
 import { ApgEdr_Dev_TngResource_Tng_Caches } from "../dev/ApgEdr_Dev_TngResource_Tng_Caches.ts";
 import { ApgEdr_Dev_TngResource_Tng_Chunk } from "../dev/ApgEdr_Dev_TngResource_Tng_Chunk.ts";
 import { ApgEdr_Dev_TngResource_Tng_File } from "../dev/ApgEdr_Dev_TngResource_Tng_File.ts";
@@ -36,6 +36,7 @@ import { ApgEdr_RestApiResource_Test } from "../public/ApgEdr_RestResource_ApiTe
 import { ApgEdr_TngResource_Error } from "../public/ApgEdr_TngResource_Error.ts";
 import { ApgEdr_TngResource_Language } from "../public/ApgEdr_TngResource_Language.ts";
 import { ApgEdr_TngResource_Login } from "../public/ApgEdr_TngResource_Login.ts";
+import { ApgEdr_TngResource_Logout } from "../public/ApgEdr_TngResource_Logout.ts";
 import { ApgEdr_TngResource_Menu_Admin } from "../public/ApgEdr_TngResource_Menu_Admin.ts";
 import { ApgEdr_TngResource_Menu_Api_Test } from "../public/ApgEdr_TngResource_Menu_Api_Test.ts";
 import { ApgEdr_TngResource_Menu_Auth_Test } from "../public/ApgEdr_TngResource_Menu_Auth_Test.ts";
@@ -44,7 +45,6 @@ import { ApgEdr_TngResource_Menu_Dev_Tng } from "../public/ApgEdr_TngResource_Me
 import { ApgEdr_TngResource_Menu_User } from "../public/ApgEdr_TngResource_Menu_User.ts";
 import { ApgEdr_TngResource_RequestOtp } from "../public/ApgEdr_TngResource_RequestOtp.ts";
 import { ApgEdr_TngResource_Support } from "../public/ApgEdr_TngResource_Support.ts";
-import { ApgEdr_TngResource_Logout } from "../public/ApgEdr_TngResource_Logout.ts";
 import { ApgEdr_User_TngResource_AuthTest } from "../user/ApgEdr_User_TngResource_AuthTest.ts";
 
 

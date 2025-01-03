@@ -27,7 +27,7 @@ export * from "./enums/ApgEdr_Auth_eRole.ts"
 export * from "./enums/ApgEdr_eCookieId.ts"
 export * from "./enums/ApgEdr_eEnvEntry.ts"
 export * from "./enums/ApgEdr_RestRoute_eGetMode.ts"
-export * from "./enums/ApgEdr_Route_eShared.ts"
+export * from "./enums/ApgEdr_eRoute.ts"
 
 export * from "./data/ApgEdr_Data.ts"
 

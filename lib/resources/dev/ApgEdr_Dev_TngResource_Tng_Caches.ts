@@ -12,17 +12,17 @@
 
 import { Drash, Tng } from "../../deps.ts";
 import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Auth_Base } from "../ApgEdr_TngResource_Auth_Base.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 
 
 
 const NavBar = [
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_MENU_DEV_TENGINE],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_DEV],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_MENU_DEV_TENGINE],
 ]
 
 
@@ -44,7 +44,7 @@ export class ApgEdr_Dev_TngResource_Tng_Caches
     readonly QS_PARAM_CACHE = 'Cache';
     readonly QS_PARAM_CACHE_CLEAR = 'clear';
 
-    override paths = [ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES];
+    override paths = [ApgEdr_eRoute.DEV_PAGE_TNG_CACHES];
 
 
 
@@ -74,19 +74,19 @@ export class ApgEdr_Dev_TngResource_Tng_Caches
 
         const caches = Tng.ApgTng_Service.GetCaches();
         for (const chunk of caches.chunks) {
-            chunk.key = ApgEdr_Route_eShared.DEV_PAGE_TNG_CHUNK + "/" + encodeURIComponent(chunk.key);
+            chunk.key = ApgEdr_eRoute.DEV_PAGE_TNG_CHUNK + "/" + encodeURIComponent(chunk.key);
         }
         for (const func of caches.functions) {
-            func.key = ApgEdr_Route_eShared.DEV_PAGE_TNG_FUNCTION + "/" + encodeURIComponent(func.key);
+            func.key = ApgEdr_eRoute.DEV_PAGE_TNG_FUNCTION + "/" + encodeURIComponent(func.key);
         }
         for (const file of caches.files) {
-            file.key = ApgEdr_Route_eShared.DEV_PAGE_TNG_FILE + "/" + encodeURIComponent(file.key);
+            file.key = ApgEdr_eRoute.DEV_PAGE_TNG_FILE + "/" + encodeURIComponent(file.key);
         }
 
         templateData.page.data = {
             topMenu,
             caches,
-            clearBtn: ApgEdr_Route_eShared.DEV_PAGE_TNG_CACHES + "?" + this.QS_PARAM_CACHE + "=" + this.QS_PARAM_CACHE_CLEAR
+            clearBtn: ApgEdr_eRoute.DEV_PAGE_TNG_CACHES + "?" + this.QS_PARAM_CACHE + "=" + this.QS_PARAM_CACHE_CLEAR
         }
 
         const { html, events } = await ApgEdr_Service_Core.RenderPageUsingTng(templateData);

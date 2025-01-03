@@ -13,7 +13,7 @@ import { ApgEdr_Request } from "../classes/ApgEdr_Request.ts";
 import { Drash } from "../deps.ts";
 import { ApgEdr_Auth_eResult } from "../enums/ApgEdr_Auth_eResult.ts";
 import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
-import { ApgEdr_Route_eShared } from "../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_TngResource_Base } from "./ApgEdr_TngResource_Base.ts";
 
@@ -44,7 +44,7 @@ export abstract class ApgEdr_TngResource_Auth_Base
         const authResult = ApgEdr_Service_Core.VerifyProtectedPage(aedr, this.AUTH_ROLE);
 
         if (authResult == ApgEdr_Auth_eResult.UNKNOWN) {
-            this.logAndRedirect(aedr, amethodName, arequest.url, ApgEdr_Route_eShared.PAGE_REQ_OTP, aresponse);
+            this.logAndRedirect(aedr, amethodName, arequest.url, ApgEdr_eRoute.PAGE_REQ_OTP, aresponse);
             return false;
         }
         else if (authResult == ApgEdr_Auth_eResult.INSUFF) {
@@ -67,7 +67,7 @@ export abstract class ApgEdr_TngResource_Auth_Base
         aedr.message = {
             title: "Error",
             text: "Insufficient privileges",
-            next: ApgEdr_Route_eShared.PAGE_HOME
+            next: ApgEdr_eRoute.PAGE_HOME
         };
 
         // Log the error

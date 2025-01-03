@@ -15,7 +15,7 @@
 
 import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
 import { Drash, Uts } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Auth } from "../../services/ApgEdr_Service_Auth.ts";
 import { ApgEdr_Service_ResendMail } from "../../services/ApgEdr_Service_ResendMail.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
@@ -131,7 +131,7 @@ export class ApgEdr_TngResource_RequestOtp
     readonly BODY_PARAM_EMAIL = "email";
     readonly QS_PARAM_EMAIL = "email";
 
-    override paths = [ApgEdr_Route_eShared.PAGE_REQ_OTP];
+    override paths = [ApgEdr_eRoute.PAGE_REQ_OTP];
 
 
 
@@ -175,7 +175,7 @@ export class ApgEdr_TngResource_RequestOtp
         );
 
         templateData.page.data = {
-            action: ApgEdr_Route_eShared.PAGE_REQ_OTP
+            action: ApgEdr_eRoute.PAGE_REQ_OTP
         };
         templateData.page.translations = {
             [_eTranslation.GET_P1]: _Translator.get(_eTranslation.GET_P1, edr.language),
@@ -257,9 +257,9 @@ export class ApgEdr_TngResource_RequestOtp
 
         templateData.page.data = {
             email: rawEmail,
-            action: ApgEdr_Route_eShared.PAGE_LOGIN,
-            requestNewOtpLink: ApgEdr_Route_eShared.PAGE_REQ_OTP,
-            requestSupportLink: ApgEdr_Route_eShared.PAGE_REQ_SUPPORT
+            action: ApgEdr_eRoute.PAGE_LOGIN,
+            requestNewOtpLink: ApgEdr_eRoute.PAGE_REQ_OTP,
+            requestSupportLink: ApgEdr_eRoute.PAGE_REQ_SUPPORT
         };
 
         templateData.page.translations = {
@@ -287,7 +287,7 @@ export class ApgEdr_TngResource_RequestOtp
         aedr.message = {
             title: "Error",
             text: aerrorMessage,
-            next: ApgEdr_Route_eShared.PAGE_REQ_OTP
+            next: ApgEdr_eRoute.PAGE_REQ_OTP
         };
 
 

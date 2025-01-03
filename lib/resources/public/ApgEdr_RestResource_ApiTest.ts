@@ -8,7 +8,7 @@
  */
 
 import { Drash } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
 import { ApgEdr_RestResource_Base } from "../ApgEdr_RestResource_Base.ts";
 
@@ -35,7 +35,7 @@ export class ApgEdr_RestApiResource_Test
     extends ApgEdr_RestResource_Base {
 
 
-    public paths = [ApgEdr_Route_eShared.API_TEST];
+    public paths = [ApgEdr_eRoute.API_TEST];
 
 
     public GET(
@@ -116,7 +116,7 @@ export class ApgEdr_RestApiResource_Test
     routeHelp() {
         const r = super.routeHelp();
 
-        r.route = ApgEdr_Route_eShared.API_TEST;
+        r.route = ApgEdr_eRoute.API_TEST;
         r.description = [
             "Route to test the base class ApgEdr_Base_RestResource"
         ]

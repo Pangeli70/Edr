@@ -8,14 +8,14 @@
 
 
 import { Tng, Uts } from "../../deps.ts";
-import { ApgEdr_Route_eShared } from "../../enums/ApgEdr_Route_eShared.ts";
-import { ApgEdr_Shared_Links } from "../data/ApgEdr_Resources_Links.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
+import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 import { ApgEdr_TngResource_Menu_Base } from "../ApgEdr_TngResource_Menu_Base.ts";
 
 
 
 enum _etranslations {
-    PAGE_TITLE = "PAGE_TITLE",
+    PAGE_TITLE = "PAGE_TITLE_GET_1",
 }
 
 
@@ -31,15 +31,15 @@ const _Translator = new Uts.ApgUts_Translator(
 
 
 const ApgEdr_Menu_User = [
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_LANGUAGE],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_REQ_SUPPORT],
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_LOGOUT]
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_LANGUAGE],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_REQ_SUPPORT],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_LOGOUT]
 ]
 
 
 
 const NavBar = [
-    ApgEdr_Shared_Links[ApgEdr_Route_eShared.PAGE_HOME],
+    ApgEdr_Resources_Links[ApgEdr_eRoute.PAGE_HOME],
 ]
 
 
@@ -55,7 +55,7 @@ export class ApgEdr_TngResource_Menu_User
     override readonly MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_User;
     override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = NavBar;
 
-    override paths = [ApgEdr_Route_eShared.PAGE_MENU_USER];
+    override paths = [ApgEdr_eRoute.PAGE_MENU_USER];
 
 
     override getPageTitle(alang: Uts.ApgUts_TLanguage) {
