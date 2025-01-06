@@ -57,6 +57,8 @@ export class ApgEdr_TngResource_Home
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Home.name;
     override readonly TITLE = "Main menu";
 
+    override readonly AUTH_ROLE = Edr.ApgEdr_Auth_eRole.ANONYMOUS;
+
     override readonly MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_Main;
     override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = [];
     

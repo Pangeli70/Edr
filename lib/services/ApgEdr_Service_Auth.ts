@@ -120,9 +120,11 @@ export class ApgEdr_Service_Auth
     }
 
 
+
     static GenerateOTP() {
         return Math.floor(100000 + Math.random() * 900000);
     }
+
 
 
     static VerifyOtp(
@@ -331,7 +333,6 @@ export class ApgEdr_Service_Auth
 
     /**
      * Type guard
-     * @param apayload  
     */
     // deno-lint-ignore no-explicit-any
     static IsJwtPayload(apayload: any): apayload is ApgEdr_Auth_IJwtPayload {

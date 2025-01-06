@@ -11,6 +11,7 @@ import { Tng } from "../../deps.ts";
 import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
 import { ApgEdr_Resources_Links } from "../data/ApgEdr_Resources_Links.ts";
 import { ApgEdr_TngResource_Menu_Base } from "../ApgEdr_TngResource_Menu_Base.ts";
+import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 
 
 
@@ -35,6 +36,8 @@ export class ApgEdr_TngResource_Menu_Admin
     override readonly TITLE = "Administrator features";
     override readonly MENU: Tng.ApgTng_IHyperlink[] = ApgEdr_Menu_Admin;
     override readonly TOP_MENU: Tng.ApgTng_IHyperlink[] = NavBar;
+
+    override readonly AUTH_ROLE = ApgEdr_Auth_eRole.ADMIN;
 
     override paths = [ApgEdr_eRoute.PAGE_MENU_ADMIN];
 

@@ -8,15 +8,14 @@
 
 
 import { Drash, Tng, Uts } from "../deps.ts";
-import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_Service_Core } from "../services/ApgEdr_Service_Core.ts";
-import { ApgEdr_TngResource_Base } from "./ApgEdr_TngResource_Base.ts";
+import { ApgEdr_TngResource_Auth_Base } from "./ApgEdr_TngResource_Auth_Base.ts";
 
 
 
 export abstract class ApgEdr_TngResource_Menu_Base
 
-    extends ApgEdr_TngResource_Base {
+    extends ApgEdr_TngResource_Auth_Base {
 
 
     override readonly RESOURCE_NAME = ApgEdr_TngResource_Menu_Base.name;
@@ -47,6 +46,7 @@ export abstract class ApgEdr_TngResource_Menu_Base
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+        if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
         const title = this.getPageTitle(edr.language);
 
@@ -57,13 +57,10 @@ export abstract class ApgEdr_TngResource_Menu_Base
             this.ARE_TEMPLATES_FROM_CDN
         );
 
-        const isLoggedIn = templateData.user.role != ApgEdr_Auth_eRole.ANONYMOUS;
-
-        const menuFiltered = ApgEdr_Service_Core.FilterLinksByLogin(this.MENU, isLoggedIn);
+        const menuFiltered = ApgEdr_Service_Core.FilterLinksByRole(edr, this.MENU);
         const menu = this.getTranslatedLinks(menuFiltered, edr.language);
 
-        const topMenuFiltered = ApgEdr_Service_Core.FilterLinksByLogin(this.TOP_MENU, isLoggedIn);
-        const topMenu = this.getTranslatedLinks(topMenuFiltered, edr.language);
+        const topMenu = this.getTranslatedLinks(this.TOP_MENU, edr.language);
 
         templateData.page.data = {
             menu,

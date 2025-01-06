@@ -24,7 +24,7 @@ import { ApgEdr_TngResource_Base } from "./ApgEdr_TngResource_Base.ts";
  * to access the resource.
  */
 export abstract class ApgEdr_TngResource_Auth_Base
-    
+
     extends ApgEdr_TngResource_Base {
 
 
@@ -43,15 +43,21 @@ export abstract class ApgEdr_TngResource_Auth_Base
     ) {
         const authResult = ApgEdr_Service_Core.VerifyProtectedPage(aedr, this.AUTH_ROLE);
 
+        if (authResult == ApgEdr_Auth_eResult.OK) {
+            return true;
+        }
+
         if (authResult == ApgEdr_Auth_eResult.UNKNOWN) {
             this.logAndRedirect(aedr, amethodName, arequest.url, ApgEdr_eRoute.PAGE_REQ_OTP, aresponse);
             return false;
         }
-        else if (authResult == ApgEdr_Auth_eResult.INSUFF) {
+
+        if (authResult == ApgEdr_Auth_eResult.INSUFF) {
 
             this.#handleInsuffPrivilegesError(aedr, amethodName, arequest, aresponse,);
             return false;
         }
+
         return true;
     }
 

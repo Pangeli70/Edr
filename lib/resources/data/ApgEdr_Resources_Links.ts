@@ -6,7 +6,9 @@
 */
 
 import { Tng } from "../../deps.ts";
+import { ApgEdr_Auth_eRole } from "../../enums/ApgEdr_Auth_eRole.ts";
 import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
+
 
 
 
@@ -89,7 +91,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Impostazioni per l'amministratore",
             EN: "Adminstrator's options"
         },
-        isReserved: false
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.ADMIN
     },
 
     [ApgEdr_eRoute.PAGE_MENU_DEV]: {
@@ -102,7 +105,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Gestione attività di sviluppo",
             EN: "Development activities management"
         },
-        isReserved: false
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
     [ApgEdr_eRoute.PAGE_MENU_DEV_TENGINE]: {
@@ -115,7 +119,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Template engine per i microservizi Apg",
             EN: "Template engine for Apg microservices"
         },
-        isReserved: false
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
 
@@ -156,7 +161,7 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Descrizione e spiegazione delle funzionalità del sito o del microservizio",
             EN: "Description and explanation of the functionality of the site or the microservice"
         },
-        isReserved: true
+        isReserved: false
     },
 
 
@@ -185,7 +190,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Ritorna allo stato di utente anonimo e rinuncia all'accesso alle pagine riservate del servizio",
             EN: "Return to the status of anonymus user and give up the access to the reserved pages of the service"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.GUEST
     },
 
 
@@ -254,7 +260,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Elenco delle chiamate ricevute dal riavvio del servizio",
             EN: "List of the calls received since the service restart"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
     [ApgEdr_eRoute.DEV_PAGE_ERRORS]: {
@@ -267,7 +274,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Elenco degli errori riscontrati dal riavvio del servizio",
             EN: "List of the errors encountered from the service restart"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
     [ApgEdr_eRoute.DEV_PAGE_TELEMETRY]: {
@@ -280,7 +288,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Analizza il database di telemetria",
             EN: "Analyze the telemetry database"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
     [ApgEdr_eRoute.DEV_PAGE_TELEMETRY_PURGE]: {
@@ -293,7 +302,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Svuota il database di telemetria",
             EN: "Purges the telemetry database"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
 
@@ -308,7 +318,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Modelli di pagine disponibili per il template engine",
             EN: "Available page templates for the template engine"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
     [ApgEdr_eRoute.DEV_PAGE_TNG_CACHES]:
@@ -322,7 +333,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Dettagli della cache utilizzata dal template engine",
             EN: "Details of the cache used by the template engine"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
 
@@ -337,7 +349,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Lista degli utenti registrati per l'uso del servizion",
             EN: "List of the registered users for the use of the service"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.ADMIN
     },
 
 
@@ -352,7 +365,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Impostazioni dell'ambiente",
             EN: "Environment settings"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
     [ApgEdr_eRoute.DEV_PAGE_STATUS]: {
@@ -365,7 +379,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Stato di funzionamento dei servizi",
             EN: "Operational status if the servicess"
         },
-        isReserved: true
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
 
@@ -394,7 +409,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Strumenti di sviluppo per i microservizi Apg",
             EN: "Development tools for Apg microservices"
         },
-        isReserved: false
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
 
@@ -408,7 +424,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Risorse per le spec e gli unit test",
             EN: "Spec and unit test resources"
         },
-        isReserved: false
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
     [ApgEdr_eRoute.DEV_PAGE_TST_SUITE]: {
@@ -421,7 +438,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Esecuzione interattiva della spec",
             EN: "Interactive execution of the spec"
         },
-        isReserved: false
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
 
@@ -435,7 +453,8 @@ export const ApgEdr_Resources_Links: Record<string, Tng.ApgTng_IHyperlink> = {
             IT: "Elencate per dominio del microservizio",
             EN: "Listed by the domain of the microservice"
         },
-        isReserved: false
+        isReserved: true,
+        role: ApgEdr_Auth_eRole.DEV
     },
 
 }

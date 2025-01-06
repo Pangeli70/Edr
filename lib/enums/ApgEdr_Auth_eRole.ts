@@ -13,17 +13,17 @@
  */
 export enum ApgEdr_Auth_eRole {
 
+    /** Developer */
+    DEV = "Dev",
+
     /** Administrator */
     ADMIN = "Admin",
 
-    /** Registerd user */
+    /** Registered user */
     USER = "User",
 
     /** Guest */
     GUEST = "Guest",
-
-    /** Developer */
-    DEV = "Dev",
 
     /** Unknown anonymous */
     ANONYMOUS = "Anonymous",

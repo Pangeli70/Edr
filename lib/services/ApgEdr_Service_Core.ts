@@ -294,52 +294,77 @@ export class ApgEdr_Service_Core
 
     static VerifyProtectedPage(
         aedr: ApgEdr_IRequest,
-        arole: ApgEdr_Auth_eRole
+        aminRole: ApgEdr_Auth_eRole
     ) {
 
-        let r = ApgEdr_Auth_eResult.UNKNOWN;
-
-        if (aedr.auth) {
-            if (aedr.auth.role === arole) {
-                r = ApgEdr_Auth_eResult.OK;
-            } else if (aedr.auth.role === ApgEdr_Auth_eRole.ADMIN) {
-                r = ApgEdr_Auth_eResult.OK;
-            } else if (
-                (aedr.auth.role === ApgEdr_Auth_eRole.USER) &&
-                (arole === ApgEdr_Auth_eRole.GUEST)
-            ) {
-                r = ApgEdr_Auth_eResult.OK;
-            }
-            else {
-                r = ApgEdr_Auth_eResult.INSUFF;
-            }
+        if (aminRole === ApgEdr_Auth_eRole.ANONYMOUS) {
+            return ApgEdr_Auth_eResult.OK;
         }
 
-        return r;
+        if (aedr.auth) {
+
+            if (aedr.auth.role === aminRole) {
+                return ApgEdr_Auth_eResult.OK;
+            }
+
+            if (aedr.auth.role === ApgEdr_Auth_eRole.ADMIN) {
+                return ApgEdr_Auth_eResult.OK;
+            }
+
+            if (
+                (aedr.auth.role === ApgEdr_Auth_eRole.DEV) &&
+                (aminRole === ApgEdr_Auth_eRole.USER || aminRole === ApgEdr_Auth_eRole.GUEST)
+            ) {
+                return ApgEdr_Auth_eResult.OK;
+            }
+
+            if (
+                (aedr.auth.role === ApgEdr_Auth_eRole.USER) &&
+                (aminRole === ApgEdr_Auth_eRole.GUEST)
+            ) {
+                return ApgEdr_Auth_eResult.OK;
+            }
+
+            return ApgEdr_Auth_eResult.INSUFF;
+
+        }
+
+        return ApgEdr_Auth_eResult.UNKNOWN;
     }
 
 
 
-    static FilterLinksByLogin(
-        alinks: Tng.ApgTng_IHyperlink[],
-        isLoggedIn: boolean
+    static FilterLinksByRole(
+        aedr: ApgEdr_IRequest,
+        alinks: Tng.ApgTng_IHyperlink[]
     ) {
+
+        const METHOD = this.Method(this.FilterLinksByRole);
+
         if (!alinks || alinks.length == 0) {
             return [];
         }
 
         let i = 0;
-        return alinks.filter(a => {
+        return alinks.filter(link => {
 
-            Uts.ApgUts.PanicIf(!a, this.FilterLinksByLogin.name + ': Undefined item [' + i.toString() + '] in links array');
+            Uts.ApgUts.PanicIf(!link, METHOD + 'Undefined item [' + i.toString() + '] in links array');
 
             let r = true;
-            if (a.isReserved) {
-                r = isLoggedIn;
+            if (link.isReserved) {
+                if (link.role != undefined) {
+                    const result = this.VerifyProtectedPage(aedr, link.role as ApgEdr_Auth_eRole);
+                    r = (result === ApgEdr_Auth_eResult.OK);
+                }
+                else {
+                    Uts.ApgUts.PanicIf(true, METHOD + 'Link is reserved but role is undefined');
+                }
             }
             else {
-                if (a.isAnonymousOnly) {
-                    r = !isLoggedIn;
+                if (link.isAnonymousOnly) {
+                    if (aedr.auth) {
+                        r = aedr.auth.role === ApgEdr_Auth_eRole.ANONYMOUS;
+                    }
                 }
             }
             i++;
