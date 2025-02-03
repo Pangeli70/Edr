@@ -6,24 +6,24 @@
  */
 
 
-import {Drash} from "../deps.ts";
+import { Drash } from "../deps.ts";
 
 
 export class ApgEdr_Err_Service extends Drash.ErrorHandler {
 
-    public catch(
+    override catch(
         error: Error,
         request: Request,
         response: Drash.Response,
-        
+
     ): void {
 
 
         // Any error that should return a stack trace is handled here. Since
         // Drash's default error handler returns a stack trace, just use its
         // implementation.
-        if (error instanceof SomeErrorThatShouldReturnStackTraces) {
-            return super.catch(error, request, response);
+        if (error instanceof Error) {
+            return super.catch(error, request, response, {});
         }
 
         // Handle all other errors and return a JSON response -- not a stack

@@ -11,6 +11,7 @@ import { Uts } from "../deps.ts";
 import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
 
 
+
 /**
  * Service for logging requests on the Edr Microservice
  */
@@ -19,7 +20,7 @@ export class ApgEdr_Service_Requests
     extends Uts.ApgUts_Service {
 
     
-    protected static InitServiceName() {
+    protected static override InitServiceName() {
         return ApgEdr_Service_Requests.name;
     }
 

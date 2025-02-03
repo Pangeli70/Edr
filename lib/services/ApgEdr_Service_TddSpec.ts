@@ -19,7 +19,7 @@ export class ApgEdr_Service_TddSpec
     extends Uts.ApgUts_Service {
 
 
-    protected static InitServiceName(): string {
+    protected static override InitServiceName(): string {
         return ApgEdr_Service_TddSpec.name;
     }
 
@@ -111,7 +111,7 @@ export class ApgEdr_Service_TddSpec
         for (const result of results) {
             r.push(result.execution);
         }
-        return results.sort( (a,b)=> b.execution.valueOf() - a.execution.valueOf());
+        return results.sort((a, b) => b.execution.valueOf() - a.execution.valueOf());
     }
 
 
@@ -167,7 +167,7 @@ export class ApgEdr_Service_TddSpec
         return r;
     }
 
-    
+
 
     static Flags(
         asuite: string

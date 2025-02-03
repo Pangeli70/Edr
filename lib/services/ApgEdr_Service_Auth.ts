@@ -8,6 +8,7 @@
  * ----------------------------------------------------------------------------
  */
 
+
 import { Djwt, Uts } from "../deps.ts";
 import { ApgEdr_Auth_eCookie } from "../enums/ApgEdr_Auth_eCookie.ts";
 import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
@@ -65,13 +66,13 @@ const _Translator = new Uts.ApgUts_Translator(
  * Authentication and Authorization service
  */
 export class ApgEdr_Service_Auth
-    
+
     extends Uts.ApgUts_Service {
-    
+
 
     protected _events: Uts.ApgUts_ILoggableEvent[] = [];
 
-    protected static InitServiceName() {
+    protected static override InitServiceName() {
         return ApgEdr_Service_Auth.name;
     }
 
@@ -314,9 +315,9 @@ export class ApgEdr_Service_Auth
             r.setPayload(payload);
 
         }
-        catch (_e) {
+        catch (e) {
 
-            return this.Error(r, METHOD, 'Contact support, invalid JWT: ' + _e.message);
+            return this.Error(r, METHOD, 'Contact support, invalid JWT: ' + (<Error>e).message);
 
         }
 

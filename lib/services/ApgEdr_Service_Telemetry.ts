@@ -17,11 +17,11 @@ import { ApgEdr_IRequest } from "../interfaces/ApgEdr_IRequest.ts";
  * Telemetry collections service
  */
 export class ApgEdr_Service_Telemetry
-    
+
     extends Uts.ApgUts_Service {
 
-    
-    protected static InitServiceName(): string {
+
+    protected static override InitServiceName(): string {
         return ApgEdr_Service_Telemetry.name;
     }
 
@@ -73,7 +73,7 @@ export class ApgEdr_Service_Telemetry
             return;
         }
 
-        Uts.ApgUts.PanicIf(!r.ok,r.joinMessages('\n'));
+        Uts.ApgUts.PanicIf(!r.ok, r.joinMessages('\n'));
     }
 
 
@@ -118,7 +118,7 @@ export class ApgEdr_Service_Telemetry
             this.#buffer = [];
         }
         catch (e) {
-            return this.Error(r, METHOD, e.message);
+            return this.Error(r, METHOD, (<Error>e).message);
         }
 
         this.LogInfo(this.Send.name, `Called for request [${aedr.counter}]`);
@@ -151,7 +151,7 @@ export class ApgEdr_Service_Telemetry
         }
 
         this.LogInfo(this.Purge.name, `Called`);
-        
+
         return r;
     }
 }

@@ -31,7 +31,7 @@ export class ApgEdr_Service_Core
     extends Uts.ApgUts_Service {
 
 
-    protected static InitServiceName() {
+    protected static override InitServiceName() {
         return ApgEdr_Service_Core.name;
     }
 

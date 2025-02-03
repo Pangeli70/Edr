@@ -7,9 +7,9 @@
  * ----------------------------------------------------------------------------
  */
 
-import {ApgEdr_Auth_eRole} from "../enums/ApgEdr_Auth_eRole.ts";
-import {ApgEdr_Auth_IProfile} from "../interfaces/ApgEdr_Auth_IProfile.ts";
-import {ApgEdr_Auth_IUser} from "../interfaces/ApgEdr_Auth_IUser.ts";
+import { ApgEdr_Auth_eRole } from "../enums/ApgEdr_Auth_eRole.ts";
+import { ApgEdr_Auth_IProfile } from "../interfaces/ApgEdr_Auth_IProfile.ts";
+import { ApgEdr_Auth_IUser } from "../interfaces/ApgEdr_Auth_IUser.ts";
 
 
 /**
