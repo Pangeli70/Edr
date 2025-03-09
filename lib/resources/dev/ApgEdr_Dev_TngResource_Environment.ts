@@ -69,7 +69,7 @@ export class ApgEdr_Dev_TngResource_Environment
         templateData.page.data = {
             topMenu,
             action: ApgEdr_eRoute.DEV_PAGE_ENVIRONMENT,
-            useCdn: ApgEdr_Service_Core.UseCdn ? "checked" : "",
+            useCdn: ApgEdr_Service_Core.UseCdnHost ? "checked" : "",
             useTngCache: Tng.ApgTng_Service.UseCache ? "checked" : "",
         }
         templateData.page.components = {
@@ -125,7 +125,7 @@ export class ApgEdr_Dev_TngResource_Environment
                 break;
         }
 
-        ApgEdr_Service_Core.UseCdn = rawUseCdn === "on";
+        ApgEdr_Service_Core.UseCdnHost = rawUseCdn === "on";
         Tng.ApgTng_Service.UseCache = rawUseTngCache === "on";
 
         this.redirect(ApgEdr_eRoute.PAGE_MENU_DEV, response);

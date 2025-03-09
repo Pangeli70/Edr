@@ -87,7 +87,12 @@ export class ApgEdr_Service_Core
     /**
      * Default Tng Master
      */
-    static DefaultMaster = "/master/ApgEdr_MasterPage_Application_V01.html";
+    static DefaultTngMaster = "/master/ApgEdr_MasterPage_Application_V01.html";
+
+    /**
+     * Default value master page template coming from cdn
+     */
+    static DefaultIsCdnMaster = true;
 
     /**
      * Default custom Css 
@@ -119,19 +124,27 @@ export class ApgEdr_Service_Core
 
 
     /**
-     * Use the Cdn set in CdnHost property for assets and templates
+     * Use the CdnHost as root path for resources like templates and assets
      * 
      * If false the Edr module is self hosted so it will not consider the remote templates path.
      * The default is true because usually the module is not self hosted due to
      * the fact that we import Edr in other microservices and we want to use remote
      * assets and templates served by a CDN
     */
-    static UseCdn = true;
+    static UseCdnHost = true;
 
 
 
     static GetAssetsHost() {
-        return this.UseCdn ? this.CdnHost : "";
+        return this.UseCdnHost ? this.CdnHost : "";
+    }
+
+    static GetMasterHost() {
+        return this.UseCdnHost ? this.CdnHost : "";
+    }
+
+    static GetTemplatesHost() {
+        return this.UseCdnHost ? this.CdnHost : "";
     }
 
 
@@ -235,7 +248,9 @@ export class ApgEdr_Service_Core
         edr: ApgEdr_IRequest,
         atitle: string,
         atemplate: string,
-        aisCdnTemplate: boolean
+        aisCdnTemplate: boolean,
+        amaster = "",
+        aisCdnMaster = true
     ): Tng.ApgTng_IPageData {
 
         return {
@@ -243,18 +258,31 @@ export class ApgEdr_Service_Core
             microservice: this.Microservice,
 
             page: {
+
                 assetsHost: this.GetAssetsHost(),
-                master: this.DefaultMaster,
+
+                masterHost: aisCdnMaster ? this.CdnHost: "",
+                masterPath: aisCdnMaster ? this.CdnTemplatesPath : this.LocalTemplatesPath,
+                master: amaster == "" ? this.DefaultTngMaster: amaster,
+                isCdnMaster: aisCdnMaster,
+
+                templateHost: aisCdnTemplate ? this.CdnHost : "",
+                templatePath: aisCdnTemplate ? this.CdnTemplatesPath : this.LocalTemplatesPath,
+                template: atemplate,
+                isCdnTemplate: aisCdnTemplate,
+
+                title: atitle,
+                lang: edr.language,
+
                 customCss: this.DefaultCustomCss,
                 favicon: this.DefaultFavicon,
                 logoJs: this.DefaultLogoJs,
-                template: atemplate,
-                isCdnTemplate: aisCdnTemplate,
-                title: atitle,
-                lang: edr.language,
-                rendered: new Date().toLocaleString(),
+
                 data: {},
-                translations: {}
+                translations: {},
+
+                rendered: new Date().toLocaleString(),
+
             },
 
             user: this.GetUserData(edr),
@@ -278,17 +306,14 @@ export class ApgEdr_Service_Core
         apageData: Tng.ApgTng_IPageData
     ) {
 
-        if (this.UseCdn) {
-            const cdnPath = `${this.CdnHost}${this.CdnTemplatesPath}`;
-            apageData.page.master = `${cdnPath}${apageData.page.master}`
-            if (apageData.page.isCdnTemplate) {
-                apageData.page.template = `${cdnPath}${apageData.page.template}`
-            }
-        }
-
         return await Tng.ApgTng_Service.Render(apageData);
 
     }
+
+
+
+
+
 
 
 

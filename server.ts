@@ -64,7 +64,7 @@ Edr.ApgEdr_Request.LogDebug = false;
 // Setup edr
 Edr.ApgEdr_Service_Core.Microservice = ApgEdr_Microservice;
 Edr.ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge = 10 * 60; // 10 minutes
-Edr.ApgEdr_Service_Core.UseCdn = true;
+Edr.ApgEdr_Service_Core.UseCdnHost = true;
 
 
 // Setup env customization
@@ -87,7 +87,7 @@ Edr.ApgEdr_Service_DevStories.Setup(Edr.ApgEdr_Microservice_Name);
 
 // Setup Tng
 Tng.ApgTng_Service.LogInfoEvents = true;
-Tng.ApgTng_Service.TemplatesPath = "./srv/templates";
+Tng.ApgTng_Service.LocalTemplatesPath = "./srv/templates";
 Tng.ApgTng_Service.UseCache = true;
 Tng.ApgTng_Service.ChunkSize = 100;
 

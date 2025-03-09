@@ -12,10 +12,10 @@
 /* Local >>
 export * from "../../Uts/mod.ts";
 export * from "../../Tng/mod.ts";
-export * from "../../Mng/mod.ts";
 export * from "../../Spc/mod.ts";
-export * as MngSpecs from "../../Mng/specs.ts";
 export * as SpcSpecs from "../../Spc/specs.ts";
+export * from "../../Mng/mod.ts";
+export * as MngSpecs from "../../Mng/specs.ts";
 Local << */
 
 
