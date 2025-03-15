@@ -44,7 +44,7 @@ export class ApgEdr_TngResource_About
 
     protected override async getHtml(alanguage: Uts.ApgUts_TLanguage) {
 
-        const root = Tng.ApgTng_Service.TemplatesPath;
+        const root = Tng.ApgTng_Service.LocalTemplatesPath;
 
         const path = root + "/partials/ApgEdr_TngPartial_About_" + alanguage + ".html"
 
