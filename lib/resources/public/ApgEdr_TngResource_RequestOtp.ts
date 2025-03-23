@@ -167,12 +167,9 @@ export class ApgEdr_TngResource_RequestOtp
         pageTitle: string
     ) {
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            pageTitle,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        );
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
+
+        templateData.page.title = pageTitle;
 
         templateData.page.data = {
             action: ApgEdr_eRoute.PAGE_REQ_OTP
@@ -246,14 +243,15 @@ export class ApgEdr_TngResource_RequestOtp
 
 
 
-    #getTemplateDataForPost(edr: ApgEdr_Request, pageTitle: string, rawEmail: string) {
+    #getTemplateDataForPost(
+        edr: ApgEdr_Request,
+        apageTitle: string,
+        rawEmail: string
+    ) {
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            pageTitle,
-            this.TNG_TEMPLATES.POST,
-            this.ARE_TEMPLATES_FROM_CDN
-        );
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'POST');
+
+        templateData.page.title = apageTitle;
 
         templateData.page.data = {
             email: rawEmail,

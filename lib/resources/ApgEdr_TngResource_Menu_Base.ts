@@ -48,14 +48,11 @@ export abstract class ApgEdr_TngResource_Menu_Base
         const edr = ApgEdr_Service_Core.GetEdr(request);
         if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
+        
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
+        
         const title = this.getPageTitle(edr.language);
-
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            title,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        );
+        templateData.page.title = title;
 
         const menuFiltered = ApgEdr_Service_Core.FilterLinksByRole(edr, this.MENU);
         const menu = this.getTranslatedLinks(menuFiltered, edr.language);

@@ -14,6 +14,7 @@
  */
 
 
+import { Edr } from "../../mod.ts";
 import { ApgEdr_Request } from "../classes/ApgEdr_Request.ts";
 import { Drash, Tng, Uts } from "../deps.ts";
 import { ApgEdr_Auth_eResult } from "../enums/ApgEdr_Auth_eResult.ts";
@@ -244,14 +245,19 @@ export class ApgEdr_Service_Core
     /**
      * Get the template data used by the Tng module
      */
-    static GetTemplateData(
+    static GetTngData(
         edr: ApgEdr_IRequest,
-        atitle: string,
-        atemplate: string,
-        aisCdnTemplate: boolean,
-        amaster = "",
-        aisCdnMaster = true
+        aresource: Edr.ApgEdr_TngResource_Base,
+        atemplate: "GET" | "POST"
     ): Tng.ApgTng_IPageData {
+
+        const amaster = (aresource.TNG_MASTER == "") ? this.DefaultTngMaster : aresource.TNG_MASTER;
+        const aisCdnMaster = aresource.IS_MASTER_FROM_CDN;
+
+        const template = aresource.TNG_TEMPLATES[atemplate];
+        Uts.ApgUts.PanicIf(!template, 'The template file for the [' + atemplate + '] route is not defined for resource [' + aresource.RESOURCE_NAME + ']');
+
+        const aisCdnTemplate = aresource.ARE_TEMPLATES_FROM_CDN;
 
         return {
 
@@ -261,17 +267,17 @@ export class ApgEdr_Service_Core
 
                 assetsHost: this.GetAssetsHost(),
 
-                masterHost: aisCdnMaster ? this.CdnHost: "",
+                masterHost: aisCdnMaster ? this.CdnHost : "",
                 masterPath: aisCdnMaster ? this.CdnTemplatesPath : this.LocalTemplatesPath,
-                master: amaster == "" ? this.DefaultTngMaster: amaster,
+                master: amaster,
                 isCdnMaster: aisCdnMaster,
 
                 templateHost: aisCdnTemplate ? this.CdnHost : "",
                 templatePath: aisCdnTemplate ? this.CdnTemplatesPath : this.LocalTemplatesPath,
-                template: atemplate,
+                template: template!,
                 isCdnTemplate: aisCdnTemplate,
 
-                title: atitle,
+                title: aresource.TITLE,
                 lang: edr.language,
 
                 customCss: this.DefaultCustomCss,

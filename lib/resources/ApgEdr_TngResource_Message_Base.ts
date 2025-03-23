@@ -78,15 +78,10 @@ export abstract class ApgEdr_TngResource_Message_Base
 
     async #getTemplateData(aedr: ApgEdr_IRequest) {
 
-
+        const r = ApgEdr_Service_Core.GetTngData(aedr, this, 'GET');
+        
         const pageTitle = this.getPageTitle(aedr.language);
-
-        const r = ApgEdr_Service_Core.GetTemplateData(
-            aedr,
-            pageTitle,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        );
+        r.page.title = pageTitle;
 
         r.page.data = {
             message: this.getMessage(aedr.language),

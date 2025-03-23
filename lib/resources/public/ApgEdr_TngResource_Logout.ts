@@ -60,14 +60,11 @@ export class ApgEdr_TngResource_Logout
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
-        const pageTitle = _Translator.get(_eTranslation.PAGE_TITLE, edr.language);
+        
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            pageTitle,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const pageTitle = _Translator.get(_eTranslation.PAGE_TITLE, edr.language);
+        templateData.page.title = pageTitle;
 
         templateData.page.data = {
             message: _Translator.get(_eTranslation.GET_Message, edr.language),

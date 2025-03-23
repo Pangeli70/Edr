@@ -98,14 +98,10 @@ export class ApgEdr_TngResource_Language
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
-        const pageTitle = _Translator.get(_etranslations.GET_PageTitle, edr.language);
+        
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            pageTitle,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        templateData.page.title = _Translator.get(_etranslations.GET_PageTitle, edr.language);;
 
         templateData.page.data = {
             action: ApgEdr_eRoute.PAGE_LANGUAGE,
@@ -142,14 +138,11 @@ export class ApgEdr_TngResource_Language
         response.setCookie(cookie);
         
         edr.language = rawLang as Uts.ApgUts_TLanguage;
-        const pageTitle = _Translator.get(_etranslations.POST_PageTitle, edr.language);
         
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            pageTitle,
-            this.TNG_TEMPLATES.POST,
-            true
-        )
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'POST');
+        
+        const pageTitle = _Translator.get(_etranslations.POST_PageTitle, edr.language);
+        templateData.page.title = pageTitle;
 
         const translations = _Translator.getAll(edr.language);
         const message = translations[_etranslations.POST_Message] + "" + translations[_etranslations.GET_Language_Options]

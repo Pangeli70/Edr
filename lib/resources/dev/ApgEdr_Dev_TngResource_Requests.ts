@@ -84,12 +84,7 @@ export class ApgEdr_Dev_TngResource_Requests
         filteredRequests
             .sort((a, b) => a.counter - b.counter);
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            this.TITLE,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
 
         const topMenu = this.getTranslatedLinks(NavBar, edr.language);
 

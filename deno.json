@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "strict": true
+    "noImplicitOverride": true
   },
   "tasks": {
-    "run": "deno run -A --unstable --env --watch server.ts",
-    "cacheSrv": "deno cache --reload --unstable --lock-write ./srv/deps.ts",
-    "cacheLib": "deno cache --reload --unstable --lock-write ./lib/deps.ts"
+    "run": "deno run -A --env --watch server.ts",
+    "cacheLib": "deno cache --reload --lock ./lib/deps.ts",
+    "cacheSrv": "deno cache --reload --lock ./srv/deps.ts"
   }
 }

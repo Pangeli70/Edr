@@ -63,12 +63,7 @@ export class ApgEdr_Dev_TngResource_Story
 
         const activities = r1.payload!;
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            this.TITLE,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
 
         templateData.page.data = {
             url: ApgEdr_eRoute.DEV_PAGE_STORY,

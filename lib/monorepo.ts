@@ -8,18 +8,18 @@
 
 // Local monorepo
 
-/* Local >>
+// Local >>>
 export * from "../../Uts/mod.ts";
 export * from "../../Spc/mod.ts";
 export * from "../../Mng/mod.ts";
 export * from "../../Tng/mod.ts";
-Local << */
+// Local <<<
 
 // Github repos
 
-// Github >>>
+/* Github >>
 export * from "https://raw.githubusercontent.com/Pangeli70/Uts/master/mod.ts";
 export * from "https://raw.githubusercontent.com/Pangeli70/Spc/master/mod.ts";
 export * from "https://raw.githubusercontent.com/Pangeli70/Mng/master/mod.ts";
 export * from "https://raw.githubusercontent.com/Pangeli70/Tng/master/mod.ts";
-// Github <<<
+Github << */

@@ -55,15 +55,12 @@ export class ApgEdr_Dev_TngResource_Environment
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+
         if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            this.TITLE,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
 
+        
         const topMenu = this.getTranslatedLinks(NavBar, edr.language);
 
         templateData.page.data = {

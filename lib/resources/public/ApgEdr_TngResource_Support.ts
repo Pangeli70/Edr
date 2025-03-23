@@ -7,12 +7,12 @@
  */
 
 
-import {ApgEdr_Request} from "../../classes/ApgEdr_Request.ts";
-import {Drash, Uts} from "../../deps.ts";
-import {ApgEdr_eRoute} from "../../enums/ApgEdr_eRoute.ts";
-import {ApgEdr_Service_ResendMail} from "../../services/ApgEdr_Service_ResendMail.ts";
-import {ApgEdr_Service_Core} from "../../services/ApgEdr_Service_Core.ts";
-import {ApgEdr_TngResource_Base} from "../ApgEdr_TngResource_Base.ts";
+import { ApgEdr_Request } from "../../classes/ApgEdr_Request.ts";
+import { Drash, Uts } from "../../deps.ts";
+import { ApgEdr_eRoute } from "../../enums/ApgEdr_eRoute.ts";
+import { ApgEdr_Service_Core } from "../../services/ApgEdr_Service_Core.ts";
+import { ApgEdr_Service_ResendMail } from "../../services/ApgEdr_Service_ResendMail.ts";
+import { ApgEdr_TngResource_Base } from "../ApgEdr_TngResource_Base.ts";
 import { ApgEdr_TngResource_Message_Base } from "../ApgEdr_TngResource_Message_Base.ts";
 
 
@@ -114,14 +114,12 @@ export class ApgEdr_TngResource_Support
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+        
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
+        
         const pageTitle = _Translator.get(_eTranslations.PAGE_TITLE, edr.language);
+        templateData.page.title = pageTitle;
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            pageTitle,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
 
         templateData.page.data = {
             action: ApgEdr_eRoute.PAGE_REQ_SUPPORT
@@ -142,7 +140,7 @@ export class ApgEdr_TngResource_Support
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
-        const pageTitle = _Translator.get(_eTranslations.PAGE_TITLE, edr.language);
+
 
         const rawEmail = await request.bodyParam(this.BODY_PARAM_EMAIL) as string;
         const emailOk = Uts.ApgUts_Is.IsEmailAddress(rawEmail);
@@ -180,12 +178,9 @@ export class ApgEdr_TngResource_Support
         }
 
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            pageTitle,
-            this.TNG_TEMPLATES.POST,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'POST');
+        const pageTitle = _Translator.get(_eTranslations.PAGE_TITLE, edr.language);
+        templateData.page.title = pageTitle;
 
         templateData.page.data = {
             okLink: ApgEdr_eRoute.PAGE_MENU_USER,

@@ -35,6 +35,9 @@ export abstract class ApgEdr_TngResource_Base
     };
     abstract readonly ARE_TEMPLATES_FROM_CDN: boolean;
 
+    TNG_MASTER = "";
+    IS_MASTER_FROM_CDN = true;
+
 
     protected logAndRedirect(
         aedr: ApgEdr_Request,

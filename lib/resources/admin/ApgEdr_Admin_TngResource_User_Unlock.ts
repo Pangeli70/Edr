@@ -42,8 +42,10 @@ export class ApgEdr_Admin_TngResource_User_Unlock
     ) {
 
         const edr = ApgEdr_Service_Core.GetEdr(request);
+
         if (!this.verifyPermissions(edr, this.GET.name, request, response,)) return;
 
+        
         const rawId = request.pathParam(this.PATH_PARAM_ID)!;
 
         const user = ApgEdr_Service_Auth.Authentications[rawId];

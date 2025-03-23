@@ -35,7 +35,7 @@ export class ApgEdr_RestApiResource_Test
     extends ApgEdr_RestResource_Base {
 
 
-    public paths = [ApgEdr_eRoute.API_TEST];
+    override paths = [ApgEdr_eRoute.API_TEST];
 
 
     public GET(
@@ -113,7 +113,7 @@ export class ApgEdr_RestApiResource_Test
 
 
 
-    routeHelp() {
+    override routeHelp() {
         const r = super.routeHelp();
 
         r.route = ApgEdr_eRoute.API_TEST;

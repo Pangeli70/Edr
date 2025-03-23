@@ -44,12 +44,7 @@ export class ApgEdr_Guest_TngResource_AuthTest
         const edr = ApgEdr_Service_Core.GetEdr(request);
         if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            this.TITLE,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
 
         const message = `
         To view the content of this page your need to be logged in and have at least the role of [Guest].<br><br>

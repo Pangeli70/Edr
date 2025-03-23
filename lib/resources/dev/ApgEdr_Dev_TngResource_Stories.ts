@@ -72,12 +72,7 @@ export class ApgEdr_Dev_TngResource_Stories
         const filteredStories = r1.payload!;
         const stories = this.#sortStories(filteredStories);
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            this.TITLE,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
 
 
         const topMenu = this.getTranslatedLinks(NavBar, edr.language);

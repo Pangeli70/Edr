@@ -45,12 +45,7 @@ export class ApgEdr_Admin_TngResource_Users
 
         if (!this.verifyPermissions(edr, this.GET.name, request, response)) return;
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            this.TITLE,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
 
         const NavBar = [
 

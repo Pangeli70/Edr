@@ -97,12 +97,9 @@ export class ApgEdr_TngResource_Error
 
         const { title, text, next } = ApgEdr_Service_Core.PrepareMessageFromEdr(aedr);
 
-        const r = ApgEdr_Service_Core.GetTemplateData(
-            aedr,
-            title,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        );
+        const r = ApgEdr_Service_Core.GetTngData(aedr, this, 'GET');
+
+        r.page.title = title;
 
         r.page.data = {
             message: text,

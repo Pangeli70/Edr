@@ -64,12 +64,7 @@ export class ApgEdr_Dev_TngResource_Tng_File
 
         const backLink = ApgEdr_eRoute.DEV_PAGE_TNG_CACHES + "#File_" + file.id;
 
-        const templateData = ApgEdr_Service_Core.GetTemplateData(
-            edr,
-            this.TITLE,
-            this.TNG_TEMPLATES.GET,
-            this.ARE_TEMPLATES_FROM_CDN
-        )
+        const templateData = ApgEdr_Service_Core.GetTngData(edr, this, 'GET');
 
         const topMenu = this.getTranslatedLinks(NavBar, edr.language);
 
