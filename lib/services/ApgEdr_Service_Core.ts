@@ -63,7 +63,7 @@ export class ApgEdr_Service_Core
      * If the size is exceeded the request could be rejected. 
      * Meaning that that asset would be better served by a CDN.
      */
-    static MaxAssetSize = 2; //@0.6
+    static MaxAssetSize = 8; //@0.6
 
     /**
      * Local path to assets served by this microservice

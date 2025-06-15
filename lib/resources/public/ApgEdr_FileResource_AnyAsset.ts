@@ -6,6 +6,7 @@
  * @version 0.9.3 [APG 2024/10/07] Max asset size
  * @version 0.9.4 [APG 2024/11/07] Better logging
  * @version 1.0.0 [APG 2024/12/24] Moving to Deno V2
+ * @version 1.0.1 [APG 2025/04/16] Updated hdr and exr assets no mime formats
  * ----------------------------------------------------------------------------
  */
 
@@ -39,6 +40,8 @@ export class ApgEdr_FileResource_AnyAsset extends Drash.Resource {
 
         const ext = Uts.Std.Path.extname(realFile);
 
+
+        // For the following file types set a browser cache max age 
         if (
             ext === ".js" ||
             ext === ".css" ||
@@ -48,6 +51,8 @@ export class ApgEdr_FileResource_AnyAsset extends Drash.Resource {
             ext === ".svg" ||
             ext === ".glb" ||
             ext === ".gltf" ||
+            ext === ".hdr" ||
+            ext === ".exr" ||
             ext === ".stl"
         ) {
             if (ApgEdr_Service_Core.ServedAssets_ClientCache_MaxAge > 0) {
@@ -68,6 +73,14 @@ export class ApgEdr_FileResource_AnyAsset extends Drash.Resource {
             )
         }
 
-        return response.file(fullPath);
+        // The following file extensions are not recognized by the response.file method because of the missing mime type
+        if (ext === ".hdr" || ext === ".exr") {
+            response.body = await Deno.readFile(fullPath);
+            response.headers.set("Content-Type", 'application/octet-stream');
+            return
+        }
+
+        response.file(fullPath);
+
     }
 }
